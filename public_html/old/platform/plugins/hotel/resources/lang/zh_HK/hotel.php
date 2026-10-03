@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'name' => '酒店',
+    'booking_name' => '預訂姓名',
+    'booking_email' => '預訂電郵',
+    'booking_phone' => '預訂電話',
+    'booking_address' => '預訂地址',
+    'booking_request' => '預訂要求',
+    'booking_link' => '預訂連結',
+    'booking_date' => '預訂日期',
+    'booking_status' => '預訂狀態',
+    'reviews' => '評價',
+    'rooms' => '客房',
+    'edit_this_room' => '編輯此客房',
+    'room_not_available' => '此客房在:start_date至:end_date期間無法預訂！',
+    'booking' => '預訂',
+    'booking_successful' => '預訂成功！',
+    'booking_information' => '預訂資訊',
+    'checkout_error' => '結賬錯誤！',
+    'shortcodes' => [
+        'title' => '標題',
+        'choose_services' => '選擇服務',
+        'choose_places' => '選擇地點',
+    ],
+
+    'login_form' => '登入表單',
+    'register_form' => '註冊表單',
+    'forgot_password_form' => '忘記密碼表單',
+    'reset_password_form' => '重設密碼表單',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => '您好，感謝您在 :site_title 預訂客房：',
+            'field_name' => '由',
+            'field_email' => '電郵',
+            'field_phone' => '電話',
+            'field_address' => '地址',
+            'field_request' => '訊息',
+            'view_booking_detail' => '查看預訂詳情',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => '您好，:site_title 收到一個新預訂：',
+            'field_name' => '由',
+            'field_email' => '電郵',
+            'field_phone' => '電話',
+            'field_address' => '地址',
+            'field_request' => '訊息',
+            'view_booking_detail' => '查看預訂詳情',
+        ],
+        'booking_status_changed' => [
+            'greeting' => '您好，感謝您在 :site_title 預訂客房：',
+            'message' => '希望此訊息能找到您。我們想通知您，關於您在本酒店的預訂最近有更新。您的預訂狀態已有變更，我們希望讓您了解最新情況。',
+            'booking_details_title' => '預訂詳情',
+            'field_name' => '姓名',
+            'field_date_of_booking' => '預訂日期',
+            'view_booking_detail' => '查看預訂詳情',
+            'new_booking_status' => '新預訂狀態',
+        ],
+    ],
+    'room_not_available' => '此房間從 :start_date 到 :end_date 無法預訂！',
+];

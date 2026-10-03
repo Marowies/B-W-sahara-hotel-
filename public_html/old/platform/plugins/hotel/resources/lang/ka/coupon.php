@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'name' => 'კუპონები',
+    'intro' => [
+        'button_text' => 'კუპონის შექმნა',
+        'title' => 'კუპონის კოდების მართვა',
+        'description' => 'შექმენით და მართეთ კუპონის კოდები თქვენი კლიენტებისთვის.',
+    ],
+    'types' => [
+        'percentage' => 'პროცენტული',
+        'fixed' => 'ფიქსირებული',
+    ],
+    'type' => 'ტიპი',
+    'created_message' => 'კუპონი წარმატებით შეიქმნა.',
+    'expires_date' => 'ვადის გასვლის თარიღი',
+    'expires_time' => 'ვადის გასვლის დრო',
+    'never_expired' => 'ვადა არასოდეს გაუვა',
+    'save_button' => 'შენახვა',
+    'coupon_code' => 'კუპონის კოდი',
+    'coupon_code_placeholder' => 'შეიყვანეთ კუპონის კოდი',
+    'generate_code_button' => 'კოდის გენერირება',
+    'value' => 'მნიშვნელობა',
+    'value_placeholder' => 'შეიყვანეთ კუპონის მნიშვნელობა',
+    'value_off' => ':value ფასდაკლება',
+    'total_used' => 'გამოყენებული',
+    'expired' => 'ვადაგასული',
+    'active' => 'აქტიური',
+    'unlimited' => 'შეუზღუდავი კუპონი',
+    'quantity' => 'რაოდენობა',
+    'quantity_placeholder' => 'შეიყვანეთ კუპონების რაოდენობა',
+    'discount_amount' => 'ფასდაკლების ოდენობა',
+    'total' => 'სულ',
+    'toggle_coupon_form_text' => 'გაქვთ კუპონის კოდი?',
+    'apply_coupon_code' => 'გამოყენება',
+    'form' => [
+        'create' => 'ახალი კუპონის შექმნა',
+        'edit' => '":name"-ის რედაქტირება',
+    ],
+    'coupon_invalid' => 'ეს კუპონი არასწორია!',
+    'applied_coupon_successfully' => 'კუპონი ":code" წარმატებით გამოყენებულია!',
+    'coupon_not_used_yet' => 'ეს კუპონი ჯერ არ არის გამოყენებული!',
+    'removed_coupon_successfully' => 'კუპონი :code წარმატებით წაიშალა!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

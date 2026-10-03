@@ -1,0 +1,92 @@
+<?php
+
+return [
+    'name' => 'iCal synchronizácia',
+    'sync_calendars' => 'Synchronizovať kalendáre',
+    'sync_all_calendars' => 'Synchronizovať všetky kalendáre',
+    'external_calendars' => 'Externé kalendáre',
+    'last_sync' => 'Posledná synchronizácia',
+    'never' => 'Nikdy',
+    'sync' => 'Synchronizovať',
+    'download' => 'Stiahnuť',
+    'edit' => 'Upraviť iCal pre :name',
+    'calendar_name' => 'Názov kalendára',
+    'calendar_name_placeholder' => 'Zadajte názov kalendára',
+    'calendar_url' => 'URL kalendára',
+    'calendar_url_placeholder' => 'Zadajte URL kalendára (napr. z Booking.com, Airbnb, atď.)',
+    'existing_calendars' => 'Existujúce kalendáre',
+    'export_calendar' => 'Exportovať kalendár',
+    'export_url' => 'Exportovať URL',
+    'export_description' => 'Použite túto URL na export vašich rezervácií na externé platformy ako Booking.com, Airbnb, atď.',
+    'download_ical_file' => 'Stiahnuť iCal súbor',
+    'sync_success' => 'Úspešne synchronizovaných :success kalendárov. Zlyhalo: :failed',
+    'sync_all_success' => 'Úspešne synchronizovaných :success kalendárov. Zlyhalo: :failed',
+
+    // Logs
+    'logs' => 'Záznamy iCal synchronizácie',
+    'log_details' => 'Záznam synchronizácie #:id',
+    'message' => 'Správa',
+    'data' => 'Dáta',
+    'calendar' => 'Kalendár',
+    'all_calendars' => 'Všetky kalendáre',
+    'clear_logs' => 'Vymazať všetky záznamy',
+    'clear_logs_confirm' => 'Naozaj chcete vymazať všetky záznamy?',
+    'logs_cleared' => 'Všetky záznamy boli úspešne vymazané',
+
+    // Status
+    'status_success' => 'Úspech',
+    'status_warning' => 'Varovanie',
+    'status_error' => 'Chyba',
+
+    // Email
+    'email' => [
+        'subject' => 'Upozornenie na zlyhanie iCal synchronizácie',
+        'greeting' => 'Dobrý deň,',
+        'message' => 'Zistili sme problém so synchronizáciou iCal pre váš rezervačný systém hotela.',
+        'details' => 'Detaily chyby',
+        'time' => 'Čas',
+        'error' => 'Chybová správa',
+        'action' => 'Skontrolujte si prosím nastavenia synchronizácie iCal a uistite sa, že všetky URL externých kalendárov sú správne a prístupné.',
+        'view_logs' => 'Zobraziť záznamy synchronizácie',
+        'closing' => 'Ďakujeme za vašu pozornosť k tejto záležitosti.',
+        'footer' => 'Toto je automatická správa z :site_name.',
+    ],
+
+    // Documentation
+    'documentation' => 'Dokumentácia iCal synchronizácie',
+    'documentation_title' => 'Ako používať iCal synchronizáciu',
+    'what_is_ical' => 'Čo je iCal synchronizácia?',
+    'what_is_ical_desc' => 'iCal (alebo iCalendar) je štandardný formát na výmenu kalendárových dát. Funkcia synchronizácie iCal vám umožňuje synchronizovať rezervácie hotelovej izby s externými platformami ako Booking.com, Airbnb a ďalšími rezervačnými systémami, ktoré podporujú iCal.',
+
+    'export_bookings' => 'Exportovanie vašich rezervácií',
+    'export_bookings_desc' => 'Môžete exportovať rezervácie hotela na externé platformy, aby ste predišli dvojitým rezerváciám.',
+    'export_step1_title' => 'Prejdite na stránku iCal synchronizácie',
+    'export_step1_desc' => 'Prejdite na Rezervácie > iCal synchronizácia v administrátorskom paneli.',
+    'export_step2_title' => 'Nájdite izbu, ktorú chcete exportovať',
+    'export_step2_desc' => 'Kliknite na "Upraviť" pre izbu, pre ktorú chcete exportovať rezervácie.',
+    'export_step3_title' => 'Skopírujte exportnú URL alebo stiahnite iCal súbor',
+    'export_step3_desc' => 'Skopírujte poskytnutú exportnú URL alebo stiahnite iCal súbor. Pridajte túto URL na vašu externú platformu (Booking.com, Airbnb, atď.) podľa ich pokynov na import iCal feedov.',
+
+    'import_bookings' => 'Importovanie externých rezervácií',
+    'import_bookings_desc' => 'Môžete importovať rezervácie z externých platforiem, aby ste predišli dvojitým rezerváciám vo vašom systéme.',
+    'import_step1_title' => 'Získajte iCal URL z vašej externej platformy',
+    'import_step1_desc' => 'Prihláste sa na vašu externú platformu (Booking.com, Airbnb, atď.) a nájdite možnosť exportovať kalendár ako iCal. Skopírujte poskytnutú URL.',
+    'import_step2_title' => 'Prejdite na stránku iCal synchronizácie',
+    'import_step2_desc' => 'Prejdite na Rezervácie > iCal synchronizácia v administrátorskom paneli.',
+    'import_step3_title' => 'Pridajte externý kalendár',
+    'import_step3_desc' => 'Kliknite na "Upraviť" pre izbu, pre ktorú chcete importovať rezervácie. Zadajte názov kalendára (napr. "Booking.com") a vložte iCal URL, ktorú ste skopírovali skôr.',
+    'import_step4_title' => 'Synchronizujte kalendár',
+    'import_step4_desc' => 'Kliknite na "Synchronizovať" pre manuálnu synchronizáciu kalendára alebo počkajte na spustenie automatickej synchronizácie.',
+
+    'sync_logs' => 'Záznamy iCal synchronizácie',
+    'sync_logs_desc' => 'Systém vedie podrobné záznamy všetkých synchronizačných aktivít. Tieto záznamy môžete zobraziť kliknutím na "Záznamy synchronizácie" na stránke iCal synchronizácie. Toto vám pomôže riešiť akékoľvek problémy so synchronizáciou.',
+
+    'troubleshooting' => 'Riešenie problémov',
+    'troubleshooting_desc' => 'Tu je niekoľko bežných problémov a ich riešení:',
+    'faq1_title' => 'Externý kalendár sa nesynchronizuje',
+    'faq1_desc' => 'Uistite sa, že URL je správna a prístupná. Niektoré platformy vyžadujú, aby ste boli prihlásení na prístup k iCal feedu. Skúste stiahnuť iCal súbor priamo z URL a overte, že funguje.',
+    'faq2_title' => 'Existujú konflikty medzi rezerváciami',
+    'faq2_desc' => 'Systém zistí konflikty medzi rezerváciami a zaznamená ich. Tieto konflikty môžete zobraziť v Záznamoch synchronizácie. Tieto konflikty budete musieť vyriešiť manuálne úpravou rezervácií v jednom zo systémov.',
+    'faq3_title' => 'Automatická synchronizácia nefunguje',
+    'faq3_desc' => 'Uistite sa, že cron úlohy vášho servera sú správne nastavené. Systém používa plánovač Laravel na spustenie synchronizačného príkazu každú hodinu. Synchronizáciu môžete tiež spustiť manuálne kliknutím na "Synchronizovať" alebo "Synchronizovať všetky kalendáre" na stránke iCal synchronizácie.',
+];

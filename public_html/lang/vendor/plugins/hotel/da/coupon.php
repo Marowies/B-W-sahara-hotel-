@@ -1,0 +1,47 @@
+<?php
+
+return [
+        'name' => 'Kuponer',
+        'intro' => [
+            'button_text' => 'Opret kupon',
+            'title' => 'Administrer kuponkoder',
+            'description' => 'Opret og administrer kuponkoder til dine kunder.',
+        ],
+        'types' => [
+            'percentage' => 'Procent',
+            'fixed' => 'Fast beløb',
+        ],
+        'type' => 'Type',
+        'created_message' => 'Kupon er blevet oprettet.',
+        'expires_date' => 'Udløbsdato',
+        'expires_time' => 'Udløbstidspunkt',
+        'never_expired' => 'Udløber aldrig',
+        'save_button' => 'Gem',
+        'coupon_code' => 'Kuponkode',
+        'coupon_code_placeholder' => 'Indtast kuponkode',
+        'generate_code_button' => 'Generer kode',
+        'value' => 'Værdi',
+        'value_placeholder' => 'Indtast kuponværdi',
+        'value_off' => ':value rabat',
+        'total_used' => 'Brugt',
+        'expired' => 'Udløbet',
+        'active' => 'Aktiv',
+        'unlimited' => 'Ubegrænset kupon',
+        'quantity' => 'Antal',
+        'quantity_placeholder' => 'Indtast antal kuponer',
+        'discount_amount' => 'Rabatbeløb',
+        'total' => 'Total',
+        'toggle_coupon_form_text' => 'Har du en kuponkode?',
+        'apply_coupon_code' => 'Anvend',
+        'form' => [
+            'create' => 'Opret ny kupon',
+            'edit' => 'Rediger ":name"',
+        ],
+    'coupon_invalid' => 'This coupon is invalid!',
+    'applied_coupon_successfully' => 'Applied coupon ":code" successfully!',
+    'coupon_not_used_yet' => 'This coupon is not used yet!',
+    'removed_coupon_successfully' => 'Removed coupon :code successfully!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

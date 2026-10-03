@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'name' => 'Viesnīca',
+    'booking_name' => 'Rezervācijas vārds',
+    'booking_email' => 'Rezervācijas e-pasts',
+    'booking_phone' => 'Rezervācijas tālrunis',
+    'booking_address' => 'Rezervācijas adrese',
+    'booking_request' => 'Rezervācijas pieprasījums',
+    'booking_link' => 'Rezervācijas saite',
+    'booking_date' => 'Rezervācijas datums',
+    'booking_status' => 'Rezervācijas statuss',
+    'reviews' => 'Atsauksmes',
+    'rooms' => 'Rooms',
+    'edit_this_room' => 'Edit this room',
+    'room_not_available' => 'This room is not available for booking from :start_date to :end_date!',
+    'booking' => 'Booking',
+    'booking_successful' => 'Booking successfully!',
+    'booking_information' => 'Booking Information',
+    'checkout_error' => 'Checkout error!',
+    'shortcodes' => [
+        'title' => 'Nosaukums',
+        'choose_services' => 'Izvēlēties pakalpojumus',
+        'choose_places' => 'Izvēlēties vietas',
+    ],
+
+    'login_form' => 'Pieteikšanās forma',
+    'register_form' => 'Reģistrācijas forma',
+    'forgot_password_form' => 'Aizmirstās paroles forma',
+    'reset_password_form' => 'Paroles atiestatīšanas forma',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'Sveiki! Paldies par istabu rezervāciju no :site_title:',
+            'field_name' => 'No',
+            'field_email' => 'E-pasts',
+            'field_phone' => 'Tālrunis',
+            'field_address' => 'Adrese',
+            'field_request' => 'Ziņojums',
+            'view_booking_detail' => 'Skatīt rezervācijas informāciju',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'Sveiki! Ir jauna rezervācija no :site_title:',
+            'field_name' => 'No',
+            'field_email' => 'E-pasts',
+            'field_phone' => 'Tālrunis',
+            'field_address' => 'Adrese',
+            'field_request' => 'Ziņojums',
+            'view_booking_detail' => 'Skatīt rezervācijas informāciju',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'Sveiki! Paldies par istabu rezervāciju no :site_title:',
+            'message' => 'Ceram, ka šis ziņojums jūs sasniegs labā brīdī. Mēs vēlējāmies jūs informēt, ka ir bijis atjauninājums saistībā ar jūsu rezervāciju. Jūsu rezervācijas statuss ir mainījies, un mēs vēlējāmies jūs informēt.',
+            'booking_details_title' => 'Rezervācijas informācija',
+            'field_name' => 'Vārds',
+            'field_date_of_booking' => 'Rezervācijas datums',
+            'view_booking_detail' => 'Skatīt rezervācijas informāciju',
+            'new_booking_status' => 'Jaunais rezervācijas statuss',
+        ],
+    ],
+    'room_not_available' => 'Šī istaba nav pieejama rezervācijai no :start_date līdz :end_date!',
+];

@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'name' => 'Hotel',
+    'booking_name' => 'Pangalan ng nag-booking',
+    'booking_email' => 'Email ng nag-booking',
+    'booking_phone' => 'Telepono ng nag-booking',
+    'booking_address' => 'Tirahan ng nag-booking',
+    'booking_request' => 'Kahilingan ng booking',
+    'booking_link' => 'Link ng booking',
+    'booking_date' => 'Petsa ng booking',
+    'booking_status' => 'Status ng booking',
+    'reviews' => 'Mga Review',
+    'rooms' => 'Rooms',
+    'edit_this_room' => 'Edit this room',
+    'room_not_available' => 'This room is not available for booking from :start_date to :end_date!',
+    'booking' => 'Booking',
+    'booking_successful' => 'Booking successfully!',
+    'booking_information' => 'Booking Information',
+    'checkout_error' => 'Checkout error!',
+    'shortcodes' => [
+        'title' => 'Pamagat',
+        'choose_services' => 'Pumili ng mga Serbisyo',
+        'choose_places' => 'Pumili ng mga Lugar',
+    ],
+
+    'login_form' => 'Form ng Pag-login',
+    'register_form' => 'Form ng Pagpaparehistro',
+    'forgot_password_form' => 'Form ng Nakalimutang Password',
+    'reset_password_form' => 'Form ng Pag-reset ng Password',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'Kumusta, Salamat sa pag-book ng mga silid mula sa :site_title:',
+            'field_name' => 'Mula kay',
+            'field_email' => 'Email',
+            'field_phone' => 'Telepono',
+            'field_address' => 'Tirahan',
+            'field_request' => 'Mensahe',
+            'view_booking_detail' => 'Tingnan ang detalye ng booking',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'Kumusta, may bagong booking mula sa :site_title:',
+            'field_name' => 'Mula kay',
+            'field_email' => 'Email',
+            'field_phone' => 'Telepono',
+            'field_address' => 'Tirahan',
+            'field_request' => 'Mensahe',
+            'view_booking_detail' => 'Tingnan ang detalye ng booking',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'Kumusta, Salamat sa pag-book ng mga silid mula sa :site_title:',
+            'message' => 'Umaasa kami na maayos ang inyong kalagayan. Nais naming ipaalam sa inyo na may kamakailang pagbabago tungkol sa inyong booking sa amin. Nagbago ang status ng inyong booking, at nais naming panatilihin kayong updated.',
+            'booking_details_title' => 'Mga Detalye ng Booking',
+            'field_name' => 'Pangalan',
+            'field_date_of_booking' => 'Petsa ng Booking',
+            'view_booking_detail' => 'Tingnan ang detalye ng booking',
+            'new_booking_status' => 'Bagong Status ng Booking',
+        ],
+    ],
+    'room_not_available' => 'Ang kwartong ito ay hindi available para sa booking mula :start_date hanggang :end_date!',
+];

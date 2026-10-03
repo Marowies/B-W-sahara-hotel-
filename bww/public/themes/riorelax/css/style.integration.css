@@ -1,0 +1,201 @@
+.service-detail-contact {
+    display: none !important;
+}
+.dropdown-menu.language-switcher-list .language-item,
+.dropdown-menu.language-switcher-list .language-item span {
+    color: #000 !important;
+}
+
+/* إضافة الطبقة السوداء الشفافة فقط */
+.single-slider.slider-bg {
+    position: relative !important;
+}
+
+.single-slider.slider-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* يمكنك التحكم في درجة الغمقان من هنا */
+    z-index: 1;
+    pointer-events: none; /* عشان الطبقة متمنعش الضغط على الأزرار */
+},
+
+/* التأكد من أن المحتوى يظل فوق الطبقة */
+.single-slider.slider-bg .container {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.single-slider.slider-bg {
+    background-size: cover !important;        /* بيخلي الصورة تغطي المساحة كلها بدون تكرار */
+    background-position: center center !important; /* بيثبت مركز الصورة في النص */
+    background-repeat: no-repeat !important;   /* بيمنع تكرار الصورة */
+    image-rendering: -webkit-optimize-contrast; /* تحسين جودة الصورة للمتصفحات (Safari/Chrome) */
+    image-rendering: crisp-edges;            /* تحسين حواف الصورة */
+    -webkit-backface-visibility: hidden;      /* تحسين الأداء وتجنب أي تشويش */
+}
+.top-btn {
+    padding: 8px 12px !important;
+    display: inline-block !important;
+    width: auto !important;
+    text-align: center !important;
+}
+
+/* الوضع الافتراضي: اللغات LTR */
+.floating-buttons {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: auto;
+
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* عند اللغة العربية أو أي لغة RTL */
+html[dir="rtl"] .floating-buttons,
+html[lang="ar"] .floating-buttons {
+    left: auto;
+    right: 20px;
+}
+
+.float-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+    text-decoration: none;
+}
+
+.float-btn:hover {
+    transform: scale(1.1);
+}
+
+.whatsapp-btn {
+    background-color: #25D366;
+}
+
+.call-btn {
+    background-color: #007bff;
+}
+/* more */
+
+/* تطبيق الانحناء والنعومة على كل الأزرار وروابط التصميم في الموقع بالكامل */
+button, 
+.btn, 
+a.btn, 
+input[type="submit"], 
+input[type="button"], 
+.top-btn {
+    border-radius: 30px !important; /* تحكم في زيادة أو تقليل الانحناء براحتك */
+    overflow: hidden !important;
+    transition: all 0.3s ease !important;
+}
+
+/* إخفاء كل أيقونات أو صور الخدمات اللي داخل الـ services-icon2 */
+.services-icon2 {
+    display: none !important;
+}
+
+/* إخفاء عنصر الخلفية المتحركة من قسم الخدمات */
+#service-details2 .animations-01 {
+    display: none !important;
+}
+
+/* subs now */ 
+
+
+/* حاوية الفورم */
+.form-newsletter form,
+.footer-newsletter form {
+    position: relative;
+}
+
+/* حقل البريد */
+.footer-newsletter input#newsletter-email,
+.form-newsletter input.form-control {
+    width: 100% !important;
+    height: 46px !important;
+    padding: 0 120px 0 15px !important;
+    border-radius: 6px !important;
+}
+
+/* الزر */
+.footer-newsletter form button.header-btn,
+.form-newsletter form button.header-btn {
+    position: absolute !important;
+    top: 5px !important;
+    right: 5px !important;
+    height: 36px !important;
+    min-width: 105px !important;
+    padding: 0 14px !important;
+
+    background: #644222 !important;
+    border: none !important;
+    border-radius: 5px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    box-shadow: none !important;
+    overflow: hidden !important;
+}
+
+/* إخفاء السهم */
+.footer-newsletter form button.header-btn i,
+.form-newsletter form button.header-btn i {
+    display: none !important;
+}
+
+/* النص */
+.footer-newsletter form button.header-btn::after,
+.form-newsletter form button.header-btn::after {
+    content: "Subscribe" !important;
+    color: #fff !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    line-height: 1 !important;
+}
+
+/* Hover */
+.footer-newsletter form button.header-btn:hover,
+.form-newsletter form button.header-btn:hover {
+    background: #4a3119 !important;
+}
+/* blog folllow us section */
+#custom_html-5 {
+    display: none !important;
+}
+
+/* =============================================
+   BW Custom Hero/Header/Booking Styles
+   These are now handled via .bw-* custom classes
+   injected in base.blade.php  block.
+   See: platform/themes/riorelax/layouts/base.blade.php
+============================================= */
+
+body {
+    background-color: #ffffff !important;
+}
+
+
+/* image */
+
+*:has(> img) > img,
+img {
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    clip-path: inset(0 round 20px);
+}

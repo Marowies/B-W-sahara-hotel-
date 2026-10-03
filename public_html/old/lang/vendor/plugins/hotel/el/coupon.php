@@ -1,0 +1,47 @@
+<?php
+
+return [
+        'name' => 'Κουπόνια',
+        'intro' => [
+            'button_text' => 'Δημιουργία κουπονιού',
+            'title' => 'Διαχείριση κωδικών κουπονιών',
+            'description' => 'Δημιουργία και διαχείριση κωδικών κουπονιών για τους πελάτες σας.',
+        ],
+        'types' => [
+            'percentage' => 'Ποσοστό',
+            'fixed' => 'Σταθερό',
+        ],
+        'type' => 'Τύπος',
+        'created_message' => 'Το κουπόνι δημιουργήθηκε με επιτυχία.',
+        'expires_date' => 'Ημερομηνία λήξης',
+        'expires_time' => 'Ώρα λήξης',
+        'never_expired' => 'Χωρίς λήξη',
+        'save_button' => 'Αποθήκευση',
+        'coupon_code' => 'Κωδικός κουπονιού',
+        'coupon_code_placeholder' => 'Εισάγετε κωδικό κουπονιού',
+        'generate_code_button' => 'Δημιουργία κωδικού',
+        'value' => 'Αξία',
+        'value_placeholder' => 'Εισάγετε αξία κουπονιού',
+        'value_off' => 'Έκπτωση :value',
+        'total_used' => 'Χρησιμοποιήθηκε',
+        'expired' => 'Έληξε',
+        'active' => 'Ενεργό',
+        'unlimited' => 'Απεριόριστο κουπόνι',
+        'quantity' => 'Ποσότητα',
+        'quantity_placeholder' => 'Εισάγετε αριθμό κουπονιών',
+        'discount_amount' => 'Ποσό έκπτωσης',
+        'total' => 'Σύνολο',
+        'toggle_coupon_form_text' => 'Έχετε κωδικό κουπονιού;',
+        'apply_coupon_code' => 'Εφαρμογή',
+        'form' => [
+            'create' => 'Δημιουργία νέου κουπονιού',
+            'edit' => 'Επεξεργασία ":name"',
+        ],
+    'coupon_invalid' => 'This coupon is invalid!',
+    'applied_coupon_successfully' => 'Applied coupon ":code" successfully!',
+    'coupon_not_used_yet' => 'This coupon is not used yet!',
+    'removed_coupon_successfully' => 'Removed coupon :code successfully!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

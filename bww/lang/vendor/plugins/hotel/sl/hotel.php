@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'name' => 'Hotel',
+    'booking_name' => 'Ime rezervacije',
+    'booking_email' => 'E-pošta rezervacije',
+    'booking_phone' => 'Telefon rezervacije',
+    'booking_address' => 'Naslov rezervacije',
+    'booking_request' => 'Zahteva rezervacije',
+    'booking_link' => 'Povezava rezervacije',
+    'booking_date' => 'Datum rezervacije',
+    'booking_status' => 'Status rezervacije',
+    'reviews' => 'Ocene',
+    'rooms' => 'Rooms',
+    'edit_this_room' => 'Edit this room',
+    'room_not_available' => 'This room is not available for booking from :start_date to :end_date!',
+    'booking' => 'Booking',
+    'booking_successful' => 'Booking successfully!',
+    'booking_information' => 'Booking Information',
+    'checkout_error' => 'Checkout error!',
+    'shortcodes' => [
+        'title' => 'Naslov',
+        'choose_services' => 'Izberite storitve',
+        'choose_places' => 'Izberite kraje',
+    ],
+
+    'login_form' => 'Obrazec za prijavo',
+    'register_form' => 'Obrazec za registracijo',
+    'forgot_password_form' => 'Obrazec za pozabljeno geslo',
+    'reset_password_form' => 'Obrazec za ponastavitev gesla',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'Pozdravljeni, hvala za rezervacijo sob v :site_title:',
+            'field_name' => 'Od',
+            'field_email' => 'E-pošta',
+            'field_phone' => 'Telefon',
+            'field_address' => 'Naslov',
+            'field_request' => 'Sporočilo',
+            'view_booking_detail' => 'Poglej podrobnosti rezervacije',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'Pozdravljeni, nova rezervacija iz :site_title:',
+            'field_name' => 'Od',
+            'field_email' => 'E-pošta',
+            'field_phone' => 'Telefon',
+            'field_address' => 'Naslov',
+            'field_request' => 'Sporočilo',
+            'view_booking_detail' => 'Poglej podrobnosti rezervacije',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'Pozdravljeni, hvala za rezervacijo sob v :site_title:',
+            'message' => 'Upamo, da vas to sporočilo zastane v dobrem zdravju. Želeli smo vas obvestiti, da je prišlo do nedavne posodobitve glede vaše rezervacije pri nas. Status vaše rezervacije se je spremenil in želeli smo, da ste obveščeni.',
+            'booking_details_title' => 'Podrobnosti rezervacije',
+            'field_name' => 'Ime',
+            'field_date_of_booking' => 'Datum rezervacije',
+            'view_booking_detail' => 'Poglej podrobnosti rezervacije',
+            'new_booking_status' => 'Nov status rezervacije',
+        ],
+    ],
+    'room_not_available' => 'Ta soba ni na voljo za rezervacijo od :start_date do :end_date!',
+];

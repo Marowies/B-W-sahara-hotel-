@@ -1,0 +1,47 @@
+<?php
+
+return [
+        'name' => 'Kuponger',
+        'intro' => [
+            'button_text' => 'Skapa kupong',
+            'title' => 'Hantera kupongkoder',
+            'description' => 'Skapa och hantera kupongkoder för dina kunder.',
+        ],
+        'types' => [
+            'percentage' => 'Procent',
+            'fixed' => 'Fast',
+        ],
+        'type' => 'Typ',
+        'created_message' => 'Kupongen har skapats framgångsrikt.',
+        'expires_date' => 'Utgångsdatum',
+        'expires_time' => 'Utgångstid',
+        'never_expired' => 'Går aldrig ut',
+        'save_button' => 'Spara',
+        'coupon_code' => 'Kupongkod',
+        'coupon_code_placeholder' => 'Ange kupongkod',
+        'generate_code_button' => 'Generera kod',
+        'value' => 'Värde',
+        'value_placeholder' => 'Ange kupongvärde',
+        'value_off' => ':value rabatt',
+        'total_used' => 'Använd',
+        'expired' => 'Utgången',
+        'active' => 'Aktiv',
+        'unlimited' => 'Obegränsad kupong',
+        'quantity' => 'Antal',
+        'quantity_placeholder' => 'Ange antal kuponger',
+        'discount_amount' => 'Rabattbelopp',
+        'total' => 'Totalt',
+        'toggle_coupon_form_text' => 'Har du en kupongkod?',
+        'apply_coupon_code' => 'Tillämpa',
+        'form' => [
+            'create' => 'Skapa ny kupong',
+            'edit' => 'Redigera ":name"',
+        ],
+    'coupon_invalid' => 'This coupon is invalid!',
+    'applied_coupon_successfully' => 'Applied coupon ":code" successfully!',
+    'coupon_not_used_yet' => 'This coupon is not used yet!',
+    'removed_coupon_successfully' => 'Removed coupon :code successfully!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

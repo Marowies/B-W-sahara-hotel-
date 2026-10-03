@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'name' => 'Hotell',
+    'booking_name' => 'Broneeringu nimi',
+    'booking_email' => 'Broneeringu e-post',
+    'booking_phone' => 'Broneeringu telefon',
+    'booking_address' => 'Broneeringu aadress',
+    'booking_request' => 'Broneeringu päring',
+    'booking_link' => 'Broneeringu link',
+    'booking_date' => 'Broneeringu kuupäev',
+    'booking_status' => 'Broneeringu olek',
+    'reviews' => 'Arvustused',
+    'rooms' => 'Rooms',
+    'edit_this_room' => 'Edit this room',
+    'room_not_available' => 'This room is not available for booking from :start_date to :end_date!',
+    'booking' => 'Booking',
+    'booking_successful' => 'Booking successfully!',
+    'booking_information' => 'Booking Information',
+    'checkout_error' => 'Checkout error!',
+    'shortcodes' => [
+        'title' => 'Pealkiri',
+        'choose_services' => 'Vali teenused',
+        'choose_places' => 'Vali kohad',
+    ],
+
+    'login_form' => 'Sisselogimise vorm',
+    'register_form' => 'Registreerimise vorm',
+    'forgot_password_form' => 'Unustatud parooli vorm',
+    'reset_password_form' => 'Parooli lähtestamise vorm',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'Tere, täname tubade broneerimise eest veebilehelt :site_title:',
+            'field_name' => 'Saatja',
+            'field_email' => 'E-post',
+            'field_phone' => 'Telefon',
+            'field_address' => 'Aadress',
+            'field_request' => 'Sõnum',
+            'view_booking_detail' => 'Vaata broneeringu detaile',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'Tere, saidile :site_title on saabunud uus broneering:',
+            'field_name' => 'Saatja',
+            'field_email' => 'E-post',
+            'field_phone' => 'Telefon',
+            'field_address' => 'Aadress',
+            'field_request' => 'Sõnum',
+            'view_booking_detail' => 'Vaata broneeringu detaile',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'Tere, täname tubade broneerimise eest veebilehelt :site_title:',
+            'message' => 'Loodame, et see sõnum leiab teid heas tervises. Soovisime teid teavitada, et teie broneeringuga seoses on toimunud hiljutine uuendus. Teie broneeringu olek on muutunud ja soovisime teid kursis hoida.',
+            'booking_details_title' => 'Broneeringu üksikasjad',
+            'field_name' => 'Nimi',
+            'field_date_of_booking' => 'Broneeringu kuupäev',
+            'view_booking_detail' => 'Vaata broneeringu detaile',
+            'new_booking_status' => 'Uus broneeringu olek',
+        ],
+    ],
+    'room_not_available' => 'See tuba ei ole broneerimiseks saadaval alates :start_date kuni :end_date!',
+];

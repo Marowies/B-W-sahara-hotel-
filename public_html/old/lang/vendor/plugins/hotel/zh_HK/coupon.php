@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'name' => '優惠券',
+    'intro' => [
+        'button_text' => '新增優惠券',
+        'title' => '管理優惠券代碼',
+        'description' => '為您的顧客新增和管理優惠券代碼。',
+    ],
+    'types' => [
+        'percentage' => '百分比',
+        'fixed' => '固定金額',
+    ],
+    'type' => '類型',
+    'created_message' => '優惠券已成功新增。',
+    'expires_date' => '到期日期',
+    'expires_time' => '到期時間',
+    'never_expired' => '永不過期',
+    'save_button' => '儲存',
+    'coupon_code' => '優惠券代碼',
+    'coupon_code_placeholder' => '輸入優惠券代碼',
+    'generate_code_button' => '產生代碼',
+    'value' => '數值',
+    'value_placeholder' => '輸入優惠券數值',
+    'value_off' => ':value 折扣',
+    'total_used' => '已使用',
+    'expired' => '已過期',
+    'active' => '有效',
+    'unlimited' => '無限制優惠券',
+    'quantity' => '數量',
+    'quantity_placeholder' => '輸入優惠券數量',
+    'discount_amount' => '折扣金額',
+    'total' => '總計',
+    'toggle_coupon_form_text' => '您有優惠券代碼嗎？',
+    'apply_coupon_code' => '套用',
+    'form' => [
+        'create' => '新增優惠券',
+        'edit' => '編輯「:name」',
+    ],
+    'coupon_invalid' => '此優惠券無效！',
+    'applied_coupon_successfully' => '成功應用優惠券":code"！',
+    'coupon_not_used_yet' => '此優惠券尚未使用！',
+    'removed_coupon_successfully' => '成功刪除優惠券:code！',
+
+    'coupon_code_with_value' => '優惠券代碼：:code',
+    'remove' => '刪除',
+];

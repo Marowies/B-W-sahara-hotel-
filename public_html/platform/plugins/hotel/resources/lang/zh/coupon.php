@@ -1,0 +1,47 @@
+<?php
+
+return [
+        'name' => '优惠券',
+        'intro' => [
+            'button_text' => '创建优惠券',
+            'title' => '管理优惠券代码',
+            'description' => '为您的客户创建和管理优惠券代码。',
+        ],
+        'types' => [
+            'percentage' => '百分比',
+            'fixed' => '固定金额',
+        ],
+        'type' => '类型',
+        'created_message' => '优惠券已成功创建。',
+        'expires_date' => '到期日期',
+        'expires_time' => '到期时间',
+        'never_expired' => '永不过期',
+        'save_button' => '保存',
+        'coupon_code' => '优惠券代码',
+        'coupon_code_placeholder' => '输入优惠券代码',
+        'generate_code_button' => '生成代码',
+        'value' => '金额',
+        'value_placeholder' => '输入优惠券金额',
+        'value_off' => '优惠 :value',
+        'total_used' => '已使用',
+        'expired' => '已过期',
+        'active' => '有效',
+        'unlimited' => '无限使用',
+        'quantity' => '数量',
+        'quantity_placeholder' => '输入优惠券数量',
+        'discount_amount' => '折扣金额',
+        'total' => '总计',
+        'toggle_coupon_form_text' => '您有优惠券代码吗？',
+        'apply_coupon_code' => '使用',
+        'form' => [
+            'create' => '创建新优惠券',
+            'edit' => '编辑 ":name"',
+        ],
+    'coupon_invalid' => '此优惠券无效！',
+    'applied_coupon_successfully' => '优惠券":code"应用成功！',
+    'coupon_not_used_yet' => '此优惠券尚未使用！',
+    'removed_coupon_successfully' => '优惠券:code删除成功！',
+
+    'coupon_code_with_value' => '优惠券代码：:code',
+    'remove' => '删除',
+];

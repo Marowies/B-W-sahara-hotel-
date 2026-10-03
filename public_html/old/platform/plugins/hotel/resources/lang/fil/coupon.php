@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'name' => 'Mga Coupon',
+    'intro' => [
+        'button_text' => 'Lumikha ng coupon',
+        'title' => 'Pamahalaan ang mga coupon code',
+        'description' => 'Lumikha at pamahalaan ang mga coupon code para sa inyong mga customer.',
+    ],
+    'types' => [
+        'percentage' => 'Porsyento',
+        'fixed' => 'Nakapirmi',
+    ],
+    'type' => 'Uri',
+    'created_message' => 'Matagumpay na nalikha ang coupon.',
+    'expires_date' => 'Petsa ng pag-expire',
+    'expires_time' => 'Oras ng pag-expire',
+    'never_expired' => 'Hindi mag-eexpire',
+    'save_button' => 'I-save',
+    'coupon_code' => 'Coupon code',
+    'coupon_code_placeholder' => 'Ilagay ang coupon code',
+    'generate_code_button' => 'Mag-generate ng code',
+    'value' => 'Halaga',
+    'value_placeholder' => 'Ilagay ang halaga ng coupon',
+    'value_off' => ':value diskwento',
+    'total_used' => 'Nagamit',
+    'expired' => 'Nag-expire na',
+    'active' => 'Aktibo',
+    'unlimited' => 'Walang limitasyon',
+    'quantity' => 'Dami',
+    'quantity_placeholder' => 'Ilagay ang bilang ng coupon',
+    'discount_amount' => 'Halaga ng diskwento',
+    'total' => 'Kabuuan',
+    'toggle_coupon_form_text' => 'Mayroon kayong coupon code?',
+    'apply_coupon_code' => 'Gamitin',
+    'form' => [
+        'create' => 'Lumikha ng bagong coupon',
+        'edit' => 'Baguhin ang ":name"',
+    ],
+    'coupon_invalid' => 'Ang kupon na ito ay hindi valid!',
+    'applied_coupon_successfully' => 'Matagumpay na inilapat ang kupon ":code"!',
+    'coupon_not_used_yet' => 'Ang kupon na ito ay hindi pa ginamit!',
+    'removed_coupon_successfully' => 'Matagumpay na inalis ang kupon :code!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

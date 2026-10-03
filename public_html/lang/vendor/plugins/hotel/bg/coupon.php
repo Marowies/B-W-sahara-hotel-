@@ -1,0 +1,47 @@
+<?php
+
+return [
+        'name' => 'Купони',
+        'intro' => [
+            'button_text' => 'Създаване на купон',
+            'title' => 'Управление на кодове за купони',
+            'description' => 'Създавайте и управлявайте кодове за купони за вашите клиенти.',
+        ],
+        'types' => [
+            'percentage' => 'Процент',
+            'fixed' => 'Фиксирана',
+        ],
+        'type' => 'Тип',
+        'created_message' => 'Купонът е създаден успешно.',
+        'expires_date' => 'Дата на изтичане',
+        'expires_time' => 'Час на изтичане',
+        'never_expired' => 'Без срок на валидност',
+        'save_button' => 'Запази',
+        'coupon_code' => 'Код на купон',
+        'coupon_code_placeholder' => 'Въведете код на купон',
+        'generate_code_button' => 'Генериране на код',
+        'value' => 'Стойност',
+        'value_placeholder' => 'Въведете стойност на купон',
+        'value_off' => ':value отстъпка',
+        'total_used' => 'Използвани',
+        'expired' => 'Изтекъл',
+        'active' => 'Активен',
+        'unlimited' => 'Неограничен купон',
+        'quantity' => 'Количество',
+        'quantity_placeholder' => 'Въведете брой купони',
+        'discount_amount' => 'Сума на отстъпка',
+        'total' => 'Общо',
+        'toggle_coupon_form_text' => 'Имате код за купон?',
+        'apply_coupon_code' => 'Приложи',
+        'form' => [
+            'create' => 'Създаване на нов купон',
+            'edit' => 'Редактиране на ":name"',
+        ],
+        'coupon_invalid' => 'Този купон е невалиден!',
+        'applied_coupon_successfully' => 'Купонът ":code" е приложен успешно!',
+        'coupon_not_used_yet' => 'Този купон все още не е използван!',
+        'removed_coupon_successfully' => 'Купонът :code е премахнат успешно!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

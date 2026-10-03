@@ -1,0 +1,47 @@
+<?php
+
+return [
+        'name' => 'Купоны',
+        'intro' => [
+            'button_text' => 'Создать купон',
+            'title' => 'Управление кодами купонов',
+            'description' => 'Создавайте и управляйте кодами купонов для ваших клиентов.',
+        ],
+        'types' => [
+            'percentage' => 'Проценты',
+            'fixed' => 'Фиксированная',
+        ],
+        'type' => 'Тип',
+        'created_message' => 'Купон успешно создан.',
+        'expires_date' => 'Дата истечения',
+        'expires_time' => 'Время истечения',
+        'never_expired' => 'Бессрочный',
+        'save_button' => 'Сохранить',
+        'coupon_code' => 'Код купона',
+        'coupon_code_placeholder' => 'Введите код купона',
+        'generate_code_button' => 'Сгенерировать код',
+        'value' => 'Значение',
+        'value_placeholder' => 'Введите значение купона',
+        'value_off' => 'Скидка :value',
+        'total_used' => 'Использовано',
+        'expired' => 'Истёк',
+        'active' => 'Активен',
+        'unlimited' => 'Неограниченный купон',
+        'quantity' => 'Количество',
+        'quantity_placeholder' => 'Введите количество купонов',
+        'discount_amount' => 'Сумма скидки',
+        'total' => 'Итого',
+        'toggle_coupon_form_text' => 'У вас есть код купона?',
+        'apply_coupon_code' => 'Применить',
+        'form' => [
+            'create' => 'Создать новый купон',
+            'edit' => 'Редактировать ":name"',
+        ],
+    'coupon_invalid' => 'Этот купон недействителен!',
+    'applied_coupon_successfully' => 'Купон ":code" успешно применён!',
+    'coupon_not_used_yet' => 'Этот купон ещё не использован!',
+    'removed_coupon_successfully' => 'Купон :code успешно удалён!',
+
+    'coupon_code_with_value' => 'Код купона: :code',
+    'remove' => 'Удалить',
+];

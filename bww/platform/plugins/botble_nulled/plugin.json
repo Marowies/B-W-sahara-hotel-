@@ -1,0 +1,11 @@
+{
+    "id": "nulled/botble_nulled",
+    "name": "Botble_Nulled",
+    "namespace": "Botble\\BotbleNulled\\",
+    "provider": "Botble\\BotbleNulled\\Providers\\BotbleNulledServiceProvider",
+    "author": "",
+    "url": "",
+    "version": "1.0.0",
+    "description": "",
+    "minimum_core_version": "7.3.4"
+}

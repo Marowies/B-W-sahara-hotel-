@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'name' => 'Viešbutis',
+    'booking_name' => 'Rezervacijos vardas',
+    'booking_email' => 'Rezervacijos el. paštas',
+    'booking_phone' => 'Rezervacijos telefonas',
+    'booking_address' => 'Rezervacijos adresas',
+    'booking_request' => 'Rezervacijos užklausa',
+    'booking_link' => 'Rezervacijos nuoroda',
+    'booking_date' => 'Rezervacijos data',
+    'booking_status' => 'Rezervacijos būsena',
+    'reviews' => 'Atsiliepimai',
+    'rooms' => 'Rooms',
+    'edit_this_room' => 'Edit this room',
+    'room_not_available' => 'This room is not available for booking from :start_date to :end_date!',
+    'booking' => 'Booking',
+    'booking_successful' => 'Booking successfully!',
+    'booking_information' => 'Booking Information',
+    'checkout_error' => 'Checkout error!',
+    'shortcodes' => [
+        'title' => 'Pavadinimas',
+        'choose_services' => 'Pasirinkti paslaugas',
+        'choose_places' => 'Pasirinkti vietas',
+    ],
+
+    'login_form' => 'Prisijungimo forma',
+    'register_form' => 'Registracijos forma',
+    'forgot_password_form' => 'Pamiršto slaptažodžio forma',
+    'reset_password_form' => 'Slaptažodžio atstatymo forma',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'Sveiki, dėkojame už kambarių rezervaciją :site_title:',
+            'field_name' => 'Nuo',
+            'field_email' => 'El. paštas',
+            'field_phone' => 'Telefonas',
+            'field_address' => 'Adresas',
+            'field_request' => 'Žinutė',
+            'view_booking_detail' => 'Peržiūrėti rezervacijos informaciją',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'Sveiki, gautas naujas užsakymas iš :site_title:',
+            'field_name' => 'Nuo',
+            'field_email' => 'El. paštas',
+            'field_phone' => 'Telefonas',
+            'field_address' => 'Adresas',
+            'field_request' => 'Žinutė',
+            'view_booking_detail' => 'Peržiūrėti rezervacijos informaciją',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'Sveiki, dėkojame už kambarių rezervaciją :site_title:',
+            'message' => 'Tikimės, kad šis pranešimas jus ras sveikus. Norime informuoti, kad buvo atnaujinta jūsų rezervacija pas mus. Jūsų rezervacijos būsena pasikeitė ir norėjome jus apie tai informuoti.',
+            'booking_details_title' => 'Rezervacijos informacija',
+            'field_name' => 'Vardas',
+            'field_date_of_booking' => 'Rezervacijos data',
+            'view_booking_detail' => 'Peržiūrėti rezervacijos informaciją',
+            'new_booking_status' => 'Nauja rezervacijos būsena',
+        ],
+    ],
+    'room_not_available' => 'Šis kambarys nėra prieinamas rezervacijai nuo :start_date iki :end_date!',
+];

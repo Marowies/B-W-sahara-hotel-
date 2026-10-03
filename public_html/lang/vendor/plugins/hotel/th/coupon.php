@@ -1,0 +1,47 @@
+<?php
+
+return [
+        'name' => 'คูปอง',
+        'intro' => [
+            'button_text' => 'สร้างคูปอง',
+            'title' => 'จัดการรหัสคูปอง',
+            'description' => 'สร้างและจัดการรหัสคูปองสำหรับลูกค้าของคุณ',
+        ],
+        'types' => [
+            'percentage' => 'เปอร์เซ็นต์',
+            'fixed' => 'จำนวนคงที่',
+        ],
+        'type' => 'ประเภท',
+        'created_message' => 'สร้างคูปองสำเร็จ',
+        'expires_date' => 'วันหมดอายุ',
+        'expires_time' => 'เวลาหมดอายุ',
+        'never_expired' => 'ไม่มีวันหมดอายุ',
+        'save_button' => 'บันทึก',
+        'coupon_code' => 'รหัสคูปอง',
+        'coupon_code_placeholder' => 'กรอกรหัสคูปอง',
+        'generate_code_button' => 'สร้างรหัส',
+        'value' => 'มูลค่า',
+        'value_placeholder' => 'กรอกมูลค่าคูปอง',
+        'value_off' => 'ลด :value',
+        'total_used' => 'ใช้แล้ว',
+        'expired' => 'หมดอายุ',
+        'active' => 'ใช้งานอยู่',
+        'unlimited' => 'คูปองไม่จำกัด',
+        'quantity' => 'จำนวน',
+        'quantity_placeholder' => 'กรอกจำนวนคูปอง',
+        'discount_amount' => 'จำนวนส่วนลด',
+        'total' => 'ยอดรวม',
+        'toggle_coupon_form_text' => 'คุณมีรหัสคูปองหรือไม่?',
+        'apply_coupon_code' => 'ใช้คูปอง',
+        'form' => [
+            'create' => 'สร้างคูปองใหม่',
+            'edit' => 'แก้ไข ":name"',
+        ],
+    'coupon_invalid' => 'This coupon is invalid!',
+    'applied_coupon_successfully' => 'Applied coupon ":code" successfully!',
+    'coupon_not_used_yet' => 'This coupon is not used yet!',
+    'removed_coupon_successfully' => 'Removed coupon :code successfully!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

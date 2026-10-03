@@ -1,0 +1,47 @@
+<?php
+
+return [
+        'name' => 'Kupony',
+        'intro' => [
+            'button_text' => 'Utwórz kupon',
+            'title' => 'Zarządzaj kodami kuponów',
+            'description' => 'Twórz i zarządzaj kodami kuponów dla swoich klientów.',
+        ],
+        'types' => [
+            'percentage' => 'Procentowy',
+            'fixed' => 'Stały',
+        ],
+        'type' => 'Typ',
+        'created_message' => 'Kupon został pomyślnie utworzony.',
+        'expires_date' => 'Data wygaśnięcia',
+        'expires_time' => 'Godzina wygaśnięcia',
+        'never_expired' => 'Nigdy nie wygasa',
+        'save_button' => 'Zapisz',
+        'coupon_code' => 'Kod kuponu',
+        'coupon_code_placeholder' => 'Wprowadź kod kuponu',
+        'generate_code_button' => 'Wygeneruj kod',
+        'value' => 'Wartość',
+        'value_placeholder' => 'Wprowadź wartość kuponu',
+        'value_off' => ':value zniżki',
+        'total_used' => 'Wykorzystane',
+        'expired' => 'Wygasły',
+        'active' => 'Aktywny',
+        'unlimited' => 'Kupon nielimitowany',
+        'quantity' => 'Ilość',
+        'quantity_placeholder' => 'Wprowadź liczbę kuponów',
+        'discount_amount' => 'Kwota rabatu',
+        'total' => 'Suma',
+        'toggle_coupon_form_text' => 'Masz kod kuponu?',
+        'apply_coupon_code' => 'Zastosuj',
+        'form' => [
+            'create' => 'Utwórz nowy kupon',
+            'edit' => 'Edytuj ":name"',
+        ],
+    'coupon_invalid' => 'This coupon is invalid!',
+    'applied_coupon_successfully' => 'Applied coupon ":code" successfully!',
+    'coupon_not_used_yet' => 'This coupon is not used yet!',
+    'removed_coupon_successfully' => 'Removed coupon :code successfully!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

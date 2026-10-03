@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'name' => 'Hotel',
+    'booking_name' => 'Nama pemesanan',
+    'booking_email' => 'Email pemesanan',
+    'booking_phone' => 'Telepon pemesanan',
+    'booking_address' => 'Alamat pemesanan',
+    'booking_request' => 'Permintaan pemesanan',
+    'booking_link' => 'Tautan pemesanan',
+    'booking_date' => 'Tanggal pemesanan',
+    'booking_status' => 'Status pemesanan',
+    'reviews' => 'Ulasan',
+    'rooms' => 'Rooms',
+    'edit_this_room' => 'Edit this room',
+    'room_not_available' => 'This room is not available for booking from :start_date to :end_date!',
+    'booking' => 'Booking',
+    'booking_successful' => 'Booking successfully!',
+    'booking_information' => 'Booking Information',
+    'checkout_error' => 'Checkout error!',
+    'shortcodes' => [
+        'title' => 'Judul',
+        'choose_services' => 'Pilih Layanan',
+        'choose_places' => 'Pilih Tempat',
+    ],
+
+    'login_form' => 'Formulir Login',
+    'register_form' => 'Formulir Pendaftaran',
+    'forgot_password_form' => 'Formulir Lupa Kata Sandi',
+    'reset_password_form' => 'Formulir Reset Kata Sandi',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'Halo, Terima kasih telah memesan kamar dari :site_title:',
+            'field_name' => 'Dari',
+            'field_email' => 'Email',
+            'field_phone' => 'Telepon',
+            'field_address' => 'Alamat',
+            'field_request' => 'Pesan',
+            'view_booking_detail' => 'Lihat detail pemesanan',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'Halo, ada pemesanan baru dari :site_title:',
+            'field_name' => 'Dari',
+            'field_email' => 'Email',
+            'field_phone' => 'Telepon',
+            'field_address' => 'Alamat',
+            'field_request' => 'Pesan',
+            'view_booking_detail' => 'Lihat detail pemesanan',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'Halo, Terima kasih telah memesan kamar dari :site_title:',
+            'message' => 'Kami harap pesan ini menemukan Anda dalam keadaan baik. Kami ingin memberi tahu Anda bahwa ada pembaruan terbaru mengenai pemesanan Anda dengan kami. Status pemesanan Anda telah berubah, dan kami ingin memberi tahu Anda.',
+            'booking_details_title' => 'Detail Pemesanan',
+            'field_name' => 'Nama',
+            'field_date_of_booking' => 'Tanggal Pemesanan',
+            'view_booking_detail' => 'Lihat detail pemesanan',
+            'new_booking_status' => 'Status Pemesanan Baru',
+        ],
+    ],
+    'room_not_available' => 'Kamar ini tidak tersedia untuk pemesanan dari :start_date hingga :end_date!',
+];

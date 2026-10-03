@@ -1,0 +1,92 @@
+<?php
+
+return [
+    'name' => 'iCal sinchronizacija',
+    'sync_calendars' => 'Sinchronizuoti kalendorius',
+    'sync_all_calendars' => 'Sinchronizuoti visus kalendorius',
+    'external_calendars' => 'Išoriniai kalendoriai',
+    'last_sync' => 'Paskutinė sinchronizacija',
+    'never' => 'Niekada',
+    'sync' => 'Sinchronizuoti',
+    'download' => 'Atsisiųsti',
+    'edit' => 'Redaguoti iCal :name',
+    'calendar_name' => 'Kalendoriaus pavadinimas',
+    'calendar_name_placeholder' => 'Įveskite kalendoriaus pavadinimą',
+    'calendar_url' => 'Kalendoriaus URL',
+    'calendar_url_placeholder' => 'Įveskite kalendoriaus URL (pvz., iš Booking.com, Airbnb ir kt.)',
+    'existing_calendars' => 'Esami kalendoriai',
+    'export_calendar' => 'Eksportuoti kalendorių',
+    'export_url' => 'Eksporto URL',
+    'export_description' => 'Naudokite šį URL savo rezervacijoms eksportuoti į išorines platformas, tokias kaip Booking.com, Airbnb ir kt.',
+    'download_ical_file' => 'Atsisiųsti iCal failą',
+    'sync_success' => 'Sėkmingai sinchronizuota :success kalendorių(-iai). Nepavyko: :failed',
+    'sync_all_success' => 'Sėkmingai sinchronizuota :success kalendorių(-iai). Nepavyko: :failed',
+
+    // Logs
+    'logs' => 'iCal sinchronizacijos žurnalai',
+    'log_details' => 'Sinchronizacijos žurnalas #:id',
+    'message' => 'Pranešimas',
+    'data' => 'Duomenys',
+    'calendar' => 'Kalendorius',
+    'all_calendars' => 'Visi kalendoriai',
+    'clear_logs' => 'Išvalyti visus žurnalus',
+    'clear_logs_confirm' => 'Ar tikrai norite išvalyti visus žurnalus?',
+    'logs_cleared' => 'Visi žurnalai sėkmingai išvalyti',
+
+    // Status
+    'status_success' => 'Sėkminga',
+    'status_warning' => 'Įspėjimas',
+    'status_error' => 'Klaida',
+
+    // Email
+    'email' => [
+        'subject' => 'iCal sinchronizacijos klaidos įspėjimas',
+        'greeting' => 'Sveiki,',
+        'message' => 'Aptikome problemą su iCal sinchronizacija jūsų viešbučio rezervacijų sistemoje.',
+        'details' => 'Klaidos informacija',
+        'time' => 'Laikas',
+        'error' => 'Klaidos pranešimas',
+        'action' => 'Prašome patikrinti iCal sinchronizacijos nustatymus ir įsitikinti, kad visi išorinių kalendorių URL yra teisingi ir prieinami.',
+        'view_logs' => 'Peržiūrėti sinchronizacijos žurnalus',
+        'closing' => 'Dėkojame už dėmesį šiam klausimui.',
+        'footer' => 'Tai automatinis pranešimas iš :site_name.',
+    ],
+
+    // Documentation
+    'documentation' => 'iCal sinchronizacijos dokumentacija',
+    'documentation_title' => 'Kaip naudoti iCal sinchronizaciją',
+    'what_is_ical' => 'Kas yra iCal sinchronizacija?',
+    'what_is_ical_desc' => 'iCal (arba iCalendar) yra standartinis kalendoriaus duomenų mainų formatas. iCal sinchronizacijos funkcija leidžia sinchronizuoti viešbučio kambarių rezervacijas su išorinėmis platformomis, tokiomis kaip Booking.com, Airbnb ir kitomis rezervacijų sistemomis, kurios palaiko iCal.',
+
+    'export_bookings' => 'Rezervacijų eksportavimas',
+    'export_bookings_desc' => 'Galite eksportuoti savo viešbučio rezervacijas į išorines platformas, kad išvengtumėte dvigubų rezervacijų.',
+    'export_step1_title' => 'Eikite į iCal sinchronizacijos puslapį',
+    'export_step1_desc' => 'Eikite į Rezervacijos > iCal sinchronizacija administravimo skydelyje.',
+    'export_step2_title' => 'Raskite kambarį, kurį norite eksportuoti',
+    'export_step2_desc' => 'Spustelėkite "Redaguoti" kambariui, kurio rezervacijas norite eksportuoti.',
+    'export_step3_title' => 'Nukopijuokite eksporto URL arba atsisiųskite iCal failą',
+    'export_step3_desc' => 'Nukopijuokite pateiktą eksporto URL arba atsisiųskite iCal failą. Pridėkite šį URL į savo išorinę platformą (Booking.com, Airbnb ir kt.) pagal jų instrukcijas iCal srautų importavimui.',
+
+    'import_bookings' => 'Išorinių rezervacijų importavimas',
+    'import_bookings_desc' => 'Galite importuoti rezervacijas iš išorinių platformų, kad išvengtumėte dvigubų rezervacijų savo sistemoje.',
+    'import_step1_title' => 'Gaukite iCal URL iš savo išorinės platformos',
+    'import_step1_desc' => 'Prisijunkite prie savo išorinės platformos (Booking.com, Airbnb ir kt.) ir raskite parinktį eksportuoti kalendorių kaip iCal. Nukopijuokite pateiktą URL.',
+    'import_step2_title' => 'Eikite į iCal sinchronizacijos puslapį',
+    'import_step2_desc' => 'Eikite į Rezervacijos > iCal sinchronizacija administravimo skydelyje.',
+    'import_step3_title' => 'Pridėkite išorinį kalendorių',
+    'import_step3_desc' => 'Spustelėkite "Redaguoti" kambariui, kurio rezervacijas norite importuoti. Įveskite kalendoriaus pavadinimą (pvz., "Booking.com") ir įklijuokite anksčiau nukopijuotą iCal URL.',
+    'import_step4_title' => 'Sinchronizuokite kalendorių',
+    'import_step4_desc' => 'Spustelėkite "Sinchronizuoti", kad rankiniu būdu sinchronizuotumėte kalendorių, arba palaukite, kol bus paleista automatinė sinchronizacija.',
+
+    'sync_logs' => 'iCal sinchronizacijos žurnalai',
+    'sync_logs_desc' => 'Sistema saugo išsamius visų sinchronizacijos veiklų žurnalus. Galite peržiūrėti šiuos žurnalus spustelėję "Sinchronizacijos žurnalai" iCal sinchronizacijos puslapyje. Tai padeda išspręsti bet kokias sinchronizacijos problemas.',
+
+    'troubleshooting' => 'Problemų sprendimas',
+    'troubleshooting_desc' => 'Čia pateikiamos kelios dažniausios problemos ir jų sprendimai:',
+    'faq1_title' => 'Išorinis kalendorius nesinchronizuojamas',
+    'faq1_desc' => 'Įsitikinkite, kad URL yra teisingas ir prieinamas. Kai kurios platformos reikalauja, kad būtumėte prisijungę, kad galėtumėte pasiekti iCal srautą. Pabandykite atsisiųsti iCal failą tiesiogiai iš URL, kad patikrintumėte, ar jis veikia.',
+    'faq2_title' => 'Yra konfliktų tarp rezervacijų',
+    'faq2_desc' => 'Sistema aptiks konfliktus tarp rezervacijų ir juos užregistruos. Galite peržiūrėti šiuos konfliktus sinchronizacijos žurnaluose. Turėsite išspręsti šiuos konfliktus rankiniu būdu, koreguodami rezervacijas vienoje iš sistemų.',
+    'faq3_title' => 'Automatinė sinchronizacija neveikia',
+    'faq3_desc' => 'Įsitikinkite, kad jūsų serverio cron užduotys yra teisingai nustatytos. Sistema naudoja Laravel planuoklį, kad vykdytų sinchronizacijos komandą kas valandą. Taip pat galite paleisti sinchronizaciją rankiniu būdu spustelėdami "Sinchronizuoti" arba "Sinchronizuoti visus kalendorius" iCal sinchronizacijos puslapyje.',
+];

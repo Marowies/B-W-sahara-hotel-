@@ -1,0 +1,47 @@
+<?php
+
+return [
+        'name' => 'קופונים',
+        'intro' => [
+            'button_text' => 'צור קופון',
+            'title' => 'נהל קודי קופונים',
+            'description' => 'צור ונהל קודי קופונים ללקוחות שלך.',
+        ],
+        'types' => [
+            'percentage' => 'אחוזים',
+            'fixed' => 'קבוע',
+        ],
+        'type' => 'סוג',
+        'created_message' => 'הקופון נוצר בהצלחה.',
+        'expires_date' => 'תאריך תפוגה',
+        'expires_time' => 'שעת תפוגה',
+        'never_expired' => 'לא פג תוקף',
+        'save_button' => 'שמור',
+        'coupon_code' => 'קוד קופון',
+        'coupon_code_placeholder' => 'הזן קוד קופון',
+        'generate_code_button' => 'צור קוד',
+        'value' => 'ערך',
+        'value_placeholder' => 'הזן ערך קופון',
+        'value_off' => ':value הנחה',
+        'total_used' => 'נוצל',
+        'expired' => 'פג תוקף',
+        'active' => 'פעיל',
+        'unlimited' => 'קופון ללא הגבלה',
+        'quantity' => 'כמות',
+        'quantity_placeholder' => 'הזן מספר קופונים',
+        'discount_amount' => 'סכום הנחה',
+        'total' => 'סה"כ',
+        'toggle_coupon_form_text' => 'יש לך קוד קופון?',
+        'apply_coupon_code' => 'החל',
+        'form' => [
+            'create' => 'צור קופון חדש',
+            'edit' => 'ערוך ":name"',
+        ],
+    'coupon_invalid' => 'This coupon is invalid!',
+    'applied_coupon_successfully' => 'Applied coupon ":code" successfully!',
+    'coupon_not_used_yet' => 'This coupon is not used yet!',
+    'removed_coupon_successfully' => 'Removed coupon :code successfully!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

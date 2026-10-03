@@ -1,0 +1,47 @@
+<?php
+
+return [
+        'name' => 'Kupóny',
+        'intro' => [
+            'button_text' => 'Vytvořit kupón',
+            'title' => 'Správa kódů kupónů',
+            'description' => 'Vytvářejte a spravujte kódy kupónů pro vaše zákazníky.',
+        ],
+        'types' => [
+            'percentage' => 'Procentuální',
+            'fixed' => 'Fixní',
+        ],
+        'type' => 'Typ',
+        'created_message' => 'Kupón byl úspěšně vytvořen.',
+        'expires_date' => 'Datum expirace',
+        'expires_time' => 'Čas expirace',
+        'never_expired' => 'Nikdy nevyprší',
+        'save_button' => 'Uložit',
+        'coupon_code' => 'Kód kupónu',
+        'coupon_code_placeholder' => 'Zadejte kód kupónu',
+        'generate_code_button' => 'Vygenerovat kód',
+        'value' => 'Hodnota',
+        'value_placeholder' => 'Zadejte hodnotu kupónu',
+        'value_off' => ':value sleva',
+        'total_used' => 'Použito',
+        'expired' => 'Vypršelo',
+        'active' => 'Aktivní',
+        'unlimited' => 'Neomezený kupón',
+        'quantity' => 'Množství',
+        'quantity_placeholder' => 'Zadejte počet kupónů',
+        'discount_amount' => 'Výše slevy',
+        'total' => 'Celkem',
+        'toggle_coupon_form_text' => 'Máte slevový kód?',
+        'apply_coupon_code' => 'Použít',
+        'form' => [
+            'create' => 'Vytvořit nový kupón',
+            'edit' => 'Upravit ":name"',
+        ],
+        'coupon_invalid' => 'Tento kupón je neplatný!',
+        'applied_coupon_successfully' => 'Kupón ":code" byl úspěšně použit!',
+        'coupon_not_used_yet' => 'Tento kupón ještě nebyl použit!',
+        'removed_coupon_successfully' => 'Kupón :code byl úspěšně odebrán!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

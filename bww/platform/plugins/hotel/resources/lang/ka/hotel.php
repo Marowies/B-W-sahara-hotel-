@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'name' => 'სასტუმრო',
+    'booking_name' => 'დაჯავშნის სახელი',
+    'booking_email' => 'დაჯავშნის ელ. ფოსტა',
+    'booking_phone' => 'დაჯავშნის ტელეფონი',
+    'booking_address' => 'დაჯავშნის მისამართი',
+    'booking_request' => 'დაჯავშნის მოთხოვნა',
+    'booking_link' => 'დაჯავშნის ბმული',
+    'booking_date' => 'დაჯავშნის თარიღი',
+    'booking_status' => 'დაჯავშნის სტატუსი',
+    'reviews' => 'მიმოხილვები',
+    'rooms' => 'Rooms',
+    'edit_this_room' => 'Edit this room',
+    'room_not_available' => 'This room is not available for booking from :start_date to :end_date!',
+    'booking' => 'Booking',
+    'booking_successful' => 'Booking successfully!',
+    'booking_information' => 'Booking Information',
+    'checkout_error' => 'Checkout error!',
+    'shortcodes' => [
+        'title' => 'სათაური',
+        'choose_services' => 'აირჩიეთ სერვისები',
+        'choose_places' => 'აირჩიეთ ადგილები',
+    ],
+
+    'login_form' => 'შესვლის ფორმა',
+    'register_form' => 'რეგისტრაციის ფორმა',
+    'forgot_password_form' => 'პაროლის აღდგენის ფორმა',
+    'reset_password_form' => 'პაროლის განულების ფორმა',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'გამარჯობა, გმადლობთ ნომრების დაჯავშნისთვის :site_title-დან',
+            'field_name' => 'გამომგზავნი',
+            'field_email' => 'ელ. ფოსტა',
+            'field_phone' => 'ტელეფონი',
+            'field_address' => 'მისამართი',
+            'field_request' => 'შეტყობინება',
+            'view_booking_detail' => 'დაჯავშნის დეტალების ნახვა',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'გამარჯობა, :site_title-დან ახალი დაჯავშნაა',
+            'field_name' => 'გამომგზავნი',
+            'field_email' => 'ელ. ფოსტა',
+            'field_phone' => 'ტელეფონი',
+            'field_address' => 'მისამართი',
+            'field_request' => 'შეტყობინება',
+            'view_booking_detail' => 'დაჯავშნის დეტალების ნახვა',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'გამარჯობა, გმადლობთ ნომრების დაჯავშნისთვის :site_title-დან',
+            'message' => 'ვიმედოვნებთ, რომ ამ შეტყობინებას კარგ მდგომარეობაში მოგაწვდით. გვსურდა გაგაცნობოთ, რომ თქვენს დაჯავშნასთან დაკავშირებით განახლება მოხდა. თქვენი დაჯავშნის სტატუსი შეიცვალა და გვსურდა გაცნობოთ.',
+            'booking_details_title' => 'დაჯავშნის დეტალები',
+            'field_name' => 'სახელი',
+            'field_date_of_booking' => 'დაჯავშნის თარიღი',
+            'view_booking_detail' => 'დაჯავშნის დეტალების ნახვა',
+            'new_booking_status' => 'ახალი დაჯავშნის სტატუსი',
+        ],
+    ],
+    'room_not_available' => 'ეს ოთახი არ არის ხელმისაწვდომი დაჯავშნისთვის :start_date-დან :end_date-მდე!',
+];

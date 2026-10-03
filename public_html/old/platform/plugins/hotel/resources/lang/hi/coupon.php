@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'name' => 'कूपन',
+    'intro' => [
+        'button_text' => 'कूपन बनाएं',
+        'title' => 'कूपन कोड प्रबंधित करें',
+        'description' => 'अपने ग्राहकों के लिए कूपन कोड बनाएं और प्रबंधित करें।',
+    ],
+    'types' => [
+        'percentage' => 'प्रतिशत',
+        'fixed' => 'निश्चित',
+    ],
+    'type' => 'प्रकार',
+    'created_message' => 'कूपन सफलतापूर्वक बनाया गया है।',
+    'expires_date' => 'समाप्ति तिथि',
+    'expires_time' => 'समाप्ति समय',
+    'never_expired' => 'कभी समाप्त नहीं होता',
+    'save_button' => 'सहेजें',
+    'coupon_code' => 'कूपन कोड',
+    'coupon_code_placeholder' => 'कूपन कोड दर्ज करें',
+    'generate_code_button' => 'कोड जनरेट करें',
+    'value' => 'मूल्य',
+    'value_placeholder' => 'कूपन मूल्य दर्ज करें',
+    'value_off' => ':value की छूट',
+    'total_used' => 'उपयोग किया गया',
+    'expired' => 'समाप्त',
+    'active' => 'सक्रिय',
+    'unlimited' => 'असीमित कूपन',
+    'quantity' => 'मात्रा',
+    'quantity_placeholder' => 'कूपन की संख्या दर्ज करें',
+    'discount_amount' => 'छूट राशि',
+    'total' => 'कुल',
+    'toggle_coupon_form_text' => 'क्या आपके पास कूपन कोड है?',
+    'apply_coupon_code' => 'लागू करें',
+    'form' => [
+        'create' => 'नया कूपन बनाएं',
+        'edit' => '":name" संपादित करें',
+    ],
+    'coupon_invalid' => 'यह कूपन अमान्य है!',
+    'applied_coupon_successfully' => 'कूपन ":code" सफलतापूर्वक लागू किया गया!',
+    'coupon_not_used_yet' => 'यह कूपन अभी तक उपयोग नहीं किया गया है!',
+    'removed_coupon_successfully' => 'कूपन :code सफलतापूर्वक हटाया गया!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

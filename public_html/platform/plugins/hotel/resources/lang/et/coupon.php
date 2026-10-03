@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'name' => 'Kupongid',
+    'intro' => [
+        'button_text' => 'Loo kupong',
+        'title' => 'Halda kupongikoode',
+        'description' => 'Looge ja hallake oma klientidele kupongikoode.',
+    ],
+    'types' => [
+        'percentage' => 'Protsent',
+        'fixed' => 'Fikseeritud',
+    ],
+    'type' => 'Tüüp',
+    'created_message' => 'Kupong on edukalt loodud.',
+    'expires_date' => 'Aegumiskuupäev',
+    'expires_time' => 'Aegumisaeg',
+    'never_expired' => 'Ei aegu kunagi',
+    'save_button' => 'Salvesta',
+    'coupon_code' => 'Kupongikood',
+    'coupon_code_placeholder' => 'Sisesta kupongikood',
+    'generate_code_button' => 'Genereeri kood',
+    'value' => 'Väärtus',
+    'value_placeholder' => 'Sisesta kupongi väärtus',
+    'value_off' => ':value soodustus',
+    'total_used' => 'Kasutatud',
+    'expired' => 'Aegunud',
+    'active' => 'Aktiivne',
+    'unlimited' => 'Piiramatu kupong',
+    'quantity' => 'Kogus',
+    'quantity_placeholder' => 'Sisesta kupongide arv',
+    'discount_amount' => 'Soodustuse summa',
+    'total' => 'Kokku',
+    'toggle_coupon_form_text' => 'Kas teil on kupongikood?',
+    'apply_coupon_code' => 'Rakenda',
+    'form' => [
+        'create' => 'Loo uus kupong',
+        'edit' => 'Muuda ":name"',
+    ],
+    'coupon_invalid' => 'See kupong on kehtetu!',
+    'applied_coupon_successfully' => 'Kupong ":code" edukalt rakendatud!',
+    'coupon_not_used_yet' => 'Seda kupongi pole veel kasutatud!',
+    'removed_coupon_successfully' => 'Kupong :code edukalt eemaldatud!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

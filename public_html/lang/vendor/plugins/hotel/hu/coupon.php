@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'name' => 'Kuponok',
+    'intro' => [
+        'button_text' => 'Kupon létrehozása',
+        'title' => 'Kuponkódok kezelése',
+        'description' => 'Hozzon létre és kezeljen kuponkódokat vendégei számára.',
+    ],
+    'types' => [
+        'percentage' => 'Százalék',
+        'fixed' => 'Fix összeg',
+    ],
+    'type' => 'Típus',
+    'created_message' => 'A kupon sikeresen létrehozva.',
+    'expires_date' => 'Lejárati dátum',
+    'expires_time' => 'Lejárati idő',
+    'never_expired' => 'Soha nem jár le',
+    'save_button' => 'Mentés',
+    'coupon_code' => 'Kuponkód',
+    'coupon_code_placeholder' => 'Adja meg a kuponkódot',
+    'generate_code_button' => 'Kód generálása',
+    'value' => 'Érték',
+    'value_placeholder' => 'Adja meg a kupon értékét',
+    'value_off' => ':value kedvezmény',
+    'total_used' => 'Felhasználva',
+    'expired' => 'Lejárt',
+    'active' => 'Aktív',
+    'unlimited' => 'Korlátlan kupon',
+    'quantity' => 'Mennyiség',
+    'quantity_placeholder' => 'Adja meg a kuponok számát',
+    'discount_amount' => 'Kedvezmény összege',
+    'total' => 'Összesen',
+    'toggle_coupon_form_text' => 'Van kuponkódja?',
+    'apply_coupon_code' => 'Alkalmazás',
+    'form' => [
+        'create' => 'Új kupon létrehozása',
+        'edit' => '":name" szerkesztése',
+    ],
+    'coupon_invalid' => 'Ez a kupon érvénytelen!',
+    'applied_coupon_successfully' => 'A(z) ":code" kupon sikeresen alkalmazva!',
+    'coupon_not_used_yet' => 'Ez a kupon még nem lett felhasználva!',
+    'removed_coupon_successfully' => 'A(z) :code kupon sikeresen eltávolítva!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

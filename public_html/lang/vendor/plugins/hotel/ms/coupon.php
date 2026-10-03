@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'name' => 'Kupon',
+    'intro' => [
+        'button_text' => 'Cipta kupon',
+        'title' => 'Urus kod kupon',
+        'description' => 'Cipta dan urus kod kupon untuk pelanggan anda.',
+    ],
+    'types' => [
+        'percentage' => 'Peratus',
+        'fixed' => 'Tetap',
+    ],
+    'type' => 'Jenis',
+    'created_message' => 'Kupon telah berjaya dicipta.',
+    'expires_date' => 'Tarikh tamat tempoh',
+    'expires_time' => 'Masa tamat tempoh',
+    'never_expired' => 'Tiada tamat tempoh',
+    'save_button' => 'Simpan',
+    'coupon_code' => 'Kod kupon',
+    'coupon_code_placeholder' => 'Masukkan kod kupon',
+    'generate_code_button' => 'Jana kod',
+    'value' => 'Nilai',
+    'value_placeholder' => 'Masukkan nilai kupon',
+    'value_off' => 'Diskaun :value',
+    'total_used' => 'Digunakan',
+    'expired' => 'Tamat tempoh',
+    'active' => 'Aktif',
+    'unlimited' => 'Kupon tanpa had',
+    'quantity' => 'Kuantiti',
+    'quantity_placeholder' => 'Masukkan bilangan kupon',
+    'discount_amount' => 'Jumlah diskaun',
+    'total' => 'Jumlah',
+    'toggle_coupon_form_text' => 'Anda ada kod kupon?',
+    'apply_coupon_code' => 'Guna',
+    'form' => [
+        'create' => 'Cipta kupon baharu',
+        'edit' => 'Edit ":name"',
+    ],
+    'coupon_invalid' => 'Kupon ini tidak sah!',
+    'applied_coupon_successfully' => 'Kupon ":code" berjaya digunakan!',
+    'coupon_not_used_yet' => 'Kupon ini belum digunakan lagi!',
+    'removed_coupon_successfully' => 'Kupon :code berjaya dialih keluar!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

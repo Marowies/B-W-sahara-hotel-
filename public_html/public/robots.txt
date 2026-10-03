@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+Disallow: /wp-admin/
+Disallow: /wp-login.php
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /wp-content/cache/
+Disallow: /cgi-bin/
+
+Sitemap: https://bwsaharaskyhotel.com/sitemap.xml

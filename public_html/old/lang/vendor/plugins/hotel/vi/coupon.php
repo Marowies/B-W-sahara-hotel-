@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'name' => 'Mã giảm giá',
+    'intro' => [
+        'button_text' => 'Tạo mã giảm giá',
+        'title' => 'Quản lý mã giảm giá',
+        'description' => 'Tạo và quản lý mã giảm giá cho khách hàng của bạn.',
+    ],
+    'types' => [
+        'percentage' => 'Phần trăm',
+        'fixed' => 'Cố định',
+    ],
+    'type' => 'Loại',
+    'created_message' => 'Mã giảm giá đã được tạo thành công.',
+    'expires_date' => 'Ngày hết hạn',
+    'expires_time' => 'Thời gian hết hạn',
+    'never_expired' => 'Không bao giờ hết hạn',
+    'save_button' => 'Lưu',
+    'coupon_code' => 'Mã giảm giá',
+    'coupon_code_placeholder' => 'Nhập mã giảm giá',
+    'generate_code_button' => 'Tạo mã',
+    'value' => 'Giá trị',
+    'value_placeholder' => 'Nhập giá trị mã giảm giá',
+    'value_off' => 'Giảm :value',
+    'total_used' => 'Đã sử dụng',
+    'expired' => 'Đã hết hạn',
+    'active' => 'Hoạt động',
+    'unlimited' => 'Mã giảm giá không giới hạn',
+    'quantity' => 'Số lượng',
+    'quantity_placeholder' => 'Nhập số lượng mã giảm giá',
+    'discount_amount' => 'Số tiền giảm giá',
+    'total' => 'Tổng cộng',
+    'toggle_coupon_form_text' => 'Bạn có mã giảm giá?',
+    'apply_coupon_code' => 'Áp dụng',
+    'form' => [
+        'create' => 'Tạo mã giảm giá mới',
+        'edit' => 'Chỉnh sửa ":name"',
+    ],
+    'coupon_invalid' => 'Mã giảm giá này không hợp lệ!',
+    'applied_coupon_successfully' => 'Áp dụng mã giảm giá ":code" thành công!',
+    'coupon_not_used_yet' => 'Mã giảm giá này chưa được sử dụng!',
+    'removed_coupon_successfully' => 'Đã xóa mã giảm giá :code thành công!',
+
+    'coupon_code_with_value' => 'Mã giảm giá: :code',
+    'remove' => 'Xóa',
+];

@@ -1,0 +1,47 @@
+<?php
+
+return [
+        'name' => 'Купони',
+        'intro' => [
+            'button_text' => 'Створити купон',
+            'title' => 'Керування кодами купонів',
+            'description' => 'Створюйте та керуйте кодами купонів для ваших клієнтів.',
+        ],
+        'types' => [
+            'percentage' => 'Відсоток',
+            'fixed' => 'Фіксована',
+        ],
+        'type' => 'Тип',
+        'created_message' => 'Купон успішно створено.',
+        'expires_date' => 'Дата закінчення',
+        'expires_time' => 'Час закінчення',
+        'never_expired' => 'Ніколи не закінчується',
+        'save_button' => 'Зберегти',
+        'coupon_code' => 'Код купона',
+        'coupon_code_placeholder' => 'Введіть код купона',
+        'generate_code_button' => 'Згенерувати код',
+        'value' => 'Значення',
+        'value_placeholder' => 'Введіть значення купона',
+        'value_off' => 'Знижка :value',
+        'total_used' => 'Використано',
+        'expired' => 'Закінчився',
+        'active' => 'Активний',
+        'unlimited' => 'Необмежений купон',
+        'quantity' => 'Кількість',
+        'quantity_placeholder' => 'Введіть кількість купонів',
+        'discount_amount' => 'Сума знижки',
+        'total' => 'Всього',
+        'toggle_coupon_form_text' => 'У вас є код купона?',
+        'apply_coupon_code' => 'Застосувати',
+        'form' => [
+            'create' => 'Створити новий купон',
+            'edit' => 'Редагувати ":name"',
+        ],
+    'coupon_invalid' => 'This coupon is invalid!',
+    'applied_coupon_successfully' => 'Applied coupon ":code" successfully!',
+    'coupon_not_used_yet' => 'This coupon is not used yet!',
+    'removed_coupon_successfully' => 'Removed coupon :code successfully!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

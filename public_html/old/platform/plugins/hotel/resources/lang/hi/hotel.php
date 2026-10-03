@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'name' => 'होटल',
+    'booking_name' => 'बुकिंग नाम',
+    'booking_email' => 'बुकिंग ईमेल',
+    'booking_phone' => 'बुकिंग फोन',
+    'booking_address' => 'बुकिंग पता',
+    'booking_request' => 'बुकिंग अनुरोध',
+    'booking_link' => 'बुकिंग लिंक',
+    'booking_date' => 'बुकिंग तिथि',
+    'booking_status' => 'बुकिंग स्थिति',
+    'reviews' => 'समीक्षाएँ',
+    'rooms' => 'Rooms',
+    'edit_this_room' => 'Edit this room',
+    'room_not_available' => 'This room is not available for booking from :start_date to :end_date!',
+    'booking' => 'Booking',
+    'booking_successful' => 'Booking successfully!',
+    'booking_information' => 'Booking Information',
+    'checkout_error' => 'Checkout error!',
+    'shortcodes' => [
+        'title' => 'शीर्षक',
+        'choose_services' => 'सेवाएँ चुनें',
+        'choose_places' => 'स्थान चुनें',
+    ],
+
+    'login_form' => 'लॉगिन फॉर्म',
+    'register_form' => 'रजिस्टर फॉर्म',
+    'forgot_password_form' => 'पासवर्ड भूल गए फॉर्म',
+    'reset_password_form' => 'पासवर्ड रीसेट फॉर्म',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'नमस्ते, :site_title: से कमरे बुक करने के लिए धन्यवाद',
+            'field_name' => 'से',
+            'field_email' => 'ईमेल',
+            'field_phone' => 'फोन',
+            'field_address' => 'पता',
+            'field_request' => 'संदेश',
+            'view_booking_detail' => 'बुकिंग विवरण देखें',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'नमस्ते, :site_title: से एक नई बुकिंग है',
+            'field_name' => 'से',
+            'field_email' => 'ईमेल',
+            'field_phone' => 'फोन',
+            'field_address' => 'पता',
+            'field_request' => 'संदेश',
+            'view_booking_detail' => 'बुकिंग विवरण देखें',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'नमस्ते, :site_title: से कमरे बुक करने के लिए धन्यवाद',
+            'message' => 'हम उम्मीद करते हैं कि यह संदेश आपको अच्छी तरह से मिलेगा। हम आपको सूचित करना चाहते थे कि हमारे साथ आपकी बुकिंग के बारे में एक हालिया अपडेट हुआ है। आपकी बुकिंग की स्थिति में बदलाव आया है और हम आपको सूचित रखना चाहते थे।',
+            'booking_details_title' => 'बुकिंग विवरण',
+            'field_name' => 'नाम',
+            'field_date_of_booking' => 'बुकिंग की तिथि',
+            'view_booking_detail' => 'बुकिंग विवरण देखें',
+            'new_booking_status' => 'नई बुकिंग स्थिति',
+        ],
+    ],
+    'room_not_available' => 'यह कमरा :start_date से :end_date तक बुकिंग के लिए उपलब्ध नहीं है!',
+];

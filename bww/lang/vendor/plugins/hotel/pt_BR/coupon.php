@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'name' => 'Cupons',
+    'intro' => [
+        'button_text' => 'Criar cupom',
+        'title' => 'Gerenciar códigos de cupom',
+        'description' => 'Crie e gerencie códigos de cupom para seus clientes.',
+    ],
+    'types' => [
+        'percentage' => 'Porcentagem',
+        'fixed' => 'Fixo',
+    ],
+    'type' => 'Tipo',
+    'created_message' => 'Cupom criado com sucesso.',
+    'expires_date' => 'Data de expiração',
+    'expires_time' => 'Horário de expiração',
+    'never_expired' => 'Nunca expira',
+    'save_button' => 'Salvar',
+    'coupon_code' => 'Código do cupom',
+    'coupon_code_placeholder' => 'Digite o código do cupom',
+    'generate_code_button' => 'Gerar código',
+    'value' => 'Valor',
+    'value_placeholder' => 'Digite o valor do cupom',
+    'value_off' => ':value de desconto',
+    'total_used' => 'Utilizado',
+    'expired' => 'Expirado',
+    'active' => 'Ativo',
+    'unlimited' => 'Cupom ilimitado',
+    'quantity' => 'Quantidade',
+    'quantity_placeholder' => 'Digite o número de cupons',
+    'discount_amount' => 'Valor do desconto',
+    'total' => 'Total',
+    'toggle_coupon_form_text' => 'Você tem um código de cupom?',
+    'apply_coupon_code' => 'Aplicar',
+    'form' => [
+        'create' => 'Criar novo cupom',
+        'edit' => 'Editar ":name"',
+    ],
+    'coupon_invalid' => 'Este cupom é inválido!',
+    'applied_coupon_successfully' => 'Cupom ":code" aplicado com sucesso!',
+    'coupon_not_used_yet' => 'Este cupom ainda não foi usado!',
+    'removed_coupon_successfully' => 'Cupom :code removido com sucesso!',
+
+    'coupon_code_with_value' => 'Código do cupom: :code',
+    'remove' => 'Remover',
+];

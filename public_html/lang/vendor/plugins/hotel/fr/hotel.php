@@ -1,0 +1,61 @@
+<?php
+
+return [
+    'name' => 'Hôtel',
+    'booking_name' => 'Nom de réservation',
+    'booking_email' => 'Email de réservation',
+    'booking_phone' => 'Téléphone de réservation',
+    'booking_address' => 'Adresse de réservation',
+    'booking_request' => 'Demande de réservation',
+    'booking_link' => 'Lien de réservation',
+    'booking_date' => 'Date de réservation',
+    'booking_status' => 'Statut de réservation',
+    'reviews' => 'Avis',
+    'rooms' => 'Chambres',
+    'edit_this_room' => 'Modifier cette chambre',
+    'room_not_available' => 'Cette chambre n\'est pas disponible pour une réservation du :start_date au :end_date!',
+    'booking' => 'Réservation',
+    'booking_successful' => 'Réservation réussie!',
+    'booking_information' => 'Informations de Réservation',
+    'checkout_error' => 'Erreur de paiement!',
+    'shortcodes' => [
+        'title' => 'Titre',
+        'choose_services' => 'Choisir les Services',
+        'choose_places' => 'Choisir les Lieux',
+    ],
+
+    'login_form' => 'Formulaire de Connexion',
+    'register_form' => 'Formulaire d\'Inscription',
+    'forgot_password_form' => 'Formulaire de Mot de Passe Oublié',
+    'reset_password_form' => 'Formulaire de Réinitialisation de Mot de Passe',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'Bonjour, merci d\'avoir réservé des chambres depuis :site_title:',
+            'field_name' => 'De',
+            'field_email' => 'Email',
+            'field_phone' => 'Téléphone',
+            'field_address' => 'Adresse',
+            'field_request' => 'Message',
+            'view_booking_detail' => 'Voir les détails de la réservation',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'Bonjour, il y a une nouvelle réservation de :site_title:',
+            'field_name' => 'De',
+            'field_email' => 'Email',
+            'field_phone' => 'Téléphone',
+            'field_address' => 'Adresse',
+            'field_request' => 'Message',
+            'view_booking_detail' => 'Voir les détails de la réservation',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'Bonjour, merci d\'avoir réservé des chambres depuis :site_title:',
+            'message' => 'Nous espérons que ce message vous trouve bien. Nous voulions vous informer qu\'il y a eu une mise à jour récente concernant votre réservation chez nous. Le statut de votre réservation a changé et nous voulions vous tenir au courant.',
+            'booking_details_title' => 'Détails de la Réservation',
+            'field_name' => 'Nom',
+            'field_date_of_booking' => 'Date de Réservation',
+            'view_booking_detail' => 'Voir les détails de la réservation',
+            'new_booking_status' => 'Nouveau Statut de Réservation',
+        ],
+    ],
+];

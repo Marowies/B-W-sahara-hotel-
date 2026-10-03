@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'name' => 'Kuponi',
+    'intro' => [
+        'button_text' => 'Kreiraj kupon',
+        'title' => 'Upravljaj kodovima kupona',
+        'description' => 'Kreiraj i upravljaj kodovima kupona za svoje goste.',
+    ],
+    'types' => [
+        'percentage' => 'Procenat',
+        'fixed' => 'Fiksno',
+    ],
+    'type' => 'Tip',
+    'created_message' => 'Kupon je uspešno kreiran.',
+    'expires_date' => 'Datum isteka',
+    'expires_time' => 'Vreme isteka',
+    'never_expired' => 'Nikada ne ističe',
+    'save_button' => 'Sačuvaj',
+    'coupon_code' => 'Kod kupona',
+    'coupon_code_placeholder' => 'Unesite kod kupona',
+    'generate_code_button' => 'Generiši kod',
+    'value' => 'Vrednost',
+    'value_placeholder' => 'Unesite vrednost kupona',
+    'value_off' => ':value popusta',
+    'total_used' => 'Iskorišćeno',
+    'expired' => 'Isteklo',
+    'active' => 'Aktivno',
+    'unlimited' => 'Neograničen kupon',
+    'quantity' => 'Količina',
+    'quantity_placeholder' => 'Unesite broj kupona',
+    'discount_amount' => 'Iznos popusta',
+    'total' => 'Ukupno',
+    'toggle_coupon_form_text' => 'Imate kod kupona?',
+    'apply_coupon_code' => 'Primeni',
+    'form' => [
+        'create' => 'Kreiraj novi kupon',
+        'edit' => 'Izmeni ":name"',
+    ],
+    'coupon_invalid' => 'Ovaj kupon je nevažeći!',
+    'applied_coupon_successfully' => 'Kupon ":code" uspešno primenjen!',
+    'coupon_not_used_yet' => 'Ovaj kupon još nije korišćen!',
+    'removed_coupon_successfully' => 'Kupon :code uspešno uklonjen!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

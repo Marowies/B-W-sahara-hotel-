@@ -1,0 +1,47 @@
+<?php
+
+return [
+        'name' => 'Kortingsbonnen',
+        'intro' => [
+            'button_text' => 'Kortingsbon aanmaken',
+            'title' => 'Beheer kortingsbonnen',
+            'description' => 'Maak en beheer kortingsbonnen voor uw klanten.',
+        ],
+        'types' => [
+            'percentage' => 'Percentage',
+            'fixed' => 'Vast bedrag',
+        ],
+        'type' => 'Type',
+        'created_message' => 'Kortingsbon is succesvol aangemaakt.',
+        'expires_date' => 'Vervaldatum',
+        'expires_time' => 'Vervaltijd',
+        'never_expired' => 'Nooit verlopen',
+        'save_button' => 'Opslaan',
+        'coupon_code' => 'Kortingscode',
+        'coupon_code_placeholder' => 'Voer kortingscode in',
+        'generate_code_button' => 'Genereer code',
+        'value' => 'Waarde',
+        'value_placeholder' => 'Voer kortingswaarde in',
+        'value_off' => ':value korting',
+        'total_used' => 'Gebruikt',
+        'expired' => 'Verlopen',
+        'active' => 'Actief',
+        'unlimited' => 'Onbeperkte kortingsbon',
+        'quantity' => 'Aantal',
+        'quantity_placeholder' => 'Voer aantal kortingsbonnen in',
+        'discount_amount' => 'Kortingsbedrag',
+        'total' => 'Totaal',
+        'toggle_coupon_form_text' => 'Heeft u een kortingscode?',
+        'apply_coupon_code' => 'Toepassen',
+        'form' => [
+            'create' => 'Nieuwe kortingsbon aanmaken',
+            'edit' => '":name" bewerken',
+        ],
+    'coupon_invalid' => 'This coupon is invalid!',
+    'applied_coupon_successfully' => 'Applied coupon ":code" successfully!',
+    'coupon_not_used_yet' => 'This coupon is not used yet!',
+    'removed_coupon_successfully' => 'Removed coupon :code successfully!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

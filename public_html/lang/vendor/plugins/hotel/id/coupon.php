@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'name' => 'Kupon',
+    'intro' => [
+        'button_text' => 'Buat kupon',
+        'title' => 'Kelola kode kupon',
+        'description' => 'Buat dan kelola kode kupon untuk pelanggan Anda.',
+    ],
+    'types' => [
+        'percentage' => 'Persentase',
+        'fixed' => 'Tetap',
+    ],
+    'type' => 'Tipe',
+    'created_message' => 'Kupon telah berhasil dibuat.',
+    'expires_date' => 'Tanggal kedaluwarsa',
+    'expires_time' => 'Waktu kedaluwarsa',
+    'never_expired' => 'Tidak pernah kedaluwarsa',
+    'save_button' => 'Simpan',
+    'coupon_code' => 'Kode kupon',
+    'coupon_code_placeholder' => 'Masukkan kode kupon',
+    'generate_code_button' => 'Hasilkan kode',
+    'value' => 'Nilai',
+    'value_placeholder' => 'Masukkan nilai kupon',
+    'value_off' => 'Diskon :value',
+    'total_used' => 'Digunakan',
+    'expired' => 'Kedaluwarsa',
+    'active' => 'Aktif',
+    'unlimited' => 'Kupon tidak terbatas',
+    'quantity' => 'Jumlah',
+    'quantity_placeholder' => 'Masukkan jumlah kupon',
+    'discount_amount' => 'Jumlah diskon',
+    'total' => 'Total',
+    'toggle_coupon_form_text' => 'Anda memiliki kode kupon?',
+    'apply_coupon_code' => 'Terapkan',
+    'form' => [
+        'create' => 'Buat kupon baru',
+        'edit' => 'Edit ":name"',
+    ],
+    'coupon_invalid' => 'Kupon ini tidak valid!',
+    'applied_coupon_successfully' => 'Kupon ":code" berhasil diterapkan!',
+    'coupon_not_used_yet' => 'Kupon ini belum digunakan!',
+    'removed_coupon_successfully' => 'Kupon :code berhasil dihapus!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

@@ -1,0 +1,92 @@
+<?php
+
+return [
+    'name' => 'iCal 同步',
+    'sync_calendars' => '同步日曆',
+    'sync_all_calendars' => '同步所有日曆',
+    'external_calendars' => '外部日曆',
+    'last_sync' => '最後同步',
+    'never' => '從未',
+    'sync' => '同步',
+    'download' => '下載',
+    'edit' => '編輯 :name 的 iCal',
+    'calendar_name' => '日曆名稱',
+    'calendar_name_placeholder' => '輸入日曆名稱',
+    'calendar_url' => '日曆網址',
+    'calendar_url_placeholder' => '輸入日曆網址（例如：來自 Booking.com、Airbnb 等）',
+    'existing_calendars' => '現有日曆',
+    'export_calendar' => '匯出日曆',
+    'export_url' => '匯出網址',
+    'export_description' => '使用此網址將您的預訂匯出至 Booking.com、Airbnb 等外部平台。',
+    'download_ical_file' => '下載 iCal 檔案',
+    'sync_success' => '成功同步 :success 個日曆。失敗：:failed',
+    'sync_all_success' => '成功同步 :success 個日曆。失敗：:failed',
+
+    // Logs
+    'logs' => 'iCal 同步記錄',
+    'log_details' => '同步記錄 #:id',
+    'message' => '訊息',
+    'data' => '資料',
+    'calendar' => '日曆',
+    'all_calendars' => '所有日曆',
+    'clear_logs' => '清除所有記錄',
+    'clear_logs_confirm' => '您確定要清除所有記錄嗎？',
+    'logs_cleared' => '所有記錄已成功清除',
+
+    // Status
+    'status_success' => '成功',
+    'status_warning' => '警告',
+    'status_error' => '錯誤',
+
+    // Email
+    'email' => [
+        'subject' => 'iCal 同步失敗警報',
+        'greeting' => '您好，',
+        'message' => '我們偵測到您的酒店預訂系統的 iCal 同步出現問題。',
+        'details' => '錯誤詳情',
+        'time' => '時間',
+        'error' => '錯誤訊息',
+        'action' => '請檢查您的 iCal 同步設定，並確保所有外部日曆網址正確且可存取。',
+        'view_logs' => '查看同步記錄',
+        'closing' => '感謝您的關注。',
+        'footer' => '這是來自 :site_name 的自動訊息。',
+    ],
+
+    // Documentation
+    'documentation' => 'iCal 同步文件',
+    'documentation_title' => '如何使用 iCal 同步',
+    'what_is_ical' => '什麼是 iCal 同步？',
+    'what_is_ical_desc' => 'iCal（或 iCalendar）是日曆資料交換的標準格式。iCal 同步功能允許您將酒店客房預訂與 Booking.com、Airbnb 和其他支援 iCal 的預訂系統等外部平台同步。',
+
+    'export_bookings' => '匯出您的預訂',
+    'export_bookings_desc' => '您可以將酒店預訂匯出至外部平台，以防止重複預訂。',
+    'export_step1_title' => '前往 iCal 同步頁面',
+    'export_step1_desc' => '在管理面板中導航至「預訂」>「iCal 同步」。',
+    'export_step2_title' => '找到您要匯出的客房',
+    'export_step2_desc' => '點擊您要匯出預訂的客房的「編輯」。',
+    'export_step3_title' => '複製匯出網址或下載 iCal 檔案',
+    'export_step3_desc' => '複製提供的匯出網址或下載 iCal 檔案。按照外部平台（Booking.com、Airbnb 等）的指示將此網址新增至您的外部平台以匯入 iCal 來源。',
+
+    'import_bookings' => '匯入外部預訂',
+    'import_bookings_desc' => '您可以從外部平台匯入預訂，以防止系統中的重複預訂。',
+    'import_step1_title' => '從外部平台取得 iCal 網址',
+    'import_step1_desc' => '登入您的外部平台（Booking.com、Airbnb 等），找到將日曆匯出為 iCal 的選項。複製提供的網址。',
+    'import_step2_title' => '前往 iCal 同步頁面',
+    'import_step2_desc' => '在管理面板中導航至「預訂」>「iCal 同步」。',
+    'import_step3_title' => '新增外部日曆',
+    'import_step3_desc' => '點擊您要匯入預訂的客房的「編輯」。輸入日曆名稱（例如「Booking.com」）並貼上您先前複製的 iCal 網址。',
+    'import_step4_title' => '同步日曆',
+    'import_step4_desc' => '點擊「同步」以手動同步日曆，或等待自動同步執行。',
+
+    'sync_logs' => 'iCal 同步記錄',
+    'sync_logs_desc' => '系統會保留所有同步活動的詳細記錄。您可以透過點擊 iCal 同步頁面中的「同步記錄」來查看這些記錄。這有助於您排解同步的任何問題。',
+
+    'troubleshooting' => '故障排除',
+    'troubleshooting_desc' => '以下是一些常見問題及其解決方案：',
+    'faq1_title' => '外部日曆無法同步',
+    'faq1_desc' => '確保網址正確且可存取。某些平台需要您登入才能存取 iCal 來源。嘗試直接從網址下載 iCal 檔案以驗證其有效性。',
+    'faq2_title' => '預訂之間存在衝突',
+    'faq2_desc' => '系統會偵測預訂之間的衝突並記錄下來。您可以在同步記錄中查看這些衝突。您需要透過調整其中一個系統中的預訂來手動解決這些衝突。',
+    'faq3_title' => '自動同步無法運作',
+    'faq3_desc' => '確保您伺服器的 cron 工作已正確設定。系統使用 Laravel 的調度程式每小時執行同步命令。您也可以透過點擊 iCal 同步頁面中的「同步」或「同步所有日曆」來手動執行同步。',
+];

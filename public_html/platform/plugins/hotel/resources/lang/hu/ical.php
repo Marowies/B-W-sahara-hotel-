@@ -1,0 +1,92 @@
+<?php
+
+return [
+    'name' => 'iCal szinkronizálás',
+    'sync_calendars' => 'Naptárak szinkronizálása',
+    'sync_all_calendars' => 'Összes naptár szinkronizálása',
+    'external_calendars' => 'Külső naptárak',
+    'last_sync' => 'Utolsó szinkronizálás',
+    'never' => 'Soha',
+    'sync' => 'Szinkronizálás',
+    'download' => 'Letöltés',
+    'edit' => 'iCal szerkesztése: :name',
+    'calendar_name' => 'Naptár neve',
+    'calendar_name_placeholder' => 'Adja meg a naptár nevét',
+    'calendar_url' => 'Naptár URL',
+    'calendar_url_placeholder' => 'Adja meg a naptár URL-t (pl. Booking.com, Airbnb, stb.)',
+    'existing_calendars' => 'Meglévő naptárak',
+    'export_calendar' => 'Naptár exportálása',
+    'export_url' => 'Export URL',
+    'export_description' => 'Használja ezt az URL-t a foglalások külső platformokra való exportálásához, mint például Booking.com, Airbnb, stb.',
+    'download_ical_file' => 'iCal fájl letöltése',
+    'sync_success' => 'Sikeresen szinkronizálva :success naptár. Sikertelen: :failed',
+    'sync_all_success' => 'Sikeresen szinkronizálva :success naptár. Sikertelen: :failed',
+
+    // Logs
+    'logs' => 'iCal szinkronizálási naplók',
+    'log_details' => 'Szinkronizálási napló #:id',
+    'message' => 'Üzenet',
+    'data' => 'Adatok',
+    'calendar' => 'Naptár',
+    'all_calendars' => 'Összes naptár',
+    'clear_logs' => 'Összes napló törlése',
+    'clear_logs_confirm' => 'Biztosan törölni szeretné az összes naplót?',
+    'logs_cleared' => 'Minden napló sikeresen törölve',
+
+    // Status
+    'status_success' => 'Sikeres',
+    'status_warning' => 'Figyelmeztetés',
+    'status_error' => 'Hiba',
+
+    // Email
+    'email' => [
+        'subject' => 'iCal szinkronizálási hiba riasztás',
+        'greeting' => 'Üdvözöljük!',
+        'message' => 'Problémát észleltünk a szállodai foglalási rendszer iCal szinkronizálásában.',
+        'details' => 'Hiba részletei',
+        'time' => 'Időpont',
+        'error' => 'Hibaüzenet',
+        'action' => 'Kérjük, ellenőrizze az iCal szinkronizálási beállításokat, és győződjön meg arról, hogy minden külső naptár URL helyes és elérhető.',
+        'view_logs' => 'Szinkronizálási naplók megtekintése',
+        'closing' => 'Köszönjük figyelmét.',
+        'footer' => 'Ez egy automatikus üzenet a következőtől: :site_name.',
+    ],
+
+    // Documentation
+    'documentation' => 'iCal szinkronizálás dokumentáció',
+    'documentation_title' => 'Hogyan használja az iCal szinkronizálást',
+    'what_is_ical' => 'Mi az iCal szinkronizálás?',
+    'what_is_ical_desc' => 'Az iCal (vagy iCalendar) egy szabványos formátum naptáradatok cseréjéhez. Az iCal szinkronizálás funkció lehetővé teszi a szállodai szobafoglalások szinkronizálását külső platformokkal, mint például Booking.com, Airbnb és más iCalt támogató foglalási rendszerekkel.',
+
+    'export_bookings' => 'Foglalások exportálása',
+    'export_bookings_desc' => 'Exportálhatja szállodai foglalásait külső platformokra a kettős foglalások elkerülése érdekében.',
+    'export_step1_title' => 'Lépjen az iCal szinkronizálás oldalra',
+    'export_step1_desc' => 'Navigáljon a Foglalás > iCal szinkronizálás menüpontra az adminisztrációs felületen.',
+    'export_step2_title' => 'Keresse meg az exportálni kívánt szobát',
+    'export_step2_desc' => 'Kattintson a "Szerkesztés" gombra annál a szobánál, amelyhez foglalásokat szeretne exportálni.',
+    'export_step3_title' => 'Másolja ki az export URL-t vagy töltse le az iCal fájlt',
+    'export_step3_desc' => 'Másolja ki a megadott export URL-t vagy töltse le az iCal fájlt. Adja hozzá ezt az URL-t a külső platformhoz (Booking.com, Airbnb, stb.) az iCal feedek importálására vonatkozó utasításaikat követve.',
+
+    'import_bookings' => 'Külső foglalások importálása',
+    'import_bookings_desc' => 'Importálhat foglalásokat külső platformokról a rendszerében lévő kettős foglalások elkerülése érdekében.',
+    'import_step1_title' => 'Szerezze be az iCal URL-t a külső platformról',
+    'import_step1_desc' => 'Jelentkezzen be a külső platformra (Booking.com, Airbnb, stb.) és keresse meg a naptár iCal-ként való exportálásának lehetőségét. Másolja ki a megadott URL-t.',
+    'import_step2_title' => 'Lépjen az iCal szinkronizálás oldalra',
+    'import_step2_desc' => 'Navigáljon a Foglalás > iCal szinkronizálás menüpontra az adminisztrációs felületen.',
+    'import_step3_title' => 'Adja hozzá a külső naptárt',
+    'import_step3_desc' => 'Kattintson a "Szerkesztés" gombra annál a szobánál, amelyhez foglalásokat szeretne importálni. Adjon meg egy nevet a naptárhoz (pl. "Booking.com") és illessze be a korábban kimásolt iCal URL-t.',
+    'import_step4_title' => 'Szinkronizálja a naptárt',
+    'import_step4_desc' => 'Kattintson a "Szinkronizálás" gombra a naptár manuális szinkronizálásához, vagy várja meg az automatikus szinkronizálást.',
+
+    'sync_logs' => 'iCal szinkronizálási naplók',
+    'sync_logs_desc' => 'A rendszer részletes naplókat vezet minden szinkronizálási tevékenységről. Ezeket a naplókat megtekintheti a "Szinkronizálási naplók" gombra kattintva az iCal szinkronizálás oldalon. Ez segít a szinkronizálással kapcsolatos problémák elhárításában.',
+
+    'troubleshooting' => 'Hibaelhárítás',
+    'troubleshooting_desc' => 'Íme néhány gyakori probléma és megoldásuk:',
+    'faq1_title' => 'A külső naptár nem szinkronizálódik',
+    'faq1_desc' => 'Győződjön meg arról, hogy az URL helyes és elérhető. Néhány platform megköveteli a bejelentkezést az iCal feed eléréséhez. Próbálja meg közvetlenül az URL-ről letölteni az iCal fájlt annak ellenőrzéséhez, hogy működik-e.',
+    'faq2_title' => 'Ütközések vannak a foglalások között',
+    'faq2_desc' => 'A rendszer észleli a foglalások közötti ütközéseket és naplózza őket. Ezeket az ütközéseket a szinkronizálási naplókban tekintheti meg. Ezeket az ütközéseket manuálisan kell megoldania az egyik rendszerben lévő foglalások módosításával.',
+    'faq3_title' => 'Az automatikus szinkronizálás nem működik',
+    'faq3_desc' => 'Győződjön meg arról, hogy a szerver cron feladatai megfelelően vannak beállítva. A rendszer a Laravel ütemezőjét használja a szinkronizálási parancs óránkénti futtatásához. A szinkronizálást manuálisan is futtathatja a "Szinkronizálás" vagy az "Összes naptár szinkronizálása" gombra kattintva az iCal szinkronizálás oldalon.',
+];

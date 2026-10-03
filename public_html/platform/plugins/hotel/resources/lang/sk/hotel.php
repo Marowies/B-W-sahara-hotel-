@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'name' => 'Hotel',
+    'booking_name' => 'Meno rezervácie',
+    'booking_email' => 'E-mail rezervácie',
+    'booking_phone' => 'Telefón rezervácie',
+    'booking_address' => 'Adresa rezervácie',
+    'booking_request' => 'Požiadavka k rezervácii',
+    'booking_link' => 'Odkaz na rezerváciu',
+    'booking_date' => 'Dátum rezervácie',
+    'booking_status' => 'Stav rezervácie',
+    'reviews' => 'Recenzie',
+    'rooms' => 'Rooms',
+    'edit_this_room' => 'Edit this room',
+    'room_not_available' => 'This room is not available for booking from :start_date to :end_date!',
+    'booking' => 'Booking',
+    'booking_successful' => 'Booking successfully!',
+    'booking_information' => 'Booking Information',
+    'checkout_error' => 'Checkout error!',
+    'shortcodes' => [
+        'title' => 'Názov',
+        'choose_services' => 'Vyberte služby',
+        'choose_places' => 'Vyberte miesta',
+    ],
+
+    'login_form' => 'Prihlasovací formulár',
+    'register_form' => 'Registračný formulár',
+    'forgot_password_form' => 'Formulár zabudnutého hesla',
+    'reset_password_form' => 'Formulár obnovenia hesla',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'Dobrý deň, ďakujeme za rezerváciu izieb na :site_title:',
+            'field_name' => 'Od',
+            'field_email' => 'E-mail',
+            'field_phone' => 'Telefón',
+            'field_address' => 'Adresa',
+            'field_request' => 'Správa',
+            'view_booking_detail' => 'Zobraziť detail rezervácie',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'Dobrý deň, je tu nová rezervácia z :site_title:',
+            'field_name' => 'Od',
+            'field_email' => 'E-mail',
+            'field_phone' => 'Telefón',
+            'field_address' => 'Adresa',
+            'field_request' => 'Správa',
+            'view_booking_detail' => 'Zobraziť detail rezervácie',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'Dobrý deň, ďakujeme za rezerváciu izieb na :site_title:',
+            'message' => 'Dúfame, že vás táto správa zastihne v dobrom zdraví. Chceli sme vás informovať, že došlo k aktualizácii vašej rezervácie u nás. Stav vašej rezervácie sa zmenil a chceli sme vás o tom informovať.',
+            'booking_details_title' => 'Detaily rezervácie',
+            'field_name' => 'Meno',
+            'field_date_of_booking' => 'Dátum rezervácie',
+            'view_booking_detail' => 'Zobraziť detail rezervácie',
+            'new_booking_status' => 'Nový stav rezervácie',
+        ],
+    ],
+    'room_not_available' => 'Táto izba nie je k dispozícii na rezerváciu od :start_date do :end_date!',
+];

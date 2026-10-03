@@ -1,0 +1,92 @@
+<?php
+
+return [
+    'name' => 'iCal sinhronizācija',
+    'sync_calendars' => 'Sinhronizēt kalendārus',
+    'sync_all_calendars' => 'Sinhronizēt visus kalendārus',
+    'external_calendars' => 'Ārējie kalendāri',
+    'last_sync' => 'Pēdējā sinhronizācija',
+    'never' => 'Nekad',
+    'sync' => 'Sinhronizēt',
+    'download' => 'Lejupielādēt',
+    'edit' => 'Rediģēt iCal priekš :name',
+    'calendar_name' => 'Kalendāra nosaukums',
+    'calendar_name_placeholder' => 'Ievadiet kalendāra nosaukumu',
+    'calendar_url' => 'Kalendāra URL',
+    'calendar_url_placeholder' => 'Ievadiet kalendāra URL (piemēram, no Booking.com, Airbnb utt.)',
+    'existing_calendars' => 'Esošie kalendāri',
+    'export_calendar' => 'Eksportēt kalendāru',
+    'export_url' => 'Eksporta URL',
+    'export_description' => 'Izmantojiet šo URL, lai eksportētu savas rezervācijas uz ārējām platformām, piemēram, Booking.com, Airbnb utt.',
+    'download_ical_file' => 'Lejupielādēt iCal failu',
+    'sync_success' => 'Veiksmīgi sinhronizēti :success kalendāri. Neizdevušies: :failed',
+    'sync_all_success' => 'Veiksmīgi sinhronizēti :success kalendāri. Neizdevušies: :failed',
+
+    // Logs
+    'logs' => 'iCal sinhronizācijas žurnāli',
+    'log_details' => 'Sinhronizācijas žurnāls #:id',
+    'message' => 'Ziņojums',
+    'data' => 'Dati',
+    'calendar' => 'Kalendārs',
+    'all_calendars' => 'Visi kalendāri',
+    'clear_logs' => 'Notīrīt visus žurnālus',
+    'clear_logs_confirm' => 'Vai tiešām vēlaties notīrīt visus žurnālus?',
+    'logs_cleared' => 'Visi žurnāli ir veiksmīgi notīrīti',
+
+    // Status
+    'status_success' => 'Veiksmīgi',
+    'status_warning' => 'Brīdinājums',
+    'status_error' => 'Kļūda',
+
+    // Email
+    'email' => [
+        'subject' => 'iCal sinhronizācijas kļūdas brīdinājums',
+        'greeting' => 'Sveiki!',
+        'message' => 'Mēs konstatējām problēmu ar iCal sinhronizāciju jūsu viesnīcas rezervāciju sistēmā.',
+        'details' => 'Kļūdas informācija',
+        'time' => 'Laiks',
+        'error' => 'Kļūdas ziņojums',
+        'action' => 'Lūdzu, pārbaudiet savus iCal sinhronizācijas iestatījumus un pārliecinieties, ka visi ārējo kalendāru URL ir pareizi un pieejami.',
+        'view_logs' => 'Skatīt sinhronizācijas žurnālus',
+        'closing' => 'Paldies par jūsu uzmanību šim jautājumam.',
+        'footer' => 'Šis ir automātisks ziņojums no :site_name.',
+    ],
+
+    // Documentation
+    'documentation' => 'iCal sinhronizācijas dokumentācija',
+    'documentation_title' => 'Kā izmantot iCal sinhronizāciju',
+    'what_is_ical' => 'Kas ir iCal sinhronizācija?',
+    'what_is_ical_desc' => 'iCal (vai iCalendar) ir standarta formāts kalendāra datu apmaiņai. iCal sinhronizācijas funkcija ļauj sinhronizēt jūsu viesnīcas istabu rezervācijas ar ārējām platformām, piemēram, Booking.com, Airbnb un citām rezervāciju sistēmām, kas atbalsta iCal.',
+
+    'export_bookings' => 'Rezervāciju eksportēšana',
+    'export_bookings_desc' => 'Jūs varat eksportēt savas viesnīcas rezervācijas uz ārējām platformām, lai novērstu dubultu rezervāciju.',
+    'export_step1_title' => 'Dodieties uz iCal sinhronizācijas lapu',
+    'export_step1_desc' => 'Atveriet Rezervācijas > iCal sinhronizācija administratora panelī.',
+    'export_step2_title' => 'Atrodiet istabu, kuru vēlaties eksportēt',
+    'export_step2_desc' => 'Noklikšķiniet uz "Rediģēt" istabu, kuras rezervācijas vēlaties eksportēt.',
+    'export_step3_title' => 'Nokopējiet eksporta URL vai lejupielādējiet iCal failu',
+    'export_step3_desc' => 'Nokopējiet norādīto eksporta URL vai lejupielādējiet iCal failu. Pievienojiet šo URL savai ārējai platformai (Booking.com, Airbnb utt.), sekojot viņu norādījumiem iCal plūsmu importēšanai.',
+
+    'import_bookings' => 'Ārējo rezervāciju importēšana',
+    'import_bookings_desc' => 'Jūs varat importēt rezervācijas no ārējām platformām, lai novērstu dubultu rezervāciju savā sistēmā.',
+    'import_step1_title' => 'Iegūstiet iCal URL no savas ārējās platformas',
+    'import_step1_desc' => 'Piesakieties savā ārējā platformā (Booking.com, Airbnb utt.) un atrodiet opciju eksportēt kalendāru kā iCal. Nokopējiet norādīto URL.',
+    'import_step2_title' => 'Dodieties uz iCal sinhronizācijas lapu',
+    'import_step2_desc' => 'Atveriet Rezervācijas > iCal sinhronizācija administratora panelī.',
+    'import_step3_title' => 'Pievienojiet ārējo kalendāru',
+    'import_step3_desc' => 'Noklikšķiniet uz "Rediģēt" istabu, kuras rezervācijas vēlaties importēt. Ievadiet kalendāra nosaukumu (piemēram, "Booking.com") un ielīmējiet iepriekš nokopēto iCal URL.',
+    'import_step4_title' => 'Sinhronizējiet kalendāru',
+    'import_step4_desc' => 'Noklikšķiniet uz "Sinhronizēt", lai manuāli sinhronizētu kalendāru, vai gaidiet, kamēr automātiskā sinhronizācija darbojas.',
+
+    'sync_logs' => 'iCal sinhronizācijas žurnāli',
+    'sync_logs_desc' => 'Sistēma saglabā detalizētus žurnālus par visām sinhronizācijas darbībām. Jūs varat skatīt šos žurnālus, noklikšķinot uz "Sinhronizācijas žurnāli" iCal sinhronizācijas lapā. Tas palīdz novērst jebkādas problēmas ar sinhronizāciju.',
+
+    'troubleshooting' => 'Problēmu novēršana',
+    'troubleshooting_desc' => 'Šeit ir dažas biežāk sastopamās problēmas un to risinājumi:',
+    'faq1_title' => 'Ārējais kalendārs nesinhronizējas',
+    'faq1_desc' => 'Pārliecinieties, ka URL ir pareizs un pieejams. Dažas platformas pieprasa, lai jūs būtu pieteicies, lai piekļūtu iCal plūsmai. Mēģiniet lejupielādēt iCal failu tieši no URL, lai pārbaudītu, vai tas darbojas.',
+    'faq2_title' => 'Ir konflikti starp rezervācijām',
+    'faq2_desc' => 'Sistēma atklās konfliktus starp rezervācijām un tos reģistrēs. Jūs varat skatīt šos konfliktus sinhronizācijas žurnālos. Jums būs manuāli jāatrisina šie konflikti, pielāgojot rezervācijas vienā no sistēmām.',
+    'faq3_title' => 'Automātiskā sinhronizācija nedarbojas',
+    'faq3_desc' => 'Pārliecinieties, ka jūsu servera cron darbi ir iestatīti pareizi. Sistēma izmanto Laravel plānotāju, lai palaistu sinhronizācijas komandu katru stundu. Jūs varat arī palaist sinhronizāciju manuāli, noklikšķinot uz "Sinhronizēt" vai "Sinhronizēt visus kalendārus" iCal sinhronizācijas lapā.',
+];

@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'create' => 'إنشاء معرض جديد',
+    'galleries' => 'المعارض',
+    'item' => 'عنصر المعرض',
+    'select_image' => 'اختيار الصور',
+    'reset' => 'إعادة تعيين المعرض',
+    'update_photo_description' => 'تحديث وصف الصورة',
+    'update_photo_description_placeholder' => 'وصف الصورة...',
+    'delete_photo' => 'حذف هذه الصورة',
+    'gallery_box' => 'صور المعرض',
+    'by' => 'بواسطة',
+    'menu_name' => 'المعارض',
+    'gallery_images' => 'صور المعرض',
+    'add_gallery_short_code' => 'إضافة معرض',
+    'shortcode_name' => 'صور المعرض',
+    'limit_display' => 'الحد من عدد العرض',
+    'edit_this_gallery' => 'تعديل هذا المعرض',
+    'galleries_page' => 'صفحة المعارض',
+    'by_name' => 'بواسطة :name',
+    'title' => 'العنوان',
+    'limit' => 'الحد الأقصى',
+    'limit_helper' => 'عدد المعارض التي سيتم عرضها. عيّنه إلى 0 أو اتركه فارغًا لعرض الكل. سيتم تجاوزه إذا حددت معارض أدناه.',
+];

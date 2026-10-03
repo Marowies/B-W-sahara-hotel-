@@ -1,0 +1,92 @@
+<?php
+
+return [
+    'name' => 'iCal Sync',
+    'sync_calendars' => 'I-sync ang mga Kalendaryo',
+    'sync_all_calendars' => 'I-sync ang Lahat ng Kalendaryo',
+    'external_calendars' => 'Mga Panlabas na Kalendaryo',
+    'last_sync' => 'Huling Pag-sync',
+    'never' => 'Hindi pa',
+    'sync' => 'I-sync',
+    'download' => 'I-download',
+    'edit' => 'Baguhin ang iCal para sa :name',
+    'calendar_name' => 'Pangalan ng Kalendaryo',
+    'calendar_name_placeholder' => 'Ilagay ang pangalan ng kalendaryo',
+    'calendar_url' => 'URL ng Kalendaryo',
+    'calendar_url_placeholder' => 'Ilagay ang URL ng kalendaryo (hal., mula sa Booking.com, Airbnb, atbp.)',
+    'existing_calendars' => 'Mga Umiiral na Kalendaryo',
+    'export_calendar' => 'I-export ang Kalendaryo',
+    'export_url' => 'URL para sa Pag-export',
+    'export_description' => 'Gamitin ang URL na ito para i-export ang inyong mga booking sa mga panlabas na platform tulad ng Booking.com, Airbnb, atbp.',
+    'download_ical_file' => 'I-download ang iCal File',
+    'sync_success' => 'Matagumpay na na-sync ang :success na kalendaryo. Nabigo: :failed',
+    'sync_all_success' => 'Matagumpay na na-sync ang :success na kalendaryo. Nabigo: :failed',
+
+    // Logs
+    'logs' => 'Mga Log ng iCal Sync',
+    'log_details' => 'Log ng Pag-sync #:id',
+    'message' => 'Mensahe',
+    'data' => 'Data',
+    'calendar' => 'Kalendaryo',
+    'all_calendars' => 'Lahat ng Kalendaryo',
+    'clear_logs' => 'Burahin ang Lahat ng Log',
+    'clear_logs_confirm' => 'Sigurado ka bang gusto mong burahin ang lahat ng log?',
+    'logs_cleared' => 'Matagumpay na nabura ang lahat ng log',
+
+    // Status
+    'status_success' => 'Matagumpay',
+    'status_warning' => 'Babala',
+    'status_error' => 'Error',
+
+    // Email
+    'email' => [
+        'subject' => 'Alerto ng Pagkabigo ng iCal Sync',
+        'greeting' => 'Kumusta,',
+        'message' => 'Nakita namin ang isang problema sa iCal synchronization para sa inyong hotel booking system.',
+        'details' => 'Mga Detalye ng Error',
+        'time' => 'Oras',
+        'error' => 'Mensahe ng Error',
+        'action' => 'Pakisuri ang inyong mga setting ng iCal sync at siguraduhing tama at accessible ang lahat ng external calendar URL.',
+        'view_logs' => 'Tingnan ang mga Log ng Pag-sync',
+        'closing' => 'Salamat sa inyong pansin sa bagay na ito.',
+        'footer' => 'Ito ay isang automated na mensahe mula sa :site_name.',
+    ],
+
+    // Documentation
+    'documentation' => 'Dokumentasyon ng iCal Sync',
+    'documentation_title' => 'Paano Gamitin ang iCal Sync',
+    'what_is_ical' => 'Ano ang iCal Sync?',
+    'what_is_ical_desc' => 'Ang iCal (o iCalendar) ay isang karaniwang format para sa pagpapalitan ng data ng kalendaryo. Ang feature ng iCal Sync ay nagbibigay-daan sa inyo na i-synchronize ang inyong mga booking ng hotel room sa mga panlabas na platform tulad ng Booking.com, Airbnb, at iba pang booking system na sumusuporta sa iCal.',
+
+    'export_bookings' => 'Pag-export ng Inyong mga Booking',
+    'export_bookings_desc' => 'Maaari ninyong i-export ang inyong mga hotel booking sa mga panlabas na platform upang maiwasan ang double booking.',
+    'export_step1_title' => 'Pumunta sa pahina ng iCal Sync',
+    'export_step1_desc' => 'Mag-navigate sa Booking > iCal Sync sa admin panel.',
+    'export_step2_title' => 'Hanapin ang silid na gusto ninyong i-export',
+    'export_step2_desc' => 'I-click ang "Edit" para sa silid na gusto ninyong i-export ang mga booking.',
+    'export_step3_title' => 'Kopyahin ang export URL o i-download ang iCal file',
+    'export_step3_desc' => 'Kopyahin ang ibinigay na export URL o i-download ang iCal file. Idagdag ang URL na ito sa inyong panlabas na platform (Booking.com, Airbnb, atbp.) ayon sa kanilang mga tagubilin para sa pag-import ng iCal feed.',
+
+    'import_bookings' => 'Pag-import ng mga Panlabas na Booking',
+    'import_bookings_desc' => 'Maaari ninyong i-import ang mga booking mula sa mga panlabas na platform upang maiwasan ang double booking sa inyong sistema.',
+    'import_step1_title' => 'Kunin ang iCal URL mula sa inyong panlabas na platform',
+    'import_step1_desc' => 'Mag-log in sa inyong panlabas na platform (Booking.com, Airbnb, atbp.) at hanapin ang opsyon na mag-export ng kalendaryo bilang iCal. Kopyahin ang ibinigay na URL.',
+    'import_step2_title' => 'Pumunta sa pahina ng iCal Sync',
+    'import_step2_desc' => 'Mag-navigate sa Booking > iCal Sync sa admin panel.',
+    'import_step3_title' => 'Idagdag ang panlabas na kalendaryo',
+    'import_step3_desc' => 'I-click ang "Edit" para sa silid na gusto ninyong mag-import ng mga booking. Ilagay ang pangalan para sa kalendaryo (hal., "Booking.com") at i-paste ang iCal URL na kinopya ninyo kanina.',
+    'import_step4_title' => 'I-sync ang kalendaryo',
+    'import_step4_desc' => 'I-click ang "Sync" para manu-manong i-sync ang kalendaryo o maghintay para sa automatic sync na tumakbo.',
+
+    'sync_logs' => 'Mga Log ng iCal Sync',
+    'sync_logs_desc' => 'Ang sistema ay nag-iimbak ng detalyadong mga log ng lahat ng aktibidad ng synchronization. Maaari ninyong tingnan ang mga log na ito sa pamamagitan ng pag-click sa "Sync Logs" sa pahina ng iCal Sync. Tumutulong ito sa inyo na malutas ang anumang mga isyu sa synchronization.',
+
+    'troubleshooting' => 'Paglutas ng Problema',
+    'troubleshooting_desc' => 'Narito ang ilang karaniwang problema at ang kanilang mga solusyon:',
+    'faq1_title' => 'Hindi nag-sync ang panlabas na kalendaryo',
+    'faq1_desc' => 'Siguraduhing tama at accessible ang URL. Ang ilang platform ay nangangailangan na naka-log in kayo upang ma-access ang iCal feed. Subukan na direktang i-download ang iCal file mula sa URL upang i-verify na gumagana ito.',
+    'faq2_title' => 'May mga salungatan sa pagitan ng mga booking',
+    'faq2_desc' => 'Tutukuyin ng sistema ang mga salungatan sa pagitan ng mga booking at ila-log ang mga ito. Maaari ninyong tingnan ang mga salungatan na ito sa Sync Logs. Kailangan ninyong lutasin ang mga salungatan na ito nang manu-mano sa pamamagitan ng pag-adjust ng mga booking sa isa sa mga sistema.',
+    'faq3_title' => 'Hindi gumagana ang automatic sync',
+    'faq3_desc' => 'Siguraduhing tama ang setup ng cron job ng inyong server. Ang sistema ay gumagamit ng Laravel scheduler upang patakbuhin ang sync command bawat oras. Maaari din ninyong patakbuhin ang sync nang manu-mano sa pamamagitan ng pag-click sa "Sync" o "Sync All Calendars" sa pahina ng iCal Sync.',
+];

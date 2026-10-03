@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'create' => '创建新相册',
+    'galleries' => '相册',
+    'item' => '相册项目',
+    'select_image' => '选择图片',
+    'reset' => '重置相册',
+    'update_photo_description' => '更新图片描述',
+    'update_photo_description_placeholder' => '图片描述...',
+    'delete_photo' => '删除此图片',
+    'gallery_box' => '相册图片',
+    'by' => '作者',
+    'menu_name' => '相册',
+    'gallery_images' => '相册图片',
+    'add_gallery_short_code' => '添加相册',
+    'shortcode_name' => '相册图片',
+    'limit_display' => '限制显示数量',
+    'edit_this_gallery' => '编辑此相册',
+    'galleries_page' => '相册页面',
+    'by_name' => '作者：:name',
+    'title' => '标题',
+    'limit' => '数量限制',
+    'limit_helper' => '要显示的相册数量。设置为 0 或留空以显示全部。如果在下方选择了相册，此设置将被覆盖。',
+];

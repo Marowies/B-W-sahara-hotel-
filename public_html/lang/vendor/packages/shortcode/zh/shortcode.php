@@ -1,0 +1,35 @@
+<?php
+
+return [
+    'shortcode' => '短代码',
+    'use' => '使用',
+    'ui-blocks' => '界面组件',
+    'search' => '搜索...',
+    'no_shortcode_found' => '未找到短代码。',
+    'shortcode_not_available' => '短代码 :name 不可用或已被移除。',
+    'cache_suggestion' => [
+        'title' => '性能建议',
+        'description' => '您可以通过启用短代码缓存来提高网站性能。',
+        'benefits' => '通过缓存渲染后的短代码，可显著减少页面加载时间。',
+        'enable_button' => '启用短代码缓存',
+        'dismiss_button' => '一周内不再提示',
+    ],
+    'form' => [
+        'enable_lazy_loading' => '启用懒加载',
+        'no' => '否',
+        'yes' => '是',
+        'lazy_loading_helper' => '启用后，短代码内容将随页面加载按顺序加载，而不是一次性全部加载。这有助于改善页面加载时间。',
+        'enable_caching' => '启用缓存',
+        'caching_helper' => '启用后，此短代码内容将被缓存以提高性能。对于频繁变化的动态内容，请将其禁用。',
+        'cache_disabled_notice' => '由于界面问题，此界面组件的缓存已通过代码禁用。即使启用缓存，此短代码也不会被缓存。',
+        'lazy_loading_disabled_notice' => '此界面组件的懒加载已通过代码禁用。即使启用，此短代码也不会使用懒加载。',
+        'custom_css' => '自定义 CSS（可选）',
+        'custom_css_helper' => '请在同一行内输入您的 CSS 代码。如果包含换行将无法生效。某些特殊字符可能会被转义。',
+        'background_color' => '背景颜色（可选）',
+        'text_color' => '文本颜色（可选）',
+        'text_color_helper' => '此颜色可能会被主题覆盖。如果不起作用，请在 外观 → 自定义 CSS 中添加您的 CSS。',
+        'background_image' => '背景图片（可选）',
+        'quantity' => '数量',
+        'tab_number' => '选项卡 #:number',
+    ],
+];

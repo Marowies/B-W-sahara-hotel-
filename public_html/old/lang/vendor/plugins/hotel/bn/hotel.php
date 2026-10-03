@@ -1,0 +1,61 @@
+<?php
+
+return [
+    'name' => 'হোটেল',
+    'booking_name' => 'বুকিং নাম',
+    'booking_email' => 'বুকিং ইমেইল',
+    'booking_phone' => 'বুকিং ফোন',
+    'booking_address' => 'বুকিং ঠিকানা',
+    'booking_request' => 'বুকিং অনুরোধ',
+    'booking_link' => 'বুকিং লিঙ্ক',
+    'booking_date' => 'বুকিং তারিখ',
+    'booking_status' => 'বুকিং স্ট্যাটাস',
+    'reviews' => 'রিভিউ',
+    'rooms' => 'Rooms',
+    'edit_this_room' => 'Edit this room',
+    'room_not_available' => 'This room is not available for booking from :start_date to :end_date!',
+    'booking' => 'Booking',
+    'booking_successful' => 'Booking successfully!',
+    'booking_information' => 'Booking Information',
+    'checkout_error' => 'Checkout error!',
+    'shortcodes' => [
+        'title' => 'শিরোনাম',
+        'choose_services' => 'সেবা নির্বাচন করুন',
+        'choose_places' => 'স্থান নির্বাচন করুন',
+    ],
+
+    'login_form' => 'লগইন ফর্ম',
+    'register_form' => 'রেজিস্টার ফর্ম',
+    'forgot_password_form' => 'পাসওয়ার্ড ভুলে যাওয়া ফর্ম',
+    'reset_password_form' => 'পাসওয়ার্ড রিসেট ফর্ম',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'হ্যালো, :site_title: থেকে রুম বুক করার জন্য ধন্যবাদ',
+            'field_name' => 'থেকে',
+            'field_email' => 'ইমেইল',
+            'field_phone' => 'ফোন',
+            'field_address' => 'ঠিকানা',
+            'field_request' => 'বার্তা',
+            'view_booking_detail' => 'বুকিং বিস্তারিত দেখুন',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'হ্যালো, :site_title: থেকে একটি নতুন বুকিং রয়েছে',
+            'field_name' => 'থেকে',
+            'field_email' => 'ইমেইল',
+            'field_phone' => 'ফোন',
+            'field_address' => 'ঠিকানা',
+            'field_request' => 'বার্তা',
+            'view_booking_detail' => 'বুকিং বিস্তারিত দেখুন',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'হ্যালো, :site_title: থেকে রুম বুক করার জন্য ধন্যবাদ',
+            'message' => 'আমরা আশা করি এই বার্তাটি আপনার কাছে ভালভাবে পৌঁছাবে। আমরা আপনাকে জানাতে চাই যে আমাদের সাথে আপনার বুকিং সম্পর্কে সাম্প্রতিক একটি আপডেট হয়েছে। আপনার বুকিং স্ট্যাটাস পরিবর্তিত হয়েছে এবং আমরা আপনাকে অবগত রাখতে চেয়েছি।',
+            'booking_details_title' => 'বুকিং বিস্তারিত',
+            'field_name' => 'নাম',
+            'field_date_of_booking' => 'বুকিং তারিখ',
+            'view_booking_detail' => 'বুকিং বিস্তারিত দেখুন',
+            'new_booking_status' => 'নতুন বুকিং স্ট্যাটাস',
+        ],
+    ],
+];

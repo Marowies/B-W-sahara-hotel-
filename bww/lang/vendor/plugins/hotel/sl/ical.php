@@ -1,0 +1,92 @@
+<?php
+
+return [
+    'name' => 'iCal sinhronizacija',
+    'sync_calendars' => 'Sinhroniziraj koledarje',
+    'sync_all_calendars' => 'Sinhroniziraj vse koledarje',
+    'external_calendars' => 'Zunanji koledarji',
+    'last_sync' => 'Zadnja sinhronizacija',
+    'never' => 'Nikoli',
+    'sync' => 'Sinhroniziraj',
+    'download' => 'Prenesi',
+    'edit' => 'Uredi iCal za :name',
+    'calendar_name' => 'Ime koledarja',
+    'calendar_name_placeholder' => 'Vnesite ime koledarja',
+    'calendar_url' => 'URL koledarja',
+    'calendar_url_placeholder' => 'Vnesite URL koledarja (npr. iz Booking.com, Airbnb itd.)',
+    'existing_calendars' => 'Obstoječi koledarji',
+    'export_calendar' => 'Izvozi koledar',
+    'export_url' => 'URL za izvoz',
+    'export_description' => 'Uporabite ta URL za izvoz svojih rezervacij na zunanje platforme kot so Booking.com, Airbnb itd.',
+    'download_ical_file' => 'Prenesi iCal datoteko',
+    'sync_success' => 'Uspešno sinhronizirano :success koledarjev. Neuspešno: :failed',
+    'sync_all_success' => 'Uspešno sinhronizirano :success koledarjev. Neuspešno: :failed',
+
+    // Logs
+    'logs' => 'iCal dnevniki sinhronizacije',
+    'log_details' => 'Dnevnik sinhronizacije #:id',
+    'message' => 'Sporočilo',
+    'data' => 'Podatki',
+    'calendar' => 'Koledar',
+    'all_calendars' => 'Vsi koledarji',
+    'clear_logs' => 'Počisti vse dnevnike',
+    'clear_logs_confirm' => 'Ali ste prepričani, da želite počistiti vse dnevnike?',
+    'logs_cleared' => 'Vsi dnevniki so bili uspešno počiščeni',
+
+    // Status
+    'status_success' => 'Uspešno',
+    'status_warning' => 'Opozorilo',
+    'status_error' => 'Napaka',
+
+    // Email
+    'email' => [
+        'subject' => 'Opozorilo o napaki iCal sinhronizacije',
+        'greeting' => 'Pozdravljeni,',
+        'message' => 'Zaznali smo težavo s sinhronizacijo iCal za vaš sistem rezervacij hotela.',
+        'details' => 'Podrobnosti napake',
+        'time' => 'Čas',
+        'error' => 'Sporočilo napake',
+        'action' => 'Preverite nastavitve sinhronizacije iCal in se prepričajte, da so vsi URL-ji zunanjih koledarjev pravilni in dostopni.',
+        'view_logs' => 'Poglej dnevnike sinhronizacije',
+        'closing' => 'Hvala za vašo pozornost.',
+        'footer' => 'To je samodejno sporočilo iz :site_name.',
+    ],
+
+    // Documentation
+    'documentation' => 'iCal dokumentacija sinhronizacije',
+    'documentation_title' => 'Kako uporabljati iCal sinhronizacijo',
+    'what_is_ical' => 'Kaj je iCal sinhronizacija?',
+    'what_is_ical_desc' => 'iCal (ali iCalendar) je standardni format za izmenjavo podatkov koledarja. Funkcija sinhronizacije iCal vam omogoča sinhronizacijo rezervacij hotelskih sob z zunanjimi platformami kot so Booking.com, Airbnb in drugi sistemi rezervacij, ki podpirajo iCal.',
+
+    'export_bookings' => 'Izvoz vaših rezervacij',
+    'export_bookings_desc' => 'Svoje hotelske rezervacije lahko izvozite na zunanje platforme, da preprečite dvojne rezervacije.',
+    'export_step1_title' => 'Pojdite na stran iCal sinhronizacije',
+    'export_step1_desc' => 'V skrbniškem panelu pojdite na Rezervacije > iCal sinhronizacija.',
+    'export_step2_title' => 'Poiščite sobo, ki jo želite izvoziti',
+    'export_step2_desc' => 'Kliknite "Uredi" za sobo, katere rezervacije želite izvoziti.',
+    'export_step3_title' => 'Kopirajte URL za izvoz ali prenesite iCal datoteko',
+    'export_step3_desc' => 'Kopirajte priloženi URL za izvoz ali prenesite iCal datoteko. Ta URL dodajte na svojo zunanjo platformo (Booking.com, Airbnb itd.) po njihovih navodilih za uvoz iCal virov.',
+
+    'import_bookings' => 'Uvoz zunanjih rezervacij',
+    'import_bookings_desc' => 'Rezervacije lahko uvozite z zunanjih platform, da preprečite dvojne rezervacije v svojem sistemu.',
+    'import_step1_title' => 'Pridobite iCal URL iz vaše zunanje platforme',
+    'import_step1_desc' => 'Prijavite se v svojo zunanjo platformo (Booking.com, Airbnb itd.) in poiščite možnost za izvoz koledarja kot iCal. Kopirajte priloženi URL.',
+    'import_step2_title' => 'Pojdite na stran iCal sinhronizacije',
+    'import_step2_desc' => 'V skrbniškem panelu pojdite na Rezervacije > iCal sinhronizacija.',
+    'import_step3_title' => 'Dodajte zunanji koledar',
+    'import_step3_desc' => 'Kliknite "Uredi" za sobo, kamor želite uvoziti rezervacije. Vnesite ime koledarja (npr. "Booking.com") in prilepite iCal URL, ki ste ga prej kopirali.',
+    'import_step4_title' => 'Sinhronizirajte koledar',
+    'import_step4_desc' => 'Kliknite "Sinhroniziraj" za ročno sinhronizacijo koledarja ali počakajte na samodejno sinhronizacijo.',
+
+    'sync_logs' => 'iCal dnevniki sinhronizacije',
+    'sync_logs_desc' => 'Sistem vodi podrobne dnevnike vseh sinhronizacijskih dejavnosti. Te dnevnike si lahko ogledate s klikom na "Dnevniki sinhronizacije" na strani iCal sinhronizacije. To vam pomaga pri odpravljanju težav s sinhronizacijo.',
+
+    'troubleshooting' => 'Odpravljanje težav',
+    'troubleshooting_desc' => 'Tukaj so nekatere pogoste težave in njihove rešitve:',
+    'faq1_title' => 'Zunanji koledar se ne sinhronizira',
+    'faq1_desc' => 'Prepričajte se, da je URL pravilen in dostopen. Nekatere platforme zahtevajo prijavo za dostop do iCal vira. Poskusite prenesti iCal datoteko neposredno iz URL-ja, da preverite, ali deluje.',
+    'faq2_title' => 'Obstajajo konflikti med rezervacijami',
+    'faq2_desc' => 'Sistem bo zaznal konflikte med rezervacijami in jih zabeležil. Te konflikte si lahko ogledate v dnevnikih sinhronizacije. Te konflikte boste morali razrešiti ročno s prilagajanjem rezervacij v enem od sistemov.',
+    'faq3_title' => 'Samodejna sinhronizacija ne deluje',
+    'faq3_desc' => 'Prepričajte se, da so cron opravila vašega strežnika pravilno nastavljena. Sistem uporablja Laravelov razporejevalnik za izvajanje ukaza sinhronizacije vsako uro. Sinhronizacijo lahko zaženete tudi ročno s klikom na "Sinhroniziraj" ali "Sinhroniziraj vse koledarje" na strani iCal sinhronizacije.',
+];

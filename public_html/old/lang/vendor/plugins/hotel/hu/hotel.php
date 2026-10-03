@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'name' => 'Szálloda',
+    'booking_name' => 'Foglalási név',
+    'booking_email' => 'Foglalási e-mail',
+    'booking_phone' => 'Foglalási telefon',
+    'booking_address' => 'Foglalási cím',
+    'booking_request' => 'Foglalási kérés',
+    'booking_link' => 'Foglalási link',
+    'booking_date' => 'Foglalási dátum',
+    'booking_status' => 'Foglalási állapot',
+    'reviews' => 'Értékelések',
+    'rooms' => 'Rooms',
+    'edit_this_room' => 'Edit this room',
+    'room_not_available' => 'This room is not available for booking from :start_date to :end_date!',
+    'booking' => 'Booking',
+    'booking_successful' => 'Booking successfully!',
+    'booking_information' => 'Booking Information',
+    'checkout_error' => 'Checkout error!',
+    'shortcodes' => [
+        'title' => 'Cím',
+        'choose_services' => 'Szolgáltatások választása',
+        'choose_places' => 'Helyek választása',
+    ],
+
+    'login_form' => 'Bejelentkezési űrlap',
+    'register_form' => 'Regisztrációs űrlap',
+    'forgot_password_form' => 'Elfelejtett jelszó űrlap',
+    'reset_password_form' => 'Jelszó visszaállítási űrlap',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'Üdvözöljük! Köszönjük, hogy szobát foglalt nálunk: :site_title:',
+            'field_name' => 'Küldő',
+            'field_email' => 'E-mail',
+            'field_phone' => 'Telefon',
+            'field_address' => 'Cím',
+            'field_request' => 'Üzenet',
+            'view_booking_detail' => 'Foglalási részletek megtekintése',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'Üdvözöljük! Új foglalás érkezett: :site_title:',
+            'field_name' => 'Küldő',
+            'field_email' => 'E-mail',
+            'field_phone' => 'Telefon',
+            'field_address' => 'Cím',
+            'field_request' => 'Üzenet',
+            'view_booking_detail' => 'Foglalási részletek megtekintése',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'Üdvözöljük! Köszönjük, hogy szobát foglalt nálunk: :site_title:',
+            'message' => 'Reméljük, jól van. Szeretnénk tájékoztatni, hogy a foglalásával kapcsolatban újdonság történt. A foglalás állapota megváltozott, és szeretnénk, ha tudna róla.',
+            'booking_details_title' => 'Foglalási részletek',
+            'field_name' => 'Név',
+            'field_date_of_booking' => 'Foglalás dátuma',
+            'view_booking_detail' => 'Foglalási részletek megtekintése',
+            'new_booking_status' => 'Új foglalási állapot',
+        ],
+    ],
+    'room_not_available' => 'Ez a szoba nem foglalható :start_date és :end_date között!',
+];
