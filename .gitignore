@@ -32,3 +32,6 @@
 **/*.gz
 .DS_Store
 Thumbs.db
+
+# Published theme preview has a source fallback
+/public_html/public/themes/*/screenshot.png

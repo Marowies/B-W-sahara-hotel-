@@ -1,8 +1,0 @@
-{
-    "name": "botble/hotel",
-    "description": "Hotel",
-    "type": "package",
-    "require": {
-        "khaled.alshamaa/ar-php": "^7.0"
-    }
-}
