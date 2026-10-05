@@ -3,7 +3,7 @@ from urllib.request import Request,urlopen
 from urllib.parse import urlencode
 import re,hashlib,json
 
-root=Path(__file__).resolve().parents[1]
+root=Path(__file__).resolve().parents[2]
 # Download public font families only; never transmit project-derived text.
 # Any glyph subsetting is performed offline by optimize_fonts.py.
 url='https://fonts.googleapis.com/css2?'+urlencode([('family','Noto Sans Arabic:wght@400..700'),('family','Noto Sans SC:wght@400..600'),('display','swap')])

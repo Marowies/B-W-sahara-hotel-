@@ -1,9 +1,9 @@
 from pathlib import Path
 import sys
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'.tooling'/'font-libs'))
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'.tooling'/'font-libs'))
 from fontTools import subset
 
-root=Path(__file__).resolve().parents[1]/'src'/'fonts'
+root=Path(__file__).resolve().parents[2]/'src'/'fonts'
 before=after=0
 ranges=[(0,0x24f),(0x600,0x6ff),(0x750,0x77f),(0x8a0,0x8ff),(0x2000,0x206f),(0x20a0,0x20cf),(0xfb50,0xfdff),(0xfe70,0xfeff)]
 content=''.join(p.read_text(encoding='utf-8') for p in (root.parent).rglob('*') if p.suffix in ['.html','.js','.css'])

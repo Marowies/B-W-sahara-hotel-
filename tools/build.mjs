@@ -11,6 +11,8 @@ const seo=seoConfig();
 let sharp;
 try { sharp=require('sharp'); } catch { if(!process.env.HOTEL_SHARP_PATH)throw new Error('Install the pinned Sharp dependency or set HOTEL_SHARP_PATH.'); sharp=require(process.env.HOTEL_SHARP_PATH); }
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),src=join(root,'src'),out=resolve(root,'dist');
+// Source layout: src/css, src/js (src/js/3d, src/js/vendor), src/assets, src/fonts; every other folder holds page routes.
+const css=join(src,'css'),js=join(src,'js'),js3d=join(js,'3d'),vendor=join(js,'vendor');
 if(dirname(out)!==root||basename(out)!=='dist')throw new Error('Refusing unexpected build directory');
 await rm(out,{recursive:true,force:true});await mkdir(join(out,'assets'),{recursive:true});
 const hash=data=>createHash('sha256').update(data).digest('hex').slice(0,12);
@@ -51,19 +53,19 @@ for(const name of await readdir(join(src,'fonts'))){
  else if(name.endsWith('.txt'))await copyFile(join(src,'fonts',name),join(fontDir,name));
 }
 await emit('fonts.css',fontCss);
-for(const name of ['style.css','approval.css','burgundy.css','performance.css'])await emit(name,images((await readFile(join(src,name),'utf8')).replace(/@import\s+url\(['"]?https:\/\/fonts\.googleapis\.com\/[^)]+\);?/g,'')));
-await emit('three.module.js',await readFile(join(src,'three.module.js'),'utf8'));
-await emit('batch-model.js',(await readFile(join(src,'batch-model.js'),'utf8')).replace('./three.module.js','./'+emitted['three.module.js']));
-let dome=await readFile(join(src,'dome-model.js'),'utf8');dome=dome.replace('./three.module.js','./'+emitted['three.module.js']).replace('./batch-model.js','./'+emitted['batch-model.js']);await emit('dome-model.js',dome);
-let scene=images(await readFile(join(src,'scene.js'),'utf8'));scene=scene.replace('./three.module.js','./'+emitted['three.module.js']).replace('./dome-model.js?v=7','./'+emitted['dome-model.js']);await emit('scene.js',scene);
-let runtime=await readFile(join(src,'runtime.js'),'utf8');runtime=runtime.replace('./scene.js','./'+emitted['scene.js']);await emit('runtime.js',runtime);
+for(const name of ['style.css','approval.css','burgundy.css','performance.css'])await emit(name,images((await readFile(join(css,name),'utf8')).replace(/@import\s+url\(['"]?https:\/\/fonts\.googleapis\.com\/[^)]+\);?/g,'')));
+await emit('three.module.js',await readFile(join(vendor,'three.module.js'),'utf8'));
+await emit('batch-model.js',(await readFile(join(js3d,'batch-model.js'),'utf8')).replace('../vendor/three.module.js','./'+emitted['three.module.js']));
+let dome=await readFile(join(js3d,'dome-model.js'),'utf8');dome=dome.replace('../vendor/three.module.js','./'+emitted['three.module.js']).replace('./batch-model.js','./'+emitted['batch-model.js']);await emit('dome-model.js',dome);
+let scene=images(await readFile(join(js3d,'scene.js'),'utf8'));scene=scene.replace('../vendor/three.module.js','./'+emitted['three.module.js']).replace('./dome-model.js?v=7','./'+emitted['dome-model.js']);await emit('scene.js',scene);
+let runtime=await readFile(join(js,'runtime.js'),'utf8');runtime=runtime.replace('./3d/scene.js','./'+emitted['scene.js']);await emit('runtime.js',runtime);
 await emit('asset-map.js',`window.__HOTEL_SEO__=${JSON.stringify(seo)};window.__HOTEL_ASSETS__=${JSON.stringify(info)};window.__HOTEL_ASSET_ALIASES__=${JSON.stringify(aliases)};window.hotelAssetUrl=name=>window.__HOTEL_ASSET_ALIASES__[name]?.src||('assets/'+name);`);
-await emit('seo.js',await readFile(join(src,'seo.js'),'utf8'));
-for(const name of ['app.js','edition.js','approval.js'])await emit(name,images(await readFile(join(src,name),'utf8')));
+await emit('seo.js',await readFile(join(js,'seo.js'),'utf8'));
+for(const name of ['app.js','edition.js','approval.js'])await emit(name,images(await readFile(join(js,name),'utf8')));
 const routes=[];
 async function pages(dir,relative=''){
  for(const item of await readdir(dir,{withFileTypes:true})){
-  if(item.isDirectory()&&item.name!=='assets'&&item.name!=='fonts')await pages(join(dir,item.name),join(relative,item.name));
+  if(item.isDirectory()&&!['assets','fonts','css','js'].includes(item.name))await pages(join(dir,item.name),join(relative,item.name));
   else if(item.isFile()&&item.name.endsWith('.html')){
    let html=images(await readFile(join(dir,item.name),'utf8'));
    html=html.replace(/<link[^>]+(?:fonts\.googleapis\.com|fonts\.gstatic\.com)[^>]*>/g,'');

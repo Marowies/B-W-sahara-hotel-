@@ -19,15 +19,34 @@ The build and prerender commands create `dist/` (not committed). Prerender requi
 
 ## Folder layout
 
-- `src/`: editable original page templates, styles, images, local fonts and frontend logic.
-- `src/runtime.js`: route-view lifecycle, bounded view cache, singleton 3D loader, responsive image enhancement and local performance counters.
-- `src/scene.js`: one renderer, demand-driven drawing, visibility/context handling and model controls.
-- `src/dome-model.js` and `src/batch-model.js`: the existing room geometry and static mesh batching.
-- `tools/build.mjs`: optimized WebP variants, content-hashed assets, compression, cache worker and build manifest.
+```
+src/
+  index.html, 404.html      home page and not-found page
+  <route>/index.html        one folder per URL (rooms/, about-us/, contact-us/, blog/…)
+  css/                      style.css → approval.css → burgundy.css (loaded in this order), performance.css
+  js/                       app.js (home), approval.js (all pages, translations), runtime.js, seo.js, edition.js
+  js/3d/                    scene.js, dome-model.js, batch-model.js (loaded only when the 3D view is opened)
+  js/vendor/                three.module.js (third-party, do not edit)
+  assets/                   original JPG/PNG images (the build makes WebP sizes)
+  fonts/                    self-hosted WOFF2 fonts, fonts.css and licences
+tools/
+  build.mjs, prerender.mjs  build pipeline → dist/
+  release.mjs               indexable production build
+  vercel-build.mjs          Vercel build (used by vercel.json)
+  serve.mjs                 local preview server
+  seo.mjs                   robots, sitemap and SEO config
+  fonts/                    font download/subset scripts (Python)
+  legacy/                   one-off patch scripts already applied; kept for history only
+tests/                      browser and geometric regressions
+docs/                       architecture, integration boundaries and verification notes
+dist/                       generated output; never edit directly
+```
+
+- `src/js/runtime.js`: route-view lifecycle, bounded view cache, singleton 3D loader, responsive image enhancement and local performance counters.
+- `src/js/3d/scene.js`: one renderer, demand-driven drawing, visibility/context handling and model controls.
+- `src/js/3d/dome-model.js` and `src/js/3d/batch-model.js`: the existing room geometry and static mesh batching.
+- `tools/build.mjs`: optimized WebP variants, content-hashed assets, compression, cache worker and build manifest. Built files keep flat names (`/app.<hash>.js`), so the folders above never change public URLs.
 - `tools/serve.mjs`: local static preview with Brotli/gzip, ETags and cache headers; it is not a booking backend.
-- `dist/`: ready-to-serve output; generated, never edit directly.
-- `tests/`: browser and geometric regressions.
-- `docs/`: architecture, integration boundaries and verification notes.
 - `test-results/`: screenshots and raw local verification output.
 
 The old hosted-design checkout and the hotel PHP working copy remain independent. This work has not been published to the hosted design or the live hotel.

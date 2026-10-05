@@ -1,4 +1,4 @@
-import * as T from './three.module.js';
+import * as T from '../vendor/three.module.js';
 import {batchStaticMeshes} from './batch-model.js';
 // Geometry is rebuilt from the supplied reference views; no dimensional survey is implied.
 export function buildReferenceDome(){

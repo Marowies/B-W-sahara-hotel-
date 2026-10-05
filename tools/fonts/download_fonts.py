@@ -2,7 +2,7 @@ from pathlib import Path
 from urllib.request import Request,urlopen
 import re,hashlib,json
 
-out=Path(__file__).resolve().parents[1]/'src'/'fonts'
+out=Path(__file__).resolve().parents[2]/'src'/'fonts'
 out.mkdir(exist_ok=True)
 url='https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap'
 css=urlopen(Request(url,headers={'User-Agent':'Mozilla/5.0 Chrome/130.0.0.0 Safari/537.36'}),timeout=30).read().decode()

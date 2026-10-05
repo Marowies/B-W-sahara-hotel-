@@ -1,4 +1,4 @@
-import * as T from './three.module.js';
+import * as T from '../vendor/three.module.js';
 
 // Batch only static siblings. Preserve parent transforms, visibility, layouts and window pivots.
 // Translucent glass panels retain their individual transparency sorting.

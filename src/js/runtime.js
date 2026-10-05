@@ -57,7 +57,7 @@
     load() {
       if (scenePromise) return scenePromise;
       metrics.sceneLoads++;
-      scenePromise = import('./scene.js').then(module => {
+      scenePromise = import('./3d/scene.js').then(module => {
         sceneController = scoped(null, module.createWorld, module, []);
         if (!sceneController) throw new Error('WebGL unavailable');
         return sceneController;

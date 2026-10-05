@@ -1,4 +1,4 @@
-import * as T from './three.module.js';
+import * as T from '../vendor/three.module.js';
 import {buildReferenceDome} from './dome-model.js?v=7';
 let worldInstance;
 const stage=document.getElementById('model-stage');
