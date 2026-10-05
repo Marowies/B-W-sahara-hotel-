@@ -7,12 +7,16 @@ use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Payment\Enums\PaymentStatusEnum;
 use Botble\Payment\Models\Payment;
+use Botble\Payment\Supports\PaymentAmount;
 use Botble\Payment\Supports\PaymentHelper;
 use Botble\Stripe\Http\Requests\StripePaymentCallbackRequest;
 use Botble\Stripe\Services\Gateways\StripePaymentService;
+use Botble\Stripe\Supports\StripeHelper;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use UnexpectedValueException;
 use Stripe\Checkout\Session;
 use Stripe\Exception\SignatureVerificationException;
 use Stripe\PaymentIntent;
@@ -27,7 +31,7 @@ class StripeController extends BaseController
         $content = $request->getContent();
 
         if (! $webhookSecret || ! $signature || ! $content) {
-            return response()->noContent();
+            return response()->noContent(400);
         }
 
         try {
@@ -47,22 +51,72 @@ class StripeController extends BaseController
                  */
                 $paymentIntent = $event->data->object; // @phpstan-ignore-line
 
-                $payment = Payment::query()
-                    ->where('charge_id', $paymentIntent->id)
-                    ->first();
+                $status = DB::transaction(function () use ($event, $paymentIntent): int {
+                    if (! is_string($event->id) || $event->id === ''
+                        || ! is_string($paymentIntent->id) || ! str_starts_with($paymentIntent->id, 'pi_')) {
+                        return 400;
+                    }
+                    $identities = [$paymentIntent->id];
+                    $latestCharge = $paymentIntent->latest_charge ?? null;
+                    if (is_string($latestCharge) && str_starts_with($latestCharge, 'ch_')) {
+                        $identities[] = $latestCharge;
+                    }
+                    $payments = Payment::query()->whereIn('charge_id', $identities)
+                        ->where('payment_channel', STRIPE_PAYMENT_METHOD_NAME)->lockForUpdate()->get();
+                    if ($payments->count() !== 1) {
+                        // A provider event can precede local persistence; allow provider retry.
+                        return 503;
+                    }
+                    $payment = $payments->first();
+                    $currency = strtoupper((string) $payment->currency);
+                    $multiplier = StripeHelper::getStripeCurrencyMultiplier($currency);
+                    $expected = PaymentAmount::minorUnits($payment->amount, $multiplier === 1 ? 0 : 2);
+                    if (! in_array($payment->charge_id, $identities, true)
+                        || ! $payment->order_id || $expected === null || $expected <= 0
+                        || ($paymentIntent->object ?? null) !== 'payment_intent'
+                        || ($paymentIntent->status ?? null) !== 'succeeded'
+                        || strtoupper((string) $paymentIntent->currency) !== $currency
+                        || ! is_int($paymentIntent->amount) || $paymentIntent->amount !== $expected
+                        || ! is_int($paymentIntent->amount_received) || $paymentIntent->amount_received !== $expected) {
+                        BaseHelper::logError(new UnexpectedValueException('Stripe payment identity, amount or currency mismatch.'));
 
-                if ($payment) {
+                        return 422;
+                    }
+                    $receipt = DB::table('payment_webhook_receipts')->where('provider', 'stripe')->where('event_id', $event->id)->first();
+                    if ($receipt) {
+                        return $receipt->payment_identity === $paymentIntent->id ? 204 : 422;
+                    }
+                    if ($payment->status != PaymentStatusEnum::PENDING && $payment->status != PaymentStatusEnum::COMPLETED) {
+                        return 422;
+                    }
+                    DB::table('payment_webhook_receipts')->insert([
+                        'provider' => 'stripe', 'event_id' => $event->id,
+                        'payment_identity' => $paymentIntent->id, 'payment_id' => $payment->getKey(),
+                        'processed_at' => now(),
+                    ]);
+                    // Different event IDs for the same successful intent must not repeat fulfillment.
+                    if ($payment->status == PaymentStatusEnum::COMPLETED) {
+                        return 204;
+                    }
                     $payment->status = PaymentStatusEnum::COMPLETED;
                     $payment->save();
-
                     do_action(PAYMENT_ACTION_PAYMENT_PROCESSED, [
-                        'charge_id' => $payment->charge_id,
-                        'order_id' => $payment->order_id,
+                        'amount' => $payment->amount, 'currency' => $payment->currency,
+                        'charge_id' => $payment->charge_id, 'order_id' => [$payment->order_id],
+                        'customer_id' => $payment->customer_id, 'customer_type' => $payment->customer_type,
+                        'payment_channel' => STRIPE_PAYMENT_METHOD_NAME, 'status' => PaymentStatusEnum::COMPLETED,
+                        'payment_fee' => $payment->payment_fee,
                     ]);
-                }
+
+                    return 204;
+                });
+
+                return response()->noContent($status);
             }
-        } catch (SignatureVerificationException $e) {
+        } catch (SignatureVerificationException|UnexpectedValueException $e) {
             BaseHelper::logError($e);
+
+            return response()->noContent(400);
         }
 
         return response()->noContent();

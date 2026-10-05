@@ -9,8 +9,8 @@ class PayPalPaymentCallbackRequest extends Request
     public function rules(): array
     {
         return [
-            'amount' => ['required', 'numeric'],
-            'currency' => ['required'],
+            'token' => ['required', 'string', 'max:255'],
+            'PayerID' => ['required', 'string', 'max:255'],
         ];
     }
 }

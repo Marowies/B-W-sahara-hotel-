@@ -3,6 +3,8 @@
 namespace Botble\PayPal\Services\Abstracts;
 
 use Botble\Payment\Models\Payment;
+use Botble\Payment\Enums\PaymentStatusEnum;
+use Botble\Payment\Supports\PaymentAmount;
 use Botble\Payment\Services\Traits\PaymentErrorTrait;
 use Botble\PayPal\Services\Core\PayPalHttpClient;
 use Botble\Theme\Facades\Theme;
@@ -38,6 +40,18 @@ abstract class PayPalPaymentAbstract
     protected string $customer;
 
     protected bool $supportRefundOnline;
+
+    protected ?int $verifiedPaymentId = null;
+
+    protected ?string $verifiedPaymentFingerprint = null;
+
+    protected function paymentFingerprint(Payment $payment): string
+    {
+        return hash('sha256', json_encode([
+            $payment->charge_id, (string) $payment->amount, $payment->currency,
+            (string) $payment->order_id, (string) $payment->customer_id, $payment->customer_type,
+        ], JSON_THROW_ON_ERROR));
+    }
 
     public function __construct()
     {
@@ -248,15 +262,36 @@ abstract class PayPalPaymentAbstract
 
     public function getPaymentStatus(Request $request)
     {
-        if (empty($request->input('PayerID')) || empty($request->input('token'))) {
+        $this->verifiedPaymentId = null;
+        $this->verifiedPaymentFingerprint = null;
+        $paymentId = session('paypal_payment_id');
+        $token = $request->input('token');
+        if (! is_string($paymentId) || $paymentId === '' || ! is_string($token)
+            || ! hash_equals($paymentId, $token) || ! is_string($request->input('PayerID'))
+            || $request->input('PayerID') === '') {
             return false;
         }
 
-        $paymentId = session('paypal_payment_id');
+        $payments = Payment::query()->where('charge_id', $paymentId)
+            ->where('payment_channel', PAYPAL_PAYMENT_METHOD_NAME)->get();
+        if ($payments->count() !== 1 || ! $payments->first()->order_id || $payments->first()->charge_id !== $paymentId) {
+            return false;
+        }
+        $payment = $payments->first();
+        if ($payment->status == PaymentStatusEnum::COMPLETED) {
+            $this->verifiedPaymentId = $payment->getKey();
+            $this->verifiedPaymentFingerprint = $this->paymentFingerprint($payment);
+
+            return 'COMPLETED';
+        }
+        if ($payment->status != PaymentStatusEnum::PENDING) {
+            return false;
+        }
 
         try {
             $orderRequest = new OrdersCaptureRequest($paymentId);
             $orderRequest->prefer('return=representation');
+            $orderRequest->headers['PayPal-Request-Id'] = substr(hash('sha256', 'capture:' . $paymentId), 0, 38);
 
             do_action('payment_before_making_api_request', PAYPAL_PAYMENT_METHOD_NAME, $orderRequest);
 
@@ -265,9 +300,26 @@ abstract class PayPalPaymentAbstract
             do_action('payment_after_api_response', PAYPAL_PAYMENT_METHOD_NAME, (array) $orderRequest, (array) $response);
 
             // @phpstan-ignore-next-line
-            if ($response && $response->statusCode == 201 && $response->result->status == 'COMPLETED') {
-                // @phpstan-ignore-next-line
-                return $response->result->status;
+            if ($response && in_array($response->statusCode, [200, 201], true)
+                && ($response->result->id ?? null) === $paymentId
+                && ($response->result->status ?? null) === 'COMPLETED') {
+                $units = $response->result->purchase_units ?? [];
+                $captures = count($units) === 1 ? ($units[0]->payments->captures ?? []) : [];
+                $capture = count($captures) === 1 ? $captures[0] : null;
+                $currency = strtoupper((string) $payment->currency);
+                $decimals = in_array($currency, ['HUF', 'JPY', 'TWD'], true) ? 0 : 2;
+                $expected = PaymentAmount::minorUnits($payment->amount, $decimals);
+                $received = PaymentAmount::minorUnits($capture->amount->value ?? null, $decimals);
+                if ($capture && is_string($capture->id ?? null) && $capture->id !== ''
+                    && ($capture->status ?? null) === 'COMPLETED'
+                    && ($capture->amount->currency_code ?? null) === $currency
+                    && $expected !== null && $expected > 0 && $received === $expected
+                    && ($capture->supplementary_data->related_ids->order_id ?? $paymentId) === $paymentId) {
+                    $this->verifiedPaymentId = $payment->getKey();
+                    $this->verifiedPaymentFingerprint = $this->paymentFingerprint($payment);
+
+                    return 'COMPLETED';
+                }
             }
         } catch (Exception $exception) {
             $this->setErrorMessageAndLogging($exception, 1);
@@ -413,12 +465,14 @@ abstract class PayPalPaymentAbstract
             'CLP',
             'DJF',
             'GNF',
+            'HUF',
             'JPY',
             'KMF',
             'KRW',
             'MGA',
             'PYG',
             'RWF',
+            'TWD',
             'VND',
             'VUV',
             'XAF',

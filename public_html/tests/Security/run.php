@@ -2,9 +2,16 @@
 
 // Standalone regressions: production classes, an in-memory SQLite database and no external services.
 // php tests/Security/run.php [optional read-only dependency autoload path]
-function apply_filters($name, $value, ...$arguments) { return $value; }
+function apply_filters($name, $value, ...$arguments) {
+    // Gateway providers extend this enum in production; emulate that registration in the isolated harness.
+    if ($name === 'base_filter_enum_array' && ($arguments[0] ?? null) === Botble\Payment\Enums\PaymentMethodEnum::class) {
+        return $value + ['PAYPAL' => 'paypal', 'STRIPE' => 'stripe'];
+    }
+    return $value;
+}
 function do_action(...$arguments): void {
     if (defined('HOTEL_INTEGRATION_TESTS')) { $GLOBALS['integrationActions'][] = $arguments; }
+    if (isset($GLOBALS['integrationActionHandler'])) { ($GLOBALS['integrationActionHandler'])(...$arguments); }
 }
 function add_filter(...$arguments): void {}
 function add_action(...$arguments): void {}
@@ -106,6 +113,7 @@ $validator->setPresenceVerifier(new Illuminate\Validation\DatabasePresenceVerifi
 $app->instance('validator', $validator);
 
 if (defined('HOTEL_INTEGRATION_WORKER')) {
+    $db = $capsule->getConnection();
     require dirname(__DIR__) . '/Integration/worker.php';
     exit;
 }
@@ -121,7 +129,7 @@ $sql = [
     'CREATE TABLE ht_services (id INTEGER PRIMARY KEY, status TEXT)',
     'CREATE TABLE ht_foods (id INTEGER PRIMARY KEY, status TEXT)',
     'CREATE TABLE ht_customers (id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, email TEXT, phone TEXT)',
-    'CREATE TABLE payments (id INTEGER PRIMARY KEY)',
+    'CREATE TABLE payments (id INTEGER PRIMARY KEY AUTOINCREMENT)',
 ];
 foreach ($sql as $statement) {
     if ($testConnection['driver'] === 'mysql') {
@@ -321,7 +329,9 @@ test('JWT signed token verifies and altered payload is rejected', function () {
     check(method_exists(Firebase\JWT\JWT::class, 'urlsafeB64Decode'), 'Apple JWT header decoding API missing.');
 });
 
-require __DIR__ . '/BackendCases.php';
+if (! getenv('HOTEL_SECURITY_ONLY')) {
+    require __DIR__ . '/BackendCases.php';
+}
 
 if (defined('HOTEL_INTEGRATION_TESTS')) {
     require dirname(__DIR__) . '/Integration/Cases.php';
@@ -330,7 +340,7 @@ if (defined('HOTEL_INTEGRATION_TESTS')) {
 Carbon\Carbon::setTestNow();
 if (defined('HOTEL_INTEGRATION_TESTS')) {
     $resultFile = defined('HOTEL_CALENDAR_FIX_TESTS') ? 'CALENDAR_FIX_RESULTS_2026-10-05.json' : 'INTEGRATION_RESULTS_2026-10-05.json';
-    file_put_contents(dirname($source) . '/docs/' . $resultFile, json_encode([
+    file_put_contents(getenv('HOTEL_TEST_RESULT_PATH') ?: dirname($source) . '/docs/' . $resultFile, json_encode([
         'tests' => $results,
         'evidence' => $GLOBALS['integrationEvidence'] ?? [],
         'scope' => 'Isolated minimal schema; real InnoDB and local provider doubles; no live payment APIs',

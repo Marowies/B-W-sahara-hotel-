@@ -4,6 +4,14 @@
 $worker = (int) ($argv[4] ?? 0);
 $startAt = (float) ($argv[5] ?? 0);
 $kind = $argv[6] ?? 'checkout';
+if ($kind === 'stripe-webhook') {
+    require __DIR__ . '/payment-worker.php';
+    return;
+}
+if ($kind === 'performance') {
+    require dirname(__DIR__) . '/Performance/handlers.php';
+    return;
+}
 $roomId = (int) ($argv[7] ?? 900);
 $marker = $argv[8] ?? '';
 while (microtime(true) < $startAt) { usleep(10000); }
