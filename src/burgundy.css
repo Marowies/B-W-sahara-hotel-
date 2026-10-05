@@ -934,3 +934,12 @@ a.map-link:hover,a.map-link:focus-visible{color:var(--gold)!important;text-decor
 #gallery-prev::before{-webkit-mask-image:var(--chev-left);mask-image:var(--chev-left)}
 [dir=rtl] .chapter-list button::after,[dir=rtl] #gallery-next::after,[dir=rtl] .home-note>.text-link::before,[dir=rtl] #quick-stay .button::after,[dir=rtl] .contact-details>a::after{-webkit-mask-image:var(--chev-left);mask-image:var(--chev-left)}
 [dir=rtl] #gallery-prev::before{-webkit-mask-image:var(--chev-right);mask-image:var(--chev-right)}
+
+/* Date fields on iPhone/Safari: stay inside their box, value aligned like the other fields */
+input[type=date]{-webkit-appearance:none;appearance:none;display:block;min-width:0;max-width:100%;box-sizing:border-box}
+input[type=date]::-webkit-date-and-time-value{text-align:start;margin:0}
+#quick-stay input[type=date]{line-height:54px;padding-block:0!important}
+#quick-stay input[type=date]::-webkit-date-and-time-value{line-height:54px;min-height:54px}
+#quick-stay label.date-empty::after{content:attr(data-placeholder);position:absolute;inset-inline-start:46px;bottom:0;height:56px;display:none;align-items:center;font-size:15px;font-weight:500;letter-spacing:.01em;text-transform:none;color:#571c358c;pointer-events:none}
+@supports(-webkit-touch-callout:none){#quick-stay label.date-empty::after{display:flex}}
+@media(max-width:700px){#quick-stay label.date-empty::after{inset-inline-start:13px;font-size:14px}}
