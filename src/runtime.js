@@ -118,7 +118,7 @@
   const key = url => url.pathname.replace(/\/$/, '') || '/';
   const collect = () => [...document.body.children].filter(n => n.tagName !== 'SCRIPT');
   const scriptsFor = parsed => [...parsed.querySelectorAll('script[src]')]
-    .map(s => s.getAttribute('src')).filter(src => !/runtime|asset-map/.test(src));
+    .map(s => s.getAttribute('src')).filter(src => !/runtime|asset-map|\/seo\./.test(src));
   async function execute(src, scope) {
     await new Promise((resolve, reject) => {
       const script = document.createElement('script'); script.src = new URL(src, location.origin).href;
@@ -169,6 +169,7 @@
       document.documentElement.dataset.mood = 'day';
       document.dispatchEvent(new CustomEvent('timechange', {detail:'day'}));
       document.dispatchEvent(new CustomEvent('hotelroutechange', {detail:{page:next.page}}));
+      window.hotelUpdateSeo?.();
       enhance(); metrics.clientNavigations++;
       window.scrollTo({top:0, behavior:'instant'});
       if (url.hash) document.getElementById(decodeURIComponent(url.hash.slice(1)))?.scrollIntoView({behavior:'instant'});

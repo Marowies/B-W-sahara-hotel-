@@ -5,6 +5,8 @@
   "scripts": {
     "build": "node tools/build.mjs",
     "preview": "node tools/serve.mjs",
+    "prerender": "node tools/prerender.mjs",
+    "test:seo": "node tests/seo.mjs",
     "test": "node tests/verify.mjs"
   },
   "devDependencies": { "sharp": "0.35.4", "playwright": "1.62.1" }

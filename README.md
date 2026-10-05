@@ -9,12 +9,13 @@ Requires Node.js 20+ for the build tools.
 ```powershell
 npm install
 npm run build
+npm run prerender
 npm run preview
 ```
 
 Open `http://127.0.0.1:8780/?lang=en`. Arabic remains available via `?lang=ar`; the existing draft Chinese content is also retained. Preview binds to loopback only. `PORT` can select a different port.
 
-The current `dist/` is already built. A standard static HTTP server can serve it without Node, PHP, a database, or npm dependencies. Do not open it with `file://`; ES modules, internal routes and the service worker require HTTP. Deploy at the origin root, preserving each route's `index.html` and genuine 404 responses.
+The build and prerender commands create `dist/` (not committed). Prerender requires Playwright Chromium or `HOTEL_BROWSER_PATH` pointing to a Chromium executable. A static server must select the generated language snapshots by `?lang=`; the included preview does this. Do not open it with `file://`; ES modules, internal routes and the service worker require HTTP. Deploy at the origin root, preserving genuine 404 responses. See [technical SEO setup and release limits](docs/TECHNICAL_SEO_2026-10-05.md).
 
 ## Folder layout
 
