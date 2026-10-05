@@ -1,0 +1,2320 @@
+{
+  "before": {
+    "scope": "Four local PHP service-lab workers; synthetic InnoDB schema and helpers; no CMS templates, external providers, admin or real customer data.",
+    "environment": {
+      "node": "v24.19.0",
+      "cpus": 16,
+      "totalMemoryBytes": 8192368640
+    },
+    "baseline": [
+      {
+        "path": "/rooms",
+        "requests": 5,
+        "throughputRps": 2.46,
+        "errorRatePercent": 0,
+        "p50Ms": 354.96,
+        "p95Ms": 560.2,
+        "p99Ms": 560.2,
+        "queueP95Ms": 1.96,
+        "errors": [],
+        "queryCounts": [
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "serverTiming": [
+          "app;dur=541.65, db;dur=19.32",
+          "app;dur=422.72, db;dur=12.45",
+          "app;dur=339.91, db;dur=7.36",
+          "app;dur=332.15, db;dur=18.46",
+          "app;dur=348.4, db;dur=7.53"
+        ]
+      },
+      {
+        "path": "/rooms/1001",
+        "requests": 5,
+        "throughputRps": 2.53,
+        "errorRatePercent": 0,
+        "p50Ms": 367.49,
+        "p95Ms": 491.43,
+        "p99Ms": 491.43,
+        "queueP95Ms": 1.25,
+        "errors": [],
+        "queryCounts": [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "serverTiming": [
+          "app;dur=484.77, db;dur=27.53",
+          "app;dur=361.46, db;dur=27.04",
+          "app;dur=352.58, db;dur=24.74",
+          "app;dur=415.81, db;dur=21.84",
+          "app;dur=328.64, db;dur=19.35"
+        ]
+      },
+      {
+        "path": "/availability",
+        "requests": 5,
+        "throughputRps": 2.2,
+        "errorRatePercent": 0,
+        "p50Ms": 423.25,
+        "p95Ms": 590.68,
+        "p99Ms": 590.68,
+        "queueP95Ms": 0.7,
+        "errors": [],
+        "queryCounts": [
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "serverTiming": [
+          "app;dur=419.35, db;dur=11.17",
+          "app;dur=412.46, db;dur=19.99",
+          "app;dur=406.92, db;dur=31.02",
+          "app;dur=415.52, db;dur=34.41",
+          "app;dur=585.53, db;dur=29.52"
+        ]
+      },
+      {
+        "path": "/quote",
+        "requests": 5,
+        "throughputRps": 2.71,
+        "errorRatePercent": 0,
+        "p50Ms": 346.76,
+        "p95Ms": 499.99,
+        "p99Ms": 499.99,
+        "queueP95Ms": 0.89,
+        "errors": [],
+        "queryCounts": [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "serverTiming": [
+          "app;dur=319.54, db;dur=23.18",
+          "app;dur=303.71, db;dur=16.77",
+          "app;dur=352.06, db;dur=16.51",
+          "app;dur=494.65, db;dur=6.63",
+          "app;dur=341.98, db;dur=7.68"
+        ]
+      },
+      {
+        "path": "/checkout",
+        "requests": 5,
+        "throughputRps": 0.95,
+        "errorRatePercent": 0,
+        "p50Ms": 1085.64,
+        "p95Ms": 1202.73,
+        "p99Ms": 1202.73,
+        "queueP95Ms": 0.98,
+        "errors": [],
+        "queryCounts": [
+          14,
+          14,
+          14,
+          14,
+          14
+        ],
+        "serverTiming": [
+          "app;dur=913.61, db;dur=143.79",
+          "app;dur=1096.99, db;dur=45.59",
+          "app;dur=1077.33, db;dur=65.45",
+          "app;dur=947.39, db;dur=73.65",
+          "app;dur=1193.59, db;dur=78.41"
+        ]
+      }
+    ],
+    "stages": [
+      {
+        "concurrentUsers": 25,
+        "dispatchDurationMs": 5000,
+        "elapsedIncludingDrainSeconds": 7.25,
+        "requests": 64,
+        "throughputRps": 8.83,
+        "errorRatePercent": 0,
+        "p50Ms": 2350.68,
+        "p95Ms": 3166.33,
+        "p99Ms": 3587.25,
+        "queueP95Ms": 2820.32,
+        "errors": [],
+        "routes": [
+          {
+            "path": "/rooms",
+            "requests": 23,
+            "throughputRps": 3.17,
+            "errorRatePercent": 0,
+            "p50Ms": 2290.48,
+            "p95Ms": 3256.38,
+            "p99Ms": 3587.25,
+            "queueP95Ms": 2901.33,
+            "errors": []
+          },
+          {
+            "path": "/rooms/1001",
+            "requests": 7,
+            "throughputRps": 0.97,
+            "errorRatePercent": 0,
+            "p50Ms": 2007.1,
+            "p95Ms": 3122.44,
+            "p99Ms": 3122.44,
+            "queueP95Ms": 2773.08,
+            "errors": []
+          },
+          {
+            "path": "/availability",
+            "requests": 13,
+            "throughputRps": 1.79,
+            "errorRatePercent": 0,
+            "p50Ms": 2482.82,
+            "p95Ms": 3363.73,
+            "p99Ms": 3363.73,
+            "queueP95Ms": 2929.58,
+            "errors": []
+          },
+          {
+            "path": "/quote",
+            "requests": 14,
+            "throughputRps": 1.93,
+            "errorRatePercent": 0,
+            "p50Ms": 2426.81,
+            "p95Ms": 3166.33,
+            "p99Ms": 3166.33,
+            "queueP95Ms": 2820.32,
+            "errors": []
+          },
+          {
+            "path": "/checkout",
+            "requests": 7,
+            "throughputRps": 0.97,
+            "errorRatePercent": 0,
+            "p50Ms": 2235.25,
+            "p95Ms": 2569.46,
+            "p99Ms": 2569.46,
+            "queueP95Ms": 2115.83,
+            "errors": []
+          }
+        ]
+      },
+      {
+        "concurrentUsers": 50,
+        "dispatchDurationMs": 5000,
+        "elapsedIncludingDrainSeconds": 9.07,
+        "requests": 106,
+        "throughputRps": 11.69,
+        "errorRatePercent": 0,
+        "p50Ms": 3836.88,
+        "p95Ms": 4239.93,
+        "p99Ms": 4357.49,
+        "queueP95Ms": 3924.95,
+        "errors": [],
+        "routes": [
+          {
+            "path": "/rooms",
+            "requests": 42,
+            "throughputRps": 4.63,
+            "errorRatePercent": 0,
+            "p50Ms": 3868.39,
+            "p95Ms": 4178.27,
+            "p99Ms": 4415.54,
+            "queueP95Ms": 3864.61,
+            "errors": []
+          },
+          {
+            "path": "/rooms/1001",
+            "requests": 10,
+            "throughputRps": 1.1,
+            "errorRatePercent": 0,
+            "p50Ms": 3714.08,
+            "p95Ms": 4240.46,
+            "p99Ms": 4240.46,
+            "queueP95Ms": 3942.34,
+            "errors": []
+          },
+          {
+            "path": "/availability",
+            "requests": 22,
+            "throughputRps": 2.43,
+            "errorRatePercent": 0,
+            "p50Ms": 3996.17,
+            "p95Ms": 4251.61,
+            "p99Ms": 4357.49,
+            "queueP95Ms": 3870.62,
+            "errors": []
+          },
+          {
+            "path": "/quote",
+            "requests": 22,
+            "throughputRps": 2.43,
+            "errorRatePercent": 0,
+            "p50Ms": 3790.16,
+            "p95Ms": 4188.72,
+            "p99Ms": 4288.71,
+            "queueP95Ms": 3884.71,
+            "errors": []
+          },
+          {
+            "path": "/checkout",
+            "requests": 10,
+            "throughputRps": 1.1,
+            "errorRatePercent": 0,
+            "p50Ms": 3623.91,
+            "p95Ms": 4206.79,
+            "p99Ms": 4206.79,
+            "queueP95Ms": 3861.57,
+            "errors": []
+          }
+        ]
+      },
+      {
+        "concurrentUsers": 100,
+        "dispatchDurationMs": 5000,
+        "elapsedIncludingDrainSeconds": 13.23,
+        "requests": 156,
+        "throughputRps": 11.79,
+        "errorRatePercent": 0,
+        "p50Ms": 6601.36,
+        "p95Ms": 8267,
+        "p99Ms": 8373.87,
+        "queueP95Ms": 7940.13,
+        "errors": [],
+        "routes": [
+          {
+            "path": "/rooms",
+            "requests": 62,
+            "throughputRps": 4.68,
+            "errorRatePercent": 0,
+            "p50Ms": 6616.74,
+            "p95Ms": 8228.72,
+            "p99Ms": 8327.46,
+            "queueP95Ms": 7898.64,
+            "errors": []
+          },
+          {
+            "path": "/rooms/1001",
+            "requests": 16,
+            "throughputRps": 1.21,
+            "errorRatePercent": 0,
+            "p50Ms": 7197.09,
+            "p95Ms": 8265.46,
+            "p99Ms": 8265.46,
+            "queueP95Ms": 7962,
+            "errors": []
+          },
+          {
+            "path": "/availability",
+            "requests": 32,
+            "throughputRps": 2.42,
+            "errorRatePercent": 0,
+            "p50Ms": 7571.58,
+            "p95Ms": 8373.87,
+            "p99Ms": 8410.13,
+            "queueP95Ms": 7982.65,
+            "errors": []
+          },
+          {
+            "path": "/quote",
+            "requests": 32,
+            "throughputRps": 2.42,
+            "errorRatePercent": 0,
+            "p50Ms": 7514.05,
+            "p95Ms": 8138.29,
+            "p99Ms": 8156.22,
+            "queueP95Ms": 7833.65,
+            "errors": []
+          },
+          {
+            "path": "/checkout",
+            "requests": 14,
+            "throughputRps": 1.06,
+            "errorRatePercent": 0,
+            "p50Ms": 5338.72,
+            "p95Ms": 8283.68,
+            "p99Ms": 8283.68,
+            "queueP95Ms": 7915.65,
+            "errors": []
+          }
+        ]
+      },
+      {
+        "concurrentUsers": 250,
+        "dispatchDurationMs": 5000,
+        "elapsedIncludingDrainSeconds": 19.98,
+        "requests": 306,
+        "throughputRps": 15.32,
+        "errorRatePercent": 34.97,
+        "p50Ms": 12949.82,
+        "p95Ms": 15041.55,
+        "p99Ms": 15043.92,
+        "queueP95Ms": 14596.89,
+        "errors": [
+          {
+            "path": "/availability",
+            "ms": 15044.265599999999,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/availability",
+            "ms": 15044.382899999997,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/quote",
+            "ms": 15044.356400000004,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/quote",
+            "ms": 15043.921100000007,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/availability",
+            "ms": 15043.772299999997,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          }
+        ],
+        "routes": [
+          {
+            "path": "/rooms",
+            "requests": 123,
+            "throughputRps": 6.16,
+            "errorRatePercent": 35.77,
+            "p50Ms": 12971.6,
+            "p95Ms": 15041.35,
+            "p99Ms": 15042.45,
+            "queueP95Ms": 14611.22,
+            "errors": [
+              {
+                "path": "/rooms",
+                "ms": 15042.672599999998,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15042.4496,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15042.270500000006,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15042.085299999999,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15042.046799999996,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/rooms/1001",
+            "requests": 35,
+            "throughputRps": 1.75,
+            "errorRatePercent": 25.71,
+            "p50Ms": 13860.36,
+            "p95Ms": 15039.66,
+            "p99Ms": 15039.83,
+            "queueP95Ms": 14602.72,
+            "errors": [
+              {
+                "path": "/rooms/1001",
+                "ms": 15039.1152,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15038.839,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15039.826999999997,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15039.6584,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15039.508000000002,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/availability",
+            "requests": 60,
+            "throughputRps": 3,
+            "errorRatePercent": 41.67,
+            "p50Ms": 14364.18,
+            "p95Ms": 15043.77,
+            "p99Ms": 15044.38,
+            "queueP95Ms": 14521.05,
+            "errors": [
+              {
+                "path": "/availability",
+                "ms": 15044.265599999999,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15044.382899999997,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15043.772299999997,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15043.451999999997,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15043.021,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/quote",
+            "requests": 60,
+            "throughputRps": 3,
+            "errorRatePercent": 38.33,
+            "p50Ms": 14011.92,
+            "p95Ms": 15043.67,
+            "p99Ms": 15044.36,
+            "queueP95Ms": 14602.67,
+            "errors": [
+              {
+                "path": "/quote",
+                "ms": 15044.356400000004,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15043.921100000007,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15043.668899999997,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15043.206100000003,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15042.8589,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/checkout",
+            "requests": 28,
+            "throughputRps": 1.4,
+            "errorRatePercent": 21.43,
+            "p50Ms": 9370.37,
+            "p95Ms": 15039.92,
+            "p99Ms": 15040.28,
+            "queueP95Ms": 14438.15,
+            "errors": [
+              {
+                "path": "/checkout",
+                "ms": 15040.275699999998,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15039.9225,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15039.462099999997,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15039.433299999997,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15039.242400000003,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "concurrentUsers": 500,
+        "dispatchDurationMs": 5000,
+        "elapsedIncludingDrainSeconds": 20.04,
+        "requests": 556,
+        "throughputRps": 27.74,
+        "errorRatePercent": 68.71,
+        "p50Ms": 15093.64,
+        "p95Ms": 15156.84,
+        "p99Ms": 15158.99,
+        "queueP95Ms": 13788.25,
+        "errors": [
+          {
+            "path": "/availability",
+            "ms": 15159.739000000001,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/availability",
+            "ms": 15159.008200000011,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/availability",
+            "ms": 15158.6097,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/quote",
+            "ms": 15158.568799999994,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/availability",
+            "ms": 15158.551099999997,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          }
+        ],
+        "routes": [
+          {
+            "path": "/rooms",
+            "requests": 210,
+            "throughputRps": 10.48,
+            "errorRatePercent": 71.43,
+            "p50Ms": 15097.24,
+            "p95Ms": 15158.54,
+            "p99Ms": 15159.05,
+            "queueP95Ms": 11320.05,
+            "errors": [
+              {
+                "path": "/rooms",
+                "ms": 15158.515,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15158.59030000001,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15158.775099999999,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15158.9133,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15158.99029999999,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/rooms/1001",
+            "requests": 60,
+            "throughputRps": 2.99,
+            "errorRatePercent": 66.67,
+            "p50Ms": 15095.3,
+            "p95Ms": 15156.15,
+            "p99Ms": 15156.29,
+            "queueP95Ms": 10966.25,
+            "errors": [
+              {
+                "path": "/rooms/1001",
+                "ms": 15156.136100000003,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15156.1544,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15156.2926,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15156.210999999996,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15156.066599999991,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/availability",
+            "requests": 120,
+            "throughputRps": 5.99,
+            "errorRatePercent": 70,
+            "p50Ms": 15086.64,
+            "p95Ms": 15155.3,
+            "p99Ms": 15159.01,
+            "queueP95Ms": 14189.4,
+            "errors": [
+              {
+                "path": "/availability",
+                "ms": 15159.739000000001,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15159.008200000011,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15158.6097,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15158.551099999997,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15155.37490000001,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/quote",
+            "requests": 116,
+            "throughputRps": 5.79,
+            "errorRatePercent": 67.24,
+            "p50Ms": 15086.92,
+            "p95Ms": 15155.01,
+            "p99Ms": 15158.52,
+            "queueP95Ms": 14372.49,
+            "errors": [
+              {
+                "path": "/quote",
+                "ms": 15158.568799999994,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15158.5236,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15155.323699999994,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15155.276800000007,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15155.1492,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/checkout",
+            "requests": 50,
+            "throughputRps": 2.49,
+            "errorRatePercent": 60,
+            "p50Ms": 15096.84,
+            "p95Ms": 15156.13,
+            "p99Ms": 15156.84,
+            "queueP95Ms": 10227.38,
+            "errors": [
+              {
+                "path": "/checkout",
+                "ms": 15156.842000000004,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15156.16320000001,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15155.715100000001,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15155.281900000002,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15154.906400000007,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "concurrentUsers": 1000,
+        "dispatchDurationMs": 5000,
+        "elapsedIncludingDrainSeconds": 20.09,
+        "requests": 1024,
+        "throughputRps": 50.98,
+        "errorRatePercent": 89.26,
+        "p50Ms": 15224.23,
+        "p95Ms": 15370.57,
+        "p99Ms": 15389.45,
+        "queueP95Ms": 13990.67,
+        "errors": [
+          {
+            "path": "/availability",
+            "ms": 15256.395999999993,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/availability",
+            "ms": 15255.097500000003,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/availability",
+            "ms": 15254.357900000003,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/availability",
+            "ms": 15254.164799999999,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/availability",
+            "ms": 15253.978100000008,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          }
+        ],
+        "routes": [
+          {
+            "path": "/rooms",
+            "requests": 405,
+            "throughputRps": 20.16,
+            "errorRatePercent": 90.12,
+            "p50Ms": 15227,
+            "p95Ms": 15369.54,
+            "p99Ms": 15376.56,
+            "queueP95Ms": 9182.39,
+            "errors": [
+              {
+                "path": "/rooms",
+                "ms": 15378.710300000006,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15378.2494,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15377.681800000006,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15377.108099999998,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15376.561399999991,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/rooms/1001",
+            "requests": 106,
+            "throughputRps": 5.28,
+            "errorRatePercent": 81.13,
+            "p50Ms": 15218.89,
+            "p95Ms": 15357.16,
+            "p99Ms": 15358.6,
+            "queueP95Ms": 9959.15,
+            "errors": [
+              {
+                "path": "/rooms/1001",
+                "ms": 15358.959299999988,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15358.600300000006,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15358.253899999996,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15357.954999999987,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15357.619900000005,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/availability",
+            "requests": 206,
+            "throughputRps": 10.25,
+            "errorRatePercent": 94.66,
+            "p50Ms": 15254.29,
+            "p95Ms": 15386.37,
+            "p99Ms": 15390.01,
+            "queueP95Ms": 14270.72,
+            "errors": [
+              {
+                "path": "/availability",
+                "ms": 15256.395999999993,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15255.097500000003,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15254.357900000003,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15254.164799999999,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15253.978100000008,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/quote",
+            "requests": 207,
+            "throughputRps": 10.3,
+            "errorRatePercent": 90.82,
+            "p50Ms": 15215.64,
+            "p95Ms": 15385.77,
+            "p99Ms": 15390,
+            "queueP95Ms": 14493.24,
+            "errors": [
+              {
+                "path": "/quote",
+                "ms": 15254.628499999992,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15254.448100000009,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15254.134600000005,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15253.756100000013,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15253.428199999995,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/checkout",
+            "requests": 100,
+            "throughputRps": 4.98,
+            "errorRatePercent": 80,
+            "p50Ms": 15224.78,
+            "p95Ms": 15366.24,
+            "p99Ms": 15369.84,
+            "queueP95Ms": 11727.17,
+            "errors": [
+              {
+                "path": "/checkout",
+                "ms": 15361.008999999991,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15369.842300000004,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15368.9283,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15367.863800000006,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15367.182700000005,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "after": {
+    "scope": "Four local PHP service-lab workers; synthetic InnoDB schema and helpers; no CMS templates, external providers, admin or real customer data.",
+    "environment": {
+      "node": "v24.19.0",
+      "cpus": 16,
+      "totalMemoryBytes": 8192368640,
+      "opcache": true
+    },
+    "baseline": [
+      {
+        "path": "/rooms",
+        "requests": 5,
+        "successfulRequests": 5,
+        "errorCount": 0,
+        "throughputRps": 1.42,
+        "successfulThroughputRps": 1.42,
+        "errorRatePercent": 0,
+        "p50Ms": 391.01,
+        "p95Ms": 1815.32,
+        "p99Ms": 1815.32,
+        "queueP95Ms": 9.64,
+        "errors": [],
+        "queryCounts": [
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "serverTiming": [
+          "app;dur=1758.96, db;dur=27.25",
+          "app;dur=380.28, db;dur=11.06",
+          "app;dur=382.59, db;dur=10.77",
+          "app;dur=672.07, db;dur=11.58",
+          "app;dur=224.52, db;dur=15.57"
+        ]
+      },
+      {
+        "path": "/rooms/1001",
+        "requests": 5,
+        "successfulRequests": 5,
+        "errorCount": 0,
+        "throughputRps": 3.44,
+        "successfulThroughputRps": 3.44,
+        "errorRatePercent": 0,
+        "p50Ms": 296.59,
+        "p95Ms": 333.09,
+        "p99Ms": 333.09,
+        "queueP95Ms": 1.26,
+        "errors": [],
+        "queryCounts": [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "serverTiming": [
+          "app;dur=288.3, db;dur=5.33",
+          "app;dur=243.25, db;dur=29.32",
+          "app;dur=264.05, db;dur=28.41",
+          "app;dur=297.67, db;dur=27.04",
+          "app;dur=326.43, db;dur=7.47"
+        ]
+      },
+      {
+        "path": "/availability",
+        "requests": 5,
+        "successfulRequests": 5,
+        "errorCount": 0,
+        "throughputRps": 2.09,
+        "successfulThroughputRps": 2.09,
+        "errorRatePercent": 0,
+        "p50Ms": 477.47,
+        "p95Ms": 514.42,
+        "p99Ms": 514.42,
+        "queueP95Ms": 1.34,
+        "errors": [],
+        "queryCounts": [
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "serverTiming": [
+          "app;dur=446.08, db;dur=11.92",
+          "app;dur=438.49, db;dur=11.88",
+          "app;dur=499.4, db;dur=12.83",
+          "app;dur=506.3, db;dur=24.05",
+          "app;dur=471.42, db;dur=11.99"
+        ]
+      },
+      {
+        "path": "/quote",
+        "requests": 5,
+        "successfulRequests": 5,
+        "errorCount": 0,
+        "throughputRps": 3.77,
+        "successfulThroughputRps": 3.77,
+        "errorRatePercent": 0,
+        "p50Ms": 271.96,
+        "p95Ms": 298.28,
+        "p99Ms": 298.28,
+        "queueP95Ms": 0.82,
+        "errors": [],
+        "queryCounts": [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "serverTiming": [
+          "app;dur=291.28, db;dur=6.2",
+          "app;dur=229.83, db;dur=5.92",
+          "app;dur=227.22, db;dur=4.05",
+          "app;dur=276.8, db;dur=35.69",
+          "app;dur=264.27, db;dur=4.42"
+        ]
+      },
+      {
+        "path": "/checkout",
+        "requests": 5,
+        "successfulRequests": 5,
+        "errorCount": 0,
+        "throughputRps": 2.7,
+        "successfulThroughputRps": 2.7,
+        "errorRatePercent": 0,
+        "p50Ms": 363.02,
+        "p95Ms": 475.42,
+        "p99Ms": 475.42,
+        "queueP95Ms": 1.14,
+        "errors": [],
+        "queryCounts": [
+          14,
+          14,
+          14,
+          14,
+          14
+        ],
+        "serverTiming": [
+          "app;dur=470, db;dur=38.92",
+          "app;dur=320.04, db;dur=26.53",
+          "app;dur=355.24, db;dur=14.46",
+          "app;dur=367.28, db;dur=14.19",
+          "app;dur=309.09, db;dur=19.64"
+        ]
+      }
+    ],
+    "stages": [
+      {
+        "concurrentUsers": 25,
+        "dispatchDurationMs": 5000,
+        "elapsedIncludingDrainSeconds": 7.65,
+        "requests": 68,
+        "successfulRequests": 68,
+        "errorCount": 0,
+        "throughputRps": 8.88,
+        "successfulThroughputRps": 8.88,
+        "errorRatePercent": 0,
+        "p50Ms": 2496.72,
+        "p95Ms": 2952.83,
+        "p99Ms": 3136.39,
+        "queueP95Ms": 2602.49,
+        "errors": [],
+        "routes": [
+          {
+            "path": "/rooms",
+            "requests": 26,
+            "successfulRequests": 26,
+            "errorCount": 0,
+            "throughputRps": 3.4,
+            "successfulThroughputRps": 3.4,
+            "errorRatePercent": 0,
+            "p50Ms": 2686.52,
+            "p95Ms": 2926.32,
+            "p99Ms": 3069.69,
+            "queueP95Ms": 2623.62,
+            "errors": []
+          },
+          {
+            "path": "/rooms/1001",
+            "requests": 7,
+            "successfulRequests": 7,
+            "errorCount": 0,
+            "throughputRps": 0.91,
+            "successfulThroughputRps": 0.91,
+            "errorRatePercent": 0,
+            "p50Ms": 2260.16,
+            "p95Ms": 2672.2,
+            "p99Ms": 2672.2,
+            "queueP95Ms": 2383.53,
+            "errors": []
+          },
+          {
+            "path": "/availability",
+            "requests": 13,
+            "successfulRequests": 13,
+            "errorCount": 0,
+            "throughputRps": 1.7,
+            "successfulThroughputRps": 1.7,
+            "errorRatePercent": 0,
+            "p50Ms": 2445.78,
+            "p95Ms": 3136.39,
+            "p99Ms": 3136.39,
+            "queueP95Ms": 2602.49,
+            "errors": []
+          },
+          {
+            "path": "/quote",
+            "requests": 15,
+            "successfulRequests": 15,
+            "errorCount": 0,
+            "throughputRps": 1.96,
+            "successfulThroughputRps": 1.96,
+            "errorRatePercent": 0,
+            "p50Ms": 2496.72,
+            "p95Ms": 2925.8,
+            "p99Ms": 2925.8,
+            "queueP95Ms": 2511.72,
+            "errors": []
+          },
+          {
+            "path": "/checkout",
+            "requests": 7,
+            "successfulRequests": 7,
+            "errorCount": 0,
+            "throughputRps": 0.91,
+            "successfulThroughputRps": 0.91,
+            "errorRatePercent": 0,
+            "p50Ms": 2575.1,
+            "p95Ms": 2878.81,
+            "p99Ms": 2878.81,
+            "queueP95Ms": 2519.9,
+            "errors": []
+          }
+        ]
+      },
+      {
+        "concurrentUsers": 50,
+        "dispatchDurationMs": 5000,
+        "elapsedIncludingDrainSeconds": 10.09,
+        "requests": 96,
+        "successfulRequests": 96,
+        "errorCount": 0,
+        "throughputRps": 9.51,
+        "successfulThroughputRps": 9.51,
+        "errorRatePercent": 0,
+        "p50Ms": 4228.75,
+        "p95Ms": 5518.52,
+        "p99Ms": 5628.51,
+        "queueP95Ms": 5135.15,
+        "errors": [],
+        "routes": [
+          {
+            "path": "/rooms",
+            "requests": 38,
+            "successfulRequests": 38,
+            "errorCount": 0,
+            "throughputRps": 3.77,
+            "successfulThroughputRps": 3.77,
+            "errorRatePercent": 0,
+            "p50Ms": 4244.77,
+            "p95Ms": 5590.64,
+            "p99Ms": 5628.51,
+            "queueP95Ms": 5196.98,
+            "errors": []
+          },
+          {
+            "path": "/rooms/1001",
+            "requests": 10,
+            "successfulRequests": 10,
+            "errorCount": 0,
+            "throughputRps": 0.99,
+            "successfulThroughputRps": 0.99,
+            "errorRatePercent": 0,
+            "p50Ms": 4285.81,
+            "p95Ms": 5421.04,
+            "p99Ms": 5421.04,
+            "queueP95Ms": 5108,
+            "errors": []
+          },
+          {
+            "path": "/availability",
+            "requests": 21,
+            "successfulRequests": 21,
+            "errorCount": 0,
+            "throughputRps": 2.08,
+            "successfulThroughputRps": 2.08,
+            "errorRatePercent": 0,
+            "p50Ms": 4407.78,
+            "p95Ms": 5399.52,
+            "p99Ms": 5530.77,
+            "queueP95Ms": 4876.34,
+            "errors": []
+          },
+          {
+            "path": "/quote",
+            "requests": 18,
+            "successfulRequests": 18,
+            "errorCount": 0,
+            "throughputRps": 1.78,
+            "successfulThroughputRps": 1.78,
+            "errorRatePercent": 0,
+            "p50Ms": 4190.77,
+            "p95Ms": 5531.52,
+            "p99Ms": 5531.52,
+            "queueP95Ms": 5273.9,
+            "errors": []
+          },
+          {
+            "path": "/checkout",
+            "requests": 9,
+            "successfulRequests": 9,
+            "errorCount": 0,
+            "throughputRps": 0.89,
+            "successfulThroughputRps": 0.89,
+            "errorRatePercent": 0,
+            "p50Ms": 3988.49,
+            "p95Ms": 5518.52,
+            "p99Ms": 5518.52,
+            "queueP95Ms": 5177.79,
+            "errors": []
+          }
+        ]
+      },
+      {
+        "concurrentUsers": 100,
+        "dispatchDurationMs": 5000,
+        "elapsedIncludingDrainSeconds": 10.61,
+        "requests": 172,
+        "successfulRequests": 172,
+        "errorCount": 0,
+        "throughputRps": 16.22,
+        "successfulThroughputRps": 16.22,
+        "errorRatePercent": 0,
+        "p50Ms": 5252.53,
+        "p95Ms": 5923.52,
+        "p99Ms": 6099.95,
+        "queueP95Ms": 5717.71,
+        "errors": [],
+        "routes": [
+          {
+            "path": "/rooms",
+            "requests": 66,
+            "successfulRequests": 66,
+            "errorCount": 0,
+            "throughputRps": 6.22,
+            "successfulThroughputRps": 6.22,
+            "errorRatePercent": 0,
+            "p50Ms": 5173.02,
+            "p95Ms": 5923.52,
+            "p99Ms": 6150.29,
+            "queueP95Ms": 5735.05,
+            "errors": []
+          },
+          {
+            "path": "/rooms/1001",
+            "requests": 18,
+            "successfulRequests": 18,
+            "errorCount": 0,
+            "throughputRps": 1.7,
+            "successfulThroughputRps": 1.7,
+            "errorRatePercent": 0,
+            "p50Ms": 5288.69,
+            "p95Ms": 5914.41,
+            "p99Ms": 5914.41,
+            "queueP95Ms": 5681.16,
+            "errors": []
+          },
+          {
+            "path": "/availability",
+            "requests": 36,
+            "successfulRequests": 36,
+            "errorCount": 0,
+            "throughputRps": 3.39,
+            "successfulThroughputRps": 3.39,
+            "errorRatePercent": 0,
+            "p50Ms": 5435.08,
+            "p95Ms": 6071,
+            "p99Ms": 6085.04,
+            "queueP95Ms": 5733.31,
+            "errors": []
+          },
+          {
+            "path": "/quote",
+            "requests": 36,
+            "successfulRequests": 36,
+            "errorCount": 0,
+            "throughputRps": 3.39,
+            "successfulThroughputRps": 3.39,
+            "errorRatePercent": 0,
+            "p50Ms": 5253.12,
+            "p95Ms": 5920.23,
+            "p99Ms": 5964.98,
+            "queueP95Ms": 5721.22,
+            "errors": []
+          },
+          {
+            "path": "/checkout",
+            "requests": 16,
+            "successfulRequests": 16,
+            "errorCount": 0,
+            "throughputRps": 1.51,
+            "successfulThroughputRps": 1.51,
+            "errorRatePercent": 0,
+            "p50Ms": 5299.2,
+            "p95Ms": 5835,
+            "p99Ms": 5835,
+            "queueP95Ms": 5564.35,
+            "errors": []
+          }
+        ]
+      },
+      {
+        "concurrentUsers": 250,
+        "dispatchDurationMs": 5000,
+        "elapsedIncludingDrainSeconds": 17.97,
+        "requests": 327,
+        "successfulRequests": 327,
+        "errorCount": 0,
+        "throughputRps": 18.19,
+        "successfulThroughputRps": 18.19,
+        "errorRatePercent": 0,
+        "p50Ms": 9135.08,
+        "p95Ms": 13314.1,
+        "p99Ms": 13573.6,
+        "queueP95Ms": 13098.14,
+        "errors": [],
+        "routes": [
+          {
+            "path": "/rooms",
+            "requests": 125,
+            "successfulRequests": 125,
+            "errorCount": 0,
+            "throughputRps": 6.95,
+            "successfulThroughputRps": 6.95,
+            "errorRatePercent": 0,
+            "p50Ms": 8764.44,
+            "p95Ms": 13297.29,
+            "p99Ms": 13501.82,
+            "queueP95Ms": 13092.07,
+            "errors": []
+          },
+          {
+            "path": "/rooms/1001",
+            "requests": 35,
+            "successfulRequests": 35,
+            "errorCount": 0,
+            "throughputRps": 1.95,
+            "successfulThroughputRps": 1.95,
+            "errorRatePercent": 0,
+            "p50Ms": 9235.63,
+            "p95Ms": 13466.15,
+            "p99Ms": 13493.07,
+            "queueP95Ms": 13278.26,
+            "errors": []
+          },
+          {
+            "path": "/availability",
+            "requests": 68,
+            "successfulRequests": 68,
+            "errorCount": 0,
+            "throughputRps": 3.78,
+            "successfulThroughputRps": 3.78,
+            "errorRatePercent": 0,
+            "p50Ms": 9944.98,
+            "p95Ms": 13449.46,
+            "p99Ms": 13635.32,
+            "queueP95Ms": 13170.44,
+            "errors": []
+          },
+          {
+            "path": "/quote",
+            "requests": 69,
+            "successfulRequests": 69,
+            "errorCount": 0,
+            "throughputRps": 3.84,
+            "successfulThroughputRps": 3.84,
+            "errorRatePercent": 0,
+            "p50Ms": 9893.52,
+            "p95Ms": 13209.55,
+            "p99Ms": 13504.25,
+            "queueP95Ms": 13041.65,
+            "errors": []
+          },
+          {
+            "path": "/checkout",
+            "requests": 30,
+            "successfulRequests": 30,
+            "errorCount": 0,
+            "throughputRps": 1.67,
+            "successfulThroughputRps": 1.67,
+            "errorRatePercent": 0,
+            "p50Ms": 8411.58,
+            "p95Ms": 12917.88,
+            "p99Ms": 13073.29,
+            "queueP95Ms": 12696.54,
+            "errors": []
+          }
+        ]
+      },
+      {
+        "concurrentUsers": 500,
+        "dispatchDurationMs": 5000,
+        "elapsedIncludingDrainSeconds": 20.09,
+        "requests": 591,
+        "successfulRequests": 265,
+        "errorCount": 326,
+        "throughputRps": 29.42,
+        "successfulThroughputRps": 13.19,
+        "errorRatePercent": 55.16,
+        "p50Ms": 15004.81,
+        "p95Ms": 15138.64,
+        "p99Ms": 15143.28,
+        "queueP95Ms": 13720.79,
+        "errors": [
+          {
+            "path": "/availability",
+            "ms": 15149.785000000003,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/availability",
+            "ms": 15148.198900000003,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/quote",
+            "ms": 15146.841099999998,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/quote",
+            "ms": 15145.3419,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/quote",
+            "ms": 15144.623599999992,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          }
+        ],
+        "routes": [
+          {
+            "path": "/rooms",
+            "requests": 236,
+            "successfulRequests": 100,
+            "errorCount": 136,
+            "throughputRps": 11.75,
+            "successfulThroughputRps": 4.98,
+            "errorRatePercent": 57.63,
+            "p50Ms": 15005.63,
+            "p95Ms": 15139.05,
+            "p99Ms": 15141.19,
+            "queueP95Ms": 12481.19,
+            "errors": [
+              {
+                "path": "/rooms",
+                "ms": 15141.6607,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15141.4977,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15141.186999999998,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15140.529199999997,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15139.992400000003,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/rooms/1001",
+            "requests": 60,
+            "successfulRequests": 30,
+            "errorCount": 30,
+            "throughputRps": 2.99,
+            "successfulThroughputRps": 1.49,
+            "errorRatePercent": 50,
+            "p50Ms": 15002.51,
+            "p95Ms": 15131.44,
+            "p99Ms": 15132.88,
+            "queueP95Ms": 13270.1,
+            "errors": [
+              {
+                "path": "/rooms/1001",
+                "ms": 15132.883300000009,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15132.122200000005,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15131.443199999994,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15131.102099999996,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15130.366100000007,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/availability",
+            "requests": 120,
+            "successfulRequests": 53,
+            "errorCount": 67,
+            "throughputRps": 5.97,
+            "successfulThroughputRps": 2.64,
+            "errorRatePercent": 55.83,
+            "p50Ms": 15005.4,
+            "p95Ms": 15142.69,
+            "p99Ms": 15148.2,
+            "queueP95Ms": 14242.6,
+            "errors": [
+              {
+                "path": "/availability",
+                "ms": 15149.785000000003,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15148.198900000003,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15142.846500000007,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15142.6884,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15142.944399999993,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/quote",
+            "requests": 120,
+            "successfulRequests": 52,
+            "errorCount": 68,
+            "throughputRps": 5.97,
+            "successfulThroughputRps": 2.59,
+            "errorRatePercent": 56.67,
+            "p50Ms": 15005.01,
+            "p95Ms": 15142.73,
+            "p99Ms": 15145.34,
+            "queueP95Ms": 13734.94,
+            "errors": [
+              {
+                "path": "/quote",
+                "ms": 15146.841099999998,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15145.3419,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15144.623599999992,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15143.275999999998,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15142.732099999994,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/checkout",
+            "requests": 55,
+            "successfulRequests": 30,
+            "errorCount": 25,
+            "throughputRps": 2.74,
+            "successfulThroughputRps": 1.49,
+            "errorRatePercent": 45.45,
+            "p50Ms": 11875.73,
+            "p95Ms": 15135.02,
+            "p99Ms": 15135.61,
+            "queueP95Ms": 11639.23,
+            "errors": [
+              {
+                "path": "/checkout",
+                "ms": 15135.606899999999,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15135.222699999991,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15134.838000000003,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15134.974900000001,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15135.019700000004,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "concurrentUsers": 1000,
+        "dispatchDurationMs": 5000,
+        "elapsedIncludingDrainSeconds": 20.09,
+        "requests": 1072,
+        "successfulRequests": 273,
+        "errorCount": 799,
+        "throughputRps": 53.35,
+        "successfulThroughputRps": 13.59,
+        "errorRatePercent": 74.53,
+        "p50Ms": 15200.88,
+        "p95Ms": 15326.84,
+        "p99Ms": 15331.93,
+        "queueP95Ms": 14164.98,
+        "errors": [
+          {
+            "path": "/rooms",
+            "ms": 15344.2396,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/rooms",
+            "ms": 15342.977899999998,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/rooms",
+            "ms": 15341.569099999993,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/rooms",
+            "ms": 15340.13410000001,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          },
+          {
+            "path": "/rooms",
+            "ms": 15337.357000000004,
+            "status": 0,
+            "ok": false,
+            "error": "request timeout"
+          }
+        ],
+        "routes": [
+          {
+            "path": "/rooms",
+            "requests": 412,
+            "successfulRequests": 110,
+            "errorCount": 302,
+            "throughputRps": 20.5,
+            "successfulThroughputRps": 5.47,
+            "errorRatePercent": 73.3,
+            "p50Ms": 15202.04,
+            "p95Ms": 15320.74,
+            "p99Ms": 15337.36,
+            "queueP95Ms": 13475.36,
+            "errors": [
+              {
+                "path": "/rooms",
+                "ms": 15344.2396,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15342.977899999998,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15341.569099999993,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15340.13410000001,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms",
+                "ms": 15337.357000000004,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/rooms/1001",
+            "requests": 120,
+            "successfulRequests": 40,
+            "errorCount": 80,
+            "throughputRps": 5.97,
+            "successfulThroughputRps": 1.99,
+            "errorRatePercent": 66.67,
+            "p50Ms": 15176.21,
+            "p95Ms": 15303.4,
+            "p99Ms": 15305.23,
+            "queueP95Ms": 14555.83,
+            "errors": [
+              {
+                "path": "/rooms/1001",
+                "ms": 15305.544300000009,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15305.23120000001,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15304.907600000006,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15304.568799999994,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/rooms/1001",
+                "ms": 15303.883199999997,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/availability",
+            "requests": 221,
+            "successfulRequests": 41,
+            "errorCount": 180,
+            "throughputRps": 11,
+            "successfulThroughputRps": 2.04,
+            "errorRatePercent": 81.45,
+            "p50Ms": 15208.33,
+            "p95Ms": 15328.82,
+            "p99Ms": 15330.47,
+            "queueP95Ms": 10804.26,
+            "errors": [
+              {
+                "path": "/availability",
+                "ms": 15330.86910000001,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15330.466700000004,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15329.877099999998,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15330.326700000005,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/availability",
+                "ms": 15330.030199999994,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/quote",
+            "requests": 219,
+            "successfulRequests": 42,
+            "errorCount": 177,
+            "throughputRps": 10.9,
+            "successfulThroughputRps": 2.09,
+            "errorRatePercent": 80.82,
+            "p50Ms": 15208.51,
+            "p95Ms": 15328.9,
+            "p99Ms": 15330.21,
+            "queueP95Ms": 12617.86,
+            "errors": [
+              {
+                "path": "/quote",
+                "ms": 15331.012100000007,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15330.158800000005,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15329.648000000001,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15330.212400000004,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/quote",
+                "ms": 15329.85149999999,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          },
+          {
+            "path": "/checkout",
+            "requests": 100,
+            "successfulRequests": 40,
+            "errorCount": 60,
+            "throughputRps": 4.98,
+            "successfulThroughputRps": 1.99,
+            "errorRatePercent": 60,
+            "p50Ms": 15198.45,
+            "p95Ms": 15309.45,
+            "p99Ms": 15348.33,
+            "queueP95Ms": 14576.99,
+            "errors": [
+              {
+                "path": "/checkout",
+                "ms": 15311.217000000004,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15310.342799999999,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15309.844899999996,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15309.450500000006,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              },
+              {
+                "path": "/checkout",
+                "ms": 15309.128600000011,
+                "status": 0,
+                "ok": false,
+                "error": "request timeout"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
