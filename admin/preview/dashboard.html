@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin preview — B&W Sahara Sky</title>
+<!-- Static preview of the Botble admin markup with the brand layer. ?theme=dark and ?dir=rtl switch modes. -->
+<link rel="stylesheet" href="../public/vendor/core/core/base/css/core.css">
+<link rel="stylesheet" href="../public/vendor/core/core/base/css/bw-brand/bw-admin.css?v=2">
+<script>
+  const q=new URLSearchParams(location.search);
+  document.documentElement.dir=q.get('dir')==='rtl'?'rtl':'ltr';
+  if(q.get('dir')==='rtl'){document.write('<link rel="stylesheet" href="../public/vendor/core/core/base/css/core.rtl.css"><link rel="stylesheet" href="../public/vendor/core/core/base/css/bw-brand/bw-admin.css?v=2">');}
+</script>
+</head>
+<body>
+<script>document.body.dataset.bsTheme=q.get('theme')==='dark'?'dark':'light';</script>
+<div class="page">
+ <div class="d-block d-lg-flex">
+  <aside class="navbar navbar-vertical navbar-expand-lg flex-auto" data-bs-theme="dark" id="sidebar-menu-main">
+   <div class="container-fluid">
+    <h1 class="navbar-brand navbar-brand-autodark d-none py-3"><span style="font-family:'Cormorant Garamond',serif;letter-spacing:.18em;color:#e5c194;font-size:18px">B&amp;W SAHARA SKY</span></h1>
+    <button class="navbar-toggler" type="button" onclick="document.getElementById('sidebar-menu').classList.toggle('show')" aria-label="Toggle navigation">☰</button>
+    <h1 class="d-block d-lg-none navbar-brand m-0"><span style="font-family:'Cormorant Garamond',serif;letter-spacing:.14em;color:#e5c194;font-size:16px">B&amp;W SAHARA SKY</span></h1>
+    <div class="collapse navbar-collapse" id="sidebar-menu">
+     <ul class="navbar-nav pt-lg-3">
+      <li class="nav-item active"><a class="nav-link" href="#"><span class="nav-link-title">Dashboard</span></a></li>
+      <li class="nav-item dropdown"><a class="nav-link" href="#"><span class="nav-link-title">Hotel</span></a>
+       <div class="dropdown-menu show"><a class="dropdown-item active" href="#">Bookings</a><a class="dropdown-item" href="#">Rooms</a><a class="dropdown-item" href="#">Room categories</a><a class="dropdown-item" href="#">Coupons</a><a class="dropdown-item" href="#">Customers</a></div></li>
+      <li class="nav-item"><a class="nav-link" href="#"><span class="nav-link-title">Pages</span></a></li>
+      <li class="nav-item"><a class="nav-link" href="#"><span class="nav-link-title">Blog</span></a></li>
+      <li class="nav-item"><a class="nav-link" href="#"><span class="nav-link-title">Media</span></a></li>
+      <li class="nav-item"><a class="nav-link" href="#"><span class="nav-link-title">Appearance</span></a></li>
+      <li class="nav-item"><a class="nav-link" href="#"><span class="nav-link-title">Settings</span></a></li>
+     </ul>
+    </div>
+   </div>
+  </aside>
+  <div class="page-wrapper">
+   <header class="navbar navbar-expand-md d-none d-lg-flex d-print-none" data-bs-theme="dark">
+    <div class="container-fluid">
+     <button class="navbar-toggler d-none d-lg-block me-2 ms-n1" type="button" aria-label="Toggle navigation"><svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+     <h1 class="navbar-brand navbar-brand-autodark me-4"><a href="#"><img src="../public/vendor/core/core/base/css/bw-brand/img/logo.webp" style="max-height:32px;height:auto" alt="B&amp;W SAHARA SKY HOTEL" class="navbar-brand-image"></a></h1>
+     <div class="flex-row navbar-nav order-md-last">
+      <div class="d-flex align-items-center me-3"><div class="input-group input-group-flat"><input class="form-control" placeholder="Search" id="global-search-input"><div class="input-group-text"><kbd>ctrl/cmd + k</kbd></div></div></div>
+      <div class="d-flex align-items-center me-3"><a class="btn" href="#"><svg class="icon icon-left" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg> View website</a></div>
+      <div class="d-none d-md-flex me-2"><a href="#" class="px-0 nav-link"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg></a><div class="nav-item dropdown"><a href="#" class="px-0 nav-link"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6M9 17v1a3 3 0 0 0 6 0v-1"/></svg><span class="badge bg-blue text-blue-fg badge-pill">0</span></a></div><div class="nav-item dropdown"><a href="#" class="px-0 nav-link"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span class="badge bg-red text-red-fg badge-pill">4</span></a></div></div>
+      <div class="nav-item dropdown"><a href="#" class="p-0 nav-link d-flex lh-1 text-reset"><span class="crop-image-original avatar avatar-sm" style="background:#5f7f86;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:700">A</span><div class="d-none d-xl-block ps-2"><div>Admin B&amp;W</div><div class="mt-1 small text-muted">admin@example.com</div></div></a></div>
+     </div>
+     <div class="collapse navbar-collapse" id="navbar-menu"></div>
+    </div>
+   </header>
+   <div class="page-header d-print-none"><div class="container-xl"><div class="row g-2 align-items-center">
+    <div class="col"><div class="page-pretitle">Hotel</div><h2 class="page-title">Bookings</h2></div>
+    <div class="col-auto ms-auto d-flex gap-2"><a href="#" class="btn">Export</a><a href="#" class="btn btn-outline-primary">Calendar</a><a href="#" class="btn btn-primary">New booking</a></div>
+   </div></div></div>
+   <main class="page-body page-content"><div class="container-xl">
+    <div class="row row-deck row-cards mb-3">
+     <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body"><div class="subheader">Bookings this month</div><div class="h1 mb-1">128</div><div class="text-muted small">+12% vs last month</div><div class="progress progress-sm mt-2"><div class="progress-bar" style="width:72%"></div></div></div></div></div>
+     <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body"><div class="subheader">Revenue</div><div class="h1 mb-1">EGP 412k</div><div class="text-muted small">Paid and pending</div></div></div></div>
+     <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body"><div class="subheader">Occupancy</div><div class="h1 mb-1">86%</div><div class="text-muted small">Next 30 days</div></div></div></div>
+     <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body"><div class="subheader">Guests arriving</div><div class="h1 mb-1">9</div><div class="text-muted small">Today</div></div></div></div>
+    </div>
+    <div class="row row-cards">
+     <div class="col-lg-8"><div class="card">
+      <div class="card-header"><h3 class="card-title">Recent bookings</h3><div class="card-actions"><span class="badge bg-primary-lt">Live</span></div></div>
+      <div class="table-responsive"><table class="table table-vcenter card-table table-hover">
+       <thead><tr><th>Guest</th><th>Room</th><th>Dates</th><th>Status</th><th>Total</th></tr></thead>
+       <tbody>
+        <tr><td>Sara Ahmed</td><td>Deluxe Double</td><td>12–15 Oct</td><td><span class="badge bg-success text-white">Confirmed</span></td><td>EGP 9,600</td></tr>
+        <tr><td>John Miller</td><td>Glass dome</td><td>14–16 Oct</td><td><span class="badge bg-warning text-white">Pending</span></td><td>EGP 7,200</td></tr>
+        <tr><td>Li Wei</td><td>Superior Single</td><td>18–20 Oct</td><td><span class="badge bg-primary">Paid</span></td><td>EGP 4,100</td></tr>
+        <tr><td>Omar Khaled</td><td>Standard Triple</td><td>21–24 Oct</td><td><span class="badge bg-danger text-white">Cancelled</span></td><td>EGP 0</td></tr>
+       </tbody></table></div>
+      <div class="card-footer d-flex align-items-center"><p class="m-0 text-muted">Showing 1–4 of 128</p><ul class="pagination m-0 ms-auto"><li class="page-item"><a class="page-link" href="#">‹</a></li><li class="page-item active"><a class="page-link" href="#">1</a></li><li class="page-item"><a class="page-link" href="#">2</a></li><li class="page-item"><a class="page-link" href="#">›</a></li></ul></div>
+     </div></div>
+     <div class="col-lg-4"><div class="card">
+      <div class="card-header"><h3 class="card-title">Quick booking</h3></div>
+      <div class="card-body">
+       <div class="mb-3"><label class="form-label required">Guest name</label><input class="form-control" placeholder="Full name"></div>
+       <div class="mb-3"><label class="form-label">Room</label><select class="form-select"><option>Deluxe Double</option><option>Glass dome</option></select></div>
+       <div class="row"><div class="col mb-3"><label class="form-label">Check-in</label><input type="date" class="form-control"></div><div class="col mb-3"><label class="form-label">Check-out</label><input type="date" class="form-control"></div></div>
+       <label class="form-check form-switch mb-3"><input class="form-check-input" type="checkbox" checked><span class="form-check-label">Send confirmation email</span></label>
+       <div class="alert alert-info mb-3">Prices are confirmed by the reservations team.</div>
+       <button class="btn btn-primary w-100">Create booking</button>
+      </div>
+     </div></div>
+    </div>
+   </div></main>
+   <footer class="footer footer-transparent d-print-none"><div class="container-xl">Copyright 2026 © B&amp;W Sahara Sky Hotel</div></footer>
+  </div>
+ </div>
+</div>
+</body>
+</html>
