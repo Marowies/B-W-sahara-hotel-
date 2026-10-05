@@ -8,7 +8,6 @@ use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Hotel\DataTransferObjects\RoomSearchParams;
 use Botble\Hotel\Enums\BookingStatusEnum;
 use Botble\Hotel\Enums\ReviewStatusEnum;
-use Botble\Hotel\Enums\ServicePriceTypeEnum;
 use Botble\Hotel\Facades\HotelHelper;
 use Botble\Hotel\Http\Requests\CalculateBookingAmountRequest;
 use Botble\Hotel\Http\Requests\CheckoutRequest;
@@ -23,7 +22,7 @@ use Botble\Hotel\Models\Place;
 use Botble\Hotel\Models\Room;
 use Botble\Hotel\Models\RoomCategory;
 use Botble\Hotel\Models\Service;
-use Botble\Hotel\Services\CouponService;
+use Botble\Hotel\Services\BookingPricingService;
 use Botble\Hotel\Services\GetRoomService;
 use Botble\Media\Facades\RvMedia;
 use Botble\Optimize\Facades\OptimizerHelper;
@@ -40,8 +39,10 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class PublicController extends Controller
 {
@@ -60,21 +61,20 @@ class PublicController extends Controller
 
         $rooms = $this->getRoomService->getAvailableRooms($params);
 
-        $nights = $params->endDate->diffInDays($params->startDate);
+        $nights = (int) $params->startDate->diffInDays($params->endDate);
+        $startDate = $params->startDate;
+        $endDate = $params->endDate;
+        $adults = $params->adults;
+        $children = $params->children;
+        $numberOfRooms = $params->rooms;
 
         if ($request->ajax() && $request->wantsJson()) {
-            $data = null;
-            foreach ($rooms as $room) {
-                $data = view(
-                    Theme::getThemeNamespace('views.hotel.includes.room-item'),
-                    compact('room')
-                )->render();
-            }
-
-            return $response->setData($data);
+            return $response->setData(Theme::partial('shortcodes.all-rooms.index', compact(
+                'rooms', 'startDate', 'endDate', 'nights', 'adults', 'children', 'numberOfRooms'
+            )));
         }
 
-        return Theme::scope('hotel.rooms', compact('rooms', 'nights'))->render();
+        return Theme::scope('hotel.rooms', compact('rooms', 'startDate', 'endDate', 'nights', 'adults', 'children', 'numberOfRooms'))->render();
     }
 
     public function getRoom(string $key)
@@ -93,8 +93,7 @@ class PublicController extends Controller
                 'activeRoomDates' => function ($query) use ($startDate, $endDate) {
                     return $query
                         ->whereDate('start_date', '>=', $startDate)
-                        ->whereDate('end_date', '<=', $endDate)
-                        ->take(42);
+                        ->whereDate('start_date', '<', $endDate);
                 },
             ])
             ->withCount([
@@ -151,8 +150,7 @@ class PublicController extends Controller
                     'activeRoomDates' => function ($query) use ($startDate, $endDate) {
                         return $query
                             ->whereDate('start_date', '>=', $startDate)
-                            ->whereDate('end_date', '<=', $endDate)
-                            ->take(42);
+                            ->whereDate('start_date', '<', $endDate);
                     },
                 ],
             ]
@@ -210,7 +208,7 @@ class PublicController extends Controller
         $params->roomCategoryId = $category->id;
 
         $rooms = app(GetRoomService::class)->getAvailableRooms($params);
-        $nights = $params->endDate->diffInDays($params->startDate);
+        $nights = (int) $params->startDate->diffInDays($params->endDate);
 
         return Theme::scope('hotel.room-category', compact('rooms', 'category', 'nights'))->render();
     }
@@ -322,80 +320,34 @@ class PublicController extends Controller
         $children = Arr::get($sessionData, 'children', 0);
         $rooms = Arr::get($sessionData, 'rooms', 1);
 
-        $room = Room::query()
-            ->with([
-                'currency',
-                'category',
-                'activeBookingRooms' => function ($query) use ($startDate, $endDate) {
-                    return $query
-                        ->whereNot('status', BookingStatusEnum::CANCELLED)
-                        ->where(function ($query) use ($endDate, $startDate) {
-                            return $query
-                                ->where(function ($query) use ($startDate, $endDate) {
-                                    return $query
-                                        ->whereDate('start_date', '>=', $startDate)
-                                        ->whereDate('start_date', '<=', $endDate);
-                                })
-                                ->orWhere(function ($query) use ($startDate, $endDate) {
-                                    return $query
-                                        ->whereDate('end_date', '>=', $startDate)
-                                        ->whereDate('end_date', '<=', $endDate);
-                                })
-                                ->orWhere(function ($query) use ($startDate, $endDate) {
-                                    return $query
-                                        ->whereDate('start_date', '<=', $startDate)
-                                        ->whereDate('end_date', '>=', $endDate);
-                                })
-                                ->orWhere(function ($query) use ($startDate, $endDate) {
-                                    return $query
-                                        ->whereDate('start_date', '>=', $startDate)
-                                        ->whereDate('end_date', '<=', $endDate);
-                                });
-                        });
-                },
-                'activeRoomDates' => function ($query) use ($startDate, $endDate) {
-                    return $query
-                        ->whereDate('start_date', '>=', $startDate)
-                        ->whereDate('end_date', '<=', $endDate)
-                        ->take(42);
-                },
-            ])
+        session()->put('checkout_token', $token);
+        $params = new RoomSearchParams(startDate: $startDate, endDate: $endDate, adults: $adults, children: $children, rooms: $rooms);
+        $room = Room::query()->wherePublished()
+            ->with(array_merge($params->availabilityRelations(), ['currency', 'category']))
             ->findOrFail(Arr::get($sessionData, 'room_id'));
 
-        if (! $room->isAvailableAt(['start_date' => $startDate, 'end_date' => $endDate])) {
-            return $response
-                ->setError()
-                ->setMessage(trans(
-                    'plugins/hotel::hotel.room_not_available',
-                    ['start_date' => $startDate->toDateString(), 'end_date' => $endDate->toDateString()]
-                ))
-                ->withInput();
+        if (! $room->isAvailableAt(['start_date' => $startDate, 'end_date' => $endDate, 'adults' => $adults, 'children' => $children, 'rooms' => $rooms])) {
+            return $response->setError()->setMessage(trans('plugins/hotel::hotel.room_not_available', [
+                'start_date' => $startDate->toDateString(), 'end_date' => $endDate->toDateString(),
+            ]))->withInput();
         }
 
         $room->total_price = $room->getRoomTotalPrice($startDate, $endDate, $rooms);
-
-        $amount = $room->total_price + Arr::get($sessionData, 'service_amount', 0);
-
-        $taxAmount = $room->tax->percentage * $amount / 100;
-
-        $couponAmount = Arr::get($sessionData, 'coupon_amount', 0);
-
-        $couponCode = Arr::get($sessionData, 'coupon_code');
-
+        $selectedServices = Arr::get($sessionData, 'selected_services', []);
+        $isEnabledFoodOrder = HotelHelper::isEnableFoodOrder();
+        $selectedFoods = $isEnabledFoodOrder ? Arr::get($sessionData, 'selected_foods', []) : [];
+        [$amount, $couponAmount] = $this->calculateBookingAmount($room, $selectedServices, (int) $startDate->diffInDays($endDate), $rooms, $selectedFoods);
+        $taxAmount = $room->tax->percentage * ($amount - $couponAmount) / 100;
         $total = $amount + $taxAmount - $couponAmount;
+        $couponCode = Arr::get(HotelHelper::getCheckoutData(), 'coupon_code');
 
         $services = Service::query()
             ->wherePublished()
             ->get();
 
-        $isEnabledFoodOrder = HotelHelper::isEnableFoodOrder();
-
         $foods = $isEnabledFoodOrder ? Food::query()
             ->wherePublished()
             ->get() : collect();
-
-        $selectedServices = Arr::get($sessionData, 'selected_services', []);
-        $selectedFoods = $isEnabledFoodOrder ? Arr::get($sessionData, 'selected_foods', []) : [];
 
         return Theme::scope(
             'hotel.booking',
@@ -427,6 +379,8 @@ class PublicController extends Controller
     ) {
         do_action('form_extra_fields_validate', $request);
 
+        abort_if(! HotelHelper::isBookingEnabled(), 404);
+
         $token = $request->input('token');
 
         if (! session()->has($token)) {
@@ -437,92 +391,142 @@ class PublicController extends Controller
             abort(404);
         }
 
-        $room = Room::query()->findOrFail($request->input('room_id'));
+        $selection = session($token);
+        $expected = [
+            'room_id' => $selection['room_id'] ?? null,
+            'start_date' => $selection['start_date'] ?? null,
+            'end_date' => $selection['end_date'] ?? null,
+            'rooms' => $selection['rooms'] ?? 1,
+            'number_of_guests' => $selection['adults'] ?? 1,
+            'number_of_children' => $selection['children'] ?? 0,
+        ];
+        foreach ($expected as $field => $value) {
+            if ((string) $request->input($field, $field === 'rooms' ? 1 : ($field === 'number_of_children' ? 0 : '')) !== (string) $value) {
+                throw ValidationException::withMessages([$field => __('Your booking selection changed. Please start a new booking.')]);
+            }
+        }
 
-        if ($request->input('register_customer') == 1) {
-            $request->validate(apply_filters('hotel_customer_registration_form_validation_rules', [
-                'first_name' => 'required|string|max:60|min:2',
-                'last_name' => 'required|string|max:60|min:2',
-                'email' => 'required|max:120|min:6|email|unique:ht_customers',
-                'phone' => 'required|string|' . BaseHelper::getPhoneValidationRule(),
-                'password' => 'required|string|min:6|confirmed',
+        $booking = DB::transaction(function () use ($request): Booking {
+            $room = Room::query()->wherePublished()->lockForUpdate()->findOrFail($request->input('room_id'));
+
+            $startDate = HotelHelper::dateFromRequest($request->input('start_date'));
+            $endDate = HotelHelper::dateFromRequest($request->input('end_date'));
+            $numberOfRooms = $request->integer('rooms', 1);
+
+            if (! $room->isAvailableAt([
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'rooms' => $numberOfRooms,
+                'adults' => $request->integer('number_of_guests', 1),
+                'children' => $request->integer('number_of_children'),
+            ])) {
+                throw ValidationException::withMessages(['rooms' => trans('plugins/hotel::hotel.room_not_available', [
+                    'start_date' => $startDate->toDateString(),
+                    'end_date' => $endDate->toDateString(),
+                ])]);
+            }
+
+            $customer = null;
+
+            if ($request->input('register_customer') == 1) {
+                $request->validate(apply_filters('hotel_customer_registration_form_validation_rules', [
+                    'first_name' => 'required|string|max:60|min:2',
+                    'last_name' => 'required|string|max:60|min:2',
+                    'email' => 'required|max:120|min:6|email|unique:ht_customers',
+                    'phone' => 'required|string|' . BaseHelper::getPhoneValidationRule(),
+                    'password' => 'required|string|min:6|confirmed',
+                ]));
+
+                $customer = Customer::query()->forceCreate([
+                    'first_name' => BaseHelper::clean($request->input('first_name')),
+                    'last_name' => BaseHelper::clean($request->input('last_name')),
+                    'email' => BaseHelper::clean($request->input('email')),
+                    'phone' => BaseHelper::clean($request->input('phone')),
+                    'password' => Hash::make($request->input('password')),
+                ]);
+
+            }
+
+            $booking = new Booking();
+
+            $booking->fill($request->safe()->only([
+                'requests', 'arrival_time', 'number_of_guests', 'number_of_children',
             ]));
+            $booking->status = BookingStatusEnum::PENDING;
+            $booking->customer_id = null;
+            $booking->payment_id = null;
+            $booking->currency_id = get_application_currency()->getKey();
 
-            $customer = Customer::query()->forceCreate([
-                'first_name' => BaseHelper::clean($request->input('first_name')),
-                'last_name' => BaseHelper::clean($request->input('last_name')),
-                'email' => BaseHelper::clean($request->input('email')),
-                'phone' => BaseHelper::clean($request->input('phone')),
-                'password' => Hash::make($request->input('password')),
+            $booking->number_of_children = $request->integer('number_of_children');
+
+            $room->total_price = $room->getRoomTotalPrice($startDate, $endDate, $numberOfRooms);
+
+            $serviceIds = (array) $request->input('services', []);
+            $foodIds = HotelHelper::isEnableFoodOrder() ? (array) $request->input('foods', []) : [];
+
+            [$amount, $discountAmount] = $this->calculateBookingAmount($room, $serviceIds, $startDate->diffInDays($endDate), $numberOfRooms, $foodIds);
+
+            $taxAmount = $room->tax->percentage * ($amount - $discountAmount) / 100;
+
+            $sessionData = HotelHelper::getCheckoutData();
+
+            $booking->coupon_amount = $discountAmount;
+            $booking->coupon_code = Arr::get($sessionData, 'coupon_code');
+            $booking->amount = ($amount - $discountAmount) + $taxAmount;
+            $booking->sub_total = $amount;
+            $booking->tax_amount = $taxAmount;
+            $booking->transaction_id = Str::upper(Str::random(32));
+            $booking->booking_number = Booking::generateUniqueBookingNumber();
+
+            if ($customer) {
+                $booking->customer_id = $customer->getKey();
+            } elseif (Auth::guard('customer')->check()) {
+                $booking->customer_id = Auth::guard('customer')->id();
+            }
+
+            $booking->save();
+
+            if ($serviceIds) {
+                $booking->services()->attach($serviceIds);
+            }
+
+            if ($foodIds) {
+                $booking->foods()->attach($foodIds);
+            }
+
+            BookingRoom::query()->create([
+                'room_id' => $room->getKey(),
+                'room_name' => $room->name,
+                'room_image' => Arr::first($room->images),
+                'booking_id' => $booking->getKey(),
+                'price' => $room->total_price,
+                'currency_id' => $room->currency_id,
+                'number_of_rooms' => $numberOfRooms,
+                'start_date' => $startDate->format('Y-m-d'),
+                'end_date' => $endDate->format('Y-m-d'),
             ]);
 
-            Auth::guard('customer')->loginUsingId($customer->getKey());
-        }
+            $bookingAddress = new BookingAddress();
+            $bookingAddress->fill($request->safe()->only([
+                'first_name', 'last_name', 'phone', 'email', 'country', 'state', 'city', 'address', 'zip',
+            ]));
+            $bookingAddress->booking_id = $booking->getKey();
+            $bookingAddress->save();
 
-        $booking = new Booking();
-
-        $booking->fill($request->input());
-
-        $booking->number_of_children = $request->integer('number_of_children');
-
-        $startDate = HotelHelper::dateFromRequest($request->input('start_date'));
-        $endDate = HotelHelper::dateFromRequest($request->input('end_date'));
-        $numberOfRooms = $request->input('rooms', 1);
-
-        $room->total_price = $room->getRoomTotalPrice($startDate, $endDate, $numberOfRooms);
-
-        $serviceIds = $request->input('services', []);
-        $foodIds = HotelHelper::isEnableFoodOrder() ? $request->input('foods', []) : [];
-
-        [$amount, $discountAmount] = $this->calculateBookingAmount($room, $serviceIds, $startDate->diffInDays($endDate), $numberOfRooms, $foodIds);
-
-        $taxAmount = $room->tax->percentage * ($amount - $discountAmount) / 100;
-
-        $sessionData = HotelHelper::getCheckoutData();
-
-        $booking->coupon_amount = $discountAmount;
-        $booking->coupon_code = Arr::get($sessionData, 'coupon_code');
-        $booking->amount = ($amount - $discountAmount) + $taxAmount;
-        $booking->sub_total = $amount;
-        $booking->tax_amount = $taxAmount;
-        $booking->transaction_id = Str::upper(Str::random(32));
-        $booking->booking_number = Booking::generateUniqueBookingNumber();
-
-        if (Auth::guard('customer')->check()) {
-            $booking->customer_id = Auth::guard('customer')->id();
-        }
-
-        $booking->save();
-
-        if ($serviceIds) {
-            $booking->services()->attach($serviceIds);
-        }
-
-        if ($foodIds) {
-            $booking->foods()->attach($foodIds);
-        }
+            return $booking;
+        });
 
         session()->put('booking_transaction_id', $booking->transaction_id);
 
-        BookingRoom::query()->create([
-            'room_id' => $room->getKey(),
-            'room_name' => $room->name,
-            'room_image' => Arr::first($room->images),
-            'booking_id' => $booking->getKey(),
-            'price' => $room->total_price,
-            'currency_id' => $room->currency_id,
-            'number_of_rooms' => $numberOfRooms,
-            'start_date' => $startDate->format('Y-m-d'),
-            'end_date' => $endDate->format('Y-m-d'),
-        ]);
-
-        $bookingAddress = new BookingAddress();
-        $bookingAddress->fill($request->input());
-        $bookingAddress->booking_id = $booking->getKey();
-        $bookingAddress->save();
+        if ($request->input('register_customer') == 1) {
+            Auth::guard('customer')->loginUsingId($booking->customer_id);
+        }
 
         $request->merge([
             'order_id' => $booking->getKey(),
+            // Gateway providers choose their own return/callback routes.
+            'return_url' => null,
+            'callback_url' => null,
         ]);
 
         $data = [
@@ -617,15 +621,22 @@ class PublicController extends Controller
     ) {
         $startDate = HotelHelper::dateFromRequest($request->input('start_date'));
         $endDate = HotelHelper::dateFromRequest($request->input('end_date'));
-        $numberOfRooms = $request->input('rooms', 1);
+        $numberOfRooms = (int) ($request->input('rooms') ?? 1);
 
         $room = Room::query()->findOrFail($request->input('room_id'));
 
         $nights = $startDate->diffInDays($endDate);
 
+        if (! $room->isAvailableAt(['start_date' => $startDate, 'end_date' => $endDate, 'rooms' => $numberOfRooms])) {
+            return $response->setError()->setMessage(trans('plugins/hotel::hotel.room_not_available', [
+                'start_date' => $startDate->toDateString(),
+                'end_date' => $endDate->toDateString(),
+            ]));
+        }
+
         $room->total_price = $room->getRoomTotalPrice($startDate, $endDate, $numberOfRooms);
 
-        [$amount, $discountAmount] = $this->calculateBookingAmount($room, $request->input('services', []), $nights, $numberOfRooms, $request->input('foods', []));
+        [$amount, $discountAmount] = $this->calculateBookingAmount($room, (array) $request->input('services', []), $nights, $numberOfRooms, (array) $request->input('foods', []));
 
         $taxAmount = $room->tax->percentage * ($amount - $discountAmount) / 100;
 
@@ -721,82 +732,6 @@ class PublicController extends Controller
 
     protected function calculateBookingAmount(Room $room, array $servicesIds = [], $nights = 1, int $numberOfRooms = 1, array $foods = []): array
     {
-        $amount = $room->total_price;
-
-        $serviceAmount = 0;
-        $selectedServices = [];
-
-        if ($servicesIds) {
-            $services = Service::query()
-                ->whereIn('id', $servicesIds)
-                ->get();
-
-            foreach ($services as $service) {
-                if ($service->price_type == ServicePriceTypeEnum::PER_DAY) {
-                    $serviceAmount += $service->price * $nights;
-                } else {
-                    $serviceAmount += $service->price;
-                }
-            }
-
-            $serviceAmount *= $numberOfRooms;
-
-            $amount += $serviceAmount;
-
-            $selectedServices = $services->pluck('id')->values()->all();
-        }
-
-        $foodAmount = 0;
-        $foodsSelected = [];
-
-        if ($foods) {
-            $foods = Food::query()
-                ->whereIn('id', $foods)
-                ->get();
-
-            foreach ($foods as $food) {
-                $foodAmount += $food->price;
-            }
-
-            $amount += $foodAmount;
-
-            $foodsSelected = $foods->pluck('id')->values()->all();
-        }
-
-        $sessionData = HotelHelper::getCheckoutData();
-
-        $sessionData['service_amount'] = $serviceAmount;
-        $sessionData['selected_services'] = $selectedServices;
-
-        $sessionData['food_amount'] = $foodAmount;
-        $sessionData['selected_foods'] = $foodsSelected;
-
-        $couponCode = Arr::get($sessionData, 'coupon_code');
-
-        $discountAmount = 0;
-
-        if ($couponCode) {
-            $couponService = new CouponService();
-
-            $coupon = $couponService->getCouponByCode($couponCode);
-
-            if ($coupon !== null) {
-                $discountAmount = $couponService->getDiscountAmount(
-                    $coupon->type->getValue(),
-                    $coupon->value,
-                    $amount
-                );
-            }
-
-            $sessionData['coupon_amount'] = $discountAmount;
-            $sessionData['coupon_code'] = $couponCode;
-        }
-
-        HotelHelper::saveCheckoutData($sessionData);
-
-        return [
-            $amount,
-            $discountAmount,
-        ];
+        return app(BookingPricingService::class)->calculate($room, $servicesIds, $nights, $numberOfRooms, $foods);
     }
 }

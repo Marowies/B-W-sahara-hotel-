@@ -54,7 +54,8 @@ class RoomRepository extends RepositoriesAbstract implements RoomInterface
     {
         $this->model = $this->originalModel;
         $this->model = $this->model
-            ->where('id', '<>', $roomId);
+            ->where('id', '<>', $roomId)
+            ->wherePublished();
 
         $params = array_merge([
             'condition' => [],

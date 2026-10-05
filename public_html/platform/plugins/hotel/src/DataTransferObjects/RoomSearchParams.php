@@ -2,9 +2,10 @@
 
 namespace Botble\Hotel\DataTransferObjects;
 
-use Botble\Hotel\Enums\BookingStatusEnum;
+use Botble\Hotel\Facades\HotelHelper;
+use Botble\Hotel\Http\Requests\RoomSearchRequest;
 use Carbon\Carbon;
-use Exception;
+use Illuminate\Support\Facades\Validator;
 
 class RoomSearchParams
 {
@@ -30,25 +31,37 @@ class RoomSearchParams
         public array $with = [],
         public bool $paginate = true,
     ) {
-        $this->with = $this->getDefaultRelations();
+        $this->with = array_merge($this->getDefaultRelations(), $this->with);
     }
 
     public static function fromRequest(array $request): self
     {
-        $dateFormat = config('plugins.hotel.hotel.date_format', 'd-m-Y');
+        $dateFormat = HotelHelper::getDateFormat();
+        $request = array_replace([
+            'start_date' => Carbon::today()->format($dateFormat),
+            'end_date' => Carbon::tomorrow()->format($dateFormat),
+            'adults' => HotelHelper::getMinimumNumberOfGuests(),
+            'children' => 0,
+            'rooms' => 1,
+            'page' => 1,
+            'per_page' => 10,
+            'sort_direction' => 'asc',
+        ], $request);
 
-        try {
-            if (isset($request['start_date']) && isset($request['end_date'])) {
-                $startDate = Carbon::createFromFormat($dateFormat, $request['start_date']);
-                $endDate = Carbon::createFromFormat($dateFormat, $request['end_date']);
-            } else {
-                $startDate = Carbon::now();
-                $endDate = Carbon::now()->addDay();
+        $validator = Validator::make($request, (new RoomSearchRequest())->rules());
+        $validator->after(function ($validator) use ($request): void {
+            foreach (['price', 'size'] as $range) {
+                $min = $request['min_' . $range] ?? null;
+                $max = $request['max_' . $range] ?? null;
+                if (is_numeric($min) && is_numeric($max) && $max < $min) {
+                    $validator->errors()->add('max_' . $range, __('The maximum must be greater than or equal to the minimum.'));
+                }
             }
-        } catch (Exception) {
-            $startDate = Carbon::now();
-            $endDate = Carbon::now()->addDay();
-        }
+
+        });
+        $request = $validator->validate();
+        $startDate = Carbon::createFromFormat($dateFormat, $request['start_date'])->startOfDay();
+        $endDate = Carbon::createFromFormat($dateFormat, $request['end_date'])->startOfDay();
 
         return new self(
             keyword: $request['q'] ?? null,
@@ -69,56 +82,36 @@ class RoomSearchParams
             isFeatured: isset($request['is_featured']) ? (bool) $request['is_featured'] : null,
             sortBy: $request['sort_by'] ?? null,
             sortDirection: $request['sort_direction'] ?? 'asc',
-            with: $request['with'] ?? [],
-            paginate: isset($request['paginate']) && (bool) $request['paginate'],
         );
     }
 
     protected function getDefaultRelations(): array
     {
-        return [
+        return array_merge([
             'amenities',
             'amenities.metadata',
             'slugable',
+        ], $this->availabilityRelations());
+    }
+
+    public function availabilityRelations(): array
+    {
+        return [
             'activeBookingRooms' => function ($query) {
-                return $query
-                    ->whereNot('status', BookingStatusEnum::CANCELLED)
-                    ->where(function ($query) {
-                        return $query
-                            ->where(function ($query) {
-                                return $query
-                                    ->whereDate('start_date', '>=', $this->startDate)
-                                    ->whereDate('start_date', '<=', $this->endDate);
-                            })
-                            ->orWhere(function ($query) {
-                                return $query
-                                    ->whereDate('end_date', '>=', $this->startDate)
-                                    ->whereDate('end_date', '<=', $this->endDate);
-                            })
-                            ->orWhere(function ($query) {
-                                return $query
-                                    ->whereDate('start_date', '<=', $this->startDate)
-                                    ->whereDate('end_date', '>=', $this->endDate);
-                            })
-                            ->orWhere(function ($query) {
-                                return $query
-                                    ->whereDate('start_date', '>=', $this->startDate)
-                                    ->whereDate('end_date', '<=', $this->endDate);
-                            });
-                    });
+                return $query->whereDate('start_date', '<', $this->endDate)
+                    ->whereDate('end_date', '>', $this->startDate);
             },
             'activeRoomDates' => function ($query) {
                 return $query
                     ->whereDate('start_date', '>=', $this->startDate)
-                    ->whereDate('end_date', '<=', $this->endDate)
-                    ->take(42);
+                    ->whereDate('start_date', '<', $this->endDate);
             },
         ];
     }
 
     public function toArray(): array
     {
-        $dateFormat = config('plugins.hotel.hotel.date_format', 'd-m-Y');
+        $dateFormat = HotelHelper::getDateFormat();
 
         return [
             'keyword' => $this->keyword,

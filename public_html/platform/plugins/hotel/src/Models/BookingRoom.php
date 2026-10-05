@@ -22,6 +22,8 @@ class BookingRoom extends BaseModel
         'number_of_rooms',
         'start_date',
         'end_date',
+        'ical_calendar_id',
+        'ical_uid_hash',
     ];
 
     protected $casts = [

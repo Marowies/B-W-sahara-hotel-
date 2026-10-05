@@ -11,9 +11,12 @@
     @php
         $minimumNumberOfGuests = HotelHelper::getMinimumNumberOfGuests();
         $maximumNumberOfGuests = HotelHelper::getMaximumNumberOfGuests();
-        $startDate = request()->query('start_date', Carbon\Carbon::now()->format(HotelHelper::getDateFormat()));
-        $endDate = request()->query('end_date', Carbon\Carbon::now()->addDay()->format(HotelHelper::getDateFormat()));
-        $adults = request()->query('adults', $minimumNumberOfGuests);
+        $selection = \Botble\Hotel\DataTransferObjects\RoomSearchParams::fromRequest(request()->input());
+        $startDate = $selection->startDate->format(HotelHelper::getDateFormat());
+        $endDate = $selection->endDate->format(HotelHelper::getDateFormat());
+        $adults = $selection->adults;
+        $children = $selection->children;
+        $numberOfRooms = $selection->rooms;
         $externalBookingUrl = theme_option('external_booking_url');
     @endphp
 
@@ -91,9 +94,9 @@
                             <label for="adults">{{ __('Guests and Rooms') }}</label>
                             <div class="input-wrapper">
                                 <button data-bb-toggle="toggle-guests-and-rooms" class="text-truncate text-start" type="button" data-target="#toggle-guests-and-rooms">
-                                    <span data-bb-toggle="filter-adults-count" class="me-1">1</span> {{ __('Adult(s)') }},
-                                    <span data-bb-toggle="filter-children-count" class="ms-1 me-1">0</span> {{ __('Child(ren)') }},
-                                    <span data-bb-toggle="filter-rooms-count" class="me-1 ms-1">1</span> {{ __('Room(s)') }}
+                                    <span data-bb-toggle="filter-adults-count" class="me-1">{{ $adults }}</span> {{ __('Adult(s)') }},
+                                    <span data-bb-toggle="filter-children-count" class="ms-1 me-1">{{ $children }}</span> {{ __('Child(ren)') }},
+                                    <span data-bb-toggle="filter-rooms-count" class="me-1 ms-1">{{ $numberOfRooms }}</span> {{ __('Room(s)') }}
                                 </button>
                             </div>
 
@@ -102,7 +105,7 @@
                                     <label for="adults">{{ __('Adults') }}</label>
                                     <div class="input-quantity">
                                         <button type="button" class="main-btn btn" data-bb-toggle="decrement-room">-</button>
-                                        <input type="number" id="adults" name="adults" readonly value="1" min="{{ HotelHelper::getMinimumNumberOfGuests() }}" max="{{ HotelHelper::getMaximumNumberOfGuests() }}">
+                                        <input type="number" id="adults" name="adults" readonly value="{{ $adults }}" min="{{ HotelHelper::getMinimumNumberOfGuests() }}" max="{{ HotelHelper::getMaximumNumberOfGuests() }}">
                                         <button type="button" class="main-btn btn" data-bb-toggle="increment-room">+</button>
                                     </div>
                                 </div>
@@ -110,7 +113,7 @@
                                     <label for="children">{{ __('Children') }}</label>
                                     <div class="input-quantity">
                                         <button type="button" class="main-btn btn" data-bb-toggle="decrement-room">-</button>
-                                        <input type="number" id="children" name="children" readonly value="0" min="0" max="{{ HotelHelper::getMaximumNumberOfGuests() }}">
+                                        <input type="number" id="children" name="children" readonly value="{{ $children }}" min="0" max="{{ HotelHelper::getMaximumNumberOfGuests() }}">
                                         <button type="button" class="main-btn btn" data-bb-toggle="increment-room">+</button>
                                     </div>
                                 </div>
@@ -118,7 +121,7 @@
                                     <label for="rooms">{{ __('Rooms') }}</label>
                                     <div class="input-quantity">
                                         <button type="button" class="main-btn btn" data-bb-toggle="decrement-room">-</button>
-                                        <input type="number" id="rooms" name="rooms" readonly value="1" min="1" max="{{ 10 }}">
+                                        <input type="number" id="rooms" name="rooms" readonly value="{{ $numberOfRooms }}" min="1" max="{{ 10 }}">
                                         <button type="button" class="main-btn btn" data-bb-toggle="increment-room">+</button>
                                     </div>
                                 </div>

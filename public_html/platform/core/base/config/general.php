@@ -455,7 +455,6 @@ return [
     'enable_system_updater' => env('CMS_ENABLE_SYSTEM_UPDATER', true),
     'phone_validation_rule' => env('CMS_PHONE_VALIDATION_RULE', 'min:8|max:15|regex:/^([0-9\s\-\+\(\)]*)$/'),
     'zipcode_validation_rule' => env('CMS_ZIPCODE_VALIDATION_RULE', 'string|min:4|max:9'),
-    'disable_verify_csrf_token' => env('CMS_DISABLE_VERIFY_CSRF_TOKEN', false),
     'enable_less_secure_web' => env('CMS_ENABLE_LESS_SECURE_WEB', false),
     'db_strict_mode' => env('DB_STRICT', true),
     'db_prefix' => env('DB_PREFIX', ''),

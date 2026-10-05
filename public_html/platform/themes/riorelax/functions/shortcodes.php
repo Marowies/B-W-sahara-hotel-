@@ -18,6 +18,8 @@ use Botble\Contact\Forms\ShortcodeContactAdminConfigForm;
 use Botble\Faq\Models\Faq;
 use Botble\Faq\Models\FaqCategory;
 use Botble\Hotel\Facades\HotelHelper;
+use Botble\Hotel\DataTransferObjects\RoomSearchParams;
+use Botble\Hotel\Services\GetRoomService;
 use Botble\Hotel\Models\Amenity;
 use Botble\Hotel\Models\Place;
 use Botble\Hotel\Models\Room;
@@ -38,8 +40,6 @@ use Botble\Theme\Facades\Theme;
 use Botble\Theme\Forms\Fields\ThemeIconField;
 use Botble\Theme\Supports\ThemeSupport;
 use Botble\Theme\Supports\Youtube;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
@@ -206,8 +206,7 @@ app()->booted(function (): void {
                         'activeRoomDates' => function ($query) use ($startDate, $endDate) {
                             return $query
                                 ->whereDate('start_date', '>=', $startDate->startOfDay())
-                                ->whereDate('end_date', '<=', $endDate->endOfDay())
-                                ->take(40);
+                                ->whereDate('start_date', '<', $endDate);
                         },
                     ],
                 ];
@@ -363,89 +362,18 @@ app()->booted(function (): void {
         });
 
         Shortcode::register('all-rooms', __('All Rooms'), __('All Rooms'), function (): ?string {
-            $request = request();
+            $params = RoomSearchParams::fromRequest(request()->input());
+            $rooms = app(GetRoomService::class)->getAvailableRooms($params);
+            $startDate = $params->startDate;
+            $endDate = $params->endDate;
+            $adults = $params->adults;
+            $children = $params->children;
+            $numberOfRooms = $params->rooms;
+            $nights = (int) $startDate->diffInDays($endDate);
 
-            [$startDate, $endDate, $adults, $nights, $children, $room] = HotelHelper::getRoomBookingParams();
-
-            $filters = [
-                'keyword' => $request->query('q'),
-            ];
-
-            $params = [
-                'paginate' => [
-                    'per_page' => 100,
-                    'current_paged' => $request->integer('page', 1),
-                ],
-                'with' => [
-                    'amenities',
-                    'amenities.metadata',
-                    'slugable',
-                    'activeBookingRooms' => function ($query) use ($startDate, $endDate) {
-                        return $query
-                            ->where(function ($query) use ($startDate, $endDate) {
-                                return $query
-                                    ->whereDate('start_date', '>=', $startDate)
-                                    ->whereDate('start_date', '<=', $endDate);
-                            })
-                            ->orWhere(function ($query) use ($startDate, $endDate) {
-                                return $query
-                                    ->whereDate('end_date', '>=', $startDate)
-                                    ->whereDate('end_date', '<=', $endDate);
-                            })
-                            ->orWhere(function ($query) use ($startDate, $endDate) {
-                                return $query
-                                    ->whereDate('start_date', '<=', $startDate)
-                                    ->whereDate('end_date', '>=', $endDate);
-                            })
-                            ->orWhere(function ($query) use ($startDate, $endDate) {
-                                return $query
-                                    ->whereDate('start_date', '>=', $startDate)
-                                    ->whereDate('end_date', '<=', $endDate);
-                            });
-                    },
-                    'activeRoomDates' => function ($query) use ($startDate, $endDate) {
-                        return $query
-                            ->whereDate('start_date', '>=', $startDate->startOfDay())
-                            ->whereDate('end_date', '<=', $endDate->endOfDay())
-                            ->take(40);
-                    },
-                ],
-            ];
-
-            $queriedRooms = app(RoomInterface::class)->getRooms($filters, $params);
-
-            $rooms = [];
-
-            $dateFormat = 'Y-m-d';
-
-            $condition = [
-                'start_date' => $startDate->format($dateFormat),
-                'end_date' => $endDate->format($dateFormat),
-                'adults' => $adults,
-                'children' => $children,
-                'rooms' => $room,
-            ];
-
-            foreach ($queriedRooms as &$room) {
-                if ($room->isAvailableAt($condition)) {
-                    $room->total_price = $room->getRoomTotalPrice($startDate, $endDate);
-
-                    $rooms[] = $room;
-                }
-            }
-
-            $rooms = new LengthAwarePaginator(
-                $rooms,
-                count($rooms),
-                100,
-                Paginator::resolveCurrentPage(),
-                ['path' => Paginator::resolveCurrentPath()]
-            );
-
-            return Theme::partial(
-                'shortcodes.all-rooms.index',
-                compact('rooms', 'startDate', 'endDate', 'nights', 'adults')
-            );
+            return Theme::partial('shortcodes.all-rooms.index', compact(
+                'rooms', 'startDate', 'endDate', 'nights', 'adults', 'children', 'numberOfRooms'
+            ));
         });
 
         Shortcode::register(

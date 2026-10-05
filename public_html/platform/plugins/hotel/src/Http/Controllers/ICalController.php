@@ -6,13 +6,13 @@ use Botble\Base\Facades\Assets;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Hotel\Forms\RoomCalendarForm;
+use Botble\Hotel\Http\Requests\RoomCalendarRequest;
 use Botble\Hotel\Http\Requests\SyncCalendarRequest;
 use Botble\Hotel\Models\Room;
 use Botble\Hotel\Models\RoomCalendar;
 use Botble\Hotel\Services\ICalService;
 use Botble\Slug\Facades\SlugHelper;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -50,7 +50,7 @@ class ICalController extends BaseController
         return RoomCalendarForm::createFromModel($room)->renderForm();
     }
 
-    public function store(Request $request, BaseHttpResponse $response)
+    public function store(RoomCalendarRequest $request, BaseHttpResponse $response)
     {
         $roomId = $request->input('room_id');
         $room = Room::query()->findOrFail($roomId);
@@ -69,13 +69,11 @@ class ICalController extends BaseController
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
-    public function update(int $id, Request $request, BaseHttpResponse $response)
+    public function update(int $id, RoomCalendarRequest $request, BaseHttpResponse $response)
     {
         $calendar = RoomCalendar::query()->findOrFail($id);
 
-        $calendar->name = $request->input('name');
-        $calendar->url = $request->input('url');
-        $calendar->save();
+        $this->iCalService->updateCalendar($calendar, $request->input('name'), $request->input('url'));
 
         return $response
             ->setPreviousUrl(route('ical.edit', $calendar->room_id))
@@ -85,7 +83,7 @@ class ICalController extends BaseController
     public function destroy(int $id, BaseHttpResponse $response)
     {
         $calendar = RoomCalendar::query()->findOrFail($id);
-        $calendar->delete();
+        $this->iCalService->deleteCalendar($calendar);
 
         return $response
             ->setMessage(trans('core/base::notices.delete_success_message'));
@@ -100,6 +98,7 @@ class ICalController extends BaseController
             $results = $this->iCalService->syncExternalCalendars($room);
 
             return $response
+                ->setError($results['failed'] > 0)
                 ->setData($results)
                 ->setMessage(trans('plugins/hotel::ical.sync_success', [
                     'success' => $results['success'],
@@ -145,6 +144,7 @@ class ICalController extends BaseController
         }
 
         return $response
+            ->setError($results['failed'] > 0)
             ->setData($results)
             ->setMessage(trans('plugins/hotel::ical.sync_all_success', [
                 'success' => $results['success'],

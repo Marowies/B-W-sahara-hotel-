@@ -12,6 +12,11 @@ class GetRoomService
 {
     public function getRooms(RoomSearchParams $params): LengthAwarePaginator
     {
+        return $this->buildQuery($params)->paginate($params->perPage, ['*'], 'page', $params->page);
+    }
+
+    protected function buildQuery(RoomSearchParams $params): Builder
+    {
         $query = Room::query()
             ->wherePublished();
 
@@ -31,10 +36,10 @@ class GetRoomService
         }
 
         // Filter by price range
-        if ($params->minPrice) {
+        if ($params->minPrice !== null) {
             $query->where('price', '>=', $params->minPrice);
         }
-        if ($params->maxPrice) {
+        if ($params->maxPrice !== null) {
             $query->where('price', '<=', $params->maxPrice);
         }
 
@@ -44,10 +49,10 @@ class GetRoomService
         }
 
         // Filter by room size
-        if ($params->minSize) {
+        if ($params->minSize !== null) {
             $query->where('size', '>=', $params->minSize);
         }
-        if ($params->maxSize) {
+        if ($params->maxSize !== null) {
             $query->where('size', '<=', $params->maxSize);
         }
 
@@ -100,43 +105,37 @@ class GetRoomService
             $query->with($params->with);
         }
 
-        return $query->paginate(
-            $params->perPage,
-            ['*'],
-            'page',
-            $params->page
-        );
+        return $query->orderBy('ht_rooms.id');
     }
 
     public function getAvailableRooms(RoomSearchParams $params): LengthAwarePaginator
     {
-        $dateFormat = config('plugins.hotel.hotel.date_format', 'd-m-Y');
+        $availableRooms = new Collection();
+        $total = 0;
+        $offset = ($params->page - 1) * $params->perPage;
 
-        $rooms = $this->getRooms($params);
-
-        $availableRooms = collect();
-        foreach ($rooms->items() as $room) {
+        foreach ($this->buildQuery($params)->lazy(100) as $room) {
             if ($room->isAvailableAt([
-                'start_date' => $params->startDate?->format($dateFormat),
-                'end_date' => $params->endDate?->format($dateFormat),
+                'start_date' => $params->startDate,
+                'end_date' => $params->endDate,
                 'adults' => $params->adults,
                 'children' => $params->children,
                 'rooms' => $params->rooms,
             ])) {
-                $room->total_price = $room->getRoomTotalPrice(
-                    $params->startDate?->format($dateFormat),
-                    $params->endDate?->format($dateFormat)
-                );
-                $availableRooms->push($room);
+                if ($total >= $offset && $availableRooms->count() < $params->perPage) {
+                    $room->total_price = $room->getRoomTotalPrice($params->startDate, $params->endDate, $params->rooms);
+                    $availableRooms->push($room);
+                }
+                $total++;
             }
         }
 
         return new LengthAwarePaginator(
             $availableRooms,
-            $availableRooms->count(),
+            $total,
             $params->perPage,
             $params->page,
-            ['path' => request()->url()]
+            ['path' => request()->url(), 'query' => request()->query()]
         );
     }
 

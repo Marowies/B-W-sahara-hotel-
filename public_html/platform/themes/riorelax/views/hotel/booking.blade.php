@@ -43,7 +43,7 @@
                     </div>
                     <div class="room-booking-form p-0 mb-20">
                         @php
-                            $chunks = $services->chunk(ceil($services->count() / 2));
+                            $chunks = $services->chunk(max(1, (int) ceil($services->count() / 2)));
                         @endphp
                         <div class="row">
                             @if (count($chunks) > 0)

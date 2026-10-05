@@ -7,17 +7,21 @@ Source imported from the supplied hotel code folder on 2026-10-04. `public_html/
 - `public_html/`: current Laravel / Botble application, including the hotel plugin and Riorelax theme.
 - `docs/`: requirements, code review, and cleanup records.
 
+See [project structure](docs/PROJECT_STRUCTURE.md) for module ownership and editing conventions, and [security hardening](docs/SECURITY_HARDENING_2026-10-04.md) for repairs, test evidence, and outstanding risks.
+
 The historical `bww/` and `public_html/old/` application copies were removed from this working branch. Their files remain in the verified local backup and in the original Git snapshot `8fedb18e398f1af67a5365ff4cf53efcbca34d4b` (also retained on local `main`).
 
 The application includes the hotel plugin and theme source under `platform/`. Frontend assets supplied under `public/` are retained. This repository does not contain the separate design-review prototype.
 
 ## Excluded from the import
 
-Production `.env` files and their values, application/vendor dependency installations, Node dependencies, uploaded media and other storage data, logs, compiled runtime caches, database exports, private keys, and compressed backups are excluded. Sanitized `.env.example` files contain configuration keys with blank values. No production database is included.
+Production `.env` files and their values, application/vendor dependency installations, Node dependencies, uploaded media and other storage data, logs, compiled runtime caches, database exports, private keys, and compressed backups are excluded. Sanitized `.env.example` files contain configuration keys without production secrets and safe local defaults. No production database is included.
 
 Mailgun examples in translated configuration placeholders were replaced with `YOUR_MAILGUN_API_KEY` to avoid publishing key-shaped example strings. The original supplied files were left unchanged.
 
 ## Local setup
+
+Local backend fixes and verification limits are documented in [the backend report](docs/BACKEND_REFACTOR_2026-10-04.md). Source organization is documented in [PROJECT_STRUCTURE](docs/PROJECT_STRUCTURE.md).
 
 Use `public_html/`. Check its `composer.json` and `package.json` for the exact requirements and scripts. The supplied PHP requirement is `^8.2|^8.3`.
 

@@ -3,15 +3,13 @@
 namespace Botble\Hotel\Supports;
 
 use Botble\Hotel\Enums\ReviewStatusEnum;
-use Botble\Hotel\Facades\HotelHelper;
+use Botble\Hotel\DataTransferObjects\RoomSearchParams;
 use Botble\Theme\Facades\Theme;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Throwable;
 
 class HotelSupport
 {
@@ -78,99 +76,25 @@ class HotelSupport
 
     public function getRoomFilters(Request|array $request): array
     {
-        if ($request instanceof Request) {
-            $request = $request->input();
+        $data = $request instanceof Request ? $request->input() : $request;
+        if (! array_key_exists('q', $data) && array_key_exists('keyword', $data)) {
+            $data['q'] = $data['keyword'];
         }
 
-        $data = [
-            'keyword' => Arr::get($request, 'q'),
-            'start_date' => Arr::get($request, 'start_date'),
-            'end_date' => Arr::get($request, 'end_date'),
-            'adults' => Arr::get($request, 'adults', $this->getMinimumNumberOfGuests()),
-            'children' => Arr::get($request, 'children', 0),
-            'rooms' => Arr::get($request, 'rooms', 1),
-            'page' => Arr::get($request, 'page', 1),
-            'per_page' => Arr::get($request, 'per_page', 10),
-            'room_category_id' => Arr::get($request, 'room_category_id'),
-            'min_price' => Arr::get($request, 'min_price'),
-            'max_price' => Arr::get($request, 'max_price'),
-            'number_of_beds' => Arr::get($request, 'number_of_beds'),
-            'min_size' => Arr::get($request, 'min_size'),
-            'max_size' => Arr::get($request, 'max_size'),
-            'amenities' => Arr::get($request, 'amenities'),
-            'is_featured' => Arr::get($request, 'is_featured'),
-            'sort_by' => Arr::get($request, 'sort_by'),
-            'sort_direction' => Arr::get($request, 'sort_direction', 'asc'),
-        ];
-
-        $dateFormat = HotelHelper::getDateFormat();
-
-        try {
-            $validator = Validator::make($data, [
-                'q' => ['nullable', 'string'],
-                'keyword' => ['nullable', 'string'],
-                'adults' => [
-                    'nullable',
-                    'int',
-                    'min:' . $this->getMinimumNumberOfGuests(),
-                    'max:' . $this->getMaximumNumberOfGuests(),
-                ],
-                'children' => ['nullable', 'int', 'min:0'],
-                'rooms' => ['nullable', 'int', 'min:1'],
-                'page' => ['nullable', 'int', 'min:1'],
-                'per_page' => ['nullable', 'int', 'min:1'],
-                'room_category_id' => ['nullable', 'int', 'exists:ht_room_categories,id'],
-                'start_date' => ['nullable', 'string', 'date', 'date_format:' . $dateFormat, 'after_or_equal:today'],
-                'end_date' => ['nullable', 'string', 'date', 'date_format:' . $dateFormat, 'after_or_equal:start_date'],
-                'room_id' => ['nullable', 'integer', 'exists:hotel_rooms,id'],
-                'min_price' => ['nullable', 'numeric', 'min:0'],
-                'max_price' => ['nullable', 'numeric', 'min:0', 'gte:min_price'],
-                'number_of_beds' => ['nullable', 'integer', 'min:1'],
-                'min_size' => ['nullable', 'numeric', 'min:0'],
-                'max_size' => ['nullable', 'numeric', 'min:0', 'gte:min_size'],
-                'amenities' => ['nullable', 'array'],
-                'amenities.*' => ['integer', 'exists:ht_amenities,id'],
-                'is_featured' => ['nullable', 'boolean'],
-                'sort_by' => ['nullable', 'string', 'in:price,name,created_at,number_of_beds,size'],
-                'sort_direction' => ['nullable', 'string', 'in:asc,desc'],
-            ]);
-
-            return $validator->valid();
-        } catch (Throwable) {
-            return [];
-        }
+        return RoomSearchParams::fromRequest($data)->toArray();
     }
 
     public function getRoomBookingParams(): array
     {
-        $request = request();
-
-        try {
-            if ($request->input('start_date') && $request->input('end_date')) {
-                $startDate = $this->dateFromRequest($request->input('start_date'));
-                $endDate = $this->dateFromRequest($request->input('end_date'));
-            } else {
-                $startDate = Carbon::now();
-                $endDate = Carbon::now()->addDay();
-            }
-        } catch (Throwable) {
-            $startDate = Carbon::now();
-            $endDate = Carbon::now()->addDay();
-        }
-
-        $adults = $request->input('adults', $this->getMinimumNumberOfGuests());
-        $children = $request->input('children', 0);
-        $rooms = $request->input('rooms', 1);
-
-        $nights = $endDate->diffInDays($startDate);
+        $params = RoomSearchParams::fromRequest(request()->input());
 
         return [
-            $startDate,
-            $endDate,
-            $adults,
-            $nights,
-            $children,
-            $rooms,
+            $params->startDate,
+            $params->endDate,
+            $params->adults,
+            (int) $params->startDate->diffInDays($params->endDate),
+            $params->children,
+            $params->rooms,
         ];
     }
 

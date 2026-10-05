@@ -1,0 +1,563 @@
+{
+  "production_baseline_advisories": 85,
+  "production_baseline_affected_packages": 24,
+  "final_all_packages_advisories": 0,
+  "abandoned_packages": {
+    "paypal/paypal-checkout-sdk": "paypal/paypal-server-sdk",
+    "paypal/paypalhttp": null
+  },
+  "tests_passed": 32,
+  "tests_total": 32,
+  "php_files_parsed": 6057,
+  "php_parse_errors": 0,
+  "isolated_bootstrap": "BOOT_OK Laravel 12.69.3",
+  "changed_lock_versions": 109,
+  "version_changes": [
+    {
+      "package": "aws/aws-sdk-php",
+      "before": "3.369.2",
+      "after": "3.399.1"
+    },
+    {
+      "package": "barryvdh/laravel-debugbar",
+      "before": "v3.16.2",
+      "after": "v3.16.5"
+    },
+    {
+      "package": "botble/api",
+      "before": "2.1.19",
+      "after": "2.1.23"
+    },
+    {
+      "package": "botble/get-started",
+      "before": "dev-develop",
+      "after": "dev-main"
+    },
+    {
+      "package": "botble/installer",
+      "before": "dev-develop",
+      "after": "dev-main"
+    },
+    {
+      "package": "botble/menu",
+      "before": "dev-develop",
+      "after": "dev-main"
+    },
+    {
+      "package": "botble/optimize",
+      "before": "dev-develop",
+      "after": "dev-main"
+    },
+    {
+      "package": "botble/page",
+      "before": "dev-develop",
+      "after": "dev-main"
+    },
+    {
+      "package": "botble/platform",
+      "before": "dev-develop",
+      "after": "dev-main"
+    },
+    {
+      "package": "botble/plugin-management",
+      "before": "dev-develop",
+      "after": "dev-main"
+    },
+    {
+      "package": "botble/revision",
+      "before": "dev-develop",
+      "after": "dev-main"
+    },
+    {
+      "package": "botble/seo-helper",
+      "before": "dev-develop",
+      "after": "dev-main"
+    },
+    {
+      "package": "botble/shortcode",
+      "before": "dev-develop",
+      "after": "dev-main"
+    },
+    {
+      "package": "botble/sitemap",
+      "before": "dev-develop",
+      "after": "dev-main"
+    },
+    {
+      "package": "botble/slug",
+      "before": "dev-develop",
+      "after": "dev-main"
+    },
+    {
+      "package": "botble/theme",
+      "before": "dev-develop",
+      "after": "dev-main"
+    },
+    {
+      "package": "botble/widget",
+      "before": "dev-develop",
+      "after": "dev-main"
+    },
+    {
+      "package": "brick/math",
+      "before": "0.14.1",
+      "after": "0.14.8"
+    },
+    {
+      "package": "carbonphp/carbon-doctrine-types",
+      "before": "3.2.0",
+      "after": "3.2.1"
+    },
+    {
+      "package": "composer/semver",
+      "before": "3.4.4",
+      "after": "3.5.0"
+    },
+    {
+      "package": "doctrine/deprecations",
+      "before": "1.1.5",
+      "after": "1.1.6"
+    },
+    {
+      "package": "doctrine/lexer",
+      "before": "3.0.1",
+      "after": "3.0.3"
+    },
+    {
+      "package": "dompdf/dompdf",
+      "before": "v3.1.4",
+      "after": "v3.1.6"
+    },
+    {
+      "package": "dompdf/php-font-lib",
+      "before": "1.0.1",
+      "after": "1.0.2"
+    },
+    {
+      "package": "dompdf/php-svg-lib",
+      "before": "1.0.0",
+      "after": "1.0.2"
+    },
+    {
+      "package": "ezyang/htmlpurifier",
+      "before": "v4.19.0",
+      "after": "v4.19.1"
+    },
+    {
+      "package": "firebase/php-jwt",
+      "before": "v6.11.1",
+      "after": "v7.2.1"
+    },
+    {
+      "package": "google/apiclient",
+      "before": "v2.18.4",
+      "after": "v2.20.1"
+    },
+    {
+      "package": "google/apiclient-services",
+      "before": "v0.425.0",
+      "after": "v0.461.0"
+    },
+    {
+      "package": "google/auth",
+      "before": "v1.49.0",
+      "after": "v1.55.1"
+    },
+    {
+      "package": "google/protobuf",
+      "before": "v4.33.2",
+      "after": "v4.33.6"
+    },
+    {
+      "package": "graham-campbell/result-type",
+      "before": "v1.1.3",
+      "after": "v1.2.0"
+    },
+    {
+      "package": "guzzlehttp/guzzle",
+      "before": "7.10.0",
+      "after": "7.15.5"
+    },
+    {
+      "package": "guzzlehttp/promises",
+      "before": "2.3.0",
+      "after": "2.5.3"
+    },
+    {
+      "package": "guzzlehttp/psr7",
+      "before": "2.8.0",
+      "after": "2.13.1"
+    },
+    {
+      "package": "guzzlehttp/uri-template",
+      "before": "v1.0.5",
+      "after": "v1.0.11"
+    },
+    {
+      "package": "hamcrest/hamcrest-php",
+      "before": "v2.1.1",
+      "after": "v3.0.0"
+    },
+    {
+      "package": "laravel/framework",
+      "before": "v12.43.1",
+      "after": "v12.69.3"
+    },
+    {
+      "package": "laravel/prompts",
+      "before": "v0.3.8",
+      "after": "v0.3.24"
+    },
+    {
+      "package": "laravel/serializable-closure",
+      "before": "v2.0.7",
+      "after": "v2.1.0"
+    },
+    {
+      "package": "laravel/socialite",
+      "before": "v5.24.0",
+      "after": "v5.30.0"
+    },
+    {
+      "package": "league/commonmark",
+      "before": "2.8.0",
+      "after": "2.10.3"
+    },
+    {
+      "package": "league/flysystem",
+      "before": "3.30.2",
+      "after": "3.36.0"
+    },
+    {
+      "package": "league/flysystem-local",
+      "before": "3.30.2",
+      "after": "3.35.3"
+    },
+    {
+      "package": "league/mime-type-detection",
+      "before": "1.16.0",
+      "after": "1.17.0"
+    },
+    {
+      "package": "league/oauth1-client",
+      "before": "v1.11.0",
+      "after": "v1.12.0"
+    },
+    {
+      "package": "league/uri",
+      "before": "7.7.0",
+      "after": "7.8.1"
+    },
+    {
+      "package": "league/uri-interfaces",
+      "before": "7.7.0",
+      "after": "7.8.1"
+    },
+    {
+      "package": "maatwebsite/excel",
+      "before": "3.1.67",
+      "after": "3.1.70"
+    },
+    {
+      "package": "masterminds/html5",
+      "before": "2.10.0",
+      "after": "2.11.0"
+    },
+    {
+      "package": "mockery/mockery",
+      "before": "1.6.12",
+      "after": "1.6.15"
+    },
+    {
+      "package": "monolog/monolog",
+      "before": "3.9.0",
+      "after": "3.12.1"
+    },
+    {
+      "package": "mtdowling/jmespath.php",
+      "before": "2.8.0",
+      "after": "2.9.2"
+    },
+    {
+      "package": "myclabs/deep-copy",
+      "before": "1.13.4",
+      "after": "1.14.0"
+    },
+    {
+      "package": "nesbot/carbon",
+      "before": "3.11.0",
+      "after": "3.14.2"
+    },
+    {
+      "package": "nette/schema",
+      "before": "v1.3.3",
+      "after": "v1.3.6"
+    },
+    {
+      "package": "nette/utils",
+      "before": "v4.1.1",
+      "after": "v4.1.5"
+    },
+    {
+      "package": "nikic/php-parser",
+      "before": "v5.7.0",
+      "after": "v5.9.0"
+    },
+    {
+      "package": "nunomaduro/termwind",
+      "before": "v2.3.3",
+      "after": "v2.4.0"
+    },
+    {
+      "package": "php-debugbar/php-debugbar",
+      "before": "v2.2.5",
+      "after": "v2.2.6"
+    },
+    {
+      "package": "phpoffice/phpspreadsheet",
+      "before": "1.30.1",
+      "after": "1.30.7"
+    },
+    {
+      "package": "phpoption/phpoption",
+      "before": "1.9.4",
+      "after": "1.10.0"
+    },
+    {
+      "package": "phpseclib/phpseclib",
+      "before": "3.0.48",
+      "after": "3.0.57"
+    },
+    {
+      "package": "phpunit/php-file-iterator",
+      "before": "5.1.0",
+      "after": "5.1.1"
+    },
+    {
+      "package": "phpunit/phpunit",
+      "before": "11.5.46",
+      "after": "11.5.56"
+    },
+    {
+      "package": "psy/psysh",
+      "before": "v0.12.18",
+      "after": "v0.12.24"
+    },
+    {
+      "package": "ramsey/uuid",
+      "before": "4.9.2",
+      "after": "4.9.4"
+    },
+    {
+      "package": "sabberworm/php-css-parser",
+      "before": "v8.9.0",
+      "after": "v9.5.0"
+    },
+    {
+      "package": "sebastian/comparator",
+      "before": "6.3.2",
+      "after": "6.3.3"
+    },
+    {
+      "package": "setasign/fpdi",
+      "before": "v2.6.4",
+      "after": "v2.6.8"
+    },
+    {
+      "package": "symfony/cache",
+      "before": "v7.4.1",
+      "after": "v7.4.20"
+    },
+    {
+      "package": "symfony/cache-contracts",
+      "before": "v3.6.0",
+      "after": "v3.7.1"
+    },
+    {
+      "package": "symfony/clock",
+      "before": "v7.4.0",
+      "after": "v7.4.8"
+    },
+    {
+      "package": "symfony/console",
+      "before": "v7.4.1",
+      "after": "v7.4.20"
+    },
+    {
+      "package": "symfony/css-selector",
+      "before": "v7.4.0",
+      "after": "v7.4.18"
+    },
+    {
+      "package": "symfony/deprecation-contracts",
+      "before": "v3.6.0",
+      "after": "v3.7.1"
+    },
+    {
+      "package": "symfony/error-handler",
+      "before": "v7.4.0",
+      "after": "v7.4.20"
+    },
+    {
+      "package": "symfony/event-dispatcher",
+      "before": "v7.4.0",
+      "after": "v7.4.17"
+    },
+    {
+      "package": "symfony/event-dispatcher-contracts",
+      "before": "v3.6.0",
+      "after": "v3.7.1"
+    },
+    {
+      "package": "symfony/filesystem",
+      "before": "v7.4.0",
+      "after": "v7.4.18"
+    },
+    {
+      "package": "symfony/finder",
+      "before": "v7.4.0",
+      "after": "v7.4.20"
+    },
+    {
+      "package": "symfony/http-client-contracts",
+      "before": "v3.6.0",
+      "after": "v3.7.3"
+    },
+    {
+      "package": "symfony/http-foundation",
+      "before": "v7.4.1",
+      "after": "v7.4.20"
+    },
+    {
+      "package": "symfony/http-kernel",
+      "before": "v7.4.2",
+      "after": "v7.4.20"
+    },
+    {
+      "package": "symfony/mailer",
+      "before": "v7.4.0",
+      "after": "v7.4.19"
+    },
+    {
+      "package": "symfony/mime",
+      "before": "v7.4.0",
+      "after": "v7.4.19"
+    },
+    {
+      "package": "symfony/polyfill-ctype",
+      "before": "v1.33.0",
+      "after": "v1.37.0"
+    },
+    {
+      "package": "symfony/polyfill-intl-grapheme",
+      "before": "v1.33.0",
+      "after": "v1.43.0"
+    },
+    {
+      "package": "symfony/polyfill-intl-idn",
+      "before": "v1.33.0",
+      "after": "v1.43.0"
+    },
+    {
+      "package": "symfony/polyfill-intl-normalizer",
+      "before": "v1.33.0",
+      "after": "v1.43.0"
+    },
+    {
+      "package": "symfony/polyfill-mbstring",
+      "before": "v1.33.0",
+      "after": "v1.43.0"
+    },
+    {
+      "package": "symfony/polyfill-php80",
+      "before": "v1.33.0",
+      "after": "v1.43.0"
+    },
+    {
+      "package": "symfony/polyfill-php83",
+      "before": "v1.33.0",
+      "after": "v1.43.0"
+    },
+    {
+      "package": "symfony/polyfill-php84",
+      "before": "v1.33.0",
+      "after": "v1.43.0"
+    },
+    {
+      "package": "symfony/polyfill-php85",
+      "before": "v1.33.0",
+      "after": "v1.43.0"
+    },
+    {
+      "package": "symfony/polyfill-uuid",
+      "before": "v1.33.0",
+      "after": "v1.43.0"
+    },
+    {
+      "package": "symfony/process",
+      "before": "v7.4.0",
+      "after": "v7.4.19"
+    },
+    {
+      "package": "symfony/routing",
+      "before": "v7.4.0",
+      "after": "v7.4.20"
+    },
+    {
+      "package": "symfony/service-contracts",
+      "before": "v3.6.1",
+      "after": "v3.7.3"
+    },
+    {
+      "package": "symfony/string",
+      "before": "v7.4.0",
+      "after": "v7.4.19"
+    },
+    {
+      "package": "symfony/translation",
+      "before": "v7.4.0",
+      "after": "v7.4.17"
+    },
+    {
+      "package": "symfony/translation-contracts",
+      "before": "v3.6.1",
+      "after": "v3.7.1"
+    },
+    {
+      "package": "symfony/uid",
+      "before": "v7.4.0",
+      "after": "v7.4.20"
+    },
+    {
+      "package": "symfony/var-dumper",
+      "before": "v7.4.0",
+      "after": "v7.4.18"
+    },
+    {
+      "package": "symfony/var-exporter",
+      "before": "v7.4.0",
+      "after": "v7.4.18"
+    },
+    {
+      "package": "symfony/yaml",
+      "before": "v7.4.1",
+      "after": "v7.4.20"
+    },
+    {
+      "package": "twig/twig",
+      "before": "v3.22.2",
+      "after": "v3.30.0"
+    },
+    {
+      "package": "vlucas/phpdotenv",
+      "before": "v5.6.2",
+      "after": "v5.7.0"
+    },
+    {
+      "package": "voku/portable-ascii",
+      "before": "2.0.3",
+      "after": "2.1.1"
+    }
+  ],
+  "test_scope": "Production classes with in-memory SQLite; auth/hooks mocked and network transport doubled; no live hotel database, OAuth or payment transaction."
+}

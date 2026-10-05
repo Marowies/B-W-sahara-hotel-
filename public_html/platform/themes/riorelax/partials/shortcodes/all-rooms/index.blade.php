@@ -5,7 +5,7 @@
         <div class="row">
             @foreach ($rooms as $room)
                 <div class="col-md-6">
-                    {!! Theme::partial('rooms.item', compact('room', 'startDate', 'endDate', 'nights', 'adults')) !!}
+                    {!! Theme::partial('rooms.item', compact('room', 'startDate', 'endDate', 'nights', 'adults', 'children', 'numberOfRooms')) !!}
                 </div>
             @endforeach
         </div>
@@ -16,4 +16,3 @@
         @endif
     @endif
 </section>
-

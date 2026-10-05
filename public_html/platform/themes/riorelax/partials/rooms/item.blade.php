@@ -1,11 +1,19 @@
 @php
     $margin = $margin ?? false;
+    $arrival = $startDate->format(HotelHelper::getDateFormat());
+    $departure = $endDate->format(HotelHelper::getDateFormat());
+    $children = $children ?? request()->integer('children');
+    $numberOfRooms = $numberOfRooms ?? request()->integer('rooms', 1);
+    $roomUrl = $room->url . '?' . http_build_query([
+        'start_date' => $arrival, 'end_date' => $departure, 'adults' => $adults,
+        'children' => $children, 'rooms' => $numberOfRooms,
+    ]);
 @endphp
 
 <div @class(['single-services shadow-block mb-30', 'ser-m' => !$margin])>
     <div class="services-thumb hover-zoomin wow fadeInUp animated">
         @if ($images = $room->images)
-            <a href="{{ $room->url }}?start_date={{ BaseHelper::stringify(request()->query('start_date', $startDate)) }}&end_date={{ BaseHelper::stringify(request()->query('end_date', $endDate)) }}&adults={{ BaseHelper::stringify(request()->query('adults', HotelHelper::getMinimumNumberOfGuests())) }}&children={{ BaseHelper::stringify(request()->query('children', 0)) }}">
+            <a href="{{ $roomUrl }}">
                 <img src="{{ RvMedia::getImageUrl(Arr::first($images), 'medium') }}" alt="{{ $room->name }}">
             </a>
         @endif
@@ -18,19 +26,19 @@
                         @php $externalBookingUrl = theme_option('external_booking_url'); @endphp
                         @if ($externalBookingUrl)
                             <a href="{{ $externalBookingUrl }}" target="_blank" class="book-button-custom btn">
-                                {{ __('BOOK NOW FOR :price', ['price' => format_price($room->getRoomTotalPrice($startDate->format(HotelHelper::getDateFormat()), $endDate->format(HotelHelper::getDateFormat()), BaseHelper::stringify(request()->integer('rooms', 1))))]) }}
+                                {{ __('BOOK NOW FOR :price', ['price' => format_price($room->getRoomTotalPrice($startDate, $endDate, $numberOfRooms))]) }}
                             </a>
                         @else
                             <form action="{{ route('public.booking') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="room_id" value="{{ $room->id }}">
-                                <input type="hidden" name="start_date" value="{{ $startDate = $startDate->format(HotelHelper::getDateFormat()) }}">
-                                <input type="hidden" name="end_date" value="{{ $endDate = $endDate->format(HotelHelper::getDateFormat()) }}">
+                                <input type="hidden" name="start_date" value="{{ $arrival }}">
+                                <input type="hidden" name="end_date" value="{{ $departure }}">
                                 <input type="hidden" name="adults" value="{{ $adults }}">
-                                <input name="children" type="hidden" value="{{ BaseHelper::stringify(request()->integer('children')) ?: 0 }}">
-                                <input name="rooms" type="hidden" value="{{ $roomsOfNumber = BaseHelper::stringify(request()->integer('rooms', 1)) }}">
+                                <input name="children" type="hidden" value="{{ $children }}">
+                                <input name="rooms" type="hidden" value="{{ $numberOfRooms }}">
                                 <button class="book-button-custom" type="submit" data-animation="fadeInRight" data-delay=".8s">
-                                    {{ __('BOOK NOW FOR :price', ['price' => format_price($room->getRoomTotalPrice($startDate, $endDate, $roomsOfNumber))]) }}
+                                    {{ __('BOOK NOW FOR :price', ['price' => format_price($room->getRoomTotalPrice($startDate, $endDate, $numberOfRooms))]) }}
                                 </button>
                             </form>
                         @endif
@@ -38,7 +46,7 @@
                 </ul>
             </div>
         @endif
-        <h4><a href="{{ $room->url }}">{{ $room->name }}</a></h4>
+        <h4><a href="{{ $roomUrl }}">{{ $room->name }}</a></h4>
         @if ($description = $room->description)
             <p class="room-item-custom-truncate" title="{{ $description }}">{!! BaseHelper::clean($description) !!}</p>
         @endif

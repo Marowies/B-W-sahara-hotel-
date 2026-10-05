@@ -46,13 +46,13 @@ class ICalService
             $endDate = Carbon::parse($bookingRoom->end_date);
 
             $content[] = 'BEGIN:VEVENT';
-            $content[] = 'UID:' . $booking->id . '@' . parse_url(url('/'), PHP_URL_HOST);
+            $content[] = 'UID:' . hash_hmac('sha256', $room->getKey() . ':' . $bookingRoom->getKey(), (string) config('app.key')) . '@hotel';
             $content[] = 'DTSTART;VALUE=DATE:' . $startDate->format(self::ICAL_DATE_FORMAT_DAY);
-            $content[] = 'DTEND;VALUE=DATE:' . $endDate->copy()->addDay()->format(self::ICAL_DATE_FORMAT_DAY);
-            $content[] = 'SUMMARY:' . ($booking->customer?->name ?? '');
-            $content[] = 'DESCRIPTION:' . $this->formatDescription($booking, $bookingRoom);
-            $content[] = 'CREATED:' . Carbon::parse($booking->created_at)->format(self::ICAL_DATE_FORMAT);
-            $content[] = 'LAST-MODIFIED:' . Carbon::parse($booking->updated_at)->format(self::ICAL_DATE_FORMAT);
+            $content[] = 'DTEND;VALUE=DATE:' . $endDate->format(self::ICAL_DATE_FORMAT_DAY);
+            $content[] = 'SUMMARY:Reserved';
+            $content[] = 'DESCRIPTION:Unavailable';
+            $content[] = 'CREATED:' . Carbon::parse($booking->created_at)->utc()->format(self::ICAL_DATE_FORMAT);
+            $content[] = 'LAST-MODIFIED:' . Carbon::parse($booking->updated_at)->utc()->format(self::ICAL_DATE_FORMAT);
             $content[] = 'STATUS:CONFIRMED';
             $content[] = 'END:VEVENT';
         }
@@ -62,65 +62,61 @@ class ICalService
         return implode("\r\n", $content);
     }
 
-    protected function formatDescription(Booking $booking, BookingRoom $bookingRoom): string
-    {
-        $description = [
-            'Booking ID: ' . $booking->id,
-            'Room: ' . $bookingRoom->room_name,
-            'Number of rooms: ' . $bookingRoom->number_of_rooms,
-            'Check-in: ' . $bookingRoom->start_date,
-            'Check-out: ' . $bookingRoom->end_date,
-        ];
-
-        if ($booking->customer) {
-            $description[] = 'Customer: ' . $booking->customer->name;
-            $description[] = 'Email: ' . $booking->customer->email;
-            $description[] = 'Phone: ' . $booking->customer->phone;
-        }
-
-        return implode('\\n', $description);
-    }
-
     public function parseICalContent(string $content): Collection
     {
+        $content = preg_replace('/\r?\n[ \t]/', '', trim($content));
+        $lines = preg_split('/\r\n|\n|\r/', $content);
         $events = collect();
-
-        $content = preg_replace('/[\r\n]+[ \t]/', '', $content);
-
-        $lines = preg_split('/[\r\n]+/i', $content);
-
-        $inEvent = false;
-        $currentEvent = [];
-
+        $inCalendar = false;
+        $closed = false;
+        $current = null;
         foreach ($lines as $line) {
-            if (str_contains($line, 'BEGIN:VEVENT')) {
-                $inEvent = true;
-                $currentEvent = [];
-
-                continue;
-            }
-
-            if (str_contains($line, 'END:VEVENT')) {
-                $inEvent = false;
-                $events->push($currentEvent);
-
-                continue;
-            }
-
-            if ($inEvent) {
+            if ($line === 'BEGIN:VCALENDAR') {
+                if ($inCalendar || $closed) {
+                    throw new \InvalidArgumentException('Invalid calendar envelope.');
+                }
+                $inCalendar = true;
+            } elseif ($line === 'END:VCALENDAR') {
+                if (! $inCalendar || $current !== null) {
+                    throw new \InvalidArgumentException('Incomplete calendar event.');
+                }
+                $inCalendar = false;
+                $closed = true;
+            } elseif (! $inCalendar) {
+                if (trim($line) !== '') {
+                    throw new \InvalidArgumentException('Content outside calendar envelope.');
+                }
+            } elseif ($line === 'BEGIN:VEVENT') {
+                if ($current !== null) {
+                    throw new \InvalidArgumentException('Nested calendar event.');
+                }
+                $current = [];
+            } elseif ($line === 'END:VEVENT') {
+                if ($current === null) {
+                    throw new \InvalidArgumentException('Unexpected event end.');
+                }
+                $events->push($current);
+                $current = null;
+            } elseif ($current !== null) {
                 $parts = explode(':', $line, 2);
-                if (count($parts) == 2) {
-                    $key = $parts[0];
-                    $value = $parts[1];
-
-                    if (str_contains($key, ';')) {
-                        $keyParts = explode(';', $key);
-                        $key = $keyParts[0];
-                    }
-
-                    $currentEvent[$key] = $value;
+                if (count($parts) !== 2) {
+                    throw new \InvalidArgumentException('Invalid event property.');
+                }
+                $key = strtoupper(explode(';', $parts[0], 2)[0]);
+                if (in_array($key, ['RRULE', 'RDATE', 'EXDATE', 'RECURRENCE-ID', 'DURATION'])) {
+                    throw new \InvalidArgumentException('Unsupported recurring or duration-based event.');
+                }
+                if (isset($current[$key]) && in_array($key, ['UID', 'DTSTART', 'DTEND', 'STATUS'])) {
+                    throw new \InvalidArgumentException('Duplicate event property.');
+                }
+                $current[$key] = $parts[1];
+                if (preg_match('/(?:^|;)TZID=([^;]+)/i', $parts[0], $match)) {
+                    $current[$key . '_TZID'] = trim($match[1], '"');
                 }
             }
+        }
+        if (! $closed || $inCalendar || $current !== null) {
+            throw new \InvalidArgumentException('Incomplete calendar snapshot.');
         }
 
         return $events;
@@ -128,86 +124,115 @@ class ICalService
 
     public function syncExternalCalendars(Room $room): array
     {
-        $results = [
-            'success' => 0,
-            'failed' => 0,
-            'events' => 0,
-            'errors' => [],
-            'conflicts' => 0,
-            'created' => 0,
-            'updated' => 0,
-        ];
+        $results = ['success' => 0, 'failed' => 0, 'events' => 0, 'errors' => [],
+            'conflicts' => 0, 'created' => 0, 'updated' => 0, 'removed' => 0];
 
-        $calendars = $room->calendars;
-
-        foreach ($calendars as $calendar) {
+        foreach ($room->calendars as $source) {
             try {
+                // Fetch outside the inventory lock. Reject stale downloads using a persisted revision.
+                $calendar = RoomCalendar::query()->where('room_id', $room->id)->findOrFail($source->id);
                 $content = $this->fetchCalendarContent($calendar->url);
-
                 if (! $content) {
-                    $this->logSync($room->id, $calendar->id, 'error', 'Failed to fetch calendar content', [
-                        'calendar_name' => $calendar->name,
-                        'url' => $calendar->url,
-                    ]);
-
-                    $results['failed']++;
-                    $results['errors'][] = 'Failed to fetch calendar content for ' . $calendar->name;
-
-                    continue;
+                    throw new \RuntimeException('Failed to fetch calendar content.');
                 }
-
                 $events = $this->parseICalContent($content);
                 $results['events'] += $events->count();
-
-                $this->logSync($room->id, $calendar->id, 'success', 'Successfully fetched calendar content', [
-                    'calendar_name' => $calendar->name,
-                    'events_count' => $events->count(),
-                ]);
-
+                $snapshot = [];
                 foreach ($events as $event) {
-                    if (isset($event['DTSTART']) && isset($event['DTEND'])) {
-                        $startDate = $this->parseICalDate($event['DTSTART']);
-                        $endDate = $this->parseICalDate($event['DTEND']);
-
-                        if (strlen($event['DTEND']) === 8) {
-                            $endDate->subDay();
-                        }
-
-                        $conflict = $this->checkForConflicts($room, $startDate, $endDate);
-
-                        if ($conflict) {
-                            $results['conflicts']++;
-                            $this->logSync($room->id, $calendar->id, 'warning', 'Booking conflict detected', [
-                                'start_date' => $startDate->format('Y-m-d'),
-                                'end_date' => $endDate->format('Y-m-d'),
-                                'event' => $event,
-                                'conflict' => $conflict,
-                            ]);
-                        } else {
-                            $created = $this->createBlockedDate($room, $startDate, $endDate, $calendar);
-
-                            if ($created) {
-                                $results['created']++;
-                            } else {
-                                $results['updated']++;
-                            }
-                        }
+                    if (trim($event['UID'] ?? '') === '') {
+                        throw new \InvalidArgumentException('Calendar event has no UID.');
                     }
+                    $key = hash('sha256', $event['UID']);
+                    if (array_key_exists($key, $snapshot)) {
+                        throw new \InvalidArgumentException('Duplicate UID in calendar snapshot.');
+                    }
+                    if (strtoupper($event['STATUS'] ?? '') === 'CANCELLED') {
+                        $snapshot[$key] = null;
+                        continue;
+                    }
+                    if (! isset($event['DTSTART'], $event['DTEND'])) {
+                        throw new \InvalidArgumentException('Event requires start and exclusive end dates.');
+                    }
+                    $start = $this->parseICalDate($event['DTSTART'], $event['DTSTART_TZID'] ?? null);
+                    $end = $this->parseICalDate($event['DTEND'], $event['DTEND_TZID'] ?? null);
+                    \Botble\Hotel\DataTransferObjects\StayDates::from($start, $end);
+                    $snapshot[$key] = [$start, $end];
                 }
 
-                $calendar->last_synced_at = Carbon::now();
-                $calendar->save();
+                $counts = DB::transaction(function () use ($room, $calendar, $snapshot): array {
+                    // Same first lock and order as checkout; read inventory only after taking it.
+                    $lockedRoom = Room::query()->lockForUpdate()->findOrFail($room->id);
+                    $lockedCalendar = RoomCalendar::query()->lockForUpdate()->findOrFail($calendar->id);
+                    if ($lockedCalendar->room_id != $lockedRoom->id
+                        || $lockedCalendar->url !== $calendar->url
+                        || (int) $lockedCalendar->sync_version !== (int) $calendar->sync_version) {
+                        throw new \RuntimeException('Calendar changed during download; retry synchronization.');
+                    }
+                    $existing = BookingRoom::query()->where('room_id', $room->id)
+                        ->where('ical_calendar_id', $calendar->id)->get()->keyBy('ical_uid_hash');
 
+                    // Validate the whole final snapshot, including moves/swaps and removals,
+                    // before any mutation. Other sources and local bookings still consume capacity.
+                    $inventory = $lockedRoom->activeBookingRooms
+                        ->filter(fn ($row) => $row->ical_calendar_id != $calendar->id)->values();
+                    $lockedRoom->setRelation('activeBookingRooms', $inventory);
+                    foreach ($snapshot as $key => $dates) {
+                        if ($dates === null) {
+                            continue;
+                        }
+                        [$start, $end] = $dates;
+                        if (! $lockedRoom->isAvailableAt(['start_date' => $start, 'end_date' => $end, 'rooms' => 1])) {
+                            throw new CalendarInventoryConflict('Calendar snapshot exceeds room inventory.');
+                        }
+                        $inventory->push(new BookingRoom([
+                            'start_date' => $start->toDateString(), 'end_date' => $end->toDateString(),
+                            'number_of_rooms' => 1,
+                        ]));
+                    }
+                    $counts = ['created' => 0, 'updated' => 0, 'removed' => 0];
+                    foreach ($existing as $key => $row) {
+                        if (! isset($snapshot[$key])) {
+                            $this->removeImportedBlock($row);
+                            $counts['removed']++;
+                        }
+                    }
+                    foreach ($snapshot as $key => $dates) {
+                        if ($dates === null) {
+                            continue;
+                        }
+                        [$start, $end] = $dates;
+                        $row = $existing->get($key);
+                        if ($row) {
+                            $row->start_date = $start->toDateString();
+                            $row->end_date = $end->toDateString();
+                            $row->save();
+                            // Restore a previously cancelled imported booking when it reappears.
+                            $booking = $row->booking;
+                            $booking->status = BookingStatusEnum::COMPLETED;
+                            $booking->save();
+                            $counts['updated']++;
+                        } else {
+                            $this->createBlockedDate($lockedRoom, $start, $end, $lockedCalendar, $key);
+                            $counts['created']++;
+                        }
+                    }
+                    $lockedCalendar->last_synced_at = Carbon::now();
+                    $lockedCalendar->sync_version = (int) $lockedCalendar->sync_version + 1;
+                    $lockedCalendar->save();
+                    $this->logSync($room->id, $calendar->id, 'success', 'Calendar snapshot reconciled', $counts);
+
+                    return $counts;
+                });
+                foreach ($counts as $key => $count) {
+                    $results[$key] += $count;
+                }
                 $results['success']++;
             } catch (Exception $e) {
-                $this->logSync($room->id, $calendar->id, 'error', 'Error syncing calendar: ' . $e->getMessage(), [
-                    'calendar_name' => $calendar->name,
-                    'exception' => $e->getMessage(),
-                    'trace' => $e->getTraceAsString(),
-                ]);
-
+                $conflict = $e instanceof CalendarInventoryConflict;
+                $results['conflicts'] += (int) $conflict;
                 $results['failed']++;
-                $results['errors'][] = 'Error syncing calendar ' . $calendar->name . ': ' . $e->getMessage();
+                $results['errors'][] = 'Error syncing calendar ' . $source->name . ': ' . $e->getMessage();
+                $this->logSync($room->id, $source->id, $conflict ? 'warning' : 'error', $e->getMessage());
                 Log::error('iCal sync error: ' . $e->getMessage(), ['exception' => $e]);
             }
         }
@@ -218,15 +243,7 @@ class ICalService
     protected function fetchCalendarContent(string $url): ?string
     {
         try {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            $content = curl_exec($ch);
-            curl_close($ch);
-
-            return $content ?: null;
+            return app(SafeCalendarFetcher::class)->fetch($url);
         } catch (Exception $e) {
             Log::error('Failed to fetch iCal content: ' . $e->getMessage(), ['exception' => $e]);
 
@@ -234,126 +251,86 @@ class ICalService
         }
     }
 
-    protected function parseICalDate(string $date): Carbon
+    protected function parseICalDate(string $date, ?string $timezone = null): Carbon
     {
-        if (strlen($date) === 8) {
-            return Carbon::createFromFormat('Ymd', $date);
+        $format = match (true) {
+            (bool) preg_match('/\A\d{8}\z/', $date) => 'Ymd',
+            (bool) preg_match('/\A\d{8}T\d{6}Z\z/', $date) => self::ICAL_DATE_FORMAT,
+            (bool) preg_match('/\A\d{8}T\d{6}\z/', $date) => 'Ymd\THis',
+            default => throw new \InvalidArgumentException('Invalid iCal date format.'),
+        };
+        $hotelTimezone = config('app.timezone', 'UTC');
+        $zone = str_ends_with($date, 'Z') ? 'UTC' : ($timezone ?? $hotelTimezone);
+        $parsed = Carbon::createFromFormat('!' . $format, $date, $zone);
+        if (! $parsed || $parsed->format($format) !== $date) {
+            throw new \InvalidArgumentException('Invalid iCal date value.');
         }
 
-        if (Str::endsWith($date, 'Z')) {
-            return Carbon::createFromFormat('Ymd\THis\Z', $date);
-        }
-
-        return Carbon::createFromFormat('Ymd\THis', $date);
+        return ($format === 'Ymd' ? $parsed : $parsed->setTimezone($hotelTimezone))->startOfDay();
     }
 
-    protected function createBlockedDate(Room $room, Carbon $startDate, Carbon $endDate, RoomCalendar $calendar): bool
+    // Called only within a room-locked, capacity-validated snapshot transaction.
+    protected function createBlockedDate(Room $room, Carbon $startDate, Carbon $endDate, RoomCalendar $calendar, string $uidHash): void
     {
-        $bookingNumber = 'ICAL-' . Str::random(6);
+        $booking = new Booking();
+        $booking->status = BookingStatusEnum::COMPLETED;
+        $booking->booking_number = 'ICAL-' . Str::random(12);
+        $booking->amount = 0;
+        $booking->sub_total = 0;
+        $booking->tax_amount = 0;
+        $booking->currency_id = $room->currency_id;
+        $booking->save();
+        BookingRoom::query()->create([
+            'room_id' => $room->id, 'room_name' => $room->name,
+            'room_image' => Arr::first($room->images), 'booking_id' => $booking->getKey(),
+            'price' => 0, 'currency_id' => $room->currency_id, 'number_of_rooms' => 1,
+            'start_date' => $startDate->toDateString(), 'end_date' => $endDate->toDateString(),
+            'ical_calendar_id' => $calendar->id, 'ical_uid_hash' => $uidHash,
+        ]);
+    }
 
-        $existingBooking = Booking::query()
-            ->where('booking_number', 'LIKE', 'ICAL-%')
-            ->whereHas('room', function ($query) use ($room, $startDate, $endDate): void {
-                $query->where('room_id', $room->id)
-                    ->where('start_date', $startDate->format('Y-m-d'))
-                    ->where('end_date', $endDate->format('Y-m-d'));
-            })
-            ->first();
-
-        if ($existingBooking) {
-            return false;
-        }
-
-        DB::beginTransaction();
-
-        try {
-            $booking = new Booking();
-            $booking->status = BookingStatusEnum::COMPLETED;
-            $booking->booking_number = $bookingNumber;
-            $booking->amount = 0;
-            $booking->sub_total = 0;
-            $booking->tax_amount = 0;
-            $booking->currency_id = $room->currency_id;
+    protected function removeImportedBlock(BookingRoom $row): void
+    {
+        $booking = $row->booking;
+        $row->delete();
+        // Keep an audit booking but release its inventory; never delete a local guest booking.
+        if (str_starts_with((string) $booking->booking_number, 'ICAL-')
+            && ! BookingRoom::query()->where('booking_id', $booking->id)->exists()) {
+            $booking->status = BookingStatusEnum::CANCELLED;
             $booking->save();
-
-            BookingRoom::query()->create([
-                'room_id' => $room->id,
-                'room_name' => $room->name,
-                'room_image' => Arr::first($room->images),
-                'booking_id' => $booking->getKey(),
-                'price' => 0,
-                'currency_id' => $room->currency_id,
-                'number_of_rooms' => 1,
-                'start_date' => $startDate->format('Y-m-d'),
-                'end_date' => $endDate->format('Y-m-d'),
-            ]);
-
-            DB::commit();
-
-            $this->logSync($room->id, $calendar->id, 'success', 'Created blocked dates', [
-                'booking_number' => $bookingNumber,
-                'start_date' => $startDate->format('Y-m-d'),
-                'end_date' => $endDate->format('Y-m-d'),
-            ]);
-
-            return true;
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            $this->logSync($room->id, $calendar->id, 'error', 'Failed to create blocked dates: ' . $e->getMessage(), [
-                'start_date' => $startDate->format('Y-m-d'),
-                'end_date' => $endDate->format('Y-m-d'),
-                'exception' => $e->getMessage(),
-            ]);
-
-            throw $e;
         }
     }
 
-    protected function checkForConflicts(Room $room, Carbon $startDate, Carbon $endDate): ?array
+    public function updateCalendar(RoomCalendar $calendar, string $name, string $url): void
     {
-        $conflictingBookings = BookingRoom::query()
-            ->where('room_id', $room->id)
-            ->whereHas('booking', function ($query): void {
-                $query->where('status', '!=', BookingStatusEnum::CANCELLED)
-                    ->where('booking_number', 'NOT LIKE', 'ICAL-%');
-            })
-            ->where(function ($query) use ($startDate, $endDate): void {
-                $query->where(function ($q) use ($startDate, $endDate): void {
-                    $q->whereDate('start_date', '>=', $startDate)
-                        ->whereDate('start_date', '<', $endDate);
-                })
-                ->orWhere(function ($q) use ($startDate, $endDate): void {
-                    $q->whereDate('end_date', '>', $startDate)
-                        ->whereDate('end_date', '<=', $endDate);
-                })
-                ->orWhere(function ($q) use ($startDate, $endDate): void {
-                    $q->whereDate('start_date', '<=', $startDate)
-                        ->whereDate('end_date', '>=', $endDate);
-                });
-            })
-            ->first();
+        DB::transaction(function () use ($calendar, $name, $url): void {
+            Room::query()->lockForUpdate()->findOrFail($calendar->room_id);
+            $locked = RoomCalendar::query()->lockForUpdate()->findOrFail($calendar->id);
+            $locked->name = $name;
+            $locked->url = $url;
+            $locked->sync_version = (int) $locked->sync_version + 1;
+            $locked->save();
+        });
+    }
 
-        if ($conflictingBookings) {
-            return [
-                'booking_id' => $conflictingBookings->booking_id,
-                'booking_number' => $conflictingBookings->booking->booking_number,
-                'start_date' => $conflictingBookings->start_date,
-                'end_date' => $conflictingBookings->end_date,
-            ];
-        }
-
-        return null;
+    public function deleteCalendar(RoomCalendar $calendar): void
+    {
+        DB::transaction(function () use ($calendar): void {
+            Room::query()->lockForUpdate()->findOrFail($calendar->room_id);
+            $locked = RoomCalendar::query()->lockForUpdate()->findOrFail($calendar->id);
+            foreach (BookingRoom::query()->where('room_id', $locked->room_id)
+                ->where('ical_calendar_id', $locked->id)->get() as $row) {
+                $this->removeImportedBlock($row);
+            }
+            $locked->delete();
+        });
     }
 
     protected function logSync(int $roomId, ?int $calendarId, string $status, string $message, array $data = []): void
     {
         ICalSyncLog::query()->create([
-            'room_id' => $roomId,
-            'calendar_id' => $calendarId,
-            'status' => $status,
-            'message' => $message,
-            'data' => $data,
+            'room_id' => $roomId, 'calendar_id' => $calendarId, 'status' => $status,
+            'message' => $message, 'data' => $data,
         ]);
     }
 }

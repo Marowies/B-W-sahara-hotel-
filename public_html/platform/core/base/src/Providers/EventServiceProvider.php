@@ -12,7 +12,6 @@ use Botble\Base\Events\PanelSectionsRendering;
 use Botble\Base\Events\SendMailEvent;
 use Botble\Base\Events\UpdatedContentEvent;
 use Botble\Base\Events\UpdatedEvent;
-use Botble\Base\Facades\AdminHelper;
 use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\MetaBox;
 use Botble\Base\Http\Middleware\AdminLocaleMiddleware;
@@ -33,12 +32,9 @@ use Botble\Base\Listeners\SendMailListener;
 use Botble\Base\Listeners\UpdatedContentListener;
 use Botble\Base\Models\AdminNotification;
 use Botble\Dashboard\Events\RenderingDashboardWidgets;
-use Botble\Support\Http\Middleware\BaseMiddleware;
 use Illuminate\Auth\Events\Login;
-use Illuminate\Config\Repository;
 use Illuminate\Database\Events\MigrationsStarted;
 use Illuminate\Database\Events\QueryExecuted;
-use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\Router;
@@ -135,8 +131,6 @@ class EventServiceProvider extends ServiceProvider
             }, 99);
 
             add_action(BASE_ACTION_META_BOXES, [MetaBox::class, 'doMetaBoxes'], 8, 2);
-
-            $this->disableCsrfProtection();
         });
 
         $events->listen(MigrationsStarted::class, function (): void {
@@ -182,21 +176,5 @@ class EventServiceProvider extends ServiceProvider
                 return $html . view('core/base::system.partials.cache-too-large-alert', compact('size'))->render();
             }, 5);
         });
-    }
-
-    protected function disableCsrfProtection(): void
-    {
-        /**
-         * @var Repository $config
-         */
-        $config = $this->app['config'];
-
-        if (
-            BaseHelper::hasDemoModeEnabled()
-            || $config->get('core.base.general.disable_verify_csrf_token', false)
-            || ($this->app->environment('production') && AdminHelper::isInAdmin())
-        ) {
-            $this->app->instance(ValidateCsrfToken::class, new BaseMiddleware());
-        }
     }
 }
