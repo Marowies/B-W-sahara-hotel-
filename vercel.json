@@ -1,0 +1,20 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm install",
+  "buildCommand": "node tools/vercel-build.mjs",
+  "outputDirectory": "dist",
+  "routes": [
+    { "src": "^/localized(?:/.*)?$", "status": 404, "dest": "/404.html" },
+    { "src": "^/(.*/)?index\\.html$", "status": 301, "headers": { "Location": "/$1" } },
+    { "src": "^/((?:[^./]+/)*[^./]+)$", "status": 308, "headers": { "Location": "/$1/" } },
+    { "src": "^/assets/.*$", "headers": { "Cache-Control": "public, max-age=31536000, immutable" }, "continue": true },
+    { "src": "^/fonts/.*$", "headers": { "Cache-Control": "public, max-age=31536000, immutable" }, "continue": true },
+    { "src": "^/[^/]+\\.[0-9a-f]{12}\\.(?:js|css)$", "headers": { "Cache-Control": "public, max-age=31536000, immutable" }, "continue": true },
+    { "src": "^/((?:[^./]+/)*)$", "headers": { "Cache-Control": "no-cache", "X-Content-Type-Options": "nosniff" }, "continue": true },
+    { "src": "^/sw\\.js$", "headers": { "Cache-Control": "no-cache" }, "continue": true },
+    { "src": "^/((?:[^./]+/)*)$", "has": [{ "type": "query", "key": "lang", "value": "(?<lang>en|ar|zh)" }], "dest": "/localized/$lang/$1index.html", "check": true },
+    { "handle": "filesystem" },
+    { "src": "^/.*$", "status": 404, "dest": "/404.html" }
+  ]
+}

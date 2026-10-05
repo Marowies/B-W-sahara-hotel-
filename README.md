@@ -74,3 +74,7 @@ Keep the client navigation shell and persistent model owner when integrating the
 ## Production release
 
 `npm run release` builds and prerenders an indexable site for `https://bwsaharaskyhotel.com` (robots allow, full sitemap, `index,follow`, canonical URLs). Set `HOTEL_SITE_ORIGIN` to use another domain. Plain `npm run build` stays a non-indexed preview.
+
+## Vercel
+
+`vercel.json` builds with `tools/vercel-build.mjs` into `dist/` and maps `?lang=` to the language snapshots. Production deployments are indexable using `HOTEL_SITE_ORIGIN`, or the Vercel production domain when it is not set; preview deployments stay `noindex`. Prerendering uses `@sparticuz/chromium`; if no browser can start, the build still succeeds with client-rendered pages.
