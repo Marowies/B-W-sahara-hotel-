@@ -1,0 +1,65 @@
+{
+  "css_source": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap",
+  "fonts": [
+    {
+      "url": "https://fonts.gstatic.com/s/cormorantgaramond/v21/co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jDOjw.ttf",
+      "file": "374c6c52ce83.woff2",
+      "bytes": 293036
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/cormorantgaramond/v21/co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd5wDDOjw.ttf",
+      "file": "73152f8d0c78.woff2",
+      "bytes": 293244
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/cormorantgaramond/v21/co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_iE9GnM.ttf",
+      "file": "705776b6237d.woff2",
+      "bytes": 290392
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/cormorantgaramond/v21/co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_s06GnM.ttf",
+      "file": "75407d221885.woff2",
+      "bytes": 290496
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/cormorantgaramond/v21/co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86GnM.ttf",
+      "file": "bb8f3c3b0ca4.woff2",
+      "bytes": 290236
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/manrope/v20/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk4aE-_F.ttf",
+      "file": "e7e0cf40cb44.woff2",
+      "bytes": 94928
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/manrope/v20/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk4jE-_F.ttf",
+      "file": "900670474e93.woff2",
+      "bytes": 95096
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/manrope/v20/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk79FO_F.ttf",
+      "file": "755fa076675e.woff2",
+      "bytes": 94972
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/manrope/v20/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk7PFO_F.ttf",
+      "file": "e6fa40b6715a.woff2",
+      "bytes": 95060
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/tajawal/v12/Iura6YBj_oCad4k1rzY.ttf",
+      "file": "8f438fc909da.woff2",
+      "bytes": 55072
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/tajawal/v12/Iurf6YBj_oCad4k1l4qkLrY.ttf",
+      "file": "381b425d4720.woff2",
+      "bytes": 55520
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/tajawal/v12/Iurf6YBj_oCad4k1l8KiLrY.ttf",
+      "file": "7f7966f4c2e2.woff2",
+      "bytes": 56284
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "bw-sahara-sky-frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "preview": "node tools/serve.mjs",
+    "test": "node tests/verify.mjs"
+  },
+  "devDependencies": { "sharp": "0.35.4", "playwright": "1.62.1" }
+}

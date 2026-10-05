@@ -1,0 +1,51 @@
+/* Layout is inherited from the approved design; only loading/motion behavior changes. */
+.model-stage { contain: layout; }
+.model-stage canvas { display: block; }
+.model-loading [data-retry-model] { display: block; margin: 12px auto 0; }
+/* The same footer component is used by every page and language. */
+footer { padding: clamp(44px,6vw,80px) max(6%,calc((100vw - 1320px)/2)) 26px!important; background:#351020; color:#dec09b; }
+footer .footer-top { display:grid; grid-template-columns:minmax(240px,1.5fr) repeat(2,minmax(125px,.7fr)) minmax(180px,1fr); gap:clamp(26px,4vw,64px); align-items:start; padding:0 0 44px; border:0; background:transparent; }
+footer .footer-top .footer-story { display:block; min-width:0; }
+footer .footer-story .brand { display:inline-flex; max-width:100%; }
+footer .footer-story p { max-width:310px; margin:24px 0; font-size:14px; line-height:1.9; color:#c7aa8b; }
+footer .footer-links,footer .footer-contact { display:flex; flex-direction:column; gap:12px; min-width:0; }
+footer .footer-top .footer-contact { grid-column:auto; }
+footer .footer-top h3 { margin:0 0 8px; font-size:11px; line-height:1.6; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#b99672; }
+footer .footer-links a { width:fit-content; font-size:14px; line-height:1.6; border:0; }
+footer .footer-links a:hover { color:#f0d0a4; }
+footer .footer-contact p { margin:0; font-size:14px; line-height:1.9; color:#c7aa8b; }
+footer .footer-phone { align-self:flex-start; margin-top:6px; font-size:15px; letter-spacing:.03em; border:0; }
+footer .footer-contact-note { font-size:12px; color:#b99672; }
+.icon-channels { display:flex; flex-wrap:wrap; gap:10px; }
+footer .icon-channels .channel-icon,.icon-channels .channel-icon { display:inline-flex; flex:0 0 44px; width:44px; height:44px; padding:0; justify-content:center; align-items:center; border:1px solid #b9967255; border-radius:50%; background:#dec09b08; color:#dec09b; transition:background .2s,color .2s,border-color .2s; }
+.icon-channels .channel-icon svg { display:block; width:20px; height:20px; }
+footer .icon-channels .channel-icon:hover,.icon-channels .channel-icon:hover { background:#dec09b; border-color:#dec09b; color:#351020; }
+.icon-channels .channel-icon:focus-visible,footer a:focus-visible { outline:2px solid #e6bd89; outline-offset:5px; }
+.icon-channels .channel-icon::after { content:none!important; }
+footer .footer-bottom { display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:22px; align-items:start; border-top:1px solid #b9967233; padding:24px 0 0; background:transparent; font-size:11px; line-height:1.8; color:#b99672; }
+footer .footer-bottom>span:nth-child(2) { text-align:center; max-width:560px; justify-self:center; }
+footer .footer-bottom a { border:0; }
+html[dir="rtl"] footer .footer-top h3 { letter-spacing:0; }
+@media(max-width:1050px) {
+ footer .footer-top { grid-template-columns:1.2fr 1fr 1fr; }
+ footer .footer-top .footer-story { grid-column:1/-1; }
+ footer .footer-story p { max-width:540px; }
+ footer .footer-bottom { grid-template-columns:1fr auto; }
+ footer .footer-bottom>span:nth-child(2) { grid-column:1/-1; grid-row:2; justify-self:start; text-align:start; }
+}
+@media(max-width:600px) {
+ footer { padding:42px 7% 106px!important; }
+ footer .footer-top { grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px 24px; padding-bottom:30px; }
+ footer .footer-top .footer-story,footer .footer-top .footer-contact { grid-column:1/-1; }
+ footer .footer-story p { margin:20px 0; }
+ footer .footer-links { gap:10px; }
+ footer .footer-contact { padding-top:24px; border-top:1px solid #b9967233; }
+ footer .footer-bottom { grid-template-columns:1fr; gap:12px; }
+ footer .footer-bottom>span:nth-child(2) { grid-row:auto; }
+ footer .brand>span { font-size:15px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .hero-image, .horizon > img, .tilt-card { transform: none !important; }
+}
