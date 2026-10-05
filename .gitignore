@@ -10,3 +10,4 @@ test-results/
 *.pem
 *.key
 *.zip
+.claude/settings.local.json
