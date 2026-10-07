@@ -97,7 +97,7 @@ Safeguards:
 
 Deliberately omitted until the owner verifies them: `starRating`, `geo`, `checkinTime`/`checkoutTime`, `priceRange`, `amenityFeature`, `aggregateRating`/`review`, `offers`, room `occupancy`/`bed`/`floorSize`, and a structured `PostalAddress`. The Riorelax seed text "Check-in time from 2 PM, check-out by 10 AM" is demo data and is not used. Room prices are not exposed as Offers, because booking happens on the external Aiosell engine.
 
-Runtime check pending: validate the homepage and one room in Google's Rich Results Test after deployment. Confirm that production `site_name`, `hotline`, `email`, `address` and `social_links` hold the hotel's real details and not demo values.
+Runtime check pending: validate the Hotel / HotelRoom JSON-LD with Schema.org's Schema Markup Validator after deployment, and use Google's Rich Results Test only for Google-supported rich-result types such as BreadcrumbList. Hotel / HotelRoom markup helps machine understanding but is not itself a Google Search rich-result type. Confirm that production `site_name`, `hotline`, `email`, `address` and `social_links` hold the hotel's real details and not demo values.
 
 ## Batch 6 — image and performance markup
 
@@ -141,4 +141,4 @@ Observed but out of scope (booking handoff, protected): when `external_booking_u
 | `vendor/bin/phpunit --testsuite Feature` | ERROR: `MissingAppKeyException`. No local `.env`/app key or installed database; unrelated to these changes and not worked around |
 | `php -l` on every changed PHP file; Blade compile + `php -l` on all 13 changed templates | no errors |
 
-Not verified: rendered HTML on a running site, Google Rich Results / URL Inspection, and real production language and theme-option values.
+Not verified: rendered HTML on a running site, Schema Markup Validator / applicable Google Rich Results checks / URL Inspection, and real production language and theme-option values.
