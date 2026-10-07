@@ -12,6 +12,9 @@ test('Room gallery keeps the first slide eager and lazy-loads the rest', functio
     preg_match_all('/<img[^>]*>/', $html, $images);
     check(count($images[0]) === 3, 'Expected three slides.');
     check(! str_contains($images[0][0], 'loading='), 'First (LCP) slide is lazy.');
+    check(str_contains($images[0][0], 'fetchpriority="high"'), 'First room image is not prioritized.');
+    check(substr_count($html, 'fetchpriority="high"') === 1, 'Competing high-priority carousel images.');
+    check(substr_count($html, 'decoding="async"') === 3, 'Carousel image decoding is not asynchronous.');
     check(str_contains($images[0][1], 'loading="lazy"') && str_contains($images[0][2], 'loading="lazy"'), 'Later slides are not lazy.');
     check(str_contains($images[0][0], 'alt="Sky Suite"'), 'Slide alt missing.');
 });

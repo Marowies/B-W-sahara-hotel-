@@ -32,7 +32,7 @@
                         <div class="room-details-slider">
                             @foreach ($room->images as $img)
                                 <a href="{{ RvMedia::getImageUrl($img) }}">
-                                    <img src="{{ RvMedia::getImageUrl($img, 'room-image') }}" alt="{{ $room->name }}" @if (! $loop->first) loading="lazy" @endif>
+                                    <img src="{{ RvMedia::getImageUrl($img, 'room-image') }}" alt="{{ $room->name }}" decoding="async" @if ($loop->first) fetchpriority="high" @else loading="lazy" @endif>
                                 </a>
                             @endforeach
                         </div>

@@ -33,3 +33,15 @@ Existing H1, breadcrumb hierarchy and descriptive image alt foundations were alr
 ## Batch 5 — verified structured data foundations
 
 Existing Hotel/HotelRoom schema already omits unverified ratings, offers, prices, amenities, coordinates and check-in/out times. Added the exact documented demo site title to the exclusion list; schema image/logo values must be absolute HTTP(S) URLs and room images remain deduplicated. JSON-LD serialization tolerates malformed CMS UTF-8 while retaining script-tag escaping. Added two behavior regressions; SEO suite 38/38 passes. Dynamic CMS data is still subject to the facts reconciliation register; no owner facts were manufactured and no local Hotel node was forced. Push pending authentication.
+
+## Batch 6 — safe image/performance SEO
+
+The first room-gallery image now receives fetchpriority=high and all main carousel images use decoding=async. Later slides retain lazy loading; only one slide can be high priority. The rendered-Blade regression checks these attributes. No dimensions were guessed and no booking/pricing markup or behavior changed. SEO suite 38/38 and isolated security/backend suite 49/49 pass. No Core Web Vitals improvement is claimed without real media/runtime measurements. Push pending authentication.
+
+## Final scope and external dependencies
+
+No production access, deployment, seeding, composer update, booking/payment/inventory/pricing/security business-logic change, merge or force push. Work remains on seo/strategy-and-implementation. Existing main/backend refs were not moved; no frondend/new-frontend branch was created or edited. .env/SQLite/storage files are not committed.
+
+Owner/CMS: sanitized real pages/rooms/translations, actual EN/AR/ZH language codes and prefixes, verified hotel identity/contact/logo/profile links, real image dimensions, content equivalence, foods indexing decision. GSC: sitemap submission, rendered URL inspection, coverage and language diagnostics. GA4/GTM: existing property/container IDs, authorized access and event/conversion verification. GBP: verified profile ownership and identity reconciliation. Aiosell: provider-confirmed booking deep-link parameters, cross-domain conversion attribution and any price/availability data contract. No external system was configured here.
+
+Push is blocked by local GitHub credential access, not by a merge conflict. Every batch has a separate local commit. Do not describe these commits as uploaded until remote verification succeeds.
