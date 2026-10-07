@@ -107,3 +107,38 @@ Runtime check pending: validate the homepage and one room in Google's Rich Resul
 - The room amenity icon's invalid `width="20px"` is now `width="20"` (same rendering).
 
 Not changed: `width`/`height` attributes on content images. Botble serves the original file when a size variant is missing, so declared dimensions could be wrong. They need a media audit or CSS `aspect-ratio` work done with the design. No source media was modified. Generic alts such as `__('Image')` on CMS-chosen shortcode images were kept, because the right text depends on the image content the owner uploads.
+
+## Batch 7 — measurement preparation (no code change)
+
+Existing support: Botble renders Google Tag Manager, a GA4 measurement ID or custom tracking code from **Admin → Settings → Website tracking** (`ThemeSupport::renderGoogleTagManagerScript`, printed in the theme header). No IDs exist in the repository, and none were added.
+
+Every booking handoff to Aiosell is a plain link to the theme option `external_booking_url` (`https://be.aiosell.com/book/acc8e772e0` in `BookingEngineSettingsSeeder`), opened in a new tab:
+
+| Placement | Template | Distinguishing class |
+| --- | --- | --- |
+| header button | `partials/header.blade.php` (`header_button_url`) | `top-btn` |
+| room card / related rooms | `partials/rooms/item.blade.php` | `book-button-custom` |
+| room-category grid | `views/hotel/room-category.blade.php` | `book-button-custom` |
+| booking form (hero pill, sidebar) | `partials/hotel/forms/form.blade.php` | `round-search-btn` / `ss-btn` |
+| booking-form shortcode | `partials/shortcodes/booking-form/index.blade.php` | `ss-btn` |
+
+GTM's built-in link-click trigger can measure these without theme code: **Just Links**, Click URL Hostname equals `be.aiosell.com`, sent as a GA4 event such as `booking_engine_click` with `link_classes`, `page_location` and the page `lang`. A custom script was therefore not added. Record this event as **intent to book**, never as a booking or a conversion value.
+
+Pending external access (not implementable in code here):
+
+- **Completed bookings** happen on `be.aiosell.com`. Attributing them needs Aiosell to support a GA4/GTM tag or a confirmation-page redirect/postback, plus GA4 cross-domain configuration (Admin → Data streams → Configure your domains) that includes `be.aiosell.com`. This requires Aiosell account/support access.
+- GTM/GA4 container IDs, Search Console verification and sitemap submission, and Google Business Profile linkage require the owner's Google accounts.
+
+Observed but out of scope (booking handoff, protected): when `external_booking_url` is set, the date/guest search form links to the engine without passing the selected dates or guests. Guests must re-enter them on Aiosell. Whether Aiosell accepts deep-link parameters must be confirmed with the provider before the handoff is changed.
+
+## Verification summary (end of session)
+
+| Check | Result |
+| --- | --- |
+| `php tests/Seo/run.php` | 29 / 29 PASS |
+| `php tests/Security/run.php` (security + booking/backend regressions) | 49 / 49 PASS (same as baseline) |
+| `vendor/bin/phpunit --testsuite Unit` | OK (1 test) |
+| `vendor/bin/phpunit --testsuite Feature` | ERROR: `MissingAppKeyException`. No local `.env`/app key or installed database; unrelated to these changes and not worked around |
+| `php -l` on every changed PHP file; Blade compile + `php -l` on all 13 changed templates | no errors |
+
+Not verified: rendered HTML on a running site, Google Rich Results / URL Inspection, and real production language and theme-option values.
