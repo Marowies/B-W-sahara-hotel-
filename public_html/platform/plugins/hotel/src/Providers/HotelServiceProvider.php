@@ -20,6 +20,7 @@ use Botble\Hotel\Http\Requests\Fronts\Auth\ForgotPasswordRequest;
 use Botble\Hotel\Http\Requests\Fronts\Auth\LoginRequest;
 use Botble\Hotel\Http\Requests\Fronts\Auth\RegisterRequest;
 use Botble\Hotel\Http\Requests\Fronts\Auth\ResetPasswordRequest;
+use Botble\Hotel\Listeners\AddSitemapListener;
 use Botble\Hotel\Models\Amenity;
 use Botble\Hotel\Models\Booking;
 use Botble\Hotel\Models\BookingAddress;
@@ -434,7 +435,7 @@ class HotelServiceProvider extends ServiceProvider
             ]);
         }
 
-        SiteMapManager::registerKey(['rooms']);
+        SiteMapManager::registerKey(['rooms', ...array_keys(AddSitemapListener::CONTENT)]);
 
         $this->app->register(EventServiceProvider::class);
 

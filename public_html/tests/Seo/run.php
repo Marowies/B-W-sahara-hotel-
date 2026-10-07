@@ -65,6 +65,7 @@ function method_source(string $class, string $method): string {
 
 require __DIR__ . '/IndexabilityCases.php';
 require __DIR__ . '/HreflangCases.php';
+require __DIR__ . '/SitemapCases.php';
 
 echo json_encode($results, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n";
 exit(count(array_filter($results, fn ($result) => str_starts_with($result, 'FAIL'))) ? 1 : 0);

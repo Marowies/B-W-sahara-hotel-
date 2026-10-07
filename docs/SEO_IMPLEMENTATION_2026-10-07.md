@@ -46,3 +46,22 @@ Open items (runtime/owner):
 - **Chinese locale values — UNKNOWN.** The theme's stored option keys use `zh_CN` (`BookingEngineSettingsSeeder`), and Laravel's translation folder is `lang/zh`. The real `lang_locale` / `lang_code` / URL prefix must be read from the production `languages` table before confirming that the rendered values are `zh-cn` and `/zh/…`. Nothing depends on guessing them.
 - **Translation equivalence — REVIEW REQUIRED.** Language Advanced falls back to the default-language text when a field is untranslated. A `/zh/…` alternate may therefore be English content (partial equivalent). The project review already found English room names on `/ar/rooms`. Fill the translations rather than removing alternates.
 - **Listing canonical prefix — LIKELY.** `route('public.rooms')` is expected to carry the active locale prefix, because the language plugin prefixes the public route group. Confirm in rendered HTML on `/ar/rooms` and `/zh/rooms`.
+
+## Batch 3 — sitemap coverage
+
+The hotel plugin contributed one sitemap (`rooms`). Room categories, services and places had no sitemap entries. The rooms sitemap could also emit the homepage URL for a room with no slug, because the slug URL falls back to the homepage.
+
+| Sitemap | Contents |
+| --- | --- |
+| `sitemap/rooms.xml` | rooms listing + published rooms with a slug (unchanged apart from the slug guard) |
+| `sitemap/room-categories.xml` | published categories with at least one published room |
+| `sitemap/services.xml` | published services |
+| `sitemap/places.xml` | published places |
+
+The new sitemaps are listed in `sitemap.xml` only when they contain content. URLs come from each model's own URL (`route()` / slug helpers), never a hard-coded host. They match the canonicals from batch 1. Checkout, booking tokens, customer pages, iCal feeds and unpublished items are not added.
+
+Not included:
+
+- **Foods — OWNER DECISION.** Food detail pages are menu items: a name, a price taken from the CMS, an image and optional text. Whether they are a real public offering with enough content to index is a business decision. The demo seed data includes food prices, so they also need fact-checking. Foods keep their canonical and noindex controls; add `'foods' => [Food::class, …]` to `AddSitemapListener::CONTENT` once approved.
+- **Language alternates inside the sitemap.** Botble's sitemap view supports `xhtml:link` translations, but hreflang is now emitted in each page's HTML (batch 2). Google accepts either source, so the sitemap was left monolingual rather than duplicating the cluster logic.
+- **Sitemap cache.** Botble caches sitemap output (`enable_cache_site_map`, default 60 minutes). After deploying, clear the cache or wait for it to expire before submitting in Search Console.
