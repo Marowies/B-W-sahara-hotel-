@@ -29,3 +29,7 @@ Published hotel records explicitly marked noindex in the existing SEO meta box a
 ## Batch 4 — on-page foundations
 
 Existing H1, breadcrumb hierarchy and descriptive image alt foundations were already implemented. Configured CMS homepage metadata now falls back to that page's stored name/description only after explicit SEO title/description and site title options are exhausted. Raw shortcode content is not used for descriptions. Added a regression contract; SEO suite 36/36 passes and PHP lint/diff checks pass. Missing real hotel copy and untranslated fields remain pending; the empty default homepage was not populated. Push pending authentication.
+
+## Batch 5 — verified structured data foundations
+
+Existing Hotel/HotelRoom schema already omits unverified ratings, offers, prices, amenities, coordinates and check-in/out times. Added the exact documented demo site title to the exclusion list; schema image/logo values must be absolute HTTP(S) URLs and room images remain deduplicated. JSON-LD serialization tolerates malformed CMS UTF-8 while retaining script-tag escaping. Added two behavior regressions; SEO suite 38/38 passes. Dynamic CMS data is still subject to the facts reconciliation register; no owner facts were manufactured and no local Hotel node was forced. Push pending authentication.

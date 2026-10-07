@@ -6,6 +6,7 @@ class HotelSchema
 {
     // Riorelax demo seed values (database/seeders/ThemeOptionSeeder.php); never publish them as hotel facts.
     public const DEMO_VALUES = [
+        'Hotel Riorelax',
         'info@webmail.com',
         '14/A, Riorelax City, NYC',
         '+908 987 877 09',
@@ -29,8 +30,8 @@ class HotelSchema
             '@id' => self::hotelId($siteUrl),
             'name' => $name,
             'url' => $homeUrl,
-            'logo' => $logoUrl,
-            'image' => $logoUrl,
+            'logo' => self::imageUrl($logoUrl),
+            'image' => self::imageUrl($logoUrl),
             'telephone' => self::text($options['hotline'] ?? null),
             'email' => self::text($options['email'] ?? null),
             'address' => self::text($options['address'] ?? null),
@@ -58,7 +59,7 @@ class HotelSchema
             'name' => $name,
             'url' => $url,
             'description' => self::text($description),
-            'image' => array_values(array_unique(array_filter($imageUrls))),
+            'image' => array_values(array_unique(array_filter(array_map(self::imageUrl(...), $imageUrls)))),
             'containedInPlace' => ['@id' => self::hotelId($siteUrl)],
         ];
 
@@ -68,12 +69,21 @@ class HotelSchema
     // The theme writes scripts verbatim, so "<" and ">" in CMS text must not close the tag.
     public static function toJson(array $schema): string
     {
-        return json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG);
+        return json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_INVALID_UTF8_SUBSTITUTE);
     }
 
     public static function hotelId(string $siteUrl): string
     {
         return rtrim($siteUrl, '/') . '/#hotel';
+    }
+
+    protected static function imageUrl(mixed $url): ?string
+    {
+        if (! is_string($url) || ! filter_var($url, FILTER_VALIDATE_URL)) {
+            return null;
+        }
+
+        return in_array(strtolower((string) parse_url($url, PHP_URL_SCHEME)), ['http', 'https'], true) ? $url : null;
     }
 
     protected static function text(mixed $value): ?string

@@ -57,3 +57,18 @@ test('Hotel schema is written for the homepage and published rooms only', functi
     check(str_contains($provider, '$object instanceof Page && BaseHelper::isHomepage($object->getKey()) => HotelSchema::hotel('), 'Hotel schema wiring missing.');
     check(str_contains($provider, "writeScript('hotel-schema', HotelSchema::toJson(\$schema), attributes: ['type' => 'application/ld+json'])"), 'Schema not written as JSON-LD.');
 });
+
+test('Structured data omits the documented demo hotel title and invalid image values', function (): void {
+    check(HotelSchema::hotel('https://hotel.example', 'https://hotel.example', 'Hotel Riorelax') === null, 'Demo hotel title emitted.');
+    $hotel = HotelSchema::hotel('https://hotel.example', 'https://hotel.example', 'CMS hotel', [], '/relative-logo.png');
+    check(! isset($hotel['logo']) && ! isset($hotel['image']), 'Relative schema logo emitted.');
+    $room = HotelSchema::room('https://hotel.example', 'https://hotel.example/rooms/x', 'CMS room', null,
+        ['', '/relative.jpg', 'javascript:alert(1)', 'https://hotel.example/image.jpg', 'https://hotel.example/image.jpg']);
+    check($room['image'] === ['https://hotel.example/image.jpg'], 'Invalid or duplicate schema image emitted.');
+});
+
+test('Malformed CMS UTF-8 cannot break JSON-LD serialization', function (): void {
+    $json = HotelSchema::toJson(['name' => "CMS\xB1name", 'description' => '</script>']);
+    check(is_array(json_decode($json, true)), 'Invalid CMS bytes broke JSON-LD.');
+    check(! str_contains($json, '</script>'), 'Script terminator emitted.');
+});
