@@ -13,3 +13,11 @@ The local SQLite database is empty QA infrastructure, not a copy of the hotel we
 Release consideration (no deployment performed): remove the previous static `public/robots.txt` from any future deployed web root, otherwise the web server will bypass the dynamic route. Preserve any owner-approved custom production rules in the new storage file during a separately authorized release. Storage must be writable for the existing editor. No production rules were read or modified here.
 
 Full real-content and AR/ZH runtime validation remains blocked by absent local CMS content/languages. PHPUnit's existing bootstrap readability blocker is separate from the passing standalone suites.
+
+## Batch 2 — international SEO
+
+Inspected LanguageManager locale selection and Language Advanced translated-slug resolution. Locale URL keys derive from stored lang_locale (or lang_code on collision); hreflang derives from lang_code. No zh/zh_CN assumption or language record was added. With zero local language rows Botble supplies its own English fallback.
+
+Fixed x-default to reuse the resolved default-language URL in the alternate cluster, including translated slugs. Generic language aliases now keep the first configured regional target across every page rather than changing with the active region. Added rendered-Blade and multi-region reciprocity regressions; 34/34 SEO checks pass. Real EN/AR/ZH equivalence/RTL and translated content remain pending a sanitized CMS dataset.
+
+Push blocker: normal Git credential helper cannot launch its shell in this environment; invoking the installed manager directly returns credential enumeration Access is denied. Commits remain local until GitHub authentication is available. No credential was displayed or changed.

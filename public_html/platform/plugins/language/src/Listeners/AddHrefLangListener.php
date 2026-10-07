@@ -52,7 +52,6 @@ class AddHrefLangListener
     protected function generateHreflangUrls(?string $referenceType, int|string|null $referenceId): array
     {
         $hreflangUrls = [];
-        $currentAppLocale = app()->getLocale();
 
         foreach (Language::getSupportedLocales() as $localeCode => $properties) {
             $hreflangCode = Language::formatLocaleForHrefLang($properties['lang_code']);
@@ -69,14 +68,10 @@ class AddHrefLangListener
             if (str_contains($hreflangCode, '-')) {
                 $languageOnly = explode('-', $hreflangCode)[0];
 
-                if ($localeCode === $currentAppLocale) {
+                $hreflangUrls[$hreflangCode] = $url;
+                // Keep the generic target identical across the cluster, even with multiple regions.
+                if (! isset($hreflangUrls[$languageOnly])) {
                     $hreflangUrls[$languageOnly] = $url;
-                    $hreflangUrls[$hreflangCode] = $url;
-                } else {
-                    $hreflangUrls[$hreflangCode] = $url;
-                    if (! isset($hreflangUrls[$languageOnly])) {
-                        $hreflangUrls[$languageOnly] = $url;
-                    }
                 }
             } else {
                 $hreflangUrls[$hreflangCode] = $url;

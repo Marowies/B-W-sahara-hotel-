@@ -90,3 +90,34 @@ test('HTML lang is a valid BCP 47 tag for every locale form', function () use ($
         check($html === "<html lang=\"$expected\">", "Locale $locale rendered $html");
     }
 });
+
+test('x-default uses the resolved default-language slug from the alternate cluster', function () use ($compileBlade, $languageStub): void {
+    Language::swap($languageStub);
+    $template = file_get_contents(dirname(__DIR__, 2) . '/platform/plugins/language/resources/views/partials/hreflang.blade.php');
+    $html = $compileBlade($template, ['hreflangUrls' => ['en-us' => 'https://hotel.example/rooms/translated-default', 'ar' => 'https://hotel.example/ar/rooms/arabic-slug']]);
+    check((bool) preg_match('#href="https://hotel.example/rooms/translated-default"\s+hreflang="x-default"#', $html), 'x-default ignored the resolved translated URL.');
+});
+
+test('Generic hreflang targets remain reciprocal with multiple regions of one language', function () use ($app, $languageStub): void {
+    $originalLocales = $languageStub->locales;
+    $originalUrls = $languageStub->urls;
+    try {
+        $languageStub->locales['en-gb'] = ['lang_code' => 'en_GB', 'lang_locale' => 'en-gb'];
+        $languageStub->urls['en-gb'] = 'https://hotel.example/en-gb/rooms/deluxe-room';
+        Language::swap($languageStub);
+        $listener = new class extends AddHrefLangListener {
+            public function urls(): array { return $this->generateHreflangUrls(null, null); }
+        };
+        $expected = null;
+        foreach (['en', 'en-gb', 'ar', 'zh'] as $locale) {
+            $app->setLocale($locale);
+            $urls = $listener->urls();
+            $expected ??= $urls;
+            check($urls === $expected, 'Alternates changed depending on the current language.');
+            check($urls['en'] === $languageStub->urls['en'], 'Generic English target is unstable.');
+        }
+    } finally {
+        $languageStub->locales = $originalLocales;
+        $languageStub->urls = $originalUrls;
+    }
+});
