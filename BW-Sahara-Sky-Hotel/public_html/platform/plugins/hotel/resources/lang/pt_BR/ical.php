@@ -1,0 +1,92 @@
+<?php
+
+return [
+    'name' => 'Sincronização iCal',
+    'sync_calendars' => 'Sincronizar Calendários',
+    'sync_all_calendars' => 'Sincronizar Todos os Calendários',
+    'external_calendars' => 'Calendários Externos',
+    'last_sync' => 'Última Sincronização',
+    'never' => 'Nunca',
+    'sync' => 'Sincronizar',
+    'download' => 'Baixar',
+    'edit' => 'Editar iCal para :name',
+    'calendar_name' => 'Nome do Calendário',
+    'calendar_name_placeholder' => 'Digite o nome do calendário',
+    'calendar_url' => 'URL do Calendário',
+    'calendar_url_placeholder' => 'Digite a URL do calendário (ex: do Booking.com, Airbnb, etc.)',
+    'existing_calendars' => 'Calendários Existentes',
+    'export_calendar' => 'Exportar Calendário',
+    'export_url' => 'URL de Exportação',
+    'export_description' => 'Use esta URL para exportar suas reservas para plataformas externas como Booking.com, Airbnb, etc.',
+    'download_ical_file' => 'Baixar Arquivo iCal',
+    'sync_success' => ':success calendário(s) sincronizado(s) com sucesso. Falhou: :failed',
+    'sync_all_success' => ':success calendário(s) sincronizado(s) com sucesso. Falhou: :failed',
+
+    // Logs
+    'logs' => 'Logs de Sincronização iCal',
+    'log_details' => 'Log de Sincronização #:id',
+    'message' => 'Mensagem',
+    'data' => 'Dados',
+    'calendar' => 'Calendário',
+    'all_calendars' => 'Todos os Calendários',
+    'clear_logs' => 'Limpar Todos os Logs',
+    'clear_logs_confirm' => 'Tem certeza de que deseja limpar todos os logs?',
+    'logs_cleared' => 'Todos os logs foram limpos com sucesso',
+
+    // Status
+    'status_success' => 'Sucesso',
+    'status_warning' => 'Aviso',
+    'status_error' => 'Erro',
+
+    // Email
+    'email' => [
+        'subject' => 'Alerta de Falha na Sincronização iCal',
+        'greeting' => 'Olá,',
+        'message' => 'Detectamos um problema com a sincronização iCal do seu sistema de reservas de hotel.',
+        'details' => 'Detalhes do Erro',
+        'time' => 'Horário',
+        'error' => 'Mensagem de Erro',
+        'action' => 'Por favor, verifique suas configurações de sincronização iCal e certifique-se de que todas as URLs de calendário externo estão corretas e acessíveis.',
+        'view_logs' => 'Ver Logs de Sincronização',
+        'closing' => 'Obrigado por sua atenção a este assunto.',
+        'footer' => 'Esta é uma mensagem automática de :site_name.',
+    ],
+
+    // Documentation
+    'documentation' => 'Documentação de Sincronização iCal',
+    'documentation_title' => 'Como Usar a Sincronização iCal',
+    'what_is_ical' => 'O que é Sincronização iCal?',
+    'what_is_ical_desc' => 'iCal (ou iCalendar) é um formato padrão para troca de dados de calendário. O recurso de Sincronização iCal permite sincronizar as reservas de quartos do seu hotel com plataformas externas como Booking.com, Airbnb e outros sistemas de reserva que suportam iCal.',
+
+    'export_bookings' => 'Exportando Suas Reservas',
+    'export_bookings_desc' => 'Você pode exportar as reservas do seu hotel para plataformas externas para evitar reservas duplicadas.',
+    'export_step1_title' => 'Vá para a página de Sincronização iCal',
+    'export_step1_desc' => 'Navegue até Reservas > Sincronização iCal no painel administrativo.',
+    'export_step2_title' => 'Encontre o quarto que deseja exportar',
+    'export_step2_desc' => 'Clique em "Editar" no quarto para o qual deseja exportar reservas.',
+    'export_step3_title' => 'Copie a URL de exportação ou baixe o arquivo iCal',
+    'export_step3_desc' => 'Copie a URL de exportação fornecida ou baixe o arquivo iCal. Adicione esta URL à sua plataforma externa (Booking.com, Airbnb, etc.) seguindo as instruções deles para importar feeds iCal.',
+
+    'import_bookings' => 'Importando Reservas Externas',
+    'import_bookings_desc' => 'Você pode importar reservas de plataformas externas para evitar reservas duplicadas no seu sistema.',
+    'import_step1_title' => 'Obtenha a URL iCal da sua plataforma externa',
+    'import_step1_desc' => 'Faça login em sua plataforma externa (Booking.com, Airbnb, etc.) e encontre a opção para exportar calendário como iCal. Copie a URL fornecida.',
+    'import_step2_title' => 'Vá para a página de Sincronização iCal',
+    'import_step2_desc' => 'Navegue até Reservas > Sincronização iCal no painel administrativo.',
+    'import_step3_title' => 'Adicione o calendário externo',
+    'import_step3_desc' => 'Clique em "Editar" no quarto para o qual deseja importar reservas. Digite um nome para o calendário (ex: "Booking.com") e cole a URL iCal que você copiou anteriormente.',
+    'import_step4_title' => 'Sincronize o calendário',
+    'import_step4_desc' => 'Clique em "Sincronizar" para sincronizar manualmente o calendário ou aguarde a sincronização automática.',
+
+    'sync_logs' => 'Logs de Sincronização iCal',
+    'sync_logs_desc' => 'O sistema mantém logs detalhados de todas as atividades de sincronização. Você pode visualizar esses logs clicando em "Logs de Sincronização" na página de Sincronização iCal. Isso ajuda a solucionar problemas com a sincronização.',
+
+    'troubleshooting' => 'Solução de Problemas',
+    'troubleshooting_desc' => 'Aqui estão alguns problemas comuns e suas soluções:',
+    'faq1_title' => 'O calendário externo não está sincronizando',
+    'faq1_desc' => 'Certifique-se de que a URL está correta e acessível. Algumas plataformas exigem que você esteja logado para acessar o feed iCal. Tente baixar o arquivo iCal diretamente da URL para verificar se funciona.',
+    'faq2_title' => 'Há conflitos entre as reservas',
+    'faq2_desc' => 'O sistema detectará conflitos entre reservas e os registrará. Você pode visualizar esses conflitos nos Logs de Sincronização. Você precisará resolver esses conflitos manualmente ajustando as reservas em um dos sistemas.',
+    'faq3_title' => 'A sincronização automática não está funcionando',
+    'faq3_desc' => 'Certifique-se de que os cron jobs do seu servidor estão configurados corretamente. O sistema usa o agendador do Laravel para executar o comando de sincronização a cada hora. Você também pode executar a sincronização manualmente clicando em "Sincronizar" ou "Sincronizar Todos os Calendários" na página de Sincronização iCal.',
+];

@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "checks": [
+    "published hotel catalogue",
+    "invalid stay rejected",
+    "admin rooms protected from guests",
+    "contact CSRF protection",
+    "real admin authentication and branded dashboard",
+    "authenticated rooms administration",
+    "frontend room cards use backend records",
+    "frontend enquiry saved to real CMS inbox",
+    "booking list, room editor, pages and galleries accessible",
+    "admin contact inbox accessible",
+    "admin mobile layout without page overflow",
+    "staff without permissions blocked from rooms, bookings and contacts"
+  ],
+  "roomCount": 7,
+  "pageErrors": []
+}

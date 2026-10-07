@@ -1,0 +1,39 @@
+# Dependencies and local tools
+**/node_modules/
+**/bower_components/
+**/.idea/
+**/.vscode/
+/bww/vendor/
+/public_html/vendor/
+/public_html/old/vendor/
+# Secrets and runtime data
+**/.env*
+!**/.env.example
+**/auth.json
+**/sftp-config.json
+**/.mcp.json
+**/storage/**
+!**/storage/**/
+!**/storage/**/.gitignore
+**/bootstrap/cache/*
+!**/bootstrap/cache/.gitignore
+**/*.log
+**/*.sql
+**/*.sqlite*
+**/*.db
+**/*.pem
+**/*.key
+**/*.p12
+**/*.pfx
+**/*.zip
+**/*.7z
+**/*.rar
+**/*.tar
+**/*.gz
+.DS_Store
+Thumbs.db
+/output/
+/tmp/
+
+# Published theme preview has a source fallback
+/public_html/public/themes/*/screenshot.png

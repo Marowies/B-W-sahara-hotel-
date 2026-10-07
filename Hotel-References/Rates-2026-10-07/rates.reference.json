@@ -1,0 +1,508 @@
+{
+  "hotel": "B&W Sahara Sky Hotel",
+  "received": "2026-10-07",
+  "validFrom": "2026-10-01",
+  "validThrough": "2027-05-31",
+  "source": "Original-Rate-Sheet.jpg",
+  "sourceType": "User-provided photograph/table; manual transcription",
+  "channelInterpretation": {
+    "booking": "Source header BOOKing; exact platform to confirm",
+    "travelAgency": "Travel Agency",
+    "tourGuide": "Tour Guide",
+    "bw": "B&W; interpretation as direct website price requires owner confirmation"
+  },
+  "nullMeaning": "Blank/dash in source, not a zero price",
+  "unresolved": [
+    "Per room/night vs per person vs per booking/package basis",
+    "Taxes, meals, supplements and restrictions",
+    "B&W direct website applicability",
+    "Room-type code legend conflicts with main table",
+    "Single/Double variants share merged quantity cells; do not sum as separate inventory",
+    "Double king-bed labels conflict with twin-bed descriptions in the current local catalogue",
+    "Premium Luxury prices/codes missing",
+    "Free Tour Leader eligibility conditions"
+  ],
+  "rows": [
+    {
+      "code": "611",
+      "name": "Deluxe Single",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": 347,
+        "travelAgency": 260,
+        "tourGuide": 280,
+        "bw": 299
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "612",
+      "name": "Deluxe Double",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": 377,
+        "travelAgency": 283,
+        "tourGuide": 304,
+        "bw": 325
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "622",
+      "name": "Deluxe Twin",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": 377,
+        "travelAgency": 283,
+        "tourGuide": 304,
+        "bw": 325
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "711",
+      "name": "Standard Single",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": 293,
+        "travelAgency": 220,
+        "tourGuide": 236,
+        "bw": 253
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "712",
+      "name": "Standard Double",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": 313,
+        "travelAgency": 235,
+        "tourGuide": 253,
+        "bw": 270
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "722",
+      "name": "Standard Twin",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": 313,
+        "travelAgency": 235,
+        "tourGuide": 253,
+        "bw": 270
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "733",
+      "name": "Standard Triple",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": 378,
+        "travelAgency": 284,
+        "tourGuide": 305,
+        "bw": 326
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "811",
+      "name": "Superior Single",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": 313,
+        "travelAgency": 235,
+        "tourGuide": 253,
+        "bw": 270
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "812",
+      "name": "Superior Double",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": 338,
+        "travelAgency": 254,
+        "tourGuide": 273,
+        "bw": 292
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "822",
+      "name": "Superior Twin",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": 338,
+        "travelAgency": 254,
+        "tourGuide": 273,
+        "bw": 292
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "911",
+      "name": "Premium Single",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": 394,
+        "travelAgency": 296,
+        "tourGuide": 318,
+        "bw": 340
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "912",
+      "name": "Premium Double",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": 429,
+        "travelAgency": 322,
+        "tourGuide": 346,
+        "bw": 370
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "922",
+      "name": "Premium Twin",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": 429,
+        "travelAgency": 322,
+        "tourGuide": 346,
+        "bw": 370
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": null,
+      "name": "Premium Luxury Single",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": null,
+        "travelAgency": null,
+        "tourGuide": null,
+        "bw": null
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": null,
+      "name": "Premium Luxury Double",
+      "kind": "room",
+      "currency": "USD",
+      "prices": {
+        "booking": null,
+        "travelAgency": null,
+        "tourGuide": null,
+        "bw": null
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "111",
+      "name": "Extra bed",
+      "kind": "extra",
+      "currency": "USD",
+      "prices": {
+        "booking": 50,
+        "travelAgency": 50,
+        "tourGuide": 50,
+        "bw": 50
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "000",
+      "name": "Free room for 1 Tour Leader",
+      "kind": "extra",
+      "currency": "USD",
+      "prices": {
+        "booking": null,
+        "travelAgency": null,
+        "tourGuide": null,
+        "bw": null
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only",
+      "note": "Free label in source; eligibility conditions not supplied. Dashes are not interpreted as unconditional zero prices."
+    },
+    {
+      "code": "101",
+      "name": "SGL Guide room",
+      "kind": "guide-room",
+      "currency": "EGP",
+      "prices": {
+        "booking": null,
+        "travelAgency": 4100,
+        "tourGuide": 4100,
+        "bw": 4100
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "102",
+      "name": "Twin Guide room",
+      "kind": "guide-room",
+      "currency": "EGP",
+      "prices": {
+        "booking": null,
+        "travelAgency": 8200,
+        "tourGuide": 8200,
+        "bw": 8200
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "103",
+      "name": "TPL Guide room",
+      "kind": "guide-room",
+      "currency": "EGP",
+      "prices": {
+        "booking": null,
+        "travelAgency": 12300,
+        "tourGuide": 12300,
+        "bw": 12300
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "L01",
+      "name": "Single Camping Tent",
+      "kind": "tent",
+      "currency": "USD",
+      "prices": {
+        "booking": 100,
+        "travelAgency": 75,
+        "tourGuide": 81,
+        "bw": 86
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "L02",
+      "name": "Double Camping Tent",
+      "kind": "tent",
+      "currency": "USD",
+      "prices": {
+        "booking": 120,
+        "travelAgency": 90,
+        "tourGuide": 97,
+        "bw": 104
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "X01",
+      "name": "Cairo Roundtrip & Safari — 2 days / 1 night",
+      "kind": "package",
+      "currency": "USD",
+      "prices": {
+        "booking": 201,
+        "travelAgency": 185,
+        "tourGuide": 185,
+        "bw": 185
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "X02",
+      "name": "Cairo Roundtrip & Safari — 3 days / 2 nights",
+      "kind": "package",
+      "currency": "USD",
+      "prices": {
+        "booking": 451,
+        "travelAgency": 361,
+        "tourGuide": 375,
+        "bw": 415
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "C01",
+      "name": "5-Cairo 5-seater car-5",
+      "kind": "vehicle",
+      "currency": "USD",
+      "prices": {
+        "booking": 283,
+        "travelAgency": 200,
+        "tourGuide": 210,
+        "bw": 260
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "C02",
+      "name": "7-Cairo luxury SUV-7",
+      "kind": "vehicle",
+      "currency": "USD",
+      "prices": {
+        "booking": 293,
+        "travelAgency": 210,
+        "tourGuide": 220,
+        "bw": 270
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "C03",
+      "name": "13-Toyota Hiace-13",
+      "kind": "vehicle",
+      "currency": "USD",
+      "prices": {
+        "booking": 420,
+        "travelAgency": 310,
+        "tourGuide": 320,
+        "bw": 380
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "C04",
+      "name": "off-road vehicle-Safari",
+      "kind": "vehicle",
+      "currency": "USD",
+      "prices": {
+        "booking": 386,
+        "travelAgency": 330,
+        "tourGuide": 340,
+        "bw": 420
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "C05",
+      "name": "White Desert",
+      "kind": "vehicle",
+      "currency": "USD",
+      "prices": {
+        "booking": 283,
+        "travelAgency": 210,
+        "tourGuide": 220,
+        "bw": 260
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    },
+    {
+      "code": "C06",
+      "name": "Black Desert Oasis",
+      "kind": "vehicle",
+      "currency": "USD",
+      "prices": {
+        "booking": 174,
+        "travelAgency": 110,
+        "tourGuide": 120,
+        "bw": 160
+      },
+      "rateBasis": null,
+      "taxInclusive": null,
+      "mealsIncluded": null,
+      "approval": "reference-only"
+    }
+  ]
+}

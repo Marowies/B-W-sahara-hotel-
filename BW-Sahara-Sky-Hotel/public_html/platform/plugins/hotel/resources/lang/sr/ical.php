@@ -1,0 +1,92 @@
+<?php
+
+return [
+    'name' => 'iCal sinhronizacija',
+    'sync_calendars' => 'Sinhronizuj kalendare',
+    'sync_all_calendars' => 'Sinhronizuj sve kalendare',
+    'external_calendars' => 'Eksterni kalendari',
+    'last_sync' => 'Poslednja sinhronizacija',
+    'never' => 'Nikad',
+    'sync' => 'Sinhronizuj',
+    'download' => 'Preuzmi',
+    'edit' => 'Izmeni iCal za :name',
+    'calendar_name' => 'Naziv kalendara',
+    'calendar_name_placeholder' => 'Unesite naziv kalendara',
+    'calendar_url' => 'URL kalendara',
+    'calendar_url_placeholder' => 'Unesite URL kalendara (npr. sa Booking.com, Airbnb, itd.)',
+    'existing_calendars' => 'Postojeći kalendari',
+    'export_calendar' => 'Izvezi kalendar',
+    'export_url' => 'URL za izvoz',
+    'export_description' => 'Koristite ovaj URL da izvezete svoje rezervacije na eksterne platforme kao što su Booking.com, Airbnb, itd.',
+    'download_ical_file' => 'Preuzmi iCal fajl',
+    'sync_success' => 'Uspešno sinhronizovano :success kalendara. Neuspešno: :failed',
+    'sync_all_success' => 'Uspešno sinhronizovano :success kalendara. Neuspešno: :failed',
+
+    // Logs
+    'logs' => 'Logovi iCal sinhronizacije',
+    'log_details' => 'Log sinhronizacije #:id',
+    'message' => 'Poruka',
+    'data' => 'Podaci',
+    'calendar' => 'Kalendar',
+    'all_calendars' => 'Svi kalendari',
+    'clear_logs' => 'Obriši sve logove',
+    'clear_logs_confirm' => 'Da li ste sigurni da želite da obrišete sve logove?',
+    'logs_cleared' => 'Svi logovi su uspešno obrisani',
+
+    // Status
+    'status_success' => 'Uspešno',
+    'status_warning' => 'Upozorenje',
+    'status_error' => 'Greška',
+
+    // Email
+    'email' => [
+        'subject' => 'Obaveštenje o grešci iCal sinhronizacije',
+        'greeting' => 'Zdravo,',
+        'message' => 'Otkrili smo problem sa iCal sinhronizacijom za vaš sistem za rezervacije hotela.',
+        'details' => 'Detalji greške',
+        'time' => 'Vreme',
+        'error' => 'Poruka o grešci',
+        'action' => 'Molimo proverite podešavanja iCal sinhronizacije i uverite se da su svi URL-ovi eksternih kalendara ispravni i dostupni.',
+        'view_logs' => 'Pogledaj logove sinhronizacije',
+        'closing' => 'Hvala vam na pažnji povodom ovog pitanja.',
+        'footer' => 'Ovo je automatska poruka sa :site_name.',
+    ],
+
+    // Documentation
+    'documentation' => 'iCal sinhronizacija - Dokumentacija',
+    'documentation_title' => 'Kako koristiti iCal sinhronizaciju',
+    'what_is_ical' => 'Šta je iCal sinhronizacija?',
+    'what_is_ical_desc' => 'iCal (ili iCalendar) je standardni format za razmenu podataka o kalendaru. Funkcija iCal sinhronizacije omogućava vam da sinhronizujete rezervacije hotelskih soba sa eksternim platformama kao što su Booking.com, Airbnb i drugi sistemi za rezervacije koji podržavaju iCal.',
+
+    'export_bookings' => 'Izvoz vaših rezervacija',
+    'export_bookings_desc' => 'Možete izvesti svoje hotelske rezervacije na eksterne platforme kako biste sprečili duple rezervacije.',
+    'export_step1_title' => 'Idite na stranicu iCal sinhronizacije',
+    'export_step1_desc' => 'Idite na Rezervacije > iCal sinhronizacija u administratorskom panelu.',
+    'export_step2_title' => 'Pronađite sobu koju želite da izvezete',
+    'export_step2_desc' => 'Kliknite na "Izmeni" za sobu za koju želite da izvezete rezervacije.',
+    'export_step3_title' => 'Kopirajte URL za izvoz ili preuzmite iCal fajl',
+    'export_step3_desc' => 'Kopirajte URL za izvoz koji je prikazan ili preuzmite iCal fajl. Dodajte ovaj URL na vašu eksternu platformu (Booking.com, Airbnb, itd.) prateći njihova uputstva za uvoz iCal feed-ova.',
+
+    'import_bookings' => 'Uvoz eksternih rezervacija',
+    'import_bookings_desc' => 'Možete uvesti rezervacije sa eksternih platformi kako biste sprečili duple rezervacije u vašem sistemu.',
+    'import_step1_title' => 'Nabavite iCal URL sa vaše eksterne platforme',
+    'import_step1_desc' => 'Prijavite se na svoju eksternu platformu (Booking.com, Airbnb, itd.) i pronađite opciju za izvoz kalendara kao iCal. Kopirajte URL koji je prikazan.',
+    'import_step2_title' => 'Idite na stranicu iCal sinhronizacije',
+    'import_step2_desc' => 'Idite na Rezervacije > iCal sinhronizacija u administratorskom panelu.',
+    'import_step3_title' => 'Dodajte eksterni kalendar',
+    'import_step3_desc' => 'Kliknite na "Izmeni" za sobu za koju želite da uvezete rezervacije. Unesite naziv za kalendar (npr. "Booking.com") i nalepite iCal URL koji ste prethodno kopirali.',
+    'import_step4_title' => 'Sinhronizujte kalendar',
+    'import_step4_desc' => 'Kliknite na "Sinhronizuj" da ručno sinhronizujete kalendar ili sačekajte da se automatska sinhronizacija pokrene.',
+
+    'sync_logs' => 'Logovi iCal sinhronizacije',
+    'sync_logs_desc' => 'Sistem čuva detaljne logove svih aktivnosti sinhronizacije. Možete videti ove logove klikom na "Logovi sinhronizacije" na stranici iCal sinhronizacije. Ovo vam pomaže da rešite bilo kakve probleme sa sinhronizacijom.',
+
+    'troubleshooting' => 'Rešavanje problema',
+    'troubleshooting_desc' => 'Evo nekoliko uobičajenih problema i njihovih rešenja:',
+    'faq1_title' => 'Eksterni kalendar se ne sinhronizuje',
+    'faq1_desc' => 'Uverite se da je URL tačan i dostupan. Neke platforme zahtevaju da budete prijavljeni da biste pristupili iCal feed-u. Pokušajte da preuzmete iCal fajl direktno sa URL-a da proverite da li radi.',
+    'faq2_title' => 'Postoje konflikti između rezervacija',
+    'faq2_desc' => 'Sistem će otkriti konflikte između rezervacija i upisati ih u log. Možete videti ove konflikte u logovima sinhronizacije. Moraćete da rešite ove konflikte ručno prilagođavanjem rezervacija u jednom od sistema.',
+    'faq3_title' => 'Automatska sinhronizacija ne radi',
+    'faq3_desc' => 'Uverite se da su cron poslovi vašeg servera pravilno podešeni. Sistem koristi Laravel scheduler da pokreće komandu za sinhronizaciju svakog sata. Takođe možete pokrenuti sinhronizaciju ručno klikom na "Sinhronizuj" ili "Sinhronizuj sve kalendare" na stranici iCal sinhronizacije.',
+];

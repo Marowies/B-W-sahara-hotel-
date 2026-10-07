@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'name' => 'Hotel',
+    'booking_name' => 'Nome na reserva',
+    'booking_email' => 'E-mail da reserva',
+    'booking_phone' => 'Telefone da reserva',
+    'booking_address' => 'Endereço da reserva',
+    'booking_request' => 'Solicitação da reserva',
+    'booking_link' => 'Link da reserva',
+    'booking_date' => 'Data da reserva',
+    'booking_status' => 'Status da reserva',
+    'reviews' => 'Avaliações',
+    'rooms' => 'Quartos',
+    'edit_this_room' => 'Editar este quarto',
+    'room_not_available' => 'Este quarto não está disponível para reserva de :start_date a :end_date!',
+    'booking' => 'Reserva',
+    'booking_successful' => 'Reserva realizada com sucesso!',
+    'booking_information' => 'Informações da Reserva',
+    'checkout_error' => 'Erro no checkout!',
+    'shortcodes' => [
+        'title' => 'Título',
+        'choose_services' => 'Escolher Serviços',
+        'choose_places' => 'Escolher Lugares',
+    ],
+
+    'login_form' => 'Formulário de Login',
+    'register_form' => 'Formulário de Cadastro',
+    'forgot_password_form' => 'Formulário de Recuperação de Senha',
+    'reset_password_form' => 'Formulário de Redefinição de Senha',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'Olá, obrigado por reservar quartos em :site_title:',
+            'field_name' => 'De',
+            'field_email' => 'E-mail',
+            'field_phone' => 'Telefone',
+            'field_address' => 'Endereço',
+            'field_request' => 'Mensagem',
+            'view_booking_detail' => 'Ver detalhes da reserva',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'Olá, há uma nova reserva em :site_title:',
+            'field_name' => 'De',
+            'field_email' => 'E-mail',
+            'field_phone' => 'Telefone',
+            'field_address' => 'Endereço',
+            'field_request' => 'Mensagem',
+            'view_booking_detail' => 'Ver detalhes da reserva',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'Olá, obrigado por reservar quartos em :site_title:',
+            'message' => 'Esperamos que esta mensagem o encontre bem. Gostaríamos de informá-lo que houve uma atualização recente em relação à sua reserva conosco. O status da sua reserva foi alterado e queríamos mantê-lo informado.',
+            'booking_details_title' => 'Detalhes da Reserva',
+            'field_name' => 'Nome',
+            'field_date_of_booking' => 'Data da Reserva',
+            'view_booking_detail' => 'Ver detalhes da reserva',
+            'new_booking_status' => 'Novo Status da Reserva',
+        ],
+    ],
+    'room_not_available' => 'Este quarto não está disponível para reserva de :start_date a :end_date!',
+];

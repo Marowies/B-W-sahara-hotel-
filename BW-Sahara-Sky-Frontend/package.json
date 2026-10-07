@@ -1,0 +1,24 @@
+{
+  "name": "bw-sahara-sky-frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node tools/compile.mjs",
+    "release": "node tools/release.mjs",
+    "preview": "node tools/serve.mjs",
+    "prerender": "node tools/prerender.mjs",
+    "test:seo": "node tests/seo.mjs",
+    "test": "node tests/verify.mjs",
+    "vercel-build": "node tools/vercel-build.mjs"
+  },
+  "dependencies": {
+    "@vercel/functions": "3.9.11"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1",
+    "sharp": "0.35.4"
+  },
+  "optionalDependencies": {
+    "@sparticuz/chromium": "153.0.0"
+  }
+}

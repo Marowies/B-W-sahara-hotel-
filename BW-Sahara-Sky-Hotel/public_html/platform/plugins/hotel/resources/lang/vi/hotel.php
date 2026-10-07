@@ -1,0 +1,61 @@
+<?php
+
+return [
+    'name' => 'Khách sạn',
+    'booking_name' => 'Tên đặt phòng',
+    'booking_email' => 'Email đặt phòng',
+    'booking_phone' => 'Điện thoại đặt phòng',
+    'booking_address' => 'Địa chỉ đặt phòng',
+    'booking_request' => 'Yêu cầu đặt phòng',
+    'booking_link' => 'Liên kết đặt phòng',
+    'booking_date' => 'Ngày đặt phòng',
+    'booking_status' => 'Trạng thái đặt phòng',
+    'reviews' => 'Đánh giá',
+    'rooms' => 'Phòng',
+    'edit_this_room' => 'Chỉnh sửa phòng này',
+    'room_not_available' => 'Phòng này không khả dụng để đặt từ :start_date đến :end_date!',
+    'booking' => 'Đặt phòng',
+    'booking_successful' => 'Đặt phòng thành công!',
+    'booking_information' => 'Thông tin đặt phòng',
+    'checkout_error' => 'Lỗi thanh toán!',
+    'shortcodes' => [
+        'title' => 'Tiêu đề',
+        'choose_services' => 'Chọn Dịch vụ',
+        'choose_places' => 'Chọn Địa điểm',
+    ],
+
+    'login_form' => 'Biểu mẫu Đăng nhập',
+    'register_form' => 'Biểu mẫu Đăng ký',
+    'forgot_password_form' => 'Biểu mẫu Quên mật khẩu',
+    'reset_password_form' => 'Biểu mẫu Đặt lại mật khẩu',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'Xin chào, Cảm ơn bạn đã đặt phòng từ :site_title:',
+            'field_name' => 'Từ',
+            'field_email' => 'Email',
+            'field_phone' => 'Điện thoại',
+            'field_address' => 'Địa chỉ',
+            'field_request' => 'Tin nhắn',
+            'view_booking_detail' => 'Xem chi tiết đặt phòng',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'Xin chào, có một đặt phòng mới từ :site_title:',
+            'field_name' => 'Từ',
+            'field_email' => 'Email',
+            'field_phone' => 'Điện thoại',
+            'field_address' => 'Địa chỉ',
+            'field_request' => 'Tin nhắn',
+            'view_booking_detail' => 'Xem chi tiết đặt phòng',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'Xin chào, Cảm ơn bạn đã đặt phòng từ :site_title:',
+            'message' => 'Chúng tôi hy vọng thông điệp này đến với bạn trong tình trạng tốt. Chúng tôi muốn thông báo cho bạn rằng đã có một cập nhật gần đây liên quan đến đặt phòng của bạn với chúng tôi. Trạng thái đặt phòng của bạn đã có sự thay đổi và chúng tôi muốn thông báo cho bạn.',
+            'booking_details_title' => 'Chi tiết Đặt phòng',
+            'field_name' => 'Tên',
+            'field_date_of_booking' => 'Ngày Đặt phòng',
+            'view_booking_detail' => 'Xem chi tiết đặt phòng',
+            'new_booking_status' => 'Trạng thái Đặt phòng Mới',
+        ],
+    ],
+];

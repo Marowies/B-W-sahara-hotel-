@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'name' => 'Kuponi',
+    'intro' => [
+        'button_text' => 'Izveidot kuponu',
+        'title' => 'Pārvaldīt kuponu kodus',
+        'description' => 'Izveidojiet un pārvaldiet kuponu kodus saviem klientiem.',
+    ],
+    'types' => [
+        'percentage' => 'Procentuāla',
+        'fixed' => 'Fiksēta',
+    ],
+    'type' => 'Tips',
+    'created_message' => 'Kupons ir veiksmīgi izveidots.',
+    'expires_date' => 'Derīguma termiņa datums',
+    'expires_time' => 'Derīguma termiņa laiks',
+    'never_expired' => 'Nekad nebeidzas',
+    'save_button' => 'Saglabāt',
+    'coupon_code' => 'Kupona kods',
+    'coupon_code_placeholder' => 'Ievadiet kupona kodu',
+    'generate_code_button' => 'Ģenerēt kodu',
+    'value' => 'Vērtība',
+    'value_placeholder' => 'Ievadiet kupona vērtību',
+    'value_off' => ':value atlaide',
+    'total_used' => 'Izmantots',
+    'expired' => 'Beidzies',
+    'active' => 'Aktīvs',
+    'unlimited' => 'Neierobežots kupons',
+    'quantity' => 'Daudzums',
+    'quantity_placeholder' => 'Ievadiet kuponu skaitu',
+    'discount_amount' => 'Atlaides summa',
+    'total' => 'Kopā',
+    'toggle_coupon_form_text' => 'Vai jums ir kupona kods?',
+    'apply_coupon_code' => 'Pielietot',
+    'form' => [
+        'create' => 'Izveidot jaunu kuponu',
+        'edit' => 'Rediģēt ":name"',
+    ],
+    'coupon_invalid' => 'Šis kupons ir nederīgs!',
+    'applied_coupon_successfully' => 'Kupons ":code" veiksmīgi piemērots!',
+    'coupon_not_used_yet' => 'Šis kupons vēl nav izmantots!',
+    'removed_coupon_successfully' => 'Kupons :code veiksmīgi noņemts!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

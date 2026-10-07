@@ -1,0 +1,92 @@
+<?php
+
+return [
+    'name' => 'iCal Senkronizasyonu',
+    'sync_calendars' => 'Takvimleri Senkronize Et',
+    'sync_all_calendars' => 'Tüm Takvimleri Senkronize Et',
+    'external_calendars' => 'Harici Takvimler',
+    'last_sync' => 'Son Senkronizasyon',
+    'never' => 'Hiçbir Zaman',
+    'sync' => 'Senkronize Et',
+    'download' => 'İndir',
+    'edit' => ':name için iCal\'ı Düzenle',
+    'calendar_name' => 'Takvim Adı',
+    'calendar_name_placeholder' => 'Takvim adını girin',
+    'calendar_url' => 'Takvim URL\'si',
+    'calendar_url_placeholder' => 'Takvim URL\'sini girin (örn., Booking.com, Airbnb vb.)',
+    'existing_calendars' => 'Mevcut Takvimler',
+    'export_calendar' => 'Takvimi Dışa Aktar',
+    'export_url' => 'Dışa Aktarma URL\'si',
+    'export_description' => 'Rezervasyonlarınızı Booking.com, Airbnb vb. harici platformlara aktarmak için bu URL\'yi kullanın.',
+    'download_ical_file' => 'iCal Dosyasını İndir',
+    'sync_success' => ':success takvim başarıyla senkronize edildi. Başarısız: :failed',
+    'sync_all_success' => ':success takvim başarıyla senkronize edildi. Başarısız: :failed',
+
+    // Logs
+    'logs' => 'iCal Senkronizasyon Kayıtları',
+    'log_details' => 'Senkronizasyon Kaydı #:id',
+    'message' => 'Mesaj',
+    'data' => 'Veri',
+    'calendar' => 'Takvim',
+    'all_calendars' => 'Tüm Takvimler',
+    'clear_logs' => 'Tüm Kayıtları Temizle',
+    'clear_logs_confirm' => 'Tüm kayıtları temizlemek istediğinizden emin misiniz?',
+    'logs_cleared' => 'Tüm kayıtlar başarıyla temizlendi',
+
+    // Status
+    'status_success' => 'Başarılı',
+    'status_warning' => 'Uyarı',
+    'status_error' => 'Hata',
+
+    // Email
+    'email' => [
+        'subject' => 'iCal Senkronizasyon Hatası Uyarısı',
+        'greeting' => 'Merhaba,',
+        'message' => 'Otel rezervasyon sisteminiz için iCal senkronizasyonunda bir sorun tespit ettik.',
+        'details' => 'Hata Detayları',
+        'time' => 'Zaman',
+        'error' => 'Hata Mesajı',
+        'action' => 'Lütfen iCal senkronizasyon ayarlarınızı kontrol edin ve tüm harici takvim URL\'lerinin doğru ve erişilebilir olduğundan emin olun.',
+        'view_logs' => 'Senkronizasyon Kayıtlarını Görüntüle',
+        'closing' => 'Bu konuya gösterdiğiniz ilgi için teşekkür ederiz.',
+        'footer' => 'Bu, :site_name\'den otomatik bir mesajdır.',
+    ],
+
+    // Documentation
+    'documentation' => 'iCal Senkronizasyon Dokümantasyonu',
+    'documentation_title' => 'iCal Senkronizasyonu Nasıl Kullanılır',
+    'what_is_ical' => 'iCal Senkronizasyonu Nedir?',
+    'what_is_ical_desc' => 'iCal (veya iCalendar), takvim veri değişimi için standart bir formattır. iCal Senkronizasyon özelliği, otel odası rezervasyonlarınızı Booking.com, Airbnb ve iCal\'ı destekleyen diğer rezervasyon sistemleri gibi harici platformlarla senkronize etmenizi sağlar.',
+
+    'export_bookings' => 'Rezervasyonlarınızı Dışa Aktarma',
+    'export_bookings_desc' => 'Çift rezervasyonları önlemek için otel rezervasyonlarınızı harici platformlara aktarabilirsiniz.',
+    'export_step1_title' => 'iCal Senkronizasyon sayfasına gidin',
+    'export_step1_desc' => 'Yönetim panelinde Rezervasyon > iCal Senkronizasyon\'a gidin.',
+    'export_step2_title' => 'Dışa aktarmak istediğiniz odayı bulun',
+    'export_step2_desc' => 'Rezervasyonlarını dışa aktarmak istediğiniz oda için "Düzenle"ye tıklayın.',
+    'export_step3_title' => 'Dışa aktarma URL\'sini kopyalayın veya iCal dosyasını indirin',
+    'export_step3_desc' => 'Sağlanan dışa aktarma URL\'sini kopyalayın veya iCal dosyasını indirin. iCal akışlarını içe aktarma talimatlarını izleyerek bu URL\'yi harici platformunuza (Booking.com, Airbnb vb.) ekleyin.',
+
+    'import_bookings' => 'Harici Rezervasyonları İçe Aktarma',
+    'import_bookings_desc' => 'Sisteminizdeki çift rezervasyonları önlemek için harici platformlardan rezervasyonları içe aktarabilirsiniz.',
+    'import_step1_title' => 'Harici platformunuzdan iCal URL\'sini alın',
+    'import_step1_desc' => 'Harici platformunuzda (Booking.com, Airbnb vb.) oturum açın ve takvimi iCal olarak dışa aktarma seçeneğini bulun. Sağlanan URL\'yi kopyalayın.',
+    'import_step2_title' => 'iCal Senkronizasyon sayfasına gidin',
+    'import_step2_desc' => 'Yönetim panelinde Rezervasyon > iCal Senkronizasyon\'a gidin.',
+    'import_step3_title' => 'Harici takvimi ekleyin',
+    'import_step3_desc' => 'Rezervasyonlarını içe aktarmak istediğiniz oda için "Düzenle"ye tıklayın. Takvim için bir ad girin (örn., "Booking.com") ve daha önce kopyaladığınız iCal URL\'sini yapıştırın.',
+    'import_step4_title' => 'Takvimi senkronize edin',
+    'import_step4_desc' => 'Takvimi manuel olarak senkronize etmek için "Senkronize Et"e tıklayın veya otomatik senkronizasyonun çalışmasını bekleyin.',
+
+    'sync_logs' => 'iCal Senkronizasyon Kayıtları',
+    'sync_logs_desc' => 'Sistem, tüm senkronizasyon faaliyetlerinin ayrıntılı kayıtlarını tutar. iCal Senkronizasyon sayfasında "Senkronizasyon Kayıtları"na tıklayarak bu kayıtları görüntüleyebilirsiniz. Bu, senkronizasyonla ilgili sorunları gidermenize yardımcı olur.',
+
+    'troubleshooting' => 'Sorun Giderme',
+    'troubleshooting_desc' => 'İşte bazı yaygın sorunlar ve çözümleri:',
+    'faq1_title' => 'Harici takvim senkronize olmuyor',
+    'faq1_desc' => 'URL\'nin doğru ve erişilebilir olduğundan emin olun. Bazı platformlar iCal akışına erişmek için oturum açmanızı gerektirir. Çalıştığını doğrulamak için doğrudan URL\'den iCal dosyasını indirmeyi deneyin.',
+    'faq2_title' => 'Rezervasyonlar arasında çakışmalar var',
+    'faq2_desc' => 'Sistem rezervasyonlar arasındaki çakışmaları tespit edecek ve kaydedecektir. Bu çakışmaları Senkronizasyon Kayıtlarında görüntüleyebilirsiniz. Sistemlerden birinde rezervasyonları ayarlayarak bu çakışmaları manuel olarak çözmeniz gerekecektir.',
+    'faq3_title' => 'Otomatik senkronizasyon çalışmıyor',
+    'faq3_desc' => 'Sunucunuzun cron işlerinin doğru şekilde ayarlandığından emin olun. Sistem, senkronizasyon komutunu her saat çalıştırmak için Laravel\'in zamanlayıcısını kullanır. iCal Senkronizasyon sayfasında "Senkronize Et" veya "Tüm Takvimleri Senkronize Et"e tıklayarak senkronizasyonu manuel olarak da çalıştırabilirsiniz.',
+];

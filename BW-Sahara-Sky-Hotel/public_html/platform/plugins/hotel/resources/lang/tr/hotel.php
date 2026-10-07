@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'name' => 'Otel',
+    'booking_name' => 'Rezervasyon adı',
+    'booking_email' => 'Rezervasyon e-postası',
+    'booking_phone' => 'Rezervasyon telefonu',
+    'booking_address' => 'Rezervasyon adresi',
+    'booking_request' => 'Rezervasyon talebi',
+    'booking_link' => 'Rezervasyon bağlantısı',
+    'booking_date' => 'Rezervasyon tarihi',
+    'booking_status' => 'Rezervasyon durumu',
+    'reviews' => 'Değerlendirmeler',
+    'rooms' => 'Rooms',
+    'edit_this_room' => 'Edit this room',
+    'room_not_available' => 'This room is not available for booking from :start_date to :end_date!',
+    'booking' => 'Booking',
+    'booking_successful' => 'Booking successfully!',
+    'booking_information' => 'Booking Information',
+    'checkout_error' => 'Checkout error!',
+    'shortcodes' => [
+        'title' => 'Başlık',
+        'choose_services' => 'Hizmetleri Seç',
+        'choose_places' => 'Yerleri Seç',
+    ],
+
+    'login_form' => 'Giriş Formu',
+    'register_form' => 'Kayıt Formu',
+    'forgot_password_form' => 'Şifremi Unuttum Formu',
+    'reset_password_form' => 'Şifre Sıfırlama Formu',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'Merhaba, :site_title: üzerinden oda rezervasyonu yaptığınız için teşekkür ederiz',
+            'field_name' => 'Kimden',
+            'field_email' => 'E-posta',
+            'field_phone' => 'Telefon',
+            'field_address' => 'Adres',
+            'field_request' => 'Mesaj',
+            'view_booking_detail' => 'Rezervasyon detaylarını görüntüle',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'Merhaba, :site_title: üzerinden yeni bir rezervasyon var',
+            'field_name' => 'Kimden',
+            'field_email' => 'E-posta',
+            'field_phone' => 'Telefon',
+            'field_address' => 'Adres',
+            'field_request' => 'Mesaj',
+            'view_booking_detail' => 'Rezervasyon detaylarını görüntüle',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'Merhaba, :site_title: üzerinden oda rezervasyonu yaptığınız için teşekkür ederiz',
+            'message' => 'Bu mesajın sizi iyi bulmasını umuyoruz. Bizimle yaptığınız rezervasyonunuzla ilgili son bir güncelleme olduğunu size bildirmek istedik. Rezervasyon durumunuz değişti ve sizi bilgilendirmek istedik.',
+            'booking_details_title' => 'Rezervasyon Detayları',
+            'field_name' => 'İsim',
+            'field_date_of_booking' => 'Rezervasyon Tarihi',
+            'view_booking_detail' => 'Rezervasyon detaylarını görüntüle',
+            'new_booking_status' => 'Yeni Rezervasyon Durumu',
+        ],
+    ],
+    'room_not_available' => 'Bu oda :start_date ile :end_date arasında rezervasyon için müsait değil!',
+];

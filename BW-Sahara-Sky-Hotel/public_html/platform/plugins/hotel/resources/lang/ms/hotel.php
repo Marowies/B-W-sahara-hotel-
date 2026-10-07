@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'name' => 'Hotel',
+    'booking_name' => 'Nama tempahan',
+    'booking_email' => 'E-mel tempahan',
+    'booking_phone' => 'Telefon tempahan',
+    'booking_address' => 'Alamat tempahan',
+    'booking_request' => 'Permintaan tempahan',
+    'booking_link' => 'Pautan tempahan',
+    'booking_date' => 'Tarikh tempahan',
+    'booking_status' => 'Status tempahan',
+    'reviews' => 'Ulasan',
+    'rooms' => 'Rooms',
+    'edit_this_room' => 'Edit this room',
+    'room_not_available' => 'This room is not available for booking from :start_date to :end_date!',
+    'booking' => 'Booking',
+    'booking_successful' => 'Booking successfully!',
+    'booking_information' => 'Booking Information',
+    'checkout_error' => 'Checkout error!',
+    'shortcodes' => [
+        'title' => 'Tajuk',
+        'choose_services' => 'Pilih Perkhidmatan',
+        'choose_places' => 'Pilih Lokasi',
+    ],
+
+    'login_form' => 'Borang Log Masuk',
+    'register_form' => 'Borang Pendaftaran',
+    'forgot_password_form' => 'Borang Lupa Kata Laluan',
+    'reset_password_form' => 'Borang Tetapkan Semula Kata Laluan',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'Terima kasih kerana menempah bilik daripada :site_title:',
+            'field_name' => 'Daripada',
+            'field_email' => 'E-mel',
+            'field_phone' => 'Telefon',
+            'field_address' => 'Alamat',
+            'field_request' => 'Mesej',
+            'view_booking_detail' => 'Lihat butiran tempahan',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'Terdapat tempahan baharu daripada :site_title:',
+            'field_name' => 'Daripada',
+            'field_email' => 'E-mel',
+            'field_phone' => 'Telefon',
+            'field_address' => 'Alamat',
+            'field_request' => 'Mesej',
+            'view_booking_detail' => 'Lihat butiran tempahan',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'Terima kasih kerana menempah bilik daripada :site_title:',
+            'message' => 'Kami harap mesej ini mendapati anda dalam keadaan baik. Kami ingin memaklumkan bahawa terdapat kemas kini terkini mengenai tempahan anda dengan kami. Status tempahan anda telah berubah dan kami ingin memaklumkan anda.',
+            'booking_details_title' => 'Butiran Tempahan',
+            'field_name' => 'Nama',
+            'field_date_of_booking' => 'Tarikh Tempahan',
+            'view_booking_detail' => 'Lihat butiran tempahan',
+            'new_booking_status' => 'Status Tempahan Baharu',
+        ],
+    ],
+    'room_not_available' => 'Bilik ini tidak tersedia untuk tempahan dari :start_date hingga :end_date!',
+];

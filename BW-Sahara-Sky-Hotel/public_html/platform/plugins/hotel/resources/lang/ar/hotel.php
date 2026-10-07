@@ -1,0 +1,61 @@
+<?php
+
+return [
+    'name' => 'فندق',
+    'booking_name' => 'اسم الحجز',
+    'booking_email' => 'بريد الحجز الإلكتروني',
+    'booking_phone' => 'هاتف الحجز',
+    'booking_address' => 'عنوان الحجز',
+    'booking_request' => 'طلب الحجز',
+    'booking_link' => 'رابط الحجز',
+    'booking_date' => 'تاريخ الحجز',
+    'booking_status' => 'حالة الحجز',
+    'reviews' => 'التقييمات',
+    'rooms' => 'الغرف',
+    'edit_this_room' => 'تعديل هذه الغرفة',
+    'room_not_available' => 'هذه الغرفة غير متاحة للحجز من :start_date إلى :end_date!',
+    'booking' => 'الحجز',
+    'booking_successful' => 'تم الحجز بنجاح!',
+    'booking_information' => 'معلومات الحجز',
+    'checkout_error' => 'خطأ في الدفع!',
+    'shortcodes' => [
+        'title' => 'العنوان',
+        'choose_services' => 'اختر الخدمات',
+        'choose_places' => 'اختر الأماكن',
+    ],
+
+    'login_form' => 'نموذج تسجيل الدخول',
+    'register_form' => 'نموذج التسجيل',
+    'forgot_password_form' => 'نموذج نسيت كلمة المرور',
+    'reset_password_form' => 'نموذج إعادة تعيين كلمة المرور',
+
+    'email_templates' => [
+        'booking_confirmation' => [
+            'greeting' => 'مرحباً، شكراً لحجز الغرف من :site_title:',
+            'field_name' => 'من',
+            'field_email' => 'البريد الإلكتروني',
+            'field_phone' => 'الهاتف',
+            'field_address' => 'العنوان',
+            'field_request' => 'الرسالة',
+            'view_booking_detail' => 'عرض تفاصيل الحجز',
+        ],
+        'booking_notice_to_admin' => [
+            'greeting' => 'مرحباً، يوجد حجز جديد من :site_title:',
+            'field_name' => 'من',
+            'field_email' => 'البريد الإلكتروني',
+            'field_phone' => 'الهاتف',
+            'field_address' => 'العنوان',
+            'field_request' => 'الرسالة',
+            'view_booking_detail' => 'عرض تفاصيل الحجز',
+        ],
+        'booking_status_changed' => [
+            'greeting' => 'مرحباً، شكراً لحجز الغرف من :site_title:',
+            'message' => 'نأمل أن تجدك هذه الرسالة بخير. أردنا إبلاغك بأنه كان هناك تحديث حديث بخصوص حجزك معنا. خضعت حالة حجزك لتغيير، وأردنا إبقائك على اطلاع.',
+            'booking_details_title' => 'تفاصيل الحجز',
+            'field_name' => 'الاسم',
+            'field_date_of_booking' => 'تاريخ الحجز',
+            'view_booking_detail' => 'عرض تفاصيل الحجز',
+            'new_booking_status' => 'حالة الحجز الجديدة',
+        ],
+    ],
+];

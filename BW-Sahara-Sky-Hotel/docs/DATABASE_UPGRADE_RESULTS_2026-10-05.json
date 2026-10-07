@@ -1,0 +1,27 @@
+{
+    "scope": "Local isolated restore of the user-provided SQL dump; not live production",
+    "database": "hotel_staging_calendar_20261005",
+    "server": "11.8.9-MariaDB",
+    "source_sql_sha256": "a6f26c597f3b1a1e19a9be8229a326aebf6f2cf50940e0b78b84cb58b72e7ead",
+    "pre_upgrade_backup_sha256": "2a347d72444628bc765fb3776b09fa03a1066f4f63127f76123093ad6beeeb7b",
+    "migration": "2026_10_05_000001_track_calendar_event_identity",
+    "migration_batch": 19,
+    "tables_restored": 102,
+    "tables_with_unchanged_original_data": 101,
+    "migration_table_delta": 1,
+    "legacy_active_ical_blocks": 0,
+    "calendar_sources": 0,
+    "sync_logs": 0,
+    "schema": {
+        "ical_calendar_id": true,
+        "ical_uid_hash": true,
+        "sync_version": true
+    },
+    "identity_index": true,
+    "payments_data_unchanged": true,
+    "existing_booking_identity_fields_null": true,
+    "upgraded_export_sha256": "75524ed8ac741a0392b11bae4850b7fcd027ccebe8ff493e05bae369f5934755",
+    "upgraded_export_bytes": 2057144,
+    "export_restored_and_verified_tables": 102,
+    "server_stopped": true
+}

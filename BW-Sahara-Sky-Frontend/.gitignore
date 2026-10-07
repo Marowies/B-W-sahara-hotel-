@@ -1,0 +1,13 @@
+node_modules/
+.tooling/
+dist/
+test-results/
+*.log
+.env*
+!.env.example
+*.sql
+*.sqlite*
+*.pem
+*.key
+*.zip
+.claude/settings.local.json

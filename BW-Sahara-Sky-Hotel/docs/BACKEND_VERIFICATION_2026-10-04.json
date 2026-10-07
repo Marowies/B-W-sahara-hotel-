@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-04",
+  "tests_total": 49,
+  "tests_passed": 49,
+  "php_files_parsed": 5798,
+  "parser_directories": ["app", "bootstrap", "config", "routes", "platform", "tests"],
+  "parser_excludes": ["Blade templates", "vendor", "public", "lang"],
+  "modified_blade_views_compiled_and_parsed": 5,
+  "parse_errors": [],
+  "dependency_runtime": "isolated installed updated Composer dependencies",
+  "database": "in-memory SQLite",
+  "live_network_payment_email_tests": false,
+  "production_database_imported": false,
+  "deployed_or_pushed": false,
+  "limitations": [
+    "No browser end-to-end coverage",
+    "No MySQL concurrency verification",
+    "No Aiosell parameter integration without provider contract",
+    "Historic iCalendar imports not rewritten; UID update/delete lifecycle remains pending",
+    "No payment, email or OAuth sandbox transactions",
+    "No complete audit of all CMS modules"
+  ]
+}

@@ -1,0 +1,47 @@
+<?php
+
+return [
+        'name' => 'Cupoane',
+        'intro' => [
+            'button_text' => 'Creează cupon',
+            'title' => 'Gestionați codurile de cupoane',
+            'description' => 'Creați și gestionați coduri de cupoane pentru clienții dumneavoastră.',
+        ],
+        'types' => [
+            'percentage' => 'Procent',
+            'fixed' => 'Fix',
+        ],
+        'type' => 'Tip',
+        'created_message' => 'Cuponul a fost creat cu succes.',
+        'expires_date' => 'Data de expirare',
+        'expires_time' => 'Ora de expirare',
+        'never_expired' => 'Nu expiră niciodată',
+        'save_button' => 'Salvează',
+        'coupon_code' => 'Cod cupon',
+        'coupon_code_placeholder' => 'Introduceți codul cuponului',
+        'generate_code_button' => 'Generează cod',
+        'value' => 'Valoare',
+        'value_placeholder' => 'Introduceți valoarea cuponului',
+        'value_off' => ':value reducere',
+        'total_used' => 'Utilizat',
+        'expired' => 'Expirat',
+        'active' => 'Activ',
+        'unlimited' => 'Cupon nelimitat',
+        'quantity' => 'Cantitate',
+        'quantity_placeholder' => 'Introduceți numărul de cupoane',
+        'discount_amount' => 'Suma de reducere',
+        'total' => 'Total',
+        'toggle_coupon_form_text' => 'Aveți un cod de cupon?',
+        'apply_coupon_code' => 'Aplică',
+        'form' => [
+            'create' => 'Creează cupon nou',
+            'edit' => 'Editează ":name"',
+        ],
+    'coupon_invalid' => 'This coupon is invalid!',
+    'applied_coupon_successfully' => 'Applied coupon ":code" successfully!',
+    'coupon_not_used_yet' => 'This coupon is not used yet!',
+    'removed_coupon_successfully' => 'Removed coupon :code successfully!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

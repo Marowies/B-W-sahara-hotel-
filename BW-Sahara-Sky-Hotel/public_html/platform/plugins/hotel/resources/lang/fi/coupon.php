@@ -1,0 +1,47 @@
+<?php
+
+return [
+        'name' => 'Kupongit',
+        'intro' => [
+            'button_text' => 'Luo kuponki',
+            'title' => 'Hallinnoi kuponkikoodeja',
+            'description' => 'Luo ja hallinnoi kuponkikoodeja asiakkaillesi.',
+        ],
+        'types' => [
+            'percentage' => 'Prosentti',
+            'fixed' => 'Kiinteä',
+        ],
+        'type' => 'Tyyppi',
+        'created_message' => 'Kuponki on luotu onnistuneesti.',
+        'expires_date' => 'Vanhentumispäivä',
+        'expires_time' => 'Vanhentumisaika',
+        'never_expired' => 'Ei vanhene koskaan',
+        'save_button' => 'Tallenna',
+        'coupon_code' => 'Kuponkikoodi',
+        'coupon_code_placeholder' => 'Syötä kuponkikoodi',
+        'generate_code_button' => 'Luo koodi',
+        'value' => 'Arvo',
+        'value_placeholder' => 'Syötä kupongin arvo',
+        'value_off' => ':value alennus',
+        'total_used' => 'Käytetty',
+        'expired' => 'Vanhentunut',
+        'active' => 'Aktiivinen',
+        'unlimited' => 'Rajoittamaton kuponki',
+        'quantity' => 'Määrä',
+        'quantity_placeholder' => 'Syötä kuponkien määrä',
+        'discount_amount' => 'Alennussumma',
+        'total' => 'Yhteensä',
+        'toggle_coupon_form_text' => 'Onko sinulla kuponkikoodi?',
+        'apply_coupon_code' => 'Käytä',
+        'form' => [
+            'create' => 'Luo uusi kuponki',
+            'edit' => 'Muokkaa ":name"',
+        ],
+    'coupon_invalid' => 'This coupon is invalid!',
+    'applied_coupon_successfully' => 'Applied coupon ":code" successfully!',
+    'coupon_not_used_yet' => 'This coupon is not used yet!',
+    'removed_coupon_successfully' => 'Removed coupon :code successfully!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

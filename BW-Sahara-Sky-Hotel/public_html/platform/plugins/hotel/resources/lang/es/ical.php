@@ -1,0 +1,92 @@
+<?php
+
+return [
+    'name' => 'Sincronización iCal',
+    'sync_calendars' => 'Sincronizar calendarios',
+    'sync_all_calendars' => 'Sincronizar todos los calendarios',
+    'external_calendars' => 'Calendarios externos',
+    'last_sync' => 'Última sincronización',
+    'never' => 'Nunca',
+    'sync' => 'Sincronizar',
+    'download' => 'Descargar',
+    'edit' => 'Editar iCal para :name',
+    'calendar_name' => 'Nombre del calendario',
+    'calendar_name_placeholder' => 'Ingrese el nombre del calendario',
+    'calendar_url' => 'URL del calendario',
+    'calendar_url_placeholder' => 'Ingrese la URL del calendario (p. ej., de Booking.com, Airbnb, etc.)',
+    'existing_calendars' => 'Calendarios existentes',
+    'export_calendar' => 'Exportar calendario',
+    'export_url' => 'URL de exportación',
+    'export_description' => 'Use esta URL para exportar sus reservas a plataformas externas como Booking.com, Airbnb, etc.',
+    'download_ical_file' => 'Descargar archivo iCal',
+    'sync_success' => 'Se sincronizaron :success calendarios correctamente. Fallidos: :failed',
+    'sync_all_success' => 'Se sincronizaron :success calendarios correctamente. Fallidos: :failed',
+
+    // Logs
+    'logs' => 'Registros de sincronización iCal',
+    'log_details' => 'Registro de sincronización #:id',
+    'message' => 'Mensaje',
+    'data' => 'Datos',
+    'calendar' => 'Calendario',
+    'all_calendars' => 'Todos los calendarios',
+    'clear_logs' => 'Borrar todos los registros',
+    'clear_logs_confirm' => '¿Está seguro de que desea borrar todos los registros?',
+    'logs_cleared' => 'Todos los registros se han borrado correctamente',
+
+    // Status
+    'status_success' => 'Éxito',
+    'status_warning' => 'Advertencia',
+    'status_error' => 'Error',
+
+    // Email
+    'email' => [
+        'subject' => 'Alerta de fallo de sincronización iCal',
+        'greeting' => 'Hola,',
+        'message' => 'Detectamos un problema con la sincronización iCal de su sistema de reservas de hotel.',
+        'details' => 'Detalles del error',
+        'time' => 'Hora',
+        'error' => 'Mensaje de error',
+        'action' => 'Verifique su configuración de sincronización iCal y asegúrese de que todas las URLs de calendarios externos sean correctas y accesibles.',
+        'view_logs' => 'Ver registros de sincronización',
+        'closing' => 'Gracias por su atención a este asunto.',
+        'footer' => 'Este es un mensaje automatizado de :site_name.',
+    ],
+
+    // Documentation
+    'documentation' => 'Documentación de sincronización iCal',
+    'documentation_title' => 'Cómo usar la sincronización iCal',
+    'what_is_ical' => '¿Qué es la sincronización iCal?',
+    'what_is_ical_desc' => 'iCal (o iCalendar) es un formato estándar para el intercambio de datos de calendario. La función de sincronización iCal le permite sincronizar las reservas de habitaciones de su hotel con plataformas externas como Booking.com, Airbnb y otros sistemas de reservas que admiten iCal.',
+
+    'export_bookings' => 'Exportar sus reservas',
+    'export_bookings_desc' => 'Puede exportar las reservas de su hotel a plataformas externas para evitar reservas dobles.',
+    'export_step1_title' => 'Ir a la página de sincronización iCal',
+    'export_step1_desc' => 'Navegue a Reservas > Sincronización iCal en el panel de administración.',
+    'export_step2_title' => 'Encuentre la habitación que desea exportar',
+    'export_step2_desc' => 'Haga clic en "Editar" para la habitación de la que desea exportar reservas.',
+    'export_step3_title' => 'Copie la URL de exportación o descargue el archivo iCal',
+    'export_step3_desc' => 'Copie la URL de exportación proporcionada o descargue el archivo iCal. Agregue esta URL a su plataforma externa (Booking.com, Airbnb, etc.) siguiendo sus instrucciones para importar feeds iCal.',
+
+    'import_bookings' => 'Importar reservas externas',
+    'import_bookings_desc' => 'Puede importar reservas de plataformas externas para evitar reservas dobles en su sistema.',
+    'import_step1_title' => 'Obtenga la URL de iCal de su plataforma externa',
+    'import_step1_desc' => 'Inicie sesión en su plataforma externa (Booking.com, Airbnb, etc.) y busque la opción para exportar el calendario como iCal. Copie la URL proporcionada.',
+    'import_step2_title' => 'Ir a la página de sincronización iCal',
+    'import_step2_desc' => 'Navegue a Reservas > Sincronización iCal en el panel de administración.',
+    'import_step3_title' => 'Agregue el calendario externo',
+    'import_step3_desc' => 'Haga clic en "Editar" para la habitación de la que desea importar reservas. Ingrese un nombre para el calendario (p. ej., "Booking.com") y pegue la URL de iCal que copió anteriormente.',
+    'import_step4_title' => 'Sincronice el calendario',
+    'import_step4_desc' => 'Haga clic en "Sincronizar" para sincronizar el calendario manualmente o espere a que se ejecute la sincronización automática.',
+
+    'sync_logs' => 'Registros de sincronización iCal',
+    'sync_logs_desc' => 'El sistema mantiene registros detallados de todas las actividades de sincronización. Puede ver estos registros haciendo clic en "Registros de sincronización" en la página de sincronización iCal. Esto le ayuda a solucionar cualquier problema con la sincronización.',
+
+    'troubleshooting' => 'Solución de problemas',
+    'troubleshooting_desc' => 'Aquí hay algunos problemas comunes y sus soluciones:',
+    'faq1_title' => 'El calendario externo no se sincroniza',
+    'faq1_desc' => 'Asegúrese de que la URL sea correcta y accesible. Algunas plataformas requieren que inicie sesión para acceder al feed de iCal. Intente descargar el archivo iCal directamente desde la URL para verificar que funcione.',
+    'faq2_title' => 'Hay conflictos entre reservas',
+    'faq2_desc' => 'El sistema detectará conflictos entre reservas y los registrará. Puede ver estos conflictos en los Registros de sincronización. Deberá resolver estos conflictos manualmente ajustando las reservas en uno de los sistemas.',
+    'faq3_title' => 'La sincronización automática no funciona',
+    'faq3_desc' => 'Asegúrese de que los trabajos cron de su servidor estén configurados correctamente. El sistema usa el programador de Laravel para ejecutar el comando de sincronización cada hora. También puede ejecutar la sincronización manualmente haciendo clic en "Sincronizar" o "Sincronizar todos los calendarios" en la página de sincronización iCal.',
+];

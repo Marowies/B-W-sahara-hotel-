@@ -1,0 +1,845 @@
+{
+  "marketing": {
+    "m_9fa0c1ff3ba5": "Home",
+    "m_80fc78a8f306": "Rooms",
+    "m_b5c415fc1b3f": "Our story",
+    "m_33f11820f192": "Services",
+    "m_5ee8ff93818a": "Experiences",
+    "m_d643ccaadc20": "Gallery",
+    "m_5078f5c9535d": "Journal",
+    "m_35c06b9ead7d": "Contact",
+    "m_5d97de1f0cfc": "FAQs",
+    "m_3304b9f66f37": "Privacy",
+    "m_65456de410c2": "Terms & conditions",
+    "m_4b18ebe3cd9a": "Plan your stay",
+    "m_0b4b3e73a2ec": "Review your stay",
+    "m_f01929883375": "Your stay preview",
+    "m_a0c8b5a66dd8": "Design review",
+    "m_2c1aab0c852b": "Check availability",
+    "m_ab4a160ecce8": "View the rooms",
+    "m_3a60d739f96a": "Explore all rooms",
+    "m_e5ec34ad8366": "Room details",
+    "m_5f665f99ae59": "Discover more",
+    "m_fb3f8139920a": "All",
+    "m_e1f1849d4985": "Standard",
+    "m_8a475aa54521": "Superior",
+    "m_24727f508fce": "Deluxe",
+    "m_8980cde0c43e": "Glass domes",
+    "m_50c725b7e371": "Architectural visualisation",
+    "m_9ec112bec064": "Close",
+    "m_eb910f3759fd": "Check-in",
+    "m_56c278b6493a": "Check-out",
+    "m_319b550e6c1b": "Adults",
+    "m_54e662211d8b": "Children",
+    "m_1114d6da8e61": "Guests",
+    "m_9bbd7dcb6397": "Preview your stay",
+    "m_95ba15e92afb": "Your name",
+    "m_654a3e34016c": "Email address",
+    "m_a37e2fb93265": "Phone number",
+    "m_044376d091fc": "Continue",
+    "m_e5fdce9733c3": "Back to rooms",
+    "m_ec2ed4f4b213": "Design preview · No live reservation",
+    "m_4019c650a009": "This is a design preview. Availability, rates and live reservations will come from the hotel’s booking partner. No reservation or payment is made here.",
+    "m_d43bb6c39daf": "Menu",
+    "m_a55c8e0d9715": "Stay a little",
+    "m_a46c9e42ca4e": "Language",
+    "m_f9c880858e6c": "Open photograph",
+    "m_116d56f49b79": "Read the story",
+    "m_9aab408c385a": "Ask about this experience",
+    "m_cc0683e3a319": "Content for hotel approval. Final rates, availability, policies and dome specifications must be confirmed before launch.",
+    "m_756d2e378ba6": "THE DESERT COLLECTION",
+    "m_a03a59d6a6ef": "Pause motion",
+    "m_7886375dcc0e": "Email",
+    "m_f98c8a0e4ddb": "Contact and social channels",
+    "m_82fdd4f92c5d": "SOME PLACES STAY WITH YOU",
+    "m_1c23f2f15fe0": "Your room beneath<br><em>an endless sky.</em>",
+    "m_4c99029d5087": "A warm welcome between Bahariya Oasis and Farafra. Rooms, open horizons, and nights beneath the stars.",
+    "m_86ff922b52e2": "Discover",
+    "m_ec581797163b": "Plan your visit",
+    "m_0dfba4ab40ac": "Find us in the desert",
+    "m_475c890946bf": "Open location in Google Maps",
+    "m_43363af16409": "Bahariya–Farafra Road<br>Egypt’s Western Desert",
+    "m_01674baf5a0b": "Designed &amp; developed by",
+    "m_9c0e8db7d797": "Skip to content",
+    "m_3b026444d81d": "Deluxe Double",
+    "m_e841ca349cfb": "Twin beds",
+    "m_908633f7d1e1": "Deluxe Single",
+    "m_d7a667f97a51": "King bed",
+    "m_31f3d65dfef7": "Superior Double",
+    "m_c97c72e75c2e": "Superior Single",
+    "m_977e99751f62": "Standard Triple",
+    "m_029a1af842f8": "Three single beds",
+    "m_42afa1fef99d": "Standard Double",
+    "m_1f5832aa350e": "Standard Single",
+    "m_058c94671a29": "Space to slow down. Warm light and a generous room to return to after the desert.",
+    "m_8a93c8918714": "A quiet retreat with mountain views, for days that begin gently.",
+    "m_0dc8507f1b81": "Simple comfort, restful nights, and a welcoming base for your next adventure.",
+    "m_6cc2e64458b9": "Select room",
+    "m_36035c464ab0": "Sahara Sky and the Western Desert",
+    "m_1f495cde7a2b": "Air conditioning",
+    "m_e60e74ff9875": "Wi-Fi",
+    "m_70170041c708": "Breakfast",
+    "m_d5c8b6a5e496": "Pool",
+    "m_b9cca73f1de3": "Your experience",
+    "m_beb49b954657": "A room in the desert",
+    "m_f535602b4671": "Room & desert safari enquiry",
+    "m_7e468a765311": "Room & stargazing enquiry",
+    "m_e4a9f1494487": "The desert",
+    "m_69e3e4fc7f32": "A desert made for discovery",
+    "m_50794c3642ce": "Beyond your room, a landscape that invites you to slow down and look a little closer.",
+    "m_f035b4dc5597": "After dark",
+    "m_904bc5f697d6": "A night beneath the stars",
+    "m_2bcaff7b18e1": "When the light fades, another side of the desert begins to reveal itself.",
+    "m_7a569c0cc1a3": "Slow living",
+    "m_201b1526d00b": "The art of a slower stay",
+    "m_a459678f6ab4": "A quiet morning, an unhurried afternoon, and the luxury of having a little more time.",
+    "m_4653e3af739b": "3 MIN READ",
+    "m_4e1c8c872c29": "Where is Sahara Sky?",
+    "m_831f8306d796": "On the road between Bahariya Oasis and Farafra, in Egypt’s Western Desert. Contact the team for directions and to coordinate your arrival.",
+    "m_155913713baf": "How do I book a room?",
+    "m_234d951a7696": "Are the glass domes part of the hotel?",
+    "m_79f6dbaf6b12": "The new glass domes have been built. Their final room specifications and booking categories are being confirmed. The interactive 3D view is an illustrative recreation.",
+    "m_05630fcfb7b2": "Can I arrange desert experiences?",
+    "m_631870bcf4e4": "Ask the team about desert safari and stargazing. Routes, transfers, dates, inclusions and prices are confirmed directly with the hotel.",
+    "m_2e9fc242135b": "What are the check-in and check-out times?",
+    "m_a18d13d9bbe4": "Final times need hotel confirmation because the current website and booking engine show different information. Please confirm with the team before travelling.",
+    "m_025944213d70": "What is the cancellation policy?",
+    "m_c4045731688e": "Cancellation, payment and refund terms depend on the confirmed rate and booking conditions. These details will appear before completing a live reservation.",
+    "m_82b639ed7c3e": "Can an extra bed be arranged?",
+    "m_dbe00a900fdf": "An extra bed is listed for some room categories on the current hotel website. Confirm room capacity, availability and charges directly with the team.",
+    "m_e698b193ae57": "A room. Your own rhythm.",
+    "m_69dbbcff35a1": "Seven room categories. One unhurried way to stay. Find the space that feels like you.",
+    "m_6b68f47c6c4e": "YOUR DESERT SANCTUARY",
+    "m_5f5b6a55d00a": "Make yourself<br><em>at home.</em>",
+    "m_d2a5282535f6": "Room areas and bed layouts follow the current hotel catalogue. Live rates will be confirmed through the booking partner.",
+    "m_7d9092b09461": "Room categories",
+    "m_8f8bb5caae56": "NEW AT SAHARA SKY",
+    "m_533127151c29": "A new chapter in copper and glass. Discover the domes and the interactive architectural view.",
+    "m_c5e7a2cdb10a": "Every facet. A new perspective.",
+    "m_0173b92f891c": "Meet the newly built glass domes. A distinctive new way to experience Sahara Sky.",
+    "m_5e8eddc78247": "COPPER & SKY",
+    "m_6d6b9c268b17": "A little closer to the sky.",
+    "m_c429d04e291e": "The domes are real and newly built. The design’s 3D model is recreated from visual references; exact materials, dimensions and interior layouts need hotel approval.",
+    "m_2ab113e990e6": "Explore in 3D",
+    "m_6024ad8f75df": "Ask about dome stays",
+    "m_0d12b4b59c09": "Room not found",
+    "m_580a7b101c0d": "Your time, finally your own.",
+    "m_0728ed491b94": "Extra bed on request",
+    "m_42e7bb486348": "Comfort, simply considered.",
+    "m_1b90569ecb76": "Confirm maximum occupancy, breakfast inclusion and extra-bed fees with the hotel for your selected rate.",
+    "m_02bfb00f8711": "YOUR NEXT CHAPTER",
+    "m_a9ce965c687c": "Stay somewhere different.",
+    "m_f281b7b82554": "Choose your dates to preview the next steps. Live pricing and availability are not connected yet.",
+    "m_9e7a449c032e": "Talk to the team",
+    "m_a738f7df0b17": "Photo from the current hotel website",
+    "m_b21309002ceb": "A LITTLE MORE CHOICE",
+    "m_e139af29df88": "Find your kind of stay.",
+    "m_437c10c30610": "A little further. A little closer.",
+    "m_3c925e2ad2ba": "The story of a place between open desert, quiet rooms and an endless sky.",
+    "m_59f844d75ab0": "OUR PLACE IN THE DESERT",
+    "m_96b7db7b46c7": "Some places change the pace.",
+    "m_ec629a0d3749": "On the road between Bahariya Oasis and Farafra, Sahara Sky welcomes travellers into Egypt’s Western Desert. Mountains surround the hotel. The day is shaped by the light.",
+    "m_b496134486c4": "A restful room comes first. Beyond it, there is space for discovery: desert experiences, evenings beneath the stars, and time to simply stay.",
+    "m_d4ebbb3f9c42": "Room to rest",
+    "m_deab7e1bffc0": "Comfortable rooms and the calm of a desert horizon.",
+    "m_6b6ed42e4d73": "Space to discover",
+    "m_b9f675548255": "Ask our team to help shape your desert experience.",
+    "m_2cb7741bfe0a": "Time to reconnect",
+    "m_f52131d4108b": "Unhurried days and nights that invite you to look up.",
+    "m_215f5bdfafed": "Come for a different kind of day.",
+    "m_5f5839917acd": "The little things. Considered.",
+    "m_18b5e1b3033b": "Comfort at the hotel, and a team to help you make the most of the desert.",
+    "m_c6580534826e": "AT THE HOTEL",
+    "m_47bbb3805af7": "Everything at your own pace.",
+    "m_d401d395e809": "Restful rooms",
+    "m_1072f89a5641": "Standard, Superior and Deluxe categories, with different spaces and bed layouts.",
+    "m_babe1044b4ad": "Breakfast & dining",
+    "m_c3288af3e79c": "Ask the team about meal options and the inclusions of your chosen stay.",
+    "m_a0352d92eab9": "Poolside moments",
+    "m_167d394944bc": "A place to pause, with the desert landscape around you.",
+    "m_b38f0754304b": "Stay in touch. Confirm coverage and connection details with the hotel.",
+    "m_bc4a0c90c69c": "Room comfort after a day exploring the desert.",
+    "m_313b2dd193b2": "Desert experiences",
+    "m_ba4958589171": "Safari and stargazing enquiries, coordinated with the hotel team.",
+    "m_e5dd9afa8ec5": "Beyond the room.",
+    "m_cd43e0d3fce7": "Discover what the desert has in store.",
+    "m_8937c08888b5": "Follow your curiosity.",
+    "m_9af53fa9a0b5": "A room is only the beginning. The desert opens up a whole new world.",
+    "m_fbdda19a48ee": "DAYS OF DISCOVERY",
+    "m_06e15c14fb97": "Answer the desert’s call.",
+    "m_195c134a6d55": "Explore Egypt’s Western Desert with an itinerary arranged by the hotel team. Ask about safari routes, duration, transport and what is included.",
+    "m_9c751c6fd9fb": "NIGHTS OF WONDER",
+    "m_be153a6e363a": "Look up. Feel small.",
+    "m_4f99ff6aa81f": "See the desert after dark. Ask about stargazing experiences, available dates and the best conditions for your visit.",
+    "m_73cd65408659": "TIME THAT IS YOUR OWN",
+    "m_6f8b9ef25a2a": "Let the world wait a while.",
+    "m_2938ffbfbe3e": "An afternoon by the pool. A quiet moment with the mountains. Leave room in your itinerary for doing very little.",
+    "m_b608afa6a837": "Dates, rates and inclusions are confirmed with the hotel.",
+    "m_196394a7e9ce": "Pool & open horizons",
+    "m_2b73df1782ad": "A sky full of stars",
+    "m_c89c0fc4d737": "Our place in the desert",
+    "m_9f0c803031a4": "When the light changes",
+    "m_ee5b5ab1eaf7": "Collected moments.",
+    "m_16e881ca4489": "A closer look at the rooms, the hotel and the world around us.",
+    "m_a4f99c1f513d": "Hotel",
+    "m_27097ca1c99f": "Postcards from the desert.",
+    "m_ca46181e84cd": "Places to discover. Moments to notice. A little inspiration for your stay.",
+    "m_a879720a6603": "THE SAHARA SKY JOURNAL",
+    "m_de980fa257e5": "Editorial examples for design approval; titles and final copy can be replaced by the hotel’s approved articles.",
+    "m_7952f618b927": "Start with a restful base",
+    "m_fcd55c91ad9b": "Sahara Sky sits on the road between Bahariya Oasis and Farafra. Settle into your room, pause, and speak to the team about the experiences that suit your time and interests.",
+    "m_4fa569d4b1c3": "Shape the journey together",
+    "m_647d7c202b4d": "Before committing to a safari, confirm the route, trip duration, transport, meals and return arrangements. A thoughtful plan leaves more time to enjoy the landscape.",
+    "m_fd60245c05e5": "Wait for the light to change",
+    "m_458b17c3af21": "The desert has another rhythm after sunset. Step away from the rush of the day and make time to simply look up.",
+    "m_90fd0fd31f7c": "Plan for the sky you will meet",
+    "m_18216a047275": "Ask the hotel team about dates, moonlight and weather when discussing a stargazing experience. The photographs show moments at the hotel; clear skies and a visible Milky Way cannot be guaranteed for every visit.",
+    "m_55ea2e88241a": "Leave space in the day",
+    "m_a8ff16544486": "A good stay does not need a full schedule. Spend a quiet moment by the pool, let the landscape set the pace, and make room for a restful evening.",
+    "m_89583c56b2b4": "Choose the room that suits you",
+    "m_0c5efb158b54": "Compare the bed layouts and room sizes across Standard, Superior and Deluxe categories. Confirm occupancy and any extra-bed request before your stay.",
+    "m_a2d9d07dbec0": "EDITORIAL PREVIEW",
+    "m_98c2b7d5026f": "Draft editorial content for hotel approval.",
+    "m_5de41b8f1382": "KEEP EXPLORING",
+    "m_9b58db23cb18": "More from our world",
+    "m_62c4b73c6484": "A conversation away.",
+    "m_0d93c09f56d2": "Questions, a new journey, or a little help planning. Talk to the Sahara Sky team.",
+    "m_5292b7b7ba67": "LET’S TALK",
+    "m_a957405f95c0": "Begin somewhere new.",
+    "m_d7565998aa19": "What brings you here?",
+    "m_028bd222c808": "A room enquiry",
+    "m_658cb7a150a4": "Something else",
+    "m_1ab4119f7c38": "Your message",
+    "m_c16ce506a403": "Preview enquiry",
+    "m_981d2012fde3": "Demo form: no message is sent or stored. Use the hotel’s phone, email or WhatsApp for a real enquiry.",
+    "m_4a590a94391f": "OUR PLACE IN THE WORLD",
+    "m_4fd5a24da1c8": "Between oasis & open sky.",
+    "m_45bee91a47e5": "Contact the hotel for the confirmed location pin, transfer arrangements and arrival directions before setting off.",
+    "m_f6ef1a65c794": "Ask for directions",
+    "m_a750e5c75fc6": "A little clarity.",
+    "m_e76c01343cb5": "Useful answers before you begin your desert journey.",
+    "m_8cabc3a48e2f": "BEFORE YOU ARRIVE",
+    "m_1bd059bb6f27": "Let’s make it simple.",
+    "m_12d94e6e4a7b": "Have a question we have not answered? The team is a conversation away.",
+    "m_36f06ef6f8ca": "This design preview",
+    "m_9e5ff90655ce": "Before the live website launches",
+    "m_179d27f9db15": "The hotel must approve a final privacy notice identifying the responsible organisation, information collected, purposes, booking providers, retention, cookies and how guests can contact the hotel about their data.",
+    "m_4d03b0881456": "External links",
+    "m_ce343440c203": "Phone, email, social and WhatsApp links open the hotel’s published contact channels. Those services apply their own privacy policies.",
+    "m_6c50ccc22681": "Reservations & rates",
+    "m_dd00670f18c4": "This preview does not show live availability or binding prices. A real booking requires a confirmed room, dates, occupancy, rate and inclusions from the approved booking provider.",
+    "m_fd757489d426": "Payment, changes & cancellation",
+    "m_9f0bf1f9bcf9": "Final payment, cancellation, refund and no-show conditions must be approved by the hotel and displayed for the selected rate before a live reservation is completed.",
+    "m_af7e30c22229": "Arrival & room occupancy",
+    "m_9255d8e17eba": "Check-in, check-out, child policies, maximum occupancy and extra-bed arrangements require hotel confirmation. Conflicting information on the current systems must be resolved before launch.",
+    "m_ab27e4784f7a": "Experiences & the dome model",
+    "m_109131a19ffa": "Safari and stargazing are enquiries until dates, inclusions and prices are confirmed. The interactive dome model is illustrative and is not an approved floor plan or a guarantee of a room’s exact features.",
+    "m_f00fb65350ff": "Policy page layout for final content approval.",
+    "m_69f6bb2e0d73": "A little closer<br>to your next escape.",
+    "m_a9bc5c6eeb16": "Use a demo value only",
+    "m_90400b9dc364": "Preview this step",
+    "m_676f4f5d4369": "Your stay begins here.",
+    "m_d10c92851689": "Choose your dates. Find your room. Preview your next escape.",
+    "m_d5993552b940": "Dates & room",
+    "m_597d17c0c79d": "Review",
+    "m_693783099081": "Preview",
+    "m_9e176b5aba20": "Preview room choices",
+    "m_5f7b8071d77d": "A clearer way to book.",
+    "m_cc4dfb6758a5": "Your chosen dates and guests stay with you between the preview screens.",
+    "m_49a496854823": "DEMONSTRATION ROOMS",
+    "m_6b9269de0f73": "Find your kind of stay.",
+    "m_453caad443d6": "These are catalogue examples, not live availability results. Prices are not shown until the booking provider is connected.",
+    "m_79aa8a1c53d2": "A final look before your stay preview.",
+    "m_f6ad064188f2": "A preview of the final booking screen.",
+    "m_15263c472314": "Your next chapter.<br>Beautifully imagined.",
+    "m_35a9893d30a3": "You have reached the end of the design preview. No reservation has been created and no payment has been taken.",
+    "m_1a0b7ac2699b": "Contact the hotel for a real stay",
+    "m_f732699f7aa1": "Start another preview",
+    "m_2830b9261797": "One place. The whole design.",
+    "m_8c48621e37f4": "Explore every screen before approving the visual direction.",
+    "m_ed033252292e": "DESIGN APPROVAL",
+    "m_cc76cae7df64": "Ready to explore.",
+    "m_47406993b738": "Review the atmosphere, page layouts, room presentation, mobile experience and the three language versions.",
+    "m_c54b89bdac63": "Open page",
+    "m_830ea19f0b58": "The room catalogue uses the existing hotel’s photographs and data. New editorial text and simplified Chinese copy are drafts for approval. Exact dome details and commercial policies require confirmation.",
+    "m_832e8f5f044f": "A little off the path. Let’s take you home.",
+    "m_305cc64de92b": "BEYOND THE ROOM",
+    "m_4ceaf7cc3c69": "Days of discovery.<br><em>Nights of wonder.</em>",
+    "m_fb273b5bf83c": "Two ways to meet the Western Desert. Choose one, or let the hotel team plan both.",
+    "m_b29ca632f85a": "POSTCARDS FROM OUR WORLD",
+    "m_714e5fc85619": "Every corner,<br><em>a little story.</em>",
+    "m_02dc5484dced": "Browse the hotel, the rooms and the domes. Tap any photograph to see it larger.",
+    "m_66fb8f5cc402": "Your selected stay",
+    "m_2ff504b58aae": "Change dates or room",
+    "m_29e0cfe7a1f8": "Almost there.",
+    "m_05aea58faae6": "No card details or personal information are needed for this preview.",
+    "m_da2c4f6e84da": "View final preview",
+    "m_91dca2aecd0a": "Choose your stay first.",
+    "m_00d7fb1e8626": "Preview complete. Nothing was sent or saved.",
+    "m_81f9cfa86339": "Enable motion",
+    "m_db061c55da76": "03 / CRAFTED TO CATCH THE LIGHT",
+    "m_8de6cecd6008": "Illustrative 3D recreation. Room dimensions and interior layout require hotel approval.",
+    "m_bbcf4605e560": "A room. A horizon. A little time for you.",
+    "m_ce0af6f888f0": "Select date",
+    "m_609bd844a08d": "Explore every experience",
+    "m_f640325fbc00": "Open the full gallery",
+    "m_1f0f8f166b2e": "BEFORE YOUR NEXT CHAPTER",
+    "m_7a9f988506bc": "A little inspiration.",
+    "m_58799a0f9b97": "beds",
+    "m_9cb4df045594": "Base room rate: ",
+    "m_6436a2b10eba": "No rooms match these dates and guests.",
+    "m_d6f2ad9b46c6": "HOTEL AVAILABILITY",
+    "m_613b4731c1c5": "Checking hotel availability…",
+    "m_1cc550df65ff": "Availability comes from the hotel database. Base rates exclude final taxes and supplements. No reservation has been made; contact the hotel to complete your booking.",
+    "m_71ffefe08618": "Send enquiry",
+    "m_549e4c6fa72f": "Your enquiry is saved to the hotel’s administration inbox.",
+    "m_aa47a94c0e44": "Your enquiry was saved. The hotel team can review it in their inbox.",
+    "m_6166ec0ee0a3": "Sahara Sky"
+  },
+  "app": {
+    "updated": "Content reviewed",
+    "quickAnswers": "Before you plan your stay",
+    "guideLink": "Read the desert stay planning guide",
+    "faqTitle": "Questions before you book",
+    "copyright": "© {year} B&W Sahara Sky Hotel. All rights reserved."
+  },
+  "auth": {
+    "m_3e9a278fd967": "Sign in",
+    "m_5a56f27d5730": "Create an account",
+    "m_9fd3d96bd508": "Reset password",
+    "m_979f58a0761a": "Demo password",
+    "m_565630ad0ef5": "The preview forms do not send messages, create accounts, accept payments or create reservations. Your selected stay dates may be held temporarily in this browser session so you can review the booking screens.",
+    "m_7dd1161da37a": "Interface demo only. No account is created and no credentials are transmitted or saved. Use demo values."
+  },
+  "emails": {
+    "localeNotice": "Language preference saved; email templates are not localized yet."
+  },
+  "errors": {
+    "m_02470b2b6c2c": "Choose a future check-in and a later check-out.",
+    "m_0ec1af01aea1": "Please try again.",
+    "m_a4e9a6b424d4": "Hotel data is temporarily unavailable. Please contact the hotel."
+  },
+  "home": {
+    "m_ecf597631066": "Where silence",
+    "m_6976a029d065": "turns",
+    "m_cca91367b821": "golden.",
+    "m_2422dd53f1f7": "Your room beneath an endless sky.",
+    "m_f09ca1cfb22e": "Your time, finally your own.",
+    "m_d3967ac39f9e": "B&W SAHARA SKY / WESTERN DESERT, EGYPT",
+    "m_ef8877834b91": "STEP INTO YOUR DOME",
+    "m_6c55c9587ac7": "An interactive 3D experience",
+    "m_6e48c69cc492": "THE SAND & COPPER EDITION",
+    "m_ae53e96987f1": "BAHARIYA OASIS",
+    "m_69808313673f": "EGYPT'S WESTERN DESERT",
+    "m_723f2ff0c63a": "SAND · COPPER · EARTH",
+    "m_ea34d81ba93c": "THE JOURNEY BEGINS",
+    "m_d879e5a5274a": "01 / THE ART OF GETTING AWAY",
+    "m_b7865113a613": "A little further",
+    "m_bf1d418d5614": "from everything.",
+    "m_569afa1280c5": "A little closer",
+    "m_24fe4bd14f70": "to yourself.",
+    "m_a62316e58971": "On the road between Bahariya Oasis and Farafra, the horizon opens up. Mountains become your neighbours. The desert sets the pace.",
+    "m_0be2cfbcc1fc": "Unpack. Step outside. Stay until the light changes.",
+    "m_84545802d4db": "THE BEAUTY OF STAYING A WHILE.",
+    "m_c250f0e9a04e": "02 / CRAFTED TO CATCH THE LIGHT",
+    "m_19551afd605e": "A jewel.",
+    "m_d61deef148c8": "Your world.",
+    "m_aced422a7862": "Copper, honey and smoked-bronze mirror glass. Every facet catches the light differently.",
+    "m_30dfa1dd5d12": "Daylight",
+    "m_1c45d3dcd040": "After dark",
+    "m_cd41a1f4fd20": "Exterior",
+    "m_4e21dc37f649": "Glass facade",
+    "m_10c4ebce0f4a": "Floor plan",
+    "m_de6cf83725c9": "Enter immersive view",
+    "m_17ae4bf5d3fe": "DRAG TO ROTATE · SCROLL TO DISCOVER",
+    "m_798ae1fb4527": "Preparing your perspective…",
+    "m_c43a6d3224c4": "King bed",
+    "m_b1fa02130ec7": "Twin beds",
+    "m_6cbd4f676d9b": "Open windows",
+    "m_6c9f5a560b48": "Close windows",
+    "m_c3613b1704f5": "Rotate",
+    "m_7159ba3e7205": "Look inside",
+    "m_33eca18174fe": "Show shell",
+    "m_5d7ff318f955": "Top view",
+    "m_0d7f472eefff": "Follow scroll",
+    "m_bc83ee93cb57": "COPPER MIRROR GLASS / REFERENCE-BASED CONCEPT",
+    "m_ff23f0653c9d": "COPPER MIRROR GLASS",
+    "m_11513e8d406b": "CHARCOAL FRAME",
+    "m_af6543b2917d": "THE EXTERIOR",
+    "m_aadeab554489": "THE FLOOR PLAN",
+    "m_db25427dcc78": "STAY A LITTLE",
+    "m_05802f4e58f7": "Wake up",
+    "m_0b2794b29ed0": "somewhere else.",
+    "m_efc4b74dbe19": "Quiet mornings. Open horizons. A room that feels like a pause.",
+    "m_e824c30c6e71": "YOUR DESERT SANCTUARY",
+    "m_84c95300b81b": "Deluxe Double",
+    "m_7da6e0e0b43b": "Superior Single",
+    "m_f00b80926ac3": "Standard Triple",
+    "m_bc82ef996c59": "Deluxe",
+    "m_9e88817f791b": "Superior",
+    "m_a29cdb61df14": "Triple",
+    "m_d410ab1b0bf3": "36 m² · Twin beds",
+    "m_c2e3f98f2cdb": "25 m² · King bed",
+    "m_bc4116e51247": "28 m² · Three single beds",
+    "m_1134dc13fcf1": "Soft light, warm textures, and space to exhale. A restful base for travelling companions after a day of desert discovery.",
+    "m_bf80a5a01218": "Make room for yourself",
+    "m_7b0748afba38": "NO RUSH. NO NOISE. JUST NOW.",
+    "m_b8bf1d0687b4": "Let the world",
+    "m_705e4f9ce599": "wait a while.",
+    "m_566900b99a98": "Take a little time",
+    "m_202320e67cb5": "FOLLOW YOUR CURIOSITY",
+    "m_81ed9c6c7014": "The room is",
+    "m_27d2c1c992b9": "only the beginning.",
+    "m_2369ac8a2de5": "01 / DAYS OF DISCOVERY",
+    "m_966ce376111e": "Answer the",
+    "m_6c55a91b9fc4": "desert's call.",
+    "m_118ff7e91379": "Explore the desert",
+    "m_7e935c51e6b1": "02 / NIGHTS OF WONDER",
+    "m_593859d5fee2": "Look up.",
+    "m_5f3b1f49cb4b": "Feel small.",
+    "m_f781c476b3cb": "Discover the night",
+    "m_80e6cd0acfbd": "05 / POSTCARDS FROM OUR WORLD",
+    "m_612814d49b15": "Collected moments.",
+    "m_7c315f1a415e": "Endless feeling.",
+    "m_0b6a72a6a19c": "Drag through the moments. Open the ones that move you.",
+    "m_a57b08a480b8": "Previous",
+    "m_1ff57a29d7c9": "Next",
+    "m_9fb074750b57": "SOME PLACES STAY WITH YOU.",
+    "m_25ae8d206d17": "Stay for the sky.",
+    "m_75173d7f85f2": "Leave a little",
+    "m_7b599494ca0f": "different.",
+    "m_77213cae00c9": "Begin your escape",
+    "m_8135aeffa803": "BEGIN YOUR ESCAPE",
+    "m_0c9d6ccb5b8d": "Somewhere else.",
+    "m_fedf8b79607c": "Something more.",
+    "m_2152154a78ab": "Your escape",
+    "m_02e1e1ee464f": "A room in the desert",
+    "m_2f404162b2a9": "A room & desert safari",
+    "m_fc2ab37ce809": "A room & stargazing",
+    "m_126cf1b7c0ae": "Pause motion",
+    "m_5ac1efc9d4a3": "Enable motion",
+    "m_2139731dfa37": "Every facet, a new perspective.",
+    "m_8f2364e11b8b": "Day",
+    "m_4e9f8db8242b": "Night",
+    "m_ad8c41bed497": "Close ×",
+    "m_0941aaee581d": "Drag to rotate · Switch King / Twin beds · Top view reveals the layout · Recreated from reference images; dimensions are approximate.",
+    "m_3d8a25729acd": "King-size bed",
+    "m_7ad9983f41fd": "Three single beds",
+    "m_1f8c000e746b": "A personal sanctuary framed by the mountains. Settle in, switch off, and enjoy a little space that is entirely your own.",
+    "m_09f77f571927": "For shared adventures and stories that last. Three individual beds give every guest a comfortable place to return to.",
+    "m_fc7dcd766e4f": "Explore the reflective glass facade and open the two hinged windows.",
+    "m_26b03edc9274": "Inspect the room from above. Switch between king and twin layouts, with a bathroom behind the beds.",
+    "m_858e4ba7a29f": "Pause",
+    "m_262569d3626e": "The interactive view could not load. Explore the hotel in the photos below.",
+    "m_8ca980f1e3b7": "Explore the hotel photography — 3D is unavailable on this device.",
+    "m_4682bcddc832": "3D paused. Refresh to restore the interactive view.",
+    "m_f9b3ae907525": "YOUR ROOM AT SAHARA SKY",
+    "m_d81248f1cf99": "Choose your dates",
+    "m_553ef08a803e": "POSTCARDS FROM OUR WORLD",
+    "m_69c389610ab8": "A place of your own",
+    "m_1878ce117c86": "Slow afternoons, wide horizons",
+    "m_006793b931f0": "Under a sky full of possibility",
+    "m_99b8c8ba5be1": "A different kind of neighbourhood",
+    "m_7dc1289ccc12": "When the world turns quiet",
+    "m_5ba23c759018": "DAYS OF DISCOVERY",
+    "m_f7fa281f6adc": "NIGHTS OF WONDER",
+    "m_821cc5147ea5": "Follow the horizon.",
+    "m_3e0638490e9e": "Look up. Stay a while.",
+    "m_ef20291395ee": "Include in my stay",
+    "m_a4e5c2b1d2ed": "Make Sahara Sky your base for exploring the Black and White Deserts. Add a safari to your stay enquiry; routes, duration and inclusions are to be confirmed with the hotel.",
+    "m_831a2c904f99": "Return from a day of discovery to the open desert sky. Take your time beneath the stars. Visibility depends on weather, moonlight and the season."
+  },
+  "seo": {
+    "404": {
+      "title": "Page not found | B&W Sahara Sky Hotel",
+      "description": "Page not found. A preview or draft page, not a confirmed hotel offer."
+    },
+    "home": {
+      "title": "Desert hotel between Bahariya Oasis and Farafra | B&W Sahara Sky Hotel",
+      "description": "Desert hotel between Bahariya Oasis and Farafra. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "rooms": {
+      "title": "Rooms for your desert stay | B&W Sahara Sky Hotel",
+      "description": "Rooms for your desert stay. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "about": {
+      "title": "About the hotel | B&W Sahara Sky Hotel",
+      "description": "About the hotel. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "services": {
+      "title": "Hotel services and stay arrangements | B&W Sahara Sky Hotel",
+      "description": "Hotel services and stay arrangements. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "experiences": {
+      "title": "Desert experiences and stargazing enquiries | B&W Sahara Sky Hotel",
+      "description": "Desert experiences and stargazing enquiries. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "gallery": {
+      "title": "Hotel photographs | B&W Sahara Sky Hotel",
+      "description": "Hotel photographs. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "blog": {
+      "title": "Desert journal drafts | B&W Sahara Sky Hotel",
+      "description": "Desert journal drafts. A preview or draft page, not a confirmed hotel offer."
+    },
+    "contact": {
+      "title": "Contact and arrival planning | B&W Sahara Sky Hotel",
+      "description": "Contact and arrival planning. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "faq": {
+      "title": "Hotel, booking and payment questions | B&W Sahara Sky Hotel",
+      "description": "Hotel, booking and payment questions. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "privacy": {
+      "title": "Draft privacy notice | B&W Sahara Sky Hotel",
+      "description": "Draft privacy notice. A preview or draft page, not a confirmed hotel offer."
+    },
+    "terms": {
+      "title": "Draft booking terms | B&W Sahara Sky Hotel",
+      "description": "Draft booking terms. A preview or draft page, not a confirmed hotel offer."
+    },
+    "guide": {
+      "title": "How to plan a desert hotel stay in Egypt | B&W Sahara Sky Hotel",
+      "description": "How to plan a desert hotel stay in Egypt. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "room-deluxe-single": {
+      "title": "Deluxe Single room | B&W Sahara Sky Hotel",
+      "description": "Deluxe Single room. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "room-deluxe-double": {
+      "title": "Deluxe Double room | B&W Sahara Sky Hotel",
+      "description": "Deluxe Double room. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "room-standard-single": {
+      "title": "Standard Single room | B&W Sahara Sky Hotel",
+      "description": "Standard Single room. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "room-standard-double": {
+      "title": "Standard Double room | B&W Sahara Sky Hotel",
+      "description": "Standard Double room. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "room-standard-triple": {
+      "title": "Standard Triple room | B&W Sahara Sky Hotel",
+      "description": "Standard Triple room. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "room-superior-single": {
+      "title": "Superior Single room | B&W Sahara Sky Hotel",
+      "description": "Superior Single room. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "room-superior-double": {
+      "title": "Superior Double room | B&W Sahara Sky Hotel",
+      "description": "Superior Double room. B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences."
+    },
+    "domes": {
+      "title": "Glass dome architectural concept | B&W Sahara Sky Hotel",
+      "description": "Glass dome architectural concept. A preview or draft page, not a confirmed hotel offer."
+    },
+    "story-slow": {
+      "title": "A slower desert stay — draft | B&W Sahara Sky Hotel",
+      "description": "A slower desert stay — draft. A preview or draft page, not a confirmed hotel offer."
+    },
+    "story-stars": {
+      "title": "A night beneath the stars — draft | B&W Sahara Sky Hotel",
+      "description": "A night beneath the stars — draft. A preview or draft page, not a confirmed hotel offer."
+    },
+    "story-desert": {
+      "title": "Discovering the desert — draft | B&W Sahara Sky Hotel",
+      "description": "Discovering the desert — draft. A preview or draft page, not a confirmed hotel offer."
+    },
+    "booking": {
+      "title": "Check local room availability | B&W Sahara Sky Hotel",
+      "description": "Check local room availability. A preview or draft page, not a confirmed hotel offer."
+    },
+    "review": {
+      "title": "Review your stay preview | B&W Sahara Sky Hotel",
+      "description": "Review your stay preview. A preview or draft page, not a confirmed hotel offer."
+    },
+    "confirmation": {
+      "title": "Stay preview, not a reservation | B&W Sahara Sky Hotel",
+      "description": "Stay preview, not a reservation. A preview or draft page, not a confirmed hotel offer."
+    },
+    "login": {
+      "title": "Customer sign-in preview | B&W Sahara Sky Hotel",
+      "description": "Customer sign-in preview. A preview or draft page, not a confirmed hotel offer."
+    },
+    "register": {
+      "title": "Customer account preview | B&W Sahara Sky Hotel",
+      "description": "Customer account preview. A preview or draft page, not a confirmed hotel offer."
+    },
+    "forgot": {
+      "title": "Password recovery preview | B&W Sahara Sky Hotel",
+      "description": "Password recovery preview. A preview or draft page, not a confirmed hotel offer."
+    },
+    "approval": {
+      "title": "Design review | B&W Sahara Sky Hotel",
+      "description": "Design review. A preview or draft page, not a confirmed hotel offer."
+    }
+  },
+  "geo": {
+    "home": {
+      "heading": "Where is B&W Sahara Sky Hotel?",
+      "answer": "B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences. The published room catalogue includes Standard, Superior and Deluxe categories. Before travelling, confirm your room, dates, directions and any requested activities with the hotel.",
+      "facts": "The hotel is on the Bahariya–Farafra Road in Egypt’s Western Desert. Before travelling, request the current map pin and arrival directions from the hotel. This address describes the hotel’s location; it does not promise a particular transfer time, transport service or distance from an airport.",
+      "faqs": [
+        {
+          "question": "Where is B&W Sahara Sky Hotel?",
+          "answer": "The hotel is on the Bahariya–Farafra Road in Egypt’s Western Desert. Before travelling, request the current map pin and arrival directions from the hotel. This address describes the hotel’s location; it does not promise a particular transfer time, transport service or distance from an airport."
+        },
+        {
+          "question": "Which room category should I enquire about?",
+          "answer": "The hotel catalogue includes Standard, Superior and Deluxe room categories, with single, double and triple options across the catalogue. Use your actual guest count and dates when enquiring. Confirm the specific bed arrangement, maximum occupancy, accessibility requirements and inclusions with the hotel rather than inferring them from an image."
+        },
+        {
+          "question": "How do I confirm a reservation?",
+          "answer": "Ask the hotel to confirm the room category, dates, guest count, final price, included meals or experiences, and cancellation conditions. This website’s stay preview does not create a reservation. A reservation confirmation and a payment receipt are separate records; retain both when applicable."
+        }
+      ]
+    },
+    "about": {
+      "heading": "Where is B&W Sahara Sky Hotel?",
+      "answer": "B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences. The published room catalogue includes Standard, Superior and Deluxe categories. Before travelling, confirm your room, dates, directions and any requested activities with the hotel.",
+      "facts": "The hotel is on the Bahariya–Farafra Road in Egypt’s Western Desert. Before travelling, request the current map pin and arrival directions from the hotel. This address describes the hotel’s location; it does not promise a particular transfer time, transport service or distance from an airport.",
+      "faqs": [
+        {
+          "question": "Where is B&W Sahara Sky Hotel?",
+          "answer": "The hotel is on the Bahariya–Farafra Road in Egypt’s Western Desert. Before travelling, request the current map pin and arrival directions from the hotel. This address describes the hotel’s location; it does not promise a particular transfer time, transport service or distance from an airport."
+        },
+        {
+          "question": "How can I contact the hotel before travelling?",
+          "answer": "Use the hotel’s published phone or WhatsApp number, +20 109 825 5777, or email bwsaharaskycamp@gmail.com. Include dates, guest count and your question. The local website enquiry form saves messages to the administration inbox; it does not confirm a booking or guarantee a response time."
+        },
+        {
+          "question": "Where can I find confirmed check-in and cancellation conditions?",
+          "answer": "Request the conditions attached to your selected room and rate from the hotel before confirming. Current website policy pages are drafts awaiting hotel approval, and conditions can differ by rate. Do not rely on a draft page for a refund entitlement, cancellation deadline or guaranteed check-in arrangement."
+        }
+      ]
+    },
+    "rooms": {
+      "heading": "Which room category should I enquire about?",
+      "answer": "The hotel catalogue includes Standard, Superior and Deluxe room categories, with single, double and triple options across the catalogue. Use your actual guest count and dates when enquiring. Confirm the specific bed arrangement, maximum occupancy, accessibility requirements and inclusions with the hotel rather than inferring them from an image.",
+      "facts": "",
+      "faqs": [
+        {
+          "question": "Which room category should I enquire about?",
+          "answer": "The hotel catalogue includes Standard, Superior and Deluxe room categories, with single, double and triple options across the catalogue. Use your actual guest count and dates when enquiring. Confirm the specific bed arrangement, maximum occupancy, accessibility requirements and inclusions with the hotel rather than inferring them from an image."
+        },
+        {
+          "question": "Is the interactive dome a confirmed bookable room?",
+          "answer": "The interactive glass dome is an architectural illustration, not an approved floor plan or a confirmed accommodation offer. Ask the hotel about actual opening dates, availability and specifications before treating the model as a bookable room. No dome rate or guaranteed amenities are published here."
+        },
+        {
+          "question": "How do I confirm a reservation?",
+          "answer": "Ask the hotel to confirm the room category, dates, guest count, final price, included meals or experiences, and cancellation conditions. This website’s stay preview does not create a reservation. A reservation confirmation and a payment receipt are separate records; retain both when applicable."
+        }
+      ],
+      "comparison": {
+        "heading": "Which stay is right for your enquiry?",
+        "columns": [
+          "Option",
+          "Best suited to",
+          "Confirm before booking",
+          "Not suitable for"
+        ],
+        "rows": [
+          [
+            "Standard rooms",
+            "Comparing Standard single, double and triple listings",
+            "Beds, occupancy and final rate",
+            "Assuming a fixed price without a final quote"
+          ],
+          [
+            "Superior rooms",
+            "Comparing Superior single and double listings",
+            "Room features and inclusions",
+            "Assuming upgrades or meals are included"
+          ],
+          [
+            "Deluxe rooms",
+            "Comparing Deluxe single and double listings",
+            "Specific layout, availability and rate",
+            "Assuming Deluxe guarantees a suite or specific amenities"
+          ],
+          [
+            "Glass dome concept",
+            "Exploring the architectural illustration",
+            "Not a confirmed bookable offer",
+            "Confirmed reservations or final construction specifications"
+          ]
+        ]
+      }
+    },
+    "services": {
+      "heading": "How can I contact the hotel before travelling?",
+      "answer": "Use the hotel’s published phone or WhatsApp number, +20 109 825 5777, or email bwsaharaskycamp@gmail.com. Include dates, guest count and your question. The local website enquiry form saves messages to the administration inbox; it does not confirm a booking or guarantee a response time.",
+      "facts": "",
+      "faqs": [
+        {
+          "question": "How can I contact the hotel before travelling?",
+          "answer": "Use the hotel’s published phone or WhatsApp number, +20 109 825 5777, or email bwsaharaskycamp@gmail.com. Include dates, guest count and your question. The local website enquiry form saves messages to the administration inbox; it does not confirm a booking or guarantee a response time."
+        },
+        {
+          "question": "Where can I find confirmed check-in and cancellation conditions?",
+          "answer": "Request the conditions attached to your selected room and rate from the hotel before confirming. Current website policy pages are drafts awaiting hotel approval, and conditions can differ by rate. Do not rely on a draft page for a refund entitlement, cancellation deadline or guaranteed check-in arrangement."
+        },
+        {
+          "question": "How do I arrange a safari or a night of stargazing?",
+          "answer": "Send the hotel your dates and preferred experience, then confirm the route, duration, transport, inclusions and final cost. Safari and stargazing requests are enquiries until those details are agreed. Stargazing visibility depends on weather, moonlight and season; a clear sky or particular view is not guaranteed."
+        }
+      ]
+    },
+    "experiences": {
+      "heading": "How do I arrange a safari or a night of stargazing?",
+      "answer": "Send the hotel your dates and preferred experience, then confirm the route, duration, transport, inclusions and final cost. Safari and stargazing requests are enquiries until those details are agreed. Stargazing visibility depends on weather, moonlight and season; a clear sky or particular view is not guaranteed.",
+      "facts": "",
+      "faqs": [
+        {
+          "question": "How do I arrange a safari or a night of stargazing?",
+          "answer": "Send the hotel your dates and preferred experience, then confirm the route, duration, transport, inclusions and final cost. Safari and stargazing requests are enquiries until those details are agreed. Stargazing visibility depends on weather, moonlight and season; a clear sky or particular view is not guaranteed."
+        },
+        {
+          "question": "Where is B&W Sahara Sky Hotel?",
+          "answer": "The hotel is on the Bahariya–Farafra Road in Egypt’s Western Desert. Before travelling, request the current map pin and arrival directions from the hotel. This address describes the hotel’s location; it does not promise a particular transfer time, transport service or distance from an airport."
+        },
+        {
+          "question": "How do I confirm a reservation?",
+          "answer": "Ask the hotel to confirm the room category, dates, guest count, final price, included meals or experiences, and cancellation conditions. This website’s stay preview does not create a reservation. A reservation confirmation and a payment receipt are separate records; retain both when applicable."
+        }
+      ]
+    },
+    "gallery": {
+      "heading": "Which room category should I enquire about?",
+      "answer": "The hotel catalogue includes Standard, Superior and Deluxe room categories, with single, double and triple options across the catalogue. Use your actual guest count and dates when enquiring. Confirm the specific bed arrangement, maximum occupancy, accessibility requirements and inclusions with the hotel rather than inferring them from an image.",
+      "facts": "",
+      "faqs": [
+        {
+          "question": "Which room category should I enquire about?",
+          "answer": "The hotel catalogue includes Standard, Superior and Deluxe room categories, with single, double and triple options across the catalogue. Use your actual guest count and dates when enquiring. Confirm the specific bed arrangement, maximum occupancy, accessibility requirements and inclusions with the hotel rather than inferring them from an image."
+        },
+        {
+          "question": "Is the interactive dome a confirmed bookable room?",
+          "answer": "The interactive glass dome is an architectural illustration, not an approved floor plan or a confirmed accommodation offer. Ask the hotel about actual opening dates, availability and specifications before treating the model as a bookable room. No dome rate or guaranteed amenities are published here."
+        },
+        {
+          "question": "How can I contact the hotel before travelling?",
+          "answer": "Use the hotel’s published phone or WhatsApp number, +20 109 825 5777, or email bwsaharaskycamp@gmail.com. Include dates, guest count and your question. The local website enquiry form saves messages to the administration inbox; it does not confirm a booking or guarantee a response time."
+        }
+      ]
+    },
+    "contact": {
+      "heading": "How can I contact the hotel before travelling?",
+      "answer": "Use the hotel’s published phone or WhatsApp number, +20 109 825 5777, or email bwsaharaskycamp@gmail.com. Include dates, guest count and your question. The local website enquiry form saves messages to the administration inbox; it does not confirm a booking or guarantee a response time.",
+      "facts": "",
+      "faqs": [
+        {
+          "question": "How can I contact the hotel before travelling?",
+          "answer": "Use the hotel’s published phone or WhatsApp number, +20 109 825 5777, or email bwsaharaskycamp@gmail.com. Include dates, guest count and your question. The local website enquiry form saves messages to the administration inbox; it does not confirm a booking or guarantee a response time."
+        },
+        {
+          "question": "How do I confirm a reservation?",
+          "answer": "Ask the hotel to confirm the room category, dates, guest count, final price, included meals or experiences, and cancellation conditions. This website’s stay preview does not create a reservation. A reservation confirmation and a payment receipt are separate records; retain both when applicable."
+        },
+        {
+          "question": "Does a booking confirmation mean I have paid?",
+          "answer": "No. A confirmed reservation can still be unpaid. If your confirmation says Pay@Hotel, it records payment at the hotel rather than a completed online card transaction. Ask the hotel whether an advance payment is required and whether a separate payment link will be sent; automatic delivery is not established."
+        }
+      ]
+    },
+    "faq": {
+      "heading": "How do I confirm a reservation?",
+      "answer": "Ask the hotel to confirm the room category, dates, guest count, final price, included meals or experiences, and cancellation conditions. This website’s stay preview does not create a reservation. A reservation confirmation and a payment receipt are separate records; retain both when applicable.",
+      "facts": "",
+      "faqs": [
+        {
+          "question": "Where is B&W Sahara Sky Hotel?",
+          "answer": "The hotel is on the Bahariya–Farafra Road in Egypt’s Western Desert. Before travelling, request the current map pin and arrival directions from the hotel. This address describes the hotel’s location; it does not promise a particular transfer time, transport service or distance from an airport."
+        },
+        {
+          "question": "Which room category should I enquire about?",
+          "answer": "The hotel catalogue includes Standard, Superior and Deluxe room categories, with single, double and triple options across the catalogue. Use your actual guest count and dates when enquiring. Confirm the specific bed arrangement, maximum occupancy, accessibility requirements and inclusions with the hotel rather than inferring them from an image."
+        },
+        {
+          "question": "How do I confirm a reservation?",
+          "answer": "Ask the hotel to confirm the room category, dates, guest count, final price, included meals or experiences, and cancellation conditions. This website’s stay preview does not create a reservation. A reservation confirmation and a payment receipt are separate records; retain both when applicable."
+        },
+        {
+          "question": "Does a booking confirmation mean I have paid?",
+          "answer": "No. A confirmed reservation can still be unpaid. If your confirmation says Pay@Hotel, it records payment at the hotel rather than a completed online card transaction. Ask the hotel whether an advance payment is required and whether a separate payment link will be sent; automatic delivery is not established."
+        },
+        {
+          "question": "Is the interactive dome a confirmed bookable room?",
+          "answer": "The interactive glass dome is an architectural illustration, not an approved floor plan or a confirmed accommodation offer. Ask the hotel about actual opening dates, availability and specifications before treating the model as a bookable room. No dome rate or guaranteed amenities are published here."
+        },
+        {
+          "question": "How do I arrange a safari or a night of stargazing?",
+          "answer": "Send the hotel your dates and preferred experience, then confirm the route, duration, transport, inclusions and final cost. Safari and stargazing requests are enquiries until those details are agreed. Stargazing visibility depends on weather, moonlight and season; a clear sky or particular view is not guaranteed."
+        },
+        {
+          "question": "Where can I find confirmed check-in and cancellation conditions?",
+          "answer": "Request the conditions attached to your selected room and rate from the hotel before confirming. Current website policy pages are drafts awaiting hotel approval, and conditions can differ by rate. Do not rely on a draft page for a refund entitlement, cancellation deadline or guaranteed check-in arrangement."
+        }
+      ]
+    },
+    "guide": {
+      "heading": "How do I confirm a reservation?",
+      "answer": "Ask the hotel to confirm the room category, dates, guest count, final price, included meals or experiences, and cancellation conditions. This website’s stay preview does not create a reservation. A reservation confirmation and a payment receipt are separate records; retain both when applicable.",
+      "facts": "",
+      "faqs": [
+        {
+          "question": "How do I confirm a reservation?",
+          "answer": "Ask the hotel to confirm the room category, dates, guest count, final price, included meals or experiences, and cancellation conditions. This website’s stay preview does not create a reservation. A reservation confirmation and a payment receipt are separate records; retain both when applicable."
+        },
+        {
+          "question": "Does a booking confirmation mean I have paid?",
+          "answer": "No. A confirmed reservation can still be unpaid. If your confirmation says Pay@Hotel, it records payment at the hotel rather than a completed online card transaction. Ask the hotel whether an advance payment is required and whether a separate payment link will be sent; automatic delivery is not established."
+        },
+        {
+          "question": "Where can I find confirmed check-in and cancellation conditions?",
+          "answer": "Request the conditions attached to your selected room and rate from the hotel before confirming. Current website policy pages are drafts awaiting hotel approval, and conditions can differ by rate. Do not rely on a draft page for a refund entitlement, cancellation deadline or guaranteed check-in arrangement."
+        }
+      ],
+      "steps": [
+        {
+          "heading": "Which room category should I enquire about?",
+          "text": "The hotel catalogue includes Standard, Superior and Deluxe room categories, with single, double and triple options across the catalogue. Use your actual guest count and dates when enquiring. Confirm the specific bed arrangement, maximum occupancy, accessibility requirements and inclusions with the hotel rather than inferring them from an image."
+        },
+        {
+          "heading": "How do I arrange a safari or a night of stargazing?",
+          "text": "Send the hotel your dates and preferred experience, then confirm the route, duration, transport, inclusions and final cost. Safari and stargazing requests are enquiries until those details are agreed. Stargazing visibility depends on weather, moonlight and season; a clear sky or particular view is not guaranteed."
+        },
+        {
+          "heading": "Where is B&W Sahara Sky Hotel?",
+          "text": "The hotel is on the Bahariya–Farafra Road in Egypt’s Western Desert. Before travelling, request the current map pin and arrival directions from the hotel. This address describes the hotel’s location; it does not promise a particular transfer time, transport service or distance from an airport."
+        }
+      ],
+      "suitability": {
+        "heading": "Who is this guide for?",
+        "text": "Use this guide when comparing hotel room categories and preparing questions for the hotel. It is not a route itinerary, a binding price quote or a substitute for the conditions attached to your reservation."
+      },
+      "byline": "Prepared by the B&W Sahara Sky Hotel website team; hotel operating details require confirmation."
+    }
+  },
+  "otp": {
+    "continue": "Continue to payment",
+    "intro": "To continue to payment, sign in with a one-time code. We will email it to you.",
+    "send": "Send code",
+    "sending": "Sending the code…",
+    "codeLabel": "6-digit code",
+    "codeHelp": "We sent a 6-digit code to {email}. It expires in 10 minutes.",
+    "verify": "Verify and continue",
+    "verifying": "Checking the code…",
+    "resend": "Send a new code",
+    "resendIn": "Send a new code in {s}s",
+    "resent": "A new code is on its way.",
+    "change": "Use another email",
+    "signedIn": "Signed in as {email}.",
+    "errInvalid": "That code is not correct. Please check it and try again.",
+    "errExpired": "This code has expired. Please request a new one.",
+    "errLocked": "Too many incorrect attempts. Please request a new code.",
+    "errWait": "Please wait {s} seconds before requesting another code.",
+    "errEmail": "Please enter a valid email address.",
+    "errSend": "We could not send the code. Please try again shortly.",
+    "errGeneric": "Something went wrong. Please try again.",
+    "signOut": "Sign out",
+    "introLogin": "Enter your email and we will send you a one-time code to sign in. No password needed."
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "date": "2026-10-07",
+  "status": "PASS",
+  "build": {
+    "version": "e17e6f0910cf",
+    "logicalPages": 31,
+    "renderedPages": 93,
+    "productionSitemapUrls": 48,
+    "localIndexing": false
+  },
+  "seo": {
+    "date": "2026-10-07",
+    "status": "PASS",
+    "checks": 1400,
+    "rawPages": 93,
+    "publicSitemapUrls": 48,
+    "localCountryRouting": "untrusted-header-ignored",
+    "screenshots": [
+      "en",
+      "ar",
+      "zh"
+    ]
+  },
+  "localePreference": {
+    "status": "PASS",
+    "checks": [
+      "locale CSRF 419",
+      "guest locale 401",
+      "AI referral separated",
+      "client navigation analytics",
+      "no query PII in events",
+      "native language switching",
+      "cookie redirect no-store",
+      "English override"
+    ],
+    "customerDatabase": "Separately verified with rolled-back local fixture"
+  },
+  "frontendRegression": {
+    "passed": 16,
+    "failed": 0,
+    "modelBuilds": 1,
+    "renderers": 1,
+    "initialSyntheticMetrics": {
+      "sceneLoads": 0,
+      "modelBuilds": 0,
+      "renderersCreated": 0,
+      "clientNavigations": 0,
+      "largestContentfulPaint": 1048,
+      "cumulativeLayoutShift": 0.0003523128085666233
+    },
+    "limitations": "Local functional/performance checks, not field Core Web Vitals or a physical-device benchmark."
+  },
+  "backendIntegration": {
+    "passed": true,
+    "checkGroups": 12,
+    "publishedRooms": 7,
+    "pageErrors": []
+  },
+  "availability": {
+    "passed": true,
+    "checks": 4
+  },
+  "customerLocaleDatabase": {
+    "localCloneOnly": true,
+    "allowedLocalesPersisted": 3,
+    "guestRejected": true,
+    "invalidRejected": true,
+    "fixtureRolledBack": true
+  },
+  "vercelProxy": {
+    "handlerSmoke": "PASS",
+    "deployedAcceptance": "Not performed"
+  },
+  "citationLedger": {
+    "seedRows": 144,
+    "independentEngineBaseline": "Not measured",
+    "formulas": "Verified using temporary cases, incomplete evidence and date-window exclusion; fixtures restored"
+  },
+  "productionDeployment": false,
+  "productionDatabaseMigration": false,
+  "thirdPartySubmissions": false
+}

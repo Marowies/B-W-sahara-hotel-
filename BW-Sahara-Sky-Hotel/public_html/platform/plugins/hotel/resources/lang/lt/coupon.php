@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'name' => 'Kuponai',
+    'intro' => [
+        'button_text' => 'Sukurti kuponą',
+        'title' => 'Valdyti kuponų kodus',
+        'description' => 'Kurkite ir valdykite kuponų kodus savo klientams.',
+    ],
+    'types' => [
+        'percentage' => 'Procentais',
+        'fixed' => 'Fiksuota',
+    ],
+    'type' => 'Tipas',
+    'created_message' => 'Kuponas sėkmingai sukurtas.',
+    'expires_date' => 'Galiojimo pabaigos data',
+    'expires_time' => 'Galiojimo pabaigos laikas',
+    'never_expired' => 'Niekada nebaigia galioti',
+    'save_button' => 'Išsaugoti',
+    'coupon_code' => 'Kupono kodas',
+    'coupon_code_placeholder' => 'Įveskite kupono kodą',
+    'generate_code_button' => 'Generuoti kodą',
+    'value' => 'Vertė',
+    'value_placeholder' => 'Įveskite kupono vertę',
+    'value_off' => ':value nuolaida',
+    'total_used' => 'Panaudota',
+    'expired' => 'Baigėsi galiojimas',
+    'active' => 'Aktyvus',
+    'unlimited' => 'Neribotas kuponas',
+    'quantity' => 'Kiekis',
+    'quantity_placeholder' => 'Įveskite kuponų skaičių',
+    'discount_amount' => 'Nuolaidos suma',
+    'total' => 'Iš viso',
+    'toggle_coupon_form_text' => 'Turite kupono kodą?',
+    'apply_coupon_code' => 'Taikyti',
+    'form' => [
+        'create' => 'Sukurti naują kuponą',
+        'edit' => 'Redaguoti ":name"',
+    ],
+    'coupon_invalid' => 'Šis kuponas negalioja!',
+    'applied_coupon_successfully' => 'Kuponas ":code" sėkmingai pritaikytas!',
+    'coupon_not_used_yet' => 'Šis kuponas dar nepanaudotas!',
+    'removed_coupon_successfully' => 'Kuponas :code sėkmingai pašalintas!',
+
+    'coupon_code_with_value' => 'Coupon code: :code',
+    'remove' => 'Remove',
+];

@@ -1,0 +1,91 @@
+/* Layout is inherited from the approved design; only loading/motion behavior changes. */
+.model-stage { contain: layout; }
+.model-stage canvas { display: block; }
+.model-loading [data-retry-model] { display: block; margin: 12px auto 0; }
+/* The same footer component is used by every page and language. */
+footer { padding: clamp(44px,6vw,80px) max(6%,calc((100vw - 1320px)/2)) 26px!important; background:#351020; color:#dec09b; }
+footer .footer-top { display:grid; grid-template-columns:minmax(240px,1.5fr) repeat(2,minmax(125px,.7fr)) minmax(180px,1fr); gap:clamp(26px,4vw,64px); align-items:start; padding:0 0 44px; border:0; background:transparent; }
+footer .footer-top .footer-story { display:block; min-width:0; }
+footer .footer-story .brand { display:inline-flex; max-width:100%; }
+footer .footer-story p { max-width:310px; margin:24px 0; font-size:14px; line-height:1.9; color:#c7aa8b; }
+footer .footer-links,footer .footer-contact { display:flex; flex-direction:column; gap:12px; min-width:0; }
+footer .footer-top .footer-contact { grid-column:auto; }
+footer .footer-top h3 { margin:0 0 8px; font-size:11px; line-height:1.6; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#b99672; }
+footer .footer-links a { width:fit-content; font-size:14px; line-height:1.6; border:0; }
+footer .footer-links a:hover { color:#f0d0a4; }
+footer .footer-contact p { margin:0; font-size:14px; line-height:1.9; color:#c7aa8b; }
+footer .footer-phone { align-self:flex-start; margin-top:6px; font-size:15px; letter-spacing:.03em; border:0; }
+footer .footer-contact-note { font-size:12px; color:#b99672; }
+.icon-channels { display:flex; flex-wrap:wrap; gap:10px; }
+footer .icon-channels .channel-icon,.icon-channels .channel-icon { display:inline-flex; flex:0 0 44px; width:44px; height:44px; padding:0; justify-content:center; align-items:center; border:1px solid #b9967255; border-radius:50%; background:#dec09b08; color:#dec09b; transition:background .2s,color .2s,border-color .2s; }
+.icon-channels .channel-icon svg { display:block; width:20px; height:20px; }
+footer .icon-channels .channel-icon:hover,.icon-channels .channel-icon:hover { background:#dec09b; border-color:#dec09b; color:#351020; }
+.icon-channels .channel-icon:focus-visible,footer a:focus-visible { outline:2px solid #e6bd89; outline-offset:5px; }
+.icon-channels .channel-icon::after { content:none!important; }
+footer .footer-bottom { display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:22px; align-items:start; border-top:1px solid #b9967233; padding:24px 0 0; background:transparent; font-size:11px; line-height:1.8; color:#b99672; }
+footer .footer-bottom>span:nth-child(2) { text-align:center; max-width:560px; justify-self:center; }
+footer .footer-bottom a { border:0; }
+html[dir="rtl"] footer .footer-top h3 { letter-spacing:0; }
+@media(max-width:1050px) {
+ footer .footer-top { grid-template-columns:1.2fr 1fr 1fr; }
+ footer .footer-top .footer-story { grid-column:1/-1; }
+ footer .footer-story p { max-width:540px; }
+ footer .footer-bottom { grid-template-columns:1fr auto; }
+ footer .footer-bottom>span:nth-child(2) { grid-column:1/-1; grid-row:2; justify-self:start; text-align:start; }
+}
+@media(max-width:600px) {
+ footer { padding:42px 7% 106px!important; }
+ footer .footer-top { grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px 24px; padding-bottom:30px; }
+ footer .footer-top .footer-story,footer .footer-top .footer-contact { grid-column:1/-1; }
+ footer .footer-story p { margin:20px 0; }
+ footer .footer-links { gap:10px; }
+ footer .footer-contact { padding-top:24px; border-top:1px solid #b9967233; }
+ footer .footer-bottom { grid-template-columns:1fr; gap:12px; }
+ footer .footer-bottom>span:nth-child(2) { grid-row:auto; }
+ footer .brand>span { font-size:15px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .hero-image, .horizon > img, .tilt-card { transform: none !important; }
+}
+/* Brand marks and footer columns must fit their own grid tracks. */
+.intro-seal { position:relative; overflow:hidden; isolation:isolate; }
+/* Preserve the supplied brand artwork, including its wordmark. White paper
+   blends into the sand badge; only CSS crops the source's generous margins. */
+.intro-seal img { position:absolute; inset:auto; left:50%; top:50%; width:280%; max-width:none; height:auto; transform:translate(-50%,-50%); mix-blend-mode:multiply; }
+footer .footer-top { width:calc(100% - 12%); max-width:1240px; margin-inline:auto; padding:0 0 40px!important; grid-template-columns:minmax(0,1.25fr) minmax(0,.8fr) minmax(0,1fr) minmax(0,1.25fr)!important; gap:32px!important; }
+footer .footer-story .brand { flex-direction:column; align-items:flex-start; gap:12px; }
+footer .footer-story .brand img { height:44px!important; max-width:100%; }
+footer .footer-story .brand span { font-size:15px; line-height:1.5; white-space:normal; }
+footer .footer-story .brand small { font-size:9px; letter-spacing:.16em; }
+footer .footer-links a,footer .footer-mail { width:fit-content; max-width:100%; overflow-wrap:anywhere; }
+footer .footer-contact { min-width:0; }
+footer .footer-top h3 { letter-spacing:.12em!important; color:#d2ad83!important; }
+footer .footer-bottom { width:calc(100% - 12%); margin-inline:auto; }
+@media(max-width:1050px) { footer .footer-top { grid-template-columns:repeat(2,minmax(0,1fr))!important; } footer .footer-story,footer .footer-contact { grid-column:1/-1!important; } }
+@media(max-width:600px) { footer .footer-top { gap:30px 20px!important; } footer .footer-story .brand { gap:10px; } }
+.enquiry-select { position:relative; display:block; margin:8px 0 20px; }
+.enquiry-select-button { width:100%; min-height:52px; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 16px; border:1px solid #8754356b; border-radius:12px; background:#e7c9a3; color:var(--burgundy); font:inherit; text-align:start; cursor:pointer; }
+.enquiry-select-button::after { content:''; width:8px; height:8px; border-right:1.5px solid currentColor; border-bottom:1.5px solid currentColor; transform:rotate(45deg); flex-shrink:0; }
+.enquiry-select-button[aria-expanded=true] { border-color:var(--burgundy); box-shadow:0 0 0 3px #571c351a; }
+.enquiry-options { position:absolute; inset-inline:0; top:calc(100% + 6px); z-index:30; padding:6px; border:1px solid #87543580; border-radius:12px; background:#dfbd96; box-shadow:0 12px 28px #35102026; }
+.enquiry-option { display:block; width:100%; padding:12px; border-radius:8px; color:var(--burgundy); cursor:pointer; }
+.enquiry-option:hover,.enquiry-option:focus { outline:none; background:#d0aa80; }
+.enquiry-option[aria-selected=true] { background:var(--burgundy); color:#ead2b3; }
+.enquiry-select-button:focus-visible { outline:2px solid var(--burgundy); outline-offset:3px; }
+.answer-section{padding-block:42px!important;border-block:1px solid #87543555;background:#d5b48e}
+.answer-section h2,.answer-comparison h2,.answer-faq h2,.guide-article h2{font-size:clamp(25px,3vw,40px);line-height:1.25;max-width:1000px}
+.answer-section p,.guide-article p{max-width:940px;line-height:1.85;color:#571c35}
+.answer-lead{font-size:clamp(17px,1.65vw,21px)}
+.answer-reviewed{font-size:13px;margin-block:20px}
+.answer-table-wrap{overflow-x:auto;border:1px solid #87543577;border-radius:16px}
+.answer-comparison table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.65;color:#571c35}
+.answer-comparison th,.answer-comparison td{padding:20px;text-align:start;vertical-align:top;border-block-end:1px solid #87543555;min-width:150px}
+.answer-comparison thead{background:#571c35;color:#ecd0a9}
+.answer-faq details{padding-block:20px;border-block-end:1px solid #87543566}
+.answer-faq summary{cursor:pointer;font-weight:600;line-height:1.6}
+.answer-faq p{max-width:900px;line-height:1.85}
+.guide-article{padding-block:32px!important}
+.guide-article h2{margin-block:32px 12px}
+[dir=rtl] .answer-section,[dir=rtl] .answer-faq,[dir=rtl] .guide-article{text-align:start}
