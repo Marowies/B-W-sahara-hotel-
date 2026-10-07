@@ -98,3 +98,17 @@ Do not add a social URL to sameAs until the exact destination profile is confirm
 - permanent amenities/services to advertise on the website
 - room inventory/specifications in the hotel's own CMS
 - whether Dune & Dine is the permanent official restaurant name
+
+
+## High-priority runtime content audit
+
+The repository's seeders still contain Riorelax demo content. This is expected for seed/demo code, but production/staging CMS data must be checked so none of it is publicly indexable.
+
+Examples found in source seeders:
+- homepage copy about a "Hotel In London"
+- "Pearl Of The Adriatic"
+- lorem/proin placeholder copy
+- demo room names such as "Luxury Hall Of Fame", "Pendora Fame", "Pacific Room", "Junior Suite", "Family Suite", "Relax Suite", "Luxury Suite", "President Room"
+- RoomSeeder generates random prices, room counts, bed counts, capacities and sizes
+
+Do not edit these seeders as if they were live hotel facts. Instead verify the production/staging CMS database and rendered pages. If any demo records are live, replace/unpublish them in CMS before indexation and before relying on Room schema.
