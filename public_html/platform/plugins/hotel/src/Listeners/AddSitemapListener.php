@@ -61,9 +61,15 @@ class AddSitemapListener
 
     protected function addItems(Builder $query, string $priority): void
     {
-        foreach ($query->with(['slugable'])->get() as $item) {
+        foreach ($query->with(['slugable', 'metadata'])->get() as $item) {
             // Without a slug the URL falls back to the homepage, which is listed elsewhere.
             if (! $item->slugable || ! $item->slugable->key) {
+                continue;
+            }
+
+            // Published does not necessarily mean indexable: respect the CMS SEO control.
+            $seoMeta = $item->getMetaData('seo_meta', true);
+            if (is_array($seoMeta) && ($seoMeta['index'] ?? 'index') === 'noindex') {
                 continue;
             }
 

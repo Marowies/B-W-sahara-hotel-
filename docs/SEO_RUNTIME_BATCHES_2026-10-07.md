@@ -21,3 +21,7 @@ Inspected LanguageManager locale selection and Language Advanced translated-slug
 Fixed x-default to reuse the resolved default-language URL in the alternate cluster, including translated slugs. Generic language aliases now keep the first configured regional target across every page rather than changing with the active region. Added rendered-Blade and multi-region reciprocity regressions; 34/34 SEO checks pass. Real EN/AR/ZH equivalence/RTL and translated content remain pending a sanitized CMS dataset.
 
 Push blocker: normal Git credential helper cannot launch its shell in this environment; invoking the installed manager directly returns credential enumeration Access is denied. Commits remain local until GitHub authentication is available. No credential was displayed or changed.
+
+## Batch 3 — sitemap and crawl discovery
+
+Published hotel records explicitly marked noindex in the existing SEO meta box are now excluded from room/category/service/place sitemaps. Metadata is eager-loaded to avoid per-item metadata queries. A temporary in-memory fixture tests all four content models and the absence-of-metadata fallback; the local QA SQLite remains empty. Corrected prior documentation and recorder URLs to the actual /rooms.xml, /room-categories.xml, /services.xml and /places.xml routes. SEO suite 35/35 passes. Foods inclusion and translated content discovery remain owner/content decisions; no speculative URLs were added. Push remains pending the credential blocker documented above.

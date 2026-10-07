@@ -22,6 +22,7 @@ foreach (['ht_rooms (id INTEGER PRIMARY KEY, name TEXT, status TEXT, room_catego
     'ht_services (id INTEGER PRIMARY KEY, name TEXT, status TEXT, created_at TEXT, updated_at TEXT)',
     'ht_places (id INTEGER PRIMARY KEY, name TEXT, status TEXT, created_at TEXT, updated_at TEXT)',
     'ht_foods (id INTEGER PRIMARY KEY, name TEXT, status TEXT, created_at TEXT, updated_at TEXT)',
+    'meta_boxes (id INTEGER PRIMARY KEY, meta_key TEXT, meta_value TEXT, reference_type TEXT, reference_id INTEGER)',
     'slugs (id INTEGER PRIMARY KEY, "key" TEXT, reference_type TEXT, reference_id INTEGER, prefix TEXT)'] as $table) {
     $capsule->getConnection()->statement('CREATE TABLE ' . $table);
 }
@@ -69,6 +70,7 @@ $seed = function () use ($capsule): void {
     ]);
 };
 $seed();
+Botble\Base\Facades\MetaBox::swap(new Botble\Base\Supports\MetaBox());
 
 $sitemapFor = function (?string $key) use ($app): object {
     $recorder = new class {
@@ -76,7 +78,7 @@ $sitemapFor = function (?string $key) use ($app): object {
         public array $sitemaps = [];
         public function add(string $url, $date = null, string $priority = '1.0', string $freq = 'daily'): self { $this->urls[$url] = $priority; return $this; }
         public function addSitemap(string $loc, $date = null): self { $this->sitemaps[] = $loc; return $this; }
-        public function route(?string $key = null): string { return "https://hotel.example/sitemap/$key.xml"; }
+        public function route(?string $key = null): string { return "https://hotel.example/$key.xml"; }
     };
     SiteMapManager::swap($recorder);
     $app['router']->get('rooms', fn () => null)->name('public.rooms');
@@ -90,9 +92,9 @@ $app->instance('url', new Illuminate\Routing\UrlGenerator($app['router']->getRou
 test('Sitemap index lists rooms, room categories, services and places sitemaps', function () use ($sitemapFor): void {
     $sitemaps = $sitemapFor(null)->sitemaps;
     foreach (['rooms', 'room-categories', 'services', 'places'] as $key) {
-        check(in_array("https://hotel.example/sitemap/$key.xml", $sitemaps, true), "$key sitemap missing.");
+        check(in_array("https://hotel.example/$key.xml", $sitemaps, true), "$key sitemap missing.");
     }
-    check(! in_array('https://hotel.example/sitemap/foods.xml', $sitemaps, true), 'Foods sitemap should stay excluded.');
+    check(! in_array('https://hotel.example/foods.xml', $sitemaps, true), 'Foods sitemap should stay excluded.');
 });
 
 test('Rooms sitemap lists the listing and only published, slugged rooms', function () use ($sitemapFor): void {
@@ -116,4 +118,22 @@ test('Sitemap keys are registered for every hotel content sitemap', function ():
     $provider = file_get_contents(dirname(__DIR__, 2) . '/platform/plugins/hotel/src/Providers/HotelServiceProvider.php');
     check(str_contains($provider, "SiteMapManager::registerKey(['rooms', ...array_keys(AddSitemapListener::CONTENT)])"), 'Sitemap keys not registered.');
     check(array_keys(AddSitemapListener::CONTENT) === ['room-categories', 'services', 'places'], 'Unexpected sitemap keys.');
+});
+
+test('Published hotel content marked noindex is excluded from discovery sitemaps', function () use ($capsule, $sitemapFor): void {
+    $db = $capsule->getConnection();
+    try {
+        foreach ([Room::class, RoomCategory::class, Service::class, Place::class] as $model) {
+            $db->table('meta_boxes')->insert(['meta_key' => 'seo_meta', 'meta_value' => json_encode([['index' => 'noindex']]), 'reference_type' => $model, 'reference_id' => 1]);
+        }
+        Botble\Base\Supports\MetadataCache::flush();
+        check(array_keys($sitemapFor('rooms')->urls) === ['https://hotel.example/rooms'], 'Noindex room leaked into sitemap.');
+        foreach (['room-categories', 'services', 'places'] as $key) {
+            check($sitemapFor($key)->urls === [], "Noindex content leaked into $key sitemap.");
+        }
+    } finally {
+        $db->table('meta_boxes')->delete();
+        Botble\Base\Supports\MetadataCache::flush();
+    }
+    check(count($sitemapFor('rooms')->urls) === 2, 'Missing SEO metadata incorrectly excluded published content.');
 });

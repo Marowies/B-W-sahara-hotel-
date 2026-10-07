@@ -53,10 +53,10 @@ The hotel plugin contributed one sitemap (`rooms`). Room categories, services an
 
 | Sitemap | Contents |
 | --- | --- |
-| `sitemap/rooms.xml` | rooms listing + published rooms with a slug (unchanged apart from the slug guard) |
-| `sitemap/room-categories.xml` | published categories with at least one published room |
-| `sitemap/services.xml` | published services |
-| `sitemap/places.xml` | published places |
+| `rooms.xml` | rooms listing + published rooms with a slug (unchanged apart from the slug guard) |
+| `room-categories.xml` | published categories with at least one published room |
+| `services.xml` | published services |
+| `places.xml` | published places |
 
 The new sitemaps are listed in `sitemap.xml` only when they contain content. URLs come from each model's own URL (`route()` / slug helpers), never a hard-coded host. They match the canonicals from batch 1. Checkout, booking tokens, customer pages, iCal feeds and unpublished items are not added.
 
