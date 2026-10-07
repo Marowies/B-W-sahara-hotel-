@@ -25,3 +25,7 @@ Push blocker: normal Git credential helper cannot launch its shell in this envir
 ## Batch 3 — sitemap and crawl discovery
 
 Published hotel records explicitly marked noindex in the existing SEO meta box are now excluded from room/category/service/place sitemaps. Metadata is eager-loaded to avoid per-item metadata queries. A temporary in-memory fixture tests all four content models and the absence-of-metadata fallback; the local QA SQLite remains empty. Corrected prior documentation and recorder URLs to the actual /rooms.xml, /room-categories.xml, /services.xml and /places.xml routes. SEO suite 35/35 passes. Foods inclusion and translated content discovery remain owner/content decisions; no speculative URLs were added. Push remains pending the credential blocker documented above.
+
+## Batch 4 — on-page foundations
+
+Existing H1, breadcrumb hierarchy and descriptive image alt foundations were already implemented. Configured CMS homepage metadata now falls back to that page's stored name/description only after explicit SEO title/description and site title options are exhausted. Raw shortcode content is not used for descriptions. Added a regression contract; SEO suite 36/36 passes and PHP lint/diff checks pass. Missing real hotel copy and untranslated fields remain pending; the empty default homepage was not populated. Push pending authentication.

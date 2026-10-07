@@ -50,3 +50,10 @@ test('Room and room-category breadcrumbs link back to the rooms listing', functi
         check($listing !== false && $item !== false && $listing < $item, "$method breadcrumb lacks the rooms parent.");
     }
 });
+
+test('Configured homepage metadata falls back to its existing CMS page fields', function (): void {
+    $method = method_source(Botble\Page\Services\PageService::class, 'handleFrontRoutes');
+    check(str_contains($method, "theme_option('seo_title') ?: Theme::getSiteTitle() ?: \$page->name"), 'Homepage title has no CMS page fallback.');
+    check(str_contains($method, "theme_option('seo_description') ?: \$page->description"), 'Homepage description has no CMS page fallback.');
+    check(! str_contains($method, '$seoDescription = $page->content'), 'Shortcode content must not become a description.');
+});
