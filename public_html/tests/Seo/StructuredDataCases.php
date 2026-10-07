@@ -7,7 +7,7 @@ $unverifiedProperties = ['starRating', 'aggregateRating', 'review', 'geo', 'chec
 
 test('Hotel node uses only published CMS contact details', function () use ($unverifiedProperties): void {
     $socialLinks = json_encode([
-        [['key' => 'name', 'value' => 'Facebook'], ['key' => 'url', 'value' => 'https://www.facebook.com/Sahara.Starry.Sky.Camp']],
+        [['key' => 'name', 'value' => 'Facebook'], ['key' => 'url', 'value' => 'https://www.facebook.com/example.hotel']],
         [['key' => 'name', 'value' => 'Instagram'], ['key' => 'url', 'value' => 'https://www.instagram.com/']],
         [['key' => 'name', 'value' => 'Bad'], ['key' => 'url', 'value' => 'javascript:alert(1)']],
     ]);
@@ -17,7 +17,7 @@ test('Hotel node uses only published CMS contact details', function () use ($unv
     check($schema['@type'] === 'Hotel' && $schema['@context'] === 'https://schema.org', 'Wrong type/context.');
     check($schema['@id'] === 'https://hotel.example/#hotel' && $schema['url'] === 'https://hotel.example/ar', 'Wrong id/url.');
     check($schema['address'] === 'Giza, Egypt' && $schema['telephone'] === '+20 100 000 0000', 'Contact text not cleaned.');
-    check($schema['sameAs'] === ['https://www.facebook.com/Sahara.Starry.Sky.Camp'], 'sameAs kept a non-profile URL: ' . json_encode($schema['sameAs']));
+    check($schema['sameAs'] === ['https://www.facebook.com/example.hotel'], 'sameAs kept a non-profile URL: ' . json_encode($schema['sameAs']));
     check(! array_intersect($unverifiedProperties, array_keys($schema)), 'Unverified hotel property emitted.');
 });
 
