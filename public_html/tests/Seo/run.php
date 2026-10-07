@@ -65,6 +65,7 @@ function method_source(string $class, string $method): string {
 }
 
 require __DIR__ . '/IndexabilityCases.php';
+require __DIR__ . '/TechnicalCases.php';
 require __DIR__ . '/HreflangCases.php';
 require __DIR__ . '/SitemapCases.php';
 require __DIR__ . '/OnPageCases.php';
