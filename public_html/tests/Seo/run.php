@@ -38,6 +38,7 @@ $app->instance('config', new Illuminate\Config\Repository([
 Illuminate\Support\Facades\Facade::setFacadeApplication($app);
 Illuminate\Container\Container::setInstance($app);
 $app->instance('events', new Illuminate\Events\Dispatcher($app));
+$app->instance('translator', new Illuminate\Translation\Translator(new Illuminate\Translation\ArrayLoader(), 'en'));
 $app->instance(Botble\Base\Supports\MacroableModels::class, new class {
     public function modelHasMacro(...$arguments) { return false; }
 });
@@ -63,6 +64,7 @@ function method_source(string $class, string $method): string {
 }
 
 require __DIR__ . '/IndexabilityCases.php';
+require __DIR__ . '/HreflangCases.php';
 
 echo json_encode($results, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n";
 exit(count(array_filter($results, fn ($result) => str_starts_with($result, 'FAIL'))) ? 1 : 0);

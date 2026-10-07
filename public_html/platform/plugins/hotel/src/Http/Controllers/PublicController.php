@@ -33,6 +33,8 @@ use Botble\Payment\Supports\PaymentHelper;
 use Botble\SeoHelper\Facades\SeoHelper;
 use Botble\SeoHelper\SeoOpenGraph;
 use Botble\Slug\Facades\SlugHelper;
+use Botble\Slug\Models\Slug;
+use Botble\Theme\Events\RenderingSingleEvent;
 use Botble\Theme\Facades\Theme;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -56,6 +58,8 @@ class PublicController extends Controller
         SeoHelper::setTitle(trans('plugins/hotel::hotel.rooms'));
         // Search filters share the listing's canonical; the SEO helper strips query strings.
         SeoHelper::meta()->setUrl(route('public.rooms'));
+        // An empty slug makes the language plugin emit hreflang for this localized listing URL.
+        event(new RenderingSingleEvent(new Slug()));
 
         Theme::breadcrumb()->add(trans('plugins/hotel::hotel.rooms'), route('public.rooms'));
 
@@ -166,6 +170,7 @@ class PublicController extends Controller
         }
 
         do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, ROOM_MODULE_SCREEN_NAME, $room);
+        event(new RenderingSingleEvent($slug));
 
         $images = [];
         foreach ($room->images as $image) {
@@ -206,6 +211,7 @@ class PublicController extends Controller
             ->add($category->name, $category->url);
 
         do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, ROOM_MODULE_SCREEN_NAME, $category);
+        event(new RenderingSingleEvent($slug));
 
         $params = RoomSearchParams::fromRequest(request()->input());
 
@@ -251,6 +257,7 @@ class PublicController extends Controller
             ->get();
 
         do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, PLACE_MODULE_SCREEN_NAME, $place);
+        event(new RenderingSingleEvent($slug));
 
         Theme::asset()->add('ckeditor-content-styles', 'vendor/core/core/base/libraries/ckeditor/content-styles.css');
 
@@ -708,6 +715,7 @@ class PublicController extends Controller
         Theme::breadcrumb()->add($service->name, $service->url);
 
         do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, SERVICE_MODULE_SCREEN_NAME, $service);
+        event(new RenderingSingleEvent($slug));
 
         return Theme::scope('hotel.service', compact('service', 'services'))->render();
     }
@@ -737,6 +745,7 @@ class PublicController extends Controller
         Theme::breadcrumb()->add($food->name, $food->url);
 
         do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, FOOD_MODULE_SCREEN_NAME, $food);
+        event(new RenderingSingleEvent($slug));
 
         return Theme::scope('hotel.food', compact('food'))->render();
     }
