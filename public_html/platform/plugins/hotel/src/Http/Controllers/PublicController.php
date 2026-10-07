@@ -54,6 +54,8 @@ class PublicController extends Controller
     public function getRooms(Request $request, BaseHttpResponse $response)
     {
         SeoHelper::setTitle(trans('plugins/hotel::hotel.rooms'));
+        // Search filters share the listing's canonical; the SEO helper strips query strings.
+        SeoHelper::meta()->setUrl(route('public.rooms'));
 
         Theme::breadcrumb()->add(trans('plugins/hotel::hotel.rooms'), route('public.rooms'));
 
@@ -106,6 +108,7 @@ class PublicController extends Controller
             ->findOrFail($slug->reference_id);
 
         SeoHelper::setTitle($room->name)->setDescription(Str::words($room->description, 120));
+        SeoHelper::meta()->setUrl($room->url);
 
         $meta = new SeoOpenGraph();
         if ($room->image) {
@@ -189,6 +192,7 @@ class PublicController extends Controller
         abort_unless($category->getKey(), 404);
 
         SeoHelper::setTitle($category->name)->setDescription(Str::words($category->description, 120));
+        SeoHelper::meta()->setUrl($category->url);
         $meta = new SeoOpenGraph();
 
         $meta->setDescription($category->description);
@@ -224,6 +228,7 @@ class PublicController extends Controller
             ->findOrFail($slug->reference_id);
 
         SeoHelper::setTitle($place->name)->setDescription(Str::words($place->description, 120));
+        SeoHelper::meta()->setUrl($place->url);
 
         $meta = new SeoOpenGraph();
         if ($place->image) {
@@ -698,8 +703,11 @@ class PublicController extends Controller
                 ->setTitle($service->name)
                 ->setType('article')
         );
+        SeoHelper::meta()->setUrl($service->url);
 
         Theme::breadcrumb()->add($service->name, $service->url);
+
+        do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, SERVICE_MODULE_SCREEN_NAME, $service);
 
         return Theme::scope('hotel.service', compact('service', 'services'))->render();
     }
@@ -724,8 +732,11 @@ class PublicController extends Controller
                 ->setTitle($food->name)
                 ->setType('article')
         );
+        SeoHelper::meta()->setUrl($food->url);
 
         Theme::breadcrumb()->add($food->name, $food->url);
+
+        do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, FOOD_MODULE_SCREEN_NAME, $food);
 
         return Theme::scope('hotel.food', compact('food'))->render();
     }

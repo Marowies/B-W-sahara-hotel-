@@ -66,6 +66,7 @@ use Botble\Hotel\Repositories\Interfaces\RoomDateInterface;
 use Botble\Hotel\Repositories\Interfaces\RoomInterface;
 use Botble\Hotel\Repositories\Interfaces\ServiceInterface;
 use Botble\Hotel\Repositories\Interfaces\TaxInterface;
+use Botble\Hotel\Supports\SeoIndexability;
 use Botble\LanguageAdvanced\Supports\LanguageAdvancedManager;
 use Botble\SeoHelper\Facades\SeoHelper;
 use Botble\Slug\Facades\SlugHelper;
@@ -374,6 +375,19 @@ class HotelServiceProvider extends ServiceProvider
                 ->addStylesDirectly('vendor/core/plugins/hotel/css/hotel.css');
         });
 
+        $this->app['events']->listen(RouteMatched::class, function (RouteMatched $event): void {
+            if (SeoIndexability::isPrivateRoute($event->route->getName())) {
+                SeoHelper::meta()->addMeta('robots', SeoIndexability::NOINDEX);
+            }
+        });
+
+        // Runs after the SEO helper (priority 56) so unpublished previews are never indexable.
+        add_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, function ($screen, $object = null): void {
+            if (SeoIndexability::isUnpublished($object)) {
+                SeoHelper::meta()->addMeta('robots', SeoIndexability::NOINDEX);
+            }
+        }, 40, 2);
+
         if (defined('LANGUAGE_MODULE_SCREEN_NAME') && defined('LANGUAGE_ADVANCED_MODULE_SCREEN_NAME')) {
             LanguageAdvancedManager::registerModule(Room::class, [
                 'name',
@@ -445,6 +459,7 @@ class HotelServiceProvider extends ServiceProvider
                 RoomCategory::class,
                 Service::class,
                 Place::class,
+                Food::class,
             ]);
 
             if (
