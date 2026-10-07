@@ -126,6 +126,7 @@ class PublicController extends Controller
         SeoHelper::setSeoOpenGraph($meta);
 
         Theme::breadcrumb()
+            ->add(trans('plugins/hotel::hotel.rooms'), route('public.rooms'))
             ->add($room->name, $room->url);
 
         if (function_exists('admin_bar')) {
@@ -208,6 +209,7 @@ class PublicController extends Controller
         SeoHelper::setSeoOpenGraph($meta);
 
         Theme::breadcrumb()
+            ->add(trans('plugins/hotel::hotel.rooms'), route('public.rooms'))
             ->add($category->name, $category->url);
 
         do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, ROOM_MODULE_SCREEN_NAME, $category);

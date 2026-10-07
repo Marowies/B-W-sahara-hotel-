@@ -65,3 +65,15 @@ Not included:
 - **Foods — OWNER DECISION.** Food detail pages are menu items: a name, a price taken from the CMS, an image and optional text. Whether they are a real public offering with enough content to index is a business decision. The demo seed data includes food prices, so they also need fact-checking. Foods keep their canonical and noindex controls; add `'foods' => [Food::class, …]` to `AddSitemapListener::CONTENT` once approved.
 - **Language alternates inside the sitemap.** Botble's sitemap view supports `xhtml:link` translations, but hreflang is now emitted in each page's HTML (batch 2). Google accepts either source, so the sitemap was left monolingual rather than duplicating the cluster logic.
 - **Sitemap cache.** Botble caches sitemap output (`enable_cache_site_map`, default 60 minutes). After deploying, clear the cache or wait for it to expire before submitting in Search Console.
+
+## Batch 4 — on-page foundations
+
+- **Primary heading.** No public template rendered an `<h1>`. The page title in the breadcrumb banner (rooms, room, category, service, place, food, CMS pages, blog) was an `<h2>`. It is now the page's single `<h1>`. Every rule styling `.breadcrumb-title h2` also styles `h1` (SCSS source, compiled `theme.css`/`responsive.css` and their source copies under `platform/themes/riorelax/public`), so the banner looks unchanged. Customer-account pages already had their own `<h1>` and set no banner title, so they did not gain a second one.
+- **Breadcrumb hierarchy.** Room and room-category pages now read Home › Rooms › item instead of Home › item. This adds a crawlable link back to the listing. The trail is also the source for BreadcrumbList in batch 5. The markup already used `<nav aria-label="breadcrumb">`, an ordered list and `aria-current`.
+- **Metadata.** Batch 1 already applies per-item admin titles, descriptions and robots settings to every hotel type. Room categories have no description column, so their meta description is the admin SEO field or the site default. No copy was written to fill it.
+
+Not changed (review required):
+
+- **Homepage H1.** The homepage hides the banner, and its hero title (`simple-slider` / `hero-banner-with-booking-form`) is an `<h2>` styled by about a dozen theme and custom BW hero rules. Promoting it is a visual change to a design still being revised, and it should be done with the approved hero design. The slider title text is CMS content (`Enjoy A Luxury Experience` is Riorelax demo copy) and needs the owner's wording.
+- **Pages with the banner switched off** (page meta `breadcrumb = No`) also have no `<h1>` unless their content provides one.
+- The blog "no results" message in `views/templates/posts.blade.php` is an `<h1>`. On an empty blog list page it is a second `<h1>`. This was left as-is (cosmetic, no indexable value).

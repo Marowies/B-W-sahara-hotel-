@@ -14,6 +14,7 @@ function add_filter($name, $callback, ...$arguments): void { $GLOBALS['seoFilter
 function do_action(...$arguments): void {}
 function add_action(...$arguments): void {}
 function is_plugin_active(string $name): bool { return false; }
+function theme_option(string $key, $default = null) { return $GLOBALS['seoThemeOptions'][$key] ?? $default; }
 
 $source = dirname(__DIR__, 2);
 $autoload = $argv[1] ?? $source . '/vendor/autoload.php';
@@ -66,6 +67,7 @@ function method_source(string $class, string $method): string {
 require __DIR__ . '/IndexabilityCases.php';
 require __DIR__ . '/HreflangCases.php';
 require __DIR__ . '/SitemapCases.php';
+require __DIR__ . '/OnPageCases.php';
 
 echo json_encode($results, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n";
 exit(count(array_filter($results, fn ($result) => str_starts_with($result, 'FAIL'))) ? 1 : 0);

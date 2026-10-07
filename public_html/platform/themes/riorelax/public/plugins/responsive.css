@@ -364,7 +364,7 @@
         left: -102px;
         right: -24px;
     }
-    .breadcrumb-title h2 {
+    .breadcrumb-title h1, .breadcrumb-title h2 {
         font-size: 36px;
         margin-bottom: 15px;
     }
@@ -2428,7 +2428,7 @@
         margin-bottom: 100px;
         font-weight: 500;
     }
-    .breadcrumb-title h2 {
+    .breadcrumb-title h1, .breadcrumb-title h2 {
         font-size: 35px;
         margin-top: 0;
         margin-bottom: 0;
