@@ -77,3 +77,24 @@ Not changed (review required):
 - **Homepage H1.** The homepage hides the banner, and its hero title (`simple-slider` / `hero-banner-with-booking-form`) is an `<h2>` styled by about a dozen theme and custom BW hero rules. Promoting it is a visual change to a design still being revised, and it should be done with the approved hero design. The slider title text is CMS content (`Enjoy A Luxury Experience` is Riorelax demo copy) and needs the owner's wording.
 - **Pages with the banner switched off** (page meta `breadcrumb = No`) also have no `<h1>` unless their content provides one.
 - The blog "no results" message in `views/templates/posts.blade.php` is an `<h1>`. On an empty blog list page it is a second `<h1>`. This was left as-is (cosmetic, no indexable value).
+
+## Batch 5 — structured data foundation
+
+Already present in Botble core and kept: **BreadcrumbList** (from the breadcrumb trail, which now includes the Rooms parent) and **WebSite** on every page, the blog Article schema and FAQ schema.
+
+Added (`Botble\Hotel\Supports\HotelSchema`, wired in `HotelServiceProvider`):
+
+| Page | Type | Properties |
+| --- | --- | --- |
+| homepage | `Hotel` | `@id` (site root `#hotel`, the same for every language), `name` (theme option `site_name`), `url` (localized homepage), `logo`/`image` (theme logo), `telephone`, `email`, `address` (as the free text the footer shows), `sameAs` (social links that point to a real profile path) |
+| published room | `HotelRoom` | `@id`, `name`, `url`, `description` (tags stripped), `image` (the room's gallery), `containedInPlace` → hotel `@id` |
+
+Safeguards:
+
+- Values identical to the Riorelax demo seed (`info@webmail.com`, `14/A, Riorelax City, NYC`, `+908 987 877 09`) are dropped. So are bare platform URLs such as `https://www.facebook.com/`.
+- If `site_name` is empty, no Hotel node is emitted.
+- JSON is encoded with `JSON_HEX_TAG` because the theme writes inline scripts verbatim. A failure while building the schema is logged and never breaks the page.
+
+Deliberately omitted until the owner verifies them: `starRating`, `geo`, `checkinTime`/`checkoutTime`, `priceRange`, `amenityFeature`, `aggregateRating`/`review`, `offers`, room `occupancy`/`bed`/`floorSize`, and a structured `PostalAddress`. The Riorelax seed text "Check-in time from 2 PM, check-out by 10 AM" is demo data and is not used. Room prices are not exposed as Offers, because booking happens on the external Aiosell engine.
+
+Runtime check pending: validate the homepage and one room in Google's Rich Results Test after deployment. Confirm that production `site_name`, `hotline`, `email`, `address` and `social_links` hold the hotel's real details and not demo values.

@@ -3,6 +3,7 @@
 namespace Botble\Hotel\Providers;
 
 use Botble\Base\Facades\Assets;
+use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\DashboardMenu;
 use Botble\Base\Facades\EmailHandler;
 use Botble\Base\Facades\PanelSectionManager;
@@ -67,12 +68,16 @@ use Botble\Hotel\Repositories\Interfaces\RoomDateInterface;
 use Botble\Hotel\Repositories\Interfaces\RoomInterface;
 use Botble\Hotel\Repositories\Interfaces\ServiceInterface;
 use Botble\Hotel\Repositories\Interfaces\TaxInterface;
+use Botble\Hotel\Supports\HotelSchema;
 use Botble\Hotel\Supports\SeoIndexability;
 use Botble\LanguageAdvanced\Supports\LanguageAdvancedManager;
+use Botble\Media\Facades\RvMedia;
+use Botble\Page\Models\Page;
 use Botble\SeoHelper\Facades\SeoHelper;
 use Botble\Slug\Facades\SlugHelper;
 use Botble\SocialLogin\Facades\SocialService;
 use Botble\Theme\Facades\SiteMapManager;
+use Botble\Theme\Facades\Theme;
 use Botble\Theme\FormFrontManager;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\AliasLoader;
@@ -388,6 +393,41 @@ class HotelServiceProvider extends ServiceProvider
                 SeoHelper::meta()->addMeta('robots', SeoIndexability::NOINDEX);
             }
         }, 40, 2);
+
+        add_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, function ($screen, $object = null): void {
+            // One hotel @id for every language; the localized homepage is its url.
+            $siteUrl = url('');
+
+            // Optional metadata: a failure is logged and must never break the page.
+            $schema = rescue(fn () => match (true) {
+                $object instanceof Room && ! SeoIndexability::isUnpublished($object) => HotelSchema::room(
+                    $siteUrl,
+                    $object->url,
+                    $object->name,
+                    $object->description,
+                    array_map(fn ($image) => RvMedia::getImageUrl($image), (array) $object->images)
+                ),
+                $object instanceof Page && BaseHelper::isHomepage($object->getKey()) => HotelSchema::hotel(
+                    $siteUrl,
+                    (string) BaseHelper::getHomepageUrl(),
+                    theme_option('site_name'),
+                    [
+                        'hotline' => theme_option('hotline'),
+                        'email' => theme_option('email'),
+                        'address' => theme_option('address'),
+                        'social_links' => theme_option('social_links'),
+                    ],
+                    ($logo = theme_option('logo')) ? RvMedia::getImageUrl($logo) : null
+                ),
+                default => null,
+            });
+
+            if ($schema) {
+                Theme::asset()
+                    ->container('header')
+                    ->writeScript('hotel-schema', HotelSchema::toJson($schema), attributes: ['type' => 'application/ld+json']);
+            }
+        }, 30, 2);
 
         if (defined('LANGUAGE_MODULE_SCREEN_NAME') && defined('LANGUAGE_ADVANCED_MODULE_SCREEN_NAME')) {
             LanguageAdvancedManager::registerModule(Room::class, [
