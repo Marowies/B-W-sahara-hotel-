@@ -14,7 +14,7 @@
                         <div class="services-thumb hover-zoomin wow fadeInUp animated">
                             @if ($images = $room->images)
                                 <a href="{{ $room->url }}?start_date={{ BaseHelper::stringify(request()->query('start_date', $startDate)) }}&end_date={{ BaseHelper::stringify(request()->query('end_date', $endDate)) }}&adults={{ BaseHelper::stringify(request()->query('adults', HotelHelper::getMinimumNumberOfGuests())) }}&children={{ BaseHelper::stringify(request()->query('children', 0)) }}">
-                                    <img src="{{ RvMedia::getImageUrl(Arr::first($images), 'medium') }}" alt="{{ $room->name }}">
+                                    <img src="{{ RvMedia::getImageUrl(Arr::first($images), 'medium') }}" alt="{{ $room->name }}" loading="lazy">
                                 </a>
                             @endif
                         </div>
@@ -38,7 +38,7 @@
                                         @foreach ($room->amenities->take(6) as $amenity)
                                             @if ($image = $amenity->getMetaData('icon_image', true) )
                                                 <li>
-                                                    <img src="{{ RvMedia::getImageUrl($image) }}" alt="{{ $amenity->name }}">
+                                                    <img src="{{ RvMedia::getImageUrl($image) }}" alt="{{ $amenity->name }}" loading="lazy">
                                                 </li>
                                             @endif
                                         @endforeach

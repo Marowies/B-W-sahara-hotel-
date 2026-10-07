@@ -98,3 +98,12 @@ Safeguards:
 Deliberately omitted until the owner verifies them: `starRating`, `geo`, `checkinTime`/`checkoutTime`, `priceRange`, `amenityFeature`, `aggregateRating`/`review`, `offers`, room `occupancy`/`bed`/`floorSize`, and a structured `PostalAddress`. The Riorelax seed text "Check-in time from 2 PM, check-out by 10 AM" is demo data and is not used. Room prices are not exposed as Offers, because booking happens on the external Aiosell engine.
 
 Runtime check pending: validate the homepage and one room in Google's Rich Results Test after deployment. Confirm that production `site_name`, `hotline`, `email`, `address` and `social_links` hold the hotel's real details and not demo values.
+
+## Batch 6 — image and performance markup
+
+- **Native lazy loading** on below-the-fold images: room cards (listing, related rooms, room-category grid) and their amenity icons, blog cards, gallery-detail photos, room thumbnails, and every room-gallery slide after the first. The first slide stays eager because it is the likely LCP image.
+- **Masonry galleries index left eager.** `partials/gallery/galleries.blade.php` is laid out by Isotope after `imagesLoaded`, so lazy images would collapse the masonry grid.
+- **Decorative images** (shortcode background and shape images) now have `alt=""` instead of announcing "Background image" or "Shape image". Content images already used data-driven alts (room, amenity, post, gallery, service and team names).
+- The room amenity icon's invalid `width="20px"` is now `width="20"` (same rendering).
+
+Not changed: `width`/`height` attributes on content images. Botble serves the original file when a size variant is missing, so declared dimensions could be wrong. They need a media audit or CSS `aspect-ratio` work done with the design. No source media was modified. Generic alts such as `__('Image')` on CMS-chosen shortcode images were kept, because the right text depends on the image content the owner uploads.

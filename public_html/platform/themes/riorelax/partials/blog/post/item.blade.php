@@ -3,7 +3,7 @@
         @if($image = $post->image)
             <div class="slide-post">
                 <a title="{{ $post->name }}" class="blog-item-custom-truncate" href="{{ $post->url }}">
-                    <img src="{{ RvMedia::getImageUrl($image, 'medium') }}" alt="{{ $post->name }}">
+                    <img src="{{ RvMedia::getImageUrl($image, 'medium') }}" alt="{{ $post->name }}" loading="lazy">
                 </a>
             </div>
         @endif

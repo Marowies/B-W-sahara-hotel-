@@ -15,7 +15,7 @@
                                     <div class="photo-item">
                                         <div class="thumb">
                                             <a href="{{ BaseHelper::clean(Arr::get($image, 'description')) }}">
-                                                <img src="{{ RvMedia::getImageUrl(Arr::get($image, 'img'), 'galleries') }}" alt="{{ BaseHelper::clean(Arr::get($image, 'description')) }}">
+                                                <img src="{{ RvMedia::getImageUrl(Arr::get($image, 'img'), 'galleries') }}" alt="{{ BaseHelper::clean(Arr::get($image, 'description')) }}" loading="lazy">
                                             </a>
                                         </div>
                                     </div>

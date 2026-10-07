@@ -3,7 +3,7 @@
 <section id="service-details2" class="pt-90 pb-90 p-relative" style="background-color: {{ $bgColor }};">
     @if ($bgImage = $shortcode->background_image)
         <div class="animations-01">
-            <img src="{{ RvMedia::getImageUrl($bgImage) }}" alt="{{ __('Background image') }}">
+            <img src="{{ RvMedia::getImageUrl($bgImage) }}" alt="">
         </div>
     @endif
     <div class="container">
