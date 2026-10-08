@@ -40,13 +40,29 @@ class AddHrefLangListener
 
                 $hreflangUrls = $this->generateHreflangUrls($referenceType, $referenceId);
 
-                Language::setSwitcherURLs($hreflangUrls);
+                Language::setSwitcherURLs($this->switcherUrls($hreflangUrls));
 
                 return $header . view('plugins/language::partials.hreflang', compact('hreflangUrls'))->render();
             }, 55);
         } catch (Exception $exception) {
             BaseHelper::logError($exception);
         }
+    }
+
+    // One row per language, in the shape LanguageManager::getSwitcherUrl() looks up by lang_code.
+    protected function switcherUrls(array $hreflangUrls): array
+    {
+        $rows = [];
+
+        foreach (Language::getSupportedLocales() as $localeCode => $properties) {
+            $hreflangCode = Language::formatLocaleForHrefLang($properties['lang_code']);
+
+            if (isset($hreflangUrls[$hreflangCode])) {
+                $rows[] = ['lang_code' => $properties['lang_code'], 'locale' => $localeCode, 'url' => $hreflangUrls[$hreflangCode]];
+            }
+        }
+
+        return $rows;
     }
 
     protected function generateHreflangUrls(?string $referenceType, int|string|null $referenceId): array

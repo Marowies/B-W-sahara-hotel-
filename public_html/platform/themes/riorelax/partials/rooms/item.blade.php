@@ -4,7 +4,7 @@
     $departure = $endDate->format(HotelHelper::getDateFormat());
     $children = $children ?? request()->integer('children');
     $numberOfRooms = $numberOfRooms ?? request()->integer('rooms', 1);
-    $roomUrl = $room->url . '?' . http_build_query([
+    $roomUrl = Botble\Hotel\Supports\RoomSearchLink::url($room->url, request()->input(), [
         'start_date' => $arrival, 'end_date' => $departure, 'adults' => $adults,
         'children' => $children, 'rooms' => $numberOfRooms,
     ]);

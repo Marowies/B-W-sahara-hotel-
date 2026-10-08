@@ -71,7 +71,7 @@ test('Content photos, unlabeled amenity icons and functional controls keep their
         ['partials/shortcodes/service-list/index.blade.php', 14, 'alt="{{ $service->name }}"'],
         ['partials/shortcodes/featured-amenities/index.blade.php', 32, 'alt="{{ $amenity->name }}"'],
         ['partials/rooms/item.blade.php', 60, 'alt="{{ $amenity->name }}"'],
-        ['views/hotel/room-category.blade.php', 41, 'alt="{{ $amenity->name }}"'],
+        ['views/hotel/room-category.blade.php', 45, 'alt="{{ $amenity->name }}"'],
         ['views/hotel/room.blade.php', 35, 'alt="{{ $room->name }}"'],
         ['partials/rooms/item.blade.php', 17, 'alt="{{ $room->name }}"'],
         ['partials/gallery/galleries.blade.php', 22, 'alt="{{ $gallery->name }}"'],

@@ -1089,21 +1089,34 @@ class LanguageManager
         return $this;
     }
 
+    /**
+     * Switcher links point at the final URL: the page's hreflang target when one exists (translated slug
+     * included), otherwise the localized current URL. The hidden default language stays unprefixed, so
+     * the link never goes through the "/en" → "/" redirect. The visitor's query string is kept.
+     */
     public function getSwitcherUrl(string $localeCode, string $languageCode): ?string
     {
         if (! empty($this->switcherURLs)) {
             $url = collect($this->switcherURLs)->where('lang_code', $languageCode)->first();
 
             if ($url) {
-                return rtrim($url['url'], '/') == rtrim(url(''), '/') ? url($localeCode) : $url['url'];
+                $query = $this->request->getQueryString();
+
+                return $url['url'] . ($query ? '?' . $query : '');
             }
         }
 
         $showRelated = setting('language_show_default_item_if_current_version_not_existed', true);
 
-        $url = $showRelated ? $this->getLocalizedURL($localeCode) : url($localeCode);
+        $url = $showRelated ? $this->getLocalizedURL($localeCode, null, [], false) : $this->getLanguageHomeUrl($localeCode);
 
         return apply_filters('language_switcher_get_url', $url, $localeCode, $languageCode, $this);
+    }
+
+    // The language's homepage; the default language has no prefix when the site hides it.
+    protected function getLanguageHomeUrl(string $localeCode): string
+    {
+        return $localeCode === $this->getDefaultLocale() && $this->hideDefaultLocaleInURL() ? url('/') : url($localeCode);
     }
 
     /**
