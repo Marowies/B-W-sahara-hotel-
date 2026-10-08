@@ -15,11 +15,14 @@ use Botble\SeoHelper\SeoOpenGraph;
 use Botble\Slug\Models\Slug;
 use Botble\Theme\Facades\AdminBar;
 use Botble\Theme\Facades\Theme;
+use Countable;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Arr;
 
 class BlogService
 {
+    public const EMPTY_ARCHIVE_ROBOTS = 'noindex, follow';
+
     public function handleFrontRoutes(Slug|array $slug): Slug|array|Builder
     {
         if (! $slug instanceof Slug) {
@@ -143,6 +146,8 @@ class BlogService
 
                 do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, CATEGORY_MODULE_SCREEN_NAME, $category);
 
+                $this->noindexEmptyArchive($posts);
+
                 return [
                     'view' => 'category',
                     'default_view' => 'plugins/blog::themes.category',
@@ -183,6 +188,8 @@ class BlogService
 
                 do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, TAG_MODULE_SCREEN_NAME, $tag);
 
+                $this->noindexEmptyArchive($posts);
+
                 return [
                     'view' => 'tag',
                     'default_view' => 'plugins/blog::themes.tag',
@@ -192,5 +199,14 @@ class BlogService
         }
 
         return $slug;
+    }
+
+    // Runs after the single-render hooks so an admin "index" setting cannot re-expose an empty archive;
+    // links stay followable and the archive becomes indexable again once it has published posts.
+    protected function noindexEmptyArchive(Countable $posts): void
+    {
+        if (count($posts) === 0) {
+            SeoHelper::meta()->addMeta('robots', self::EMPTY_ARCHIVE_ROBOTS);
+        }
     }
 }

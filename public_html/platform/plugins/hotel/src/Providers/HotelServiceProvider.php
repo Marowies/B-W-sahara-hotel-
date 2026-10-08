@@ -395,7 +395,7 @@ class HotelServiceProvider extends ServiceProvider
         }, 40, 2);
 
         add_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, function ($screen, $object = null): void {
-            // One hotel @id for every language; the localized homepage is its url.
+            // One hotel @id and url (the site root) for every language.
             $siteUrl = url('');
 
             // Optional metadata: a failure is logged and must never break the page.
@@ -409,7 +409,6 @@ class HotelServiceProvider extends ServiceProvider
                 ),
                 $object instanceof Page && BaseHelper::isHomepage($object->getKey()) => HotelSchema::hotel(
                     $siteUrl,
-                    (string) BaseHelper::getHomepageUrl(),
                     theme_option('site_name'),
                     [
                         'hotline' => theme_option('hotline'),
@@ -428,6 +427,14 @@ class HotelServiceProvider extends ServiceProvider
                     ->writeScript('hotel-schema', HotelSchema::toJson($schema), attributes: ['type' => 'application/ld+json']);
             }
         }, 30, 2);
+
+        // Keeps the page Organization from competing with the Hotel node as a second business entity.
+        add_filter('page_organization_schema', fn (?array $organization, $page = null) => HotelSchema::organization(
+            $organization,
+            url(''),
+            theme_option('site_name'),
+            $page instanceof Page && BaseHelper::isHomepage($page->getKey())
+        ), 20, 2);
 
         if (defined('LANGUAGE_MODULE_SCREEN_NAME') && defined('LANGUAGE_ADVANCED_MODULE_SCREEN_NAME')) {
             LanguageAdvancedManager::registerModule(Room::class, [

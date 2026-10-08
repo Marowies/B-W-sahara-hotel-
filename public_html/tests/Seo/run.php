@@ -28,6 +28,8 @@ $loader->addPsr4('Botble\\Language\\', $source . '/platform/plugins/language/src
 $loader->addPsr4('Botble\\SeoHelper\\', $source . '/platform/packages/seo-helper/src', true);
 $loader->addPsr4('Botble\\Theme\\', $source . '/platform/packages/theme/src', true);
 $loader->addPsr4('Botble\\Base\\', $source . '/platform/core/base/src', true);
+$loader->addPsr4('Botble\\Blog\\', $source . '/platform/plugins/blog/src', true);
+$loader->addPsr4('Botble\\CookieConsent\\', $source . '/platform/plugins/cookie-consent/src', true);
 require_once $source . '/platform/core/base/helpers/constants.php';
 require_once $source . '/platform/plugins/hotel/helpers/constants.php';
 
@@ -71,6 +73,7 @@ require __DIR__ . '/SitemapCases.php';
 require __DIR__ . '/OnPageCases.php';
 require __DIR__ . '/StructuredDataCases.php';
 require __DIR__ . '/ImageCases.php';
+require __DIR__ . '/SafeGapCases.php';
 
 echo json_encode($results, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n";
 exit(count(array_filter($results, fn ($result) => str_starts_with($result, 'FAIL'))) ? 1 : 0);

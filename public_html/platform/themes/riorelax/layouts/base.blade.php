@@ -157,7 +157,7 @@
             background-size: cover !important;
             background-repeat: no-repeat !important;
         }
-        .bw-hero-image-clip .slider-content.s-slider-content h2 {
+        .bw-hero-image-clip .slider-content.s-slider-content h1, .bw-hero-image-clip .slider-content.s-slider-content h2 {
             font-size: clamp(32px, 4.5vw, 56px) !important;
             line-height: 1.15 !important;
             font-weight: 800 !important;

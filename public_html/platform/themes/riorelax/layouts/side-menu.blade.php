@@ -10,7 +10,7 @@
                     <div class="d-flex align-items-center justify-between">
                         @if ($logo = theme_option('logo'))
                             <div class="logo mb-100">
-                                <a href="{{ route('public.index') }}"><img src="{{ RvMedia::getImageUrl($logo) }}" alt="{{ theme_option('site_name') }}"></a>
+                                <a href="{{ route('public.index') }}"><img src="{{ RvMedia::getImageUrl($logo) }}" alt="{{ theme_option('site_name') ?: Theme::getSiteTitle() ?: trans('packages/theme::theme.common.home') }}"></a>
                             </div>
                         @endif
 

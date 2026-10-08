@@ -134,7 +134,7 @@
     .booking-area input, .booking-area .custom-select {
         width: 100%;
     }
-    .slider-content h2 {
+    .slider-content h1, .slider-content h2 {
         font-size: 80px;
     }
     .slider-bg .banner-img {
@@ -379,7 +379,7 @@
     .f-contact li {
         display: flex;
     }
-    .slider-content h2 {
+    .slider-content h1, .slider-content h2 {
         font-size: 70px;
     }
     .pricing-head h4 {
@@ -734,7 +734,7 @@
         display: none !important;
     }
 
-    .slider-content h2 {
+    .slider-content h1, .slider-content h2 {
         font-size: 48px;
     }
     .slider-content h5 {
@@ -2147,7 +2147,7 @@
         display: none;
     }
 
-    .slider-content h2 {
+    .slider-content h1, .slider-content h2 {
         font-size: 36px;
         letter-spacing: 0;
         margin-bottom: 30px;
@@ -2583,7 +2583,7 @@
     .portfolio-active .slick-next {
         left: 79.5%;
     }
-    .slider-content h2 {
+    .slider-content h1, .slider-content h2 {
         font-size: 32px;
     }
     .services-img img {

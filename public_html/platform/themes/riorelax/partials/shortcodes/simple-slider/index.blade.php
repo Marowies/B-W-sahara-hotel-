@@ -3,6 +3,10 @@
     <div class="bw-hero-image-clip">
         <section id="home" class="slider-area fix p-relative">
             <div class="slider-active">
+                @php
+                    // One H1 per page: the first hero title, unless the breadcrumb banner already shows the page title as H1.
+                    $heroHeading = Theme::get('heroHeading') || (Theme::get('breadcrumb', true) && Theme::get('pageTitle')) ? 'h2' : 'h1';
+                @endphp
                 @foreach($sliders as $slider)
                     <div class="single-slider slider-bg d-flex align-items-center" style="background-image:url({{ RvMedia::getImageUrl($slider->image) }}); background-size: cover;">
                         <div class="container">
@@ -10,7 +14,10 @@
                                 <div class="col-lg-7 col-md-7">
                                     <div class="slider-content s-slider-content mt-80 text-center">
                                         @if ($title = $slider->title)
-                                            <h2 data-animation="fadeInUp" data-delay=".4s">{!! BaseHelper::clean($title) !!}</h2>
+                                            <{{ $heroHeading }} data-animation="fadeInUp" data-delay=".4s">{!! BaseHelper::clean($title) !!}</{{ $heroHeading }}>
+                                            @php
+                                                Theme::set('heroHeading', $heroHeading = 'h2');
+                                            @endphp
                                         @endif
 
                                         @if ($description = $slider->description)

@@ -7,6 +7,7 @@ use Botble\Blog\Models\Post;
 use Botble\Blog\Models\Tag;
 use Botble\Theme\Events\RenderingSiteMapEvent;
 use Botble\Theme\Facades\SiteMapManager;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
 class RenderingSiteMapListener
@@ -19,6 +20,7 @@ class RenderingSiteMapListener
                     $categories = Category::query()
                         ->with('slugable')
                         ->wherePublished()
+                        ->tap($this->withPublishedPosts(...))
                         ->select(['id', 'name', 'updated_at'])->latest()
                         ->get();
 
@@ -31,6 +33,7 @@ class RenderingSiteMapListener
                     $tags = Tag::query()
                         ->with('slugable')
                         ->wherePublished()->latest()
+                        ->tap($this->withPublishedPosts(...))
                         ->select(['id', 'name', 'updated_at'])
                         ->get();
 
@@ -95,6 +98,7 @@ class RenderingSiteMapListener
 
         $categoryLastUpdated = Category::query()
             ->wherePublished()
+            ->tap($this->withPublishedPosts(...))
             ->latest('updated_at')
             ->value('updated_at');
 
@@ -104,11 +108,27 @@ class RenderingSiteMapListener
 
         $tagLastUpdated = Tag::query()
             ->wherePublished()
+            ->tap($this->withPublishedPosts(...))
             ->latest('updated_at')
             ->value('updated_at');
 
         if ($tagLastUpdated) {
             SiteMapManager::addSitemap(SiteMapManager::route('blog-tags'), $tagLastUpdated);
         }
+    }
+
+    // Matches what the archive page lists (a category also shows its published children's posts), so
+    // archives that render "no results" and are noindex are not submitted for discovery.
+    protected function withPublishedPosts(Builder $query): void
+    {
+        $publishedPosts = fn (Builder $posts) => $posts->wherePublished();
+
+        $query->where(function (Builder $query) use ($publishedPosts): void {
+            $query->whereHas('posts', $publishedPosts);
+
+            if ($query->getModel() instanceof Category) {
+                $query->orWhereHas('children', fn (Builder $children) => $children->wherePublished()->whereHas('posts', $publishedPosts));
+            }
+        });
     }
 }

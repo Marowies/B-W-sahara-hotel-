@@ -2,6 +2,8 @@
 
 namespace Botble\Hotel\Supports;
 
+use Botble\Theme\Supports\JsonLd;
+
 class HotelSchema
 {
     // Riorelax demo seed values (database/seeders/ThemeOptionSeeder.php); never publish them as hotel facts.
@@ -15,8 +17,9 @@ class HotelSchema
     /**
      * Hotel node built only from contact details the CMS already shows publicly.
      * Star rating, geo, check-in/out times, prices, amenities and ratings are deliberately omitted until verified.
+     * One entity for every language: its @id and url are the site root; language versions are linked by hreflang.
      */
-    public static function hotel(string $siteUrl, string $homeUrl, ?string $name, array $options = [], ?string $logoUrl = null): ?array
+    public static function hotel(string $siteUrl, ?string $name, array $options = [], ?string $logoUrl = null): ?array
     {
         $name = self::text($name);
 
@@ -29,7 +32,7 @@ class HotelSchema
             '@type' => 'Hotel',
             '@id' => self::hotelId($siteUrl),
             'name' => $name,
-            'url' => $homeUrl,
+            'url' => JsonLd::root($siteUrl),
             'logo' => self::imageUrl($logoUrl),
             'image' => self::imageUrl($logoUrl),
             'telephone' => self::text($options['hotline'] ?? null),
@@ -66,15 +69,30 @@ class HotelSchema
         return array_filter($schema, fn ($value) => $value !== null && $value !== []);
     }
 
-    // The theme writes scripts verbatim, so "<" and ">" in CMS text must not close the tag.
+    /**
+     * The generic page Organization describes the same business as the Hotel node, so with a verified hotel
+     * name it becomes that entity: dropped on the homepage (the Hotel node is there) and pointed at the
+     * hotel @id elsewhere. Without a verified name the generic Organization is left unchanged.
+     */
+    public static function organization(?array $schema, string $siteUrl, ?string $hotelName, bool $isHomepage): ?array
+    {
+        $hotelName = self::text($hotelName);
+
+        if (! $schema || ! $hotelName) {
+            return $schema;
+        }
+
+        return $isHomepage ? null : array_merge($schema, ['@id' => self::hotelId($siteUrl), 'name' => $hotelName]);
+    }
+
     public static function toJson(array $schema): string
     {
-        return json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_INVALID_UTF8_SUBSTITUTE);
+        return JsonLd::encode($schema);
     }
 
     public static function hotelId(string $siteUrl): string
     {
-        return rtrim($siteUrl, '/') . '/#hotel';
+        return JsonLd::id($siteUrl, 'hotel');
     }
 
     protected static function imageUrl(mixed $url): ?string
@@ -88,13 +106,9 @@ class HotelSchema
 
     protected static function text(mixed $value): ?string
     {
-        if (! is_string($value)) {
-            return null;
-        }
+        $value = is_string($value) ? JsonLd::text($value) : null;
 
-        $value = trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags($value), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
-
-        return $value === '' || in_array($value, self::DEMO_VALUES, true) ? null : $value;
+        return $value === null || in_array($value, self::DEMO_VALUES, true) ? null : $value;
     }
 
     // Social links are stored as JSON rows of key/value pairs; keep only real profile URLs.

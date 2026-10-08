@@ -11,6 +11,7 @@ use Botble\Setting\Facades\Setting;
 use Botble\Theme\Contracts\Theme as ThemeContract;
 use Botble\Theme\Exceptions\UnknownPartialFileException;
 use Botble\Theme\Exceptions\UnknownThemeException;
+use Botble\Theme\Supports\JsonLd;
 use Botble\Theme\Supports\SocialLink;
 use Botble\Theme\Supports\ThemeSupport;
 use Botble\Theme\Typography\Typography;
@@ -826,14 +827,14 @@ class Theme implements ThemeContract
                 $schema['itemListElement'][] = [
                     '@type' => 'ListItem',
                     'position' => $index,
-                    'name' => BaseHelper::clean($item['label']),
+                    'name' => JsonLd::text($item['label']) ?? '',
                     'item' => $item['url'],
                 ];
 
                 $index++;
             }
 
-            $schema = json_encode($schema, JSON_UNESCAPED_UNICODE);
+            $schema = JsonLd::encode($schema);
 
             $this
                 ->asset()
@@ -841,14 +842,7 @@ class Theme implements ThemeContract
                 ->writeScript('breadcrumb-schema', $schema, attributes: ['type' => 'application/ld+json']);
         }
 
-        $websiteSchema = [
-            '@context' => 'https://schema.org',
-            '@type' => 'WebSite',
-            'name' => rescue(fn () => SeoHelper::openGraph()->getProperty('site_name')),
-            'url' => url(''),
-        ];
-
-        $websiteSchema = json_encode($websiteSchema, JSON_UNESCAPED_UNICODE);
+        $websiteSchema = JsonLd::encode(JsonLd::website(url(''), rescue(fn () => SeoHelper::openGraph()->getProperty('site_name'))));
 
         $this
             ->asset()
