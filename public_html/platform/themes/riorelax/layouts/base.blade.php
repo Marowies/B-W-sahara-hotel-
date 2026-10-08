@@ -164,6 +164,17 @@
             color: #ffffff !important;
             text-shadow: 0 2px 16px rgba(0,0,0,0.45) !important;
         }
+        /* Album description: no longer an <h6>, same look (theme h6 + Bootstrap heading metrics) */
+        .custom-gallery-description {
+            color: #101010;
+            font-family: var(--heading-font), sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-top: 0;
+            margin-bottom: .5rem;
+            overflow-wrap: break-word;
+        }
         .bw-hero-image-clip .slider-content.s-slider-content p {
             color: rgba(255,255,255,0.92) !important;
             text-shadow: 0 1px 8px rgba(0,0,0,0.35) !important;

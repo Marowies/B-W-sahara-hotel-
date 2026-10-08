@@ -24,6 +24,7 @@ use Botble\Hotel\Models\RoomCategory;
 use Botble\Hotel\Models\Service;
 use Botble\Hotel\Services\BookingPricingService;
 use Botble\Hotel\Services\GetRoomService;
+use Botble\Hotel\Supports\RoomsListingSeo;
 use Botble\Media\Facades\RvMedia;
 use Botble\Optimize\Facades\OptimizerHelper;
 use Botble\Payment\Enums\PaymentMethodEnum;
@@ -55,7 +56,14 @@ class PublicController extends Controller
 
     public function getRooms(Request $request, BaseHttpResponse $response)
     {
-        SeoHelper::setTitle(trans('plugins/hotel::hotel.rooms'));
+        SeoHelper::setTitle(RoomsListingSeo::value(RoomsListingSeo::TITLE) ?: trans('plugins/hotel::hotel.rooms'));
+
+        if ($description = RoomsListingSeo::value(RoomsListingSeo::DESCRIPTION)) {
+            SeoHelper::setDescription($description);
+        }
+
+        $pageHeading = RoomsListingSeo::value(RoomsListingSeo::HEADING);
+
         // Search filters share the listing's canonical; the SEO helper strips query strings.
         SeoHelper::meta()->setUrl(route('public.rooms'));
         // An empty slug makes the language plugin emit hreflang for this localized listing URL.
@@ -80,7 +88,7 @@ class PublicController extends Controller
             )));
         }
 
-        return Theme::scope('hotel.rooms', compact('rooms', 'startDate', 'endDate', 'nights', 'adults', 'children', 'numberOfRooms'))->render();
+        return Theme::scope('hotel.rooms', compact('rooms', 'startDate', 'endDate', 'nights', 'adults', 'children', 'numberOfRooms', 'pageHeading'))->render();
     }
 
     public function getRoom(string $key)

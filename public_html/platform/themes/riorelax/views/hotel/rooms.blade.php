@@ -1,4 +1,5 @@
-@php(Theme::set('pageTitle', __('Rooms')))
+{{-- Optional per-language heading from Theme options → Hotel; the theme's translated label otherwise. --}}
+@php(Theme::set('pageTitle', ($pageHeading ?? null) ?: __('Rooms')))
 
 <section class="container">
     <div class="row">
