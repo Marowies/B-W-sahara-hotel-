@@ -29,10 +29,8 @@ class PostSchema
             ],
             'headline' => JsonLd::text($post->name),
             'description' => JsonLd::text($post->description),
-            'image' => [
-                '@type' => 'ImageObject',
-                'url' => RvMedia::getImageUrl($post->image, null, false, RvMedia::getDefaultImage()),
-            ],
+            // Only the post's own image: the site placeholder does not represent the article.
+            'image' => $post->image ? ['@type' => 'ImageObject', 'url' => RvMedia::getImageUrl($post->image)] : null,
             'author' => $authorName ? ['@type' => 'Person', 'name' => $authorName] : null,
             'publisher' => [
                 '@type' => 'Organization',

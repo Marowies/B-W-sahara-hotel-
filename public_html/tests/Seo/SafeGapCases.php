@@ -298,7 +298,7 @@ test('Without a site_name there is no Hotel node and the Organization keeps its 
 
 test('Every generic schema producer encodes once with script-safe flags', function () use ($root): void {
     $header = method_source(Botble\Theme\Theme::class, 'header');
-    check(str_contains($header, "JsonLd::text(\$item['label'])") && str_contains($header, 'JsonLd::encode($schema)'), 'BreadcrumbList is not plain-text encoded.');
+    check(str_contains($header, 'JsonLd::breadcrumbList(array_values($this->breadcrumb->getCrumbs()))') && str_contains($header, 'JsonLd::encode($breadcrumbSchema)'), 'BreadcrumbList is not built and encoded by JsonLd.');
     check(str_contains($header, "JsonLd::encode(JsonLd::website(url('')"), 'WebSite is not built by JsonLd.');
     $page = file_get_contents("$root/platform/packages/page/src/Providers/HookServiceProvider.php");
     check(str_contains($page, 'JsonLd::organization(') && str_contains($page, "apply_filters('page_organization_schema', \$schema, \$page)") && str_contains($page, 'JsonLd::encode($schema)'), 'Organization producer not normalized.');
@@ -474,7 +474,7 @@ test('Article schema keeps published values and omits empty optional properties'
     $empty = Botble\Blog\Supports\PostSchema::make($article(['name' => 'Untitled story', 'description' => '', 'image' => null]), 'Unknown');
     check($empty['@type'] === 'NewsArticle' && $empty['headline'] === 'Untitled story', 'Valid values removed or type not defaulted.');
     check(! array_key_exists('description', $empty) && ! array_key_exists('author', $empty) && ! array_key_exists('publisher', $empty), 'Empty optional property emitted: ' . json_encode($empty));
-    check($empty['image']['url'] === 'https://hotel.example/storage/default.png', 'Default image fallback lost.');
+    check(! array_key_exists('image', $empty), 'Placeholder image used as article structured data.');
     check(! str_contains(JsonLd::encode($empty), 'null') && ! str_contains(JsonLd::encode($empty), '""'), 'Null or empty value serialized.');
 });
 

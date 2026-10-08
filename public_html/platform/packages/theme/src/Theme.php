@@ -814,32 +814,12 @@ class Theme implements ThemeContract
 
     public function header(): string
     {
-        if (! empty($this->breadcrumb->crumbs)) {
-            $schema = [
-                '@context' => 'https://schema.org',
-                '@type' => 'BreadcrumbList',
-                'itemListElement' => [],
-            ];
-
-            $index = 1;
-
-            foreach ($this->breadcrumb->crumbs as $item) {
-                $schema['itemListElement'][] = [
-                    '@type' => 'ListItem',
-                    'position' => $index,
-                    'name' => JsonLd::text($item['label']) ?? '',
-                    'item' => $item['url'],
-                ];
-
-                $index++;
-            }
-
-            $schema = JsonLd::encode($schema);
-
+        // Same trail the visible breadcrumb partial renders (getCrumbs() drops repeated labels).
+        if ($breadcrumbSchema = JsonLd::breadcrumbList(array_values($this->breadcrumb->getCrumbs()))) {
             $this
                 ->asset()
                 ->container('header')
-                ->writeScript('breadcrumb-schema', $schema, attributes: ['type' => 'application/ld+json']);
+                ->writeScript('breadcrumb-schema', JsonLd::encode($breadcrumbSchema), attributes: ['type' => 'application/ld+json']);
         }
 
         $websiteSchema = JsonLd::encode(JsonLd::website(url(''), rescue(fn () => SeoHelper::openGraph()->getProperty('site_name'))));

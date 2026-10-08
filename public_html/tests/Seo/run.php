@@ -30,6 +30,7 @@ $loader->addPsr4('Botble\\Theme\\', $source . '/platform/packages/theme/src', tr
 $loader->addPsr4('Botble\\Base\\', $source . '/platform/core/base/src', true);
 $loader->addPsr4('Botble\\Blog\\', $source . '/platform/plugins/blog/src', true);
 $loader->addPsr4('Botble\\CookieConsent\\', $source . '/platform/plugins/cookie-consent/src', true);
+$loader->addPsr4('Botble\\Faq\\', $source . '/platform/plugins/faq/src', true);
 require_once $source . '/platform/core/base/helpers/constants.php';
 require_once $source . '/platform/plugins/hotel/helpers/constants.php';
 
@@ -77,6 +78,7 @@ require __DIR__ . '/SafeGapCases.php';
 require __DIR__ . '/ListingTemplateCases.php';
 require __DIR__ . '/ImageSeoCases.php';
 require __DIR__ . '/InternalLinkCases.php';
+require __DIR__ . '/SchemaHardeningCases.php';
 
 echo json_encode($results, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n";
 exit(count(array_filter($results, fn ($result) => str_starts_with($result, 'FAIL'))) ? 1 : 0);

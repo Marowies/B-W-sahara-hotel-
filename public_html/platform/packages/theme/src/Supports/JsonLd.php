@@ -55,6 +55,36 @@ class JsonLd
         ], fn ($value) => $value !== null);
     }
 
+    /**
+     * BreadcrumbList from the visible trail. Unnamed crumbs are skipped and positions renumbered; a trail of
+     * fewer than two named crumbs (e.g. only "Home") is not a breadcrumb, so nothing is emitted.
+     */
+    public static function breadcrumbList(array $crumbs): ?array
+    {
+        $items = [];
+
+        foreach ($crumbs as $crumb) {
+            if (! $name = self::text($crumb['label'] ?? null)) {
+                continue;
+            }
+
+            $url = $crumb['url'] ?? null;
+
+            $items[] = array_filter([
+                '@type' => 'ListItem',
+                'position' => count($items) + 1,
+                'name' => $name,
+                'item' => is_string($url) && trim($url) !== '' ? $url : null,
+            ], fn ($value) => $value !== null);
+        }
+
+        return count($items) < 2 ? null : [
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => $items,
+        ];
+    }
+
     // Themes write scripts verbatim, so "<" and ">" in CMS text must not close the tag.
     public static function encode(array $schema): string
     {
