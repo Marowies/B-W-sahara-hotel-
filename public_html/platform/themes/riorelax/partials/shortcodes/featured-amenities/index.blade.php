@@ -32,7 +32,7 @@
                                 <img src="{{ RvMedia::getImageUrl($image) }}" alt="{{ $amenity->name }}">
                             </div>
                             <div class="services-08-thumb">
-                                <img src="{{ RvMedia::getImageUrl($image) }}" alt="{{ $amenity->name }}">
+                                <img src="{{ RvMedia::getImageUrl($image) }}" alt="">
                             </div>
                         @endif
 

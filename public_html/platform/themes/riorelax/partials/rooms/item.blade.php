@@ -14,7 +14,7 @@
     <div class="services-thumb hover-zoomin wow fadeInUp animated">
         @if ($images = $room->images)
             <a href="{{ $roomUrl }}">
-                <img src="{{ RvMedia::getImageUrl(Arr::first($images), 'medium') }}" alt="{{ $room->name }}" loading="lazy">
+                <img src="{{ RvMedia::getImageUrl(Arr::first(array_filter((array) $images)), 'medium', false, RvMedia::getDefaultImage()) }}" alt="{{ $room->name }}" loading="lazy">
             </a>
         @endif
     </div>

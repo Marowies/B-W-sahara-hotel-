@@ -39,6 +39,7 @@ $listingTheme = function (array $regions = []): object {
             if (preg_match('#^[a-z]+:#i', $url)) { return $url; }
             return 'https://hotel.example/storage/' . ($size ? "$size/" : '') . $url;
         }
+        public function getDefaultImage($relative = false, $size = null) { return 'https://hotel.example/vendor/core/core/base/images/placeholder.png'; }
     });
     return $theme;
 };

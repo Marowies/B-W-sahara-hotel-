@@ -1,4 +1,5 @@
 @php($bgColor = $shortcode->background_color ?: '#101010')
+@php(Botble\Theme\Supports\HeroImagePreload::homepageHero($shortcode->background_image ? RvMedia::getImageUrl($shortcode->background_image) : null))
 
 {{-- Outer wrapper: inset from page edges; booking floats over bottom edge --}}
 <div class="bw-hero-wrapper">

@@ -1,7 +1,7 @@
 <section class="newslater-area p-relative pt-90 pb-90" @if($backgroundColor = $shortcode->background_color) style="background-color: {{ $backgroundColor }};" @endif>
     @if($floatingImage = $shortcode->left_floating_image)
         <div class="animations-01">
-            <img src="{{ RvMedia::getImageURL($floatingImage) }}" alt="{{ $shortcode->title }}">
+            <img src="{{ RvMedia::getImageURL($floatingImage) }}" alt="">
         </div>
     @endif
     <div class="container">

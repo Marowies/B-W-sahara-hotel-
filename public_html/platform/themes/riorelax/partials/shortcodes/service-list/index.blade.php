@@ -14,7 +14,7 @@
                                     <img src="{{ RvMedia::getImageUrl($image) }}" alt="{{ $service->name }}">
                                 </div>
                                 <div class="services-08-thumb">
-                                    <img src="{{ RvMedia::getImageUrl($image) }}" alt="{{ $service->name }}">
+                                    <img src="{{ RvMedia::getImageUrl($image) }}" alt="">
                                 </div>
                             @endif
                             <div class="services-08-content">

@@ -38,7 +38,7 @@
                         </div>
                         <div class="room-details-slider-nav">
                             @foreach ($room->images as $img)
-                                <img src="{{ RvMedia::getImageUrl($img, 'thumb') }}" alt="{{ $room->name }}" loading="lazy">
+                                <img src="{{ RvMedia::getImageUrl($img, 'thumb') }}" alt="" loading="lazy">
                             @endforeach
                         </div>
                     </div>
@@ -69,7 +69,7 @@
 
                                         <div class="col-xl-4 col-lg-6 col-12 d-flex align-items-center mb-3">
                                             @if ($image)
-                                                <img width="20" class="d-block" src="{{ RvMedia::getImageUrl($image) }}" alt="{{ $amenity->name }}" loading="lazy">
+                                                <img width="20" class="d-block" src="{{ RvMedia::getImageUrl($image) }}" alt="" loading="lazy">
                                             @elseif($amenity->icon)
                                                 <x-core::icon :name="$amenity->icon"/>
                                             @endif

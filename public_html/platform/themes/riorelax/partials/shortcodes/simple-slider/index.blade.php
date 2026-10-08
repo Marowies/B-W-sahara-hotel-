@@ -4,6 +4,10 @@
         <section id="home" class="slider-area fix p-relative">
             <div class="slider-active">
                 @php
+                    // Slides fade in place, so the first slide's background is the first hero image painted.
+                    $firstSlide = collect($sliders)->first();
+                    Botble\Theme\Supports\HeroImagePreload::homepageHero($firstSlide?->image ? RvMedia::getImageUrl($firstSlide->image) : null);
+
                     // One H1 per page: the first hero title, unless the breadcrumb banner already shows the page title as H1.
                     $heroHeading = Theme::get('heroHeading') || (Theme::get('breadcrumb', true) && Theme::get('pageTitle')) ? 'h2' : 'h1';
                 @endphp
