@@ -24,6 +24,7 @@ use Botble\Hotel\Models\RoomCategory;
 use Botble\Hotel\Models\Service;
 use Botble\Hotel\Services\BookingPricingService;
 use Botble\Hotel\Services\GetRoomService;
+use Botble\Hotel\Supports\RoomsListingSeo;
 use Botble\Media\Facades\RvMedia;
 use Botble\Optimize\Facades\OptimizerHelper;
 use Botble\Payment\Enums\PaymentMethodEnum;
@@ -33,6 +34,8 @@ use Botble\Payment\Supports\PaymentHelper;
 use Botble\SeoHelper\Facades\SeoHelper;
 use Botble\SeoHelper\SeoOpenGraph;
 use Botble\Slug\Facades\SlugHelper;
+use Botble\Slug\Models\Slug;
+use Botble\Theme\Events\RenderingSingleEvent;
 use Botble\Theme\Facades\Theme;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -53,7 +56,18 @@ class PublicController extends Controller
 
     public function getRooms(Request $request, BaseHttpResponse $response)
     {
-        SeoHelper::setTitle(trans('plugins/hotel::hotel.rooms'));
+        SeoHelper::setTitle(RoomsListingSeo::value(RoomsListingSeo::TITLE) ?: trans('plugins/hotel::hotel.rooms'));
+
+        if ($description = RoomsListingSeo::value(RoomsListingSeo::DESCRIPTION)) {
+            SeoHelper::setDescription($description);
+        }
+
+        $pageHeading = RoomsListingSeo::value(RoomsListingSeo::HEADING);
+
+        // Search filters share the listing's canonical; the SEO helper strips query strings.
+        SeoHelper::meta()->setUrl(route('public.rooms'));
+        // An empty slug makes the language plugin emit hreflang for this localized listing URL.
+        event(new RenderingSingleEvent(new Slug()));
 
         Theme::breadcrumb()->add(trans('plugins/hotel::hotel.rooms'), route('public.rooms'));
 
@@ -74,7 +88,7 @@ class PublicController extends Controller
             )));
         }
 
-        return Theme::scope('hotel.rooms', compact('rooms', 'startDate', 'endDate', 'nights', 'adults', 'children', 'numberOfRooms'))->render();
+        return Theme::scope('hotel.rooms', compact('rooms', 'startDate', 'endDate', 'nights', 'adults', 'children', 'numberOfRooms', 'pageHeading'))->render();
     }
 
     public function getRoom(string $key)
@@ -106,6 +120,7 @@ class PublicController extends Controller
             ->findOrFail($slug->reference_id);
 
         SeoHelper::setTitle($room->name)->setDescription(Str::words($room->description, 120));
+        SeoHelper::meta()->setUrl($room->url);
 
         $meta = new SeoOpenGraph();
         if ($room->image) {
@@ -119,6 +134,7 @@ class PublicController extends Controller
         SeoHelper::setSeoOpenGraph($meta);
 
         Theme::breadcrumb()
+            ->add(trans('plugins/hotel::hotel.rooms'), route('public.rooms'))
             ->add($room->name, $room->url);
 
         if (function_exists('admin_bar')) {
@@ -163,6 +179,7 @@ class PublicController extends Controller
         }
 
         do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, ROOM_MODULE_SCREEN_NAME, $room);
+        event(new RenderingSingleEvent($slug));
 
         $images = [];
         foreach ($room->images as $image) {
@@ -189,6 +206,7 @@ class PublicController extends Controller
         abort_unless($category->getKey(), 404);
 
         SeoHelper::setTitle($category->name)->setDescription(Str::words($category->description, 120));
+        SeoHelper::meta()->setUrl($category->url);
         $meta = new SeoOpenGraph();
 
         $meta->setDescription($category->description);
@@ -199,9 +217,11 @@ class PublicController extends Controller
         SeoHelper::setSeoOpenGraph($meta);
 
         Theme::breadcrumb()
+            ->add(trans('plugins/hotel::hotel.rooms'), route('public.rooms'))
             ->add($category->name, $category->url);
 
         do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, ROOM_MODULE_SCREEN_NAME, $category);
+        event(new RenderingSingleEvent($slug));
 
         $params = RoomSearchParams::fromRequest(request()->input());
 
@@ -224,6 +244,7 @@ class PublicController extends Controller
             ->findOrFail($slug->reference_id);
 
         SeoHelper::setTitle($place->name)->setDescription(Str::words($place->description, 120));
+        SeoHelper::meta()->setUrl($place->url);
 
         $meta = new SeoOpenGraph();
         if ($place->image) {
@@ -246,6 +267,7 @@ class PublicController extends Controller
             ->get();
 
         do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, PLACE_MODULE_SCREEN_NAME, $place);
+        event(new RenderingSingleEvent($slug));
 
         Theme::asset()->add('ckeditor-content-styles', 'vendor/core/core/base/libraries/ckeditor/content-styles.css');
 
@@ -698,8 +720,12 @@ class PublicController extends Controller
                 ->setTitle($service->name)
                 ->setType('article')
         );
+        SeoHelper::meta()->setUrl($service->url);
 
         Theme::breadcrumb()->add($service->name, $service->url);
+
+        do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, SERVICE_MODULE_SCREEN_NAME, $service);
+        event(new RenderingSingleEvent($slug));
 
         return Theme::scope('hotel.service', compact('service', 'services'))->render();
     }
@@ -724,8 +750,12 @@ class PublicController extends Controller
                 ->setTitle($food->name)
                 ->setType('article')
         );
+        SeoHelper::meta()->setUrl($food->url);
 
         Theme::breadcrumb()->add($food->name, $food->url);
+
+        do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, FOOD_MODULE_SCREEN_NAME, $food);
+        event(new RenderingSingleEvent($slug));
 
         return Theme::scope('hotel.food', compact('food'))->render();
     }

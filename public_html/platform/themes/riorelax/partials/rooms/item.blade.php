@@ -4,7 +4,7 @@
     $departure = $endDate->format(HotelHelper::getDateFormat());
     $children = $children ?? request()->integer('children');
     $numberOfRooms = $numberOfRooms ?? request()->integer('rooms', 1);
-    $roomUrl = $room->url . '?' . http_build_query([
+    $roomUrl = Botble\Hotel\Supports\RoomSearchLink::url($room->url, request()->input(), [
         'start_date' => $arrival, 'end_date' => $departure, 'adults' => $adults,
         'children' => $children, 'rooms' => $numberOfRooms,
     ]);
@@ -14,7 +14,7 @@
     <div class="services-thumb hover-zoomin wow fadeInUp animated">
         @if ($images = $room->images)
             <a href="{{ $roomUrl }}">
-                <img src="{{ RvMedia::getImageUrl(Arr::first($images), 'medium') }}" alt="{{ $room->name }}">
+                <img src="{{ RvMedia::getImageUrl(Arr::first(array_filter((array) $images)), 'medium', false, RvMedia::getDefaultImage()) }}" alt="{{ $room->name }}" loading="lazy">
             </a>
         @endif
     </div>
@@ -57,7 +57,7 @@
                     @foreach ($room->amenities->take(6) as $amenity)
                         @if ($image = $amenity->getMetaData('icon_image', true) )
                             <li>
-                                <img src="{{ RvMedia::getImageUrl($image) }}" alt="{{ $amenity->name }}">
+                                <img src="{{ RvMedia::getImageUrl($image) }}" alt="{{ $amenity->name }}" loading="lazy">
                             </li>
                         @endif
                     @endforeach

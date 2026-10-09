@@ -3,6 +3,7 @@
 namespace Botble\Hotel\Providers;
 
 use Botble\Base\Facades\Assets;
+use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\DashboardMenu;
 use Botble\Base\Facades\EmailHandler;
 use Botble\Base\Facades\PanelSectionManager;
@@ -20,6 +21,7 @@ use Botble\Hotel\Http\Requests\Fronts\Auth\ForgotPasswordRequest;
 use Botble\Hotel\Http\Requests\Fronts\Auth\LoginRequest;
 use Botble\Hotel\Http\Requests\Fronts\Auth\RegisterRequest;
 use Botble\Hotel\Http\Requests\Fronts\Auth\ResetPasswordRequest;
+use Botble\Hotel\Listeners\AddSitemapListener;
 use Botble\Hotel\Models\Amenity;
 use Botble\Hotel\Models\Booking;
 use Botble\Hotel\Models\BookingAddress;
@@ -66,11 +68,16 @@ use Botble\Hotel\Repositories\Interfaces\RoomDateInterface;
 use Botble\Hotel\Repositories\Interfaces\RoomInterface;
 use Botble\Hotel\Repositories\Interfaces\ServiceInterface;
 use Botble\Hotel\Repositories\Interfaces\TaxInterface;
+use Botble\Hotel\Supports\HotelSchema;
+use Botble\Hotel\Supports\SeoIndexability;
 use Botble\LanguageAdvanced\Supports\LanguageAdvancedManager;
+use Botble\Media\Facades\RvMedia;
+use Botble\Page\Models\Page;
 use Botble\SeoHelper\Facades\SeoHelper;
 use Botble\Slug\Facades\SlugHelper;
 use Botble\SocialLogin\Facades\SocialService;
 use Botble\Theme\Facades\SiteMapManager;
+use Botble\Theme\Facades\Theme;
 use Botble\Theme\FormFrontManager;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\AliasLoader;
@@ -374,6 +381,61 @@ class HotelServiceProvider extends ServiceProvider
                 ->addStylesDirectly('vendor/core/plugins/hotel/css/hotel.css');
         });
 
+        $this->app['events']->listen(RouteMatched::class, function (RouteMatched $event): void {
+            if (SeoIndexability::isPrivateRoute($event->route->getName())) {
+                SeoHelper::meta()->addMeta('robots', SeoIndexability::NOINDEX);
+            }
+        });
+
+        // Runs after the SEO helper (priority 56) so unpublished previews are never indexable.
+        add_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, function ($screen, $object = null): void {
+            if (SeoIndexability::isUnpublished($object)) {
+                SeoHelper::meta()->addMeta('robots', SeoIndexability::NOINDEX);
+            }
+        }, 40, 2);
+
+        add_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, function ($screen, $object = null): void {
+            // One hotel @id and url (the site root) for every language.
+            $siteUrl = url('');
+
+            // Optional metadata: a failure is logged and must never break the page.
+            $schema = rescue(fn () => match (true) {
+                $object instanceof Room && ! SeoIndexability::isUnpublished($object) => HotelSchema::room(
+                    $siteUrl,
+                    $object->url,
+                    $object->name,
+                    $object->description,
+                    array_map(fn ($image) => RvMedia::getImageUrl($image), (array) $object->images)
+                ),
+                $object instanceof Page && BaseHelper::isHomepage($object->getKey()) => HotelSchema::hotel(
+                    $siteUrl,
+                    theme_option('site_name'),
+                    [
+                        'hotline' => theme_option('hotline'),
+                        'email' => theme_option('email'),
+                        'address' => theme_option('address'),
+                        'social_links' => theme_option('social_links'),
+                    ],
+                    ($logo = theme_option('logo')) ? RvMedia::getImageUrl($logo) : null
+                ),
+                default => null,
+            });
+
+            if ($schema) {
+                Theme::asset()
+                    ->container('header')
+                    ->writeScript('hotel-schema', HotelSchema::toJson($schema), attributes: ['type' => 'application/ld+json']);
+            }
+        }, 30, 2);
+
+        // Keeps the page Organization from competing with the Hotel node as a second business entity.
+        add_filter('page_organization_schema', fn (?array $organization, $page = null) => HotelSchema::organization(
+            $organization,
+            url(''),
+            theme_option('site_name'),
+            $page instanceof Page && BaseHelper::isHomepage($page->getKey())
+        ), 20, 2);
+
         if (defined('LANGUAGE_MODULE_SCREEN_NAME') && defined('LANGUAGE_ADVANCED_MODULE_SCREEN_NAME')) {
             LanguageAdvancedManager::registerModule(Room::class, [
                 'name',
@@ -420,7 +482,7 @@ class HotelServiceProvider extends ServiceProvider
             ]);
         }
 
-        SiteMapManager::registerKey(['rooms']);
+        SiteMapManager::registerKey(['rooms', ...array_keys(AddSitemapListener::CONTENT)]);
 
         $this->app->register(EventServiceProvider::class);
 
@@ -445,6 +507,7 @@ class HotelServiceProvider extends ServiceProvider
                 RoomCategory::class,
                 Service::class,
                 Place::class,
+                Food::class,
             ]);
 
             if (

@@ -1,6 +1,10 @@
 @php
     Theme::set('pageTitle', $category->name);
-    [$startDate, $endDate, $adults, $nights, $children, $room] = HotelHelper::getRoomBookingParams();
+    [$startDate, $endDate, $adults, $nights, $children, $numberOfRooms] = HotelHelper::getRoomBookingParams();
+    $searchValues = [
+        'start_date' => $startDate->format(HotelHelper::getDateFormat()), 'end_date' => $endDate->format(HotelHelper::getDateFormat()),
+        'adults' => $adults, 'children' => $children, 'rooms' => $numberOfRooms,
+    ];
 @endphp
 
 <section class="services-area pt-20 pb-40">
@@ -13,8 +17,8 @@
                     <div class="single-services shadow-block mb-30">
                         <div class="services-thumb hover-zoomin wow fadeInUp animated">
                             @if ($images = $room->images)
-                                <a href="{{ $room->url }}?start_date={{ BaseHelper::stringify(request()->query('start_date', $startDate)) }}&end_date={{ BaseHelper::stringify(request()->query('end_date', $endDate)) }}&adults={{ BaseHelper::stringify(request()->query('adults', HotelHelper::getMinimumNumberOfGuests())) }}&children={{ BaseHelper::stringify(request()->query('children', 0)) }}">
-                                    <img src="{{ RvMedia::getImageUrl(Arr::first($images), 'medium') }}" alt="{{ $room->name }}">
+                                <a href="{{ Botble\Hotel\Supports\RoomSearchLink::url($room->url, request()->input(), $searchValues) }}">
+                                    <img src="{{ RvMedia::getImageUrl(Arr::first(array_filter((array) $images)), 'medium', false, RvMedia::getDefaultImage()) }}" alt="{{ $room->name }}" loading="lazy">
                                 </a>
                             @endif
                         </div>
@@ -38,7 +42,7 @@
                                         @foreach ($room->amenities->take(6) as $amenity)
                                             @if ($image = $amenity->getMetaData('icon_image', true) )
                                                 <li>
-                                                    <img src="{{ RvMedia::getImageUrl($image) }}" alt="{{ $amenity->name }}">
+                                                    <img src="{{ RvMedia::getImageUrl($image) }}" alt="{{ $amenity->name }}" loading="lazy">
                                                 </li>
                                             @endif
                                         @endforeach

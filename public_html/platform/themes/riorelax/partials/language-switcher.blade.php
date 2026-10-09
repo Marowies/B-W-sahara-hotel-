@@ -16,7 +16,6 @@
     @if ($supportedLocales && count($supportedLocales) > 1)
         @php
             $languageDisplay = setting('language_display', 'all');
-            $showRelated = setting('language_show_default_item_if_current_version_not_existed', true);
         @endphp
         @if (setting('language_switcher_display', 'dropdown') == 'dropdown')
             <div class="dropdown language-switcher d-inline-flex align-items-center">
@@ -34,7 +33,7 @@
                     @foreach ($supportedLocales as $localeCode => $properties)
                         @if ($localeCode != Language::getCurrentLocale())
                             <li>
-                                <a class="language-item" href="{{ $showRelated ? Language::getLocalizedURL($localeCode) : url($localeCode) }}" target="_self">
+                                <a class="language-item" href="{{ Language::getSwitcherUrl($localeCode, $properties['lang_code']) }}" target="_self">
                                     @if (Arr::get($options, 'lang_flag', true) && ($languageDisplay == 'all' || $languageDisplay == 'flag'))
                                         {!! language_flag($properties['lang_flag']) !!} <span>{{ $properties['lang_name'] }}</span>
                                     @endif

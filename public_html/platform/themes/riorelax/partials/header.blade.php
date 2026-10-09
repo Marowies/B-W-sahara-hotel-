@@ -7,7 +7,7 @@
                 <div class="col-8 col-md-4 col-lg-2 col-xl-2">
                     @if ($logo = theme_option('logo'))
                         <div class="logo">
-                            <a href="{{ route('public.index') }}"><img src="{{ RvMedia::getImageUrl($logo) }}" alt="{{ theme_option('site_name') }}"></a>
+                            <a href="{{ route('public.index') }}"><img src="{{ RvMedia::getImageUrl($logo) }}" alt="{{ theme_option('site_name') ?: Theme::getSiteTitle() ?: trans('packages/theme::theme.common.home') }}"></a>
                         </div>
                     @endif
                 </div>
