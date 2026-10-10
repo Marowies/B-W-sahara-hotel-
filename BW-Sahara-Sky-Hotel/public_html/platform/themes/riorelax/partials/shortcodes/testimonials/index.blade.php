@@ -32,13 +32,13 @@
                                     </div>
                                 </div>
                                 <div class="review-icon">
-                                    <img src="{{ Theme::asset()->url('/images/testimonials/review-icon.png') }}" alt="{{ __('Icon reviews') }}">
+                                    <img src="{{ Theme::asset()->url('/images/testimonials/review-icon.png') }}" alt="">
                                 </div>
 
                                 <p>{!! BaseHelper::clean($testimonial->content) !!}</p>
 
                                 <div class="qt-img">
-                                    <img src="{{ Theme::asset()->url('/images/testimonials/qt-icon.png') }}" alt="{{ __('Icon') }}">
+                                    <img src="{{ Theme::asset()->url('/images/testimonials/qt-icon.png') }}" alt="">
                                 </div>
                             </div>
                         @endforeach

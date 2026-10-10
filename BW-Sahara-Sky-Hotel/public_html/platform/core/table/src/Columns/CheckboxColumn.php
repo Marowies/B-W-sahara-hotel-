@@ -23,6 +23,7 @@ class CheckboxColumn extends FormattedColumn implements FormattedColumnContract
             ->orderable(false)
             ->exportable(false)
             ->searchable(false)
+            ->responsivePriority(2)
             ->columnVisibility()
             ->titleAttr(trans('core/base::tables.checkbox'));
     }

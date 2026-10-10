@@ -49,10 +49,10 @@ await check('Room layout and cutaway controls still work',async()=>{
 });
 await check('Cross-page navigation returns to the original 3D instance',async()=>{
  await page.evaluate(()=>document.querySelector('header a[href="/rooms/"]').click());
- await page.waitForFunction(()=>document.body.dataset.page==='rooms');
+ await page.waitForFunction(()=>document.body.dataset.page==='rooms'&&window.hotelPerformance.clientNavigations===1);
  assert.equal(await page.evaluate(()=>window.hotelPerformance.clientNavigations),1);
  await page.evaluate(()=>document.querySelector('header .brand').click());
- await page.waitForFunction(()=>document.body.dataset.page==='home');
+ await page.waitForFunction(()=>document.body.dataset.page==='home'&&window.hotelPerformance.clientNavigations===2);
  await page.locator('#model-stage').scrollIntoViewIfNeeded();await page.waitForTimeout(400);
  assert.equal(await page.evaluate(()=>document.querySelector('#model-stage canvas')===window.__canvas),true);
  assert.equal(await page.evaluate(()=>window.hotel3D.getStats().modelBuilds),1);

@@ -5,7 +5,11 @@
     <x-core::card.body>
         <div class="row">
             <div class="col-md-8 mb-2">
-                <div id="sales-report-chart"></div>
+                @if (collect($bookingsReport['series'])->contains(fn ($series) => collect($series['data'])->contains(fn ($value) => (float) $value !== 0.0)))
+                    <div id="sales-report-chart"></div>
+                @else
+                    <div class="bw-chart-empty" role="status">{{ trans('core/base::tables.no_data') }}</div>
+                @endif
                 @if ($earningBookings = $bookingsReport['earningBookings'])
                     <div class="row">
                         <div class="col-12">
@@ -24,7 +28,11 @@
             <div class="col-md-4">
                 @if (collect($count['revenues'])->isNotEmpty())
                     <div class="rp-card-chart position-relative mb-3">
-                        <div id="revenue-chart"></div>
+                        @if (collect($count['revenues'])->contains(fn ($item) => (float) $item['value'] !== 0.0))
+                            <div id="revenue-chart"></div>
+                        @else
+                            <div class="bw-chart-empty" role="status">{{ trans('core/base::tables.no_data') }}</div>
+                        @endif
                         <div class="rp-card-information">
                             <x-core::icon name="ti ti-wallet" />
                             @foreach (collect($count['revenues'])->where('status') as $item)

@@ -25,6 +25,7 @@ if (! is_file($autoload)) {
     exit(2);
 }
 $loader = require $autoload;
+$loader->addPsr4('App\\', $source . '/app', true);
 $loader->addPsr4('Botble\\Hotel\\', $source . '/platform/plugins/hotel/src', true);
 $loader->addPsr4('Botble\\Payment\\', $source . '/platform/plugins/payment/src', true);
 $loader->addPsr4('Botble\\Base\\Providers\\', $source . '/platform/core/base/src/Providers', true);
@@ -87,6 +88,8 @@ $guard = new class {
     public ?int $customerId = null;
     public function check() { return $this->customerId !== null; }
     public function id() { return $this->customerId; }
+    public function setUser($customer) { $this->customerId = (int) $customer->getKey(); return $this; }
+    public function user() { return $this->customerId ? Botble\Hotel\Models\Customer::query()->find($this->customerId) : null; }
 };
 Illuminate\Support\Facades\Auth::swap(new class($guard) {
     public function __construct(public $customerGuard) {}
@@ -111,6 +114,12 @@ $capsule->bootEloquent();
 $app->instance('db', $capsule->getDatabaseManager());
 $validator->setPresenceVerifier(new Illuminate\Validation\DatabasePresenceVerifier($capsule->getDatabaseManager()));
 $app->instance('validator', $validator);
+Illuminate\Http\Request::macro('validate', function (array $rules) use ($validator): array {
+    return $validator->make($this->all(), $rules)->validate();
+});
+$app->instance(Illuminate\Contracts\Routing\ResponseFactory::class, new Illuminate\Routing\ResponseFactory(
+    new Illuminate\View\Factory(new Illuminate\View\Engines\EngineResolver(), new Illuminate\View\FileViewFinder(new Illuminate\Filesystem\Filesystem(), []), $events), new Illuminate\Routing\Redirector($url)
+));
 
 if (defined('HOTEL_INTEGRATION_WORKER')) {
     $db = $capsule->getConnection();
@@ -145,6 +154,7 @@ $db->table('ht_taxes')->insert(['id' => 1, 'percentage' => 0]);
 $db->table('ht_currencies')->insert(['id' => 1, 'title' => 'USD']);
 $db->table('ht_services')->insert([['id' => 1, 'status' => 'published'], ['id' => 2, 'status' => 'draft']]);
 $db->table('ht_customers')->insert(['id' => 42, 'first_name' => 'Private', 'last_name' => 'Guest', 'email' => 'private@example.invalid', 'phone' => '123456789']);
+require __DIR__ . '/CustomerAuthBootstrap.php';
 Carbon\Carbon::setTestNow('2026-10-04 12:00:00');
 
 $results = [];
@@ -251,14 +261,19 @@ test('Production cookies remain Secure and HttpOnly despite false environment ov
     check($config['secure'] === true && $config['http_only'] === true, 'Production cookies are insecure.');
 });
 
-function checkout(array $data, ?array $selection = null) {
-    global $validator, $session, $lastCheckoutRequest;
+function checkout(array $data, ?array $selection = null, bool $authenticated = true) {
+    global $validator, $session, $lastCheckoutRequest, $guard;
     $session->put($data['token'], $selection ?? [
         'room_id' => $data['room_id'], 'start_date' => $data['start_date'], 'end_date' => $data['end_date'],
         'rooms' => $data['rooms'] ?? 1, 'adults' => $data['number_of_guests'] ?? 1, 'children' => $data['number_of_children'] ?? 0,
     ]);
     $session->put('checkout_token', $data['token']);
     $request = Botble\Hotel\Http\Requests\CheckoutRequest::create('/checkout', 'POST', $data);
+    if ($authenticated) {
+        $customer = Botble\Hotel\Models\Customer::query()->findOrFail($guard->customerId === 42 ? 42 : 43);
+        $pair = app(App\Services\HotelTokenService::class)->issue($customer, $request);
+        $request->headers->set('Authorization', 'Bearer ' . $pair['access_token']);
+    }
     $validation = $validator->make($data, $request->rules());
     $validation->validate();
     $request->setValidator($validation);
@@ -267,15 +282,15 @@ function checkout(array $data, ?array $selection = null) {
 
     return $controller->postCheckout($request, new Botble\Base\Http\Responses\BaseHttpResponse());
 }
-test('Guest checkout cannot spoof status, customer, payment, currency or amount', function () use ($payload, $db) {
+test('OTP-authenticated checkout cannot spoof status, customer, payment, currency or amount', function () use ($payload, $db) {
     checkout(array_merge($payload, ['status' => 'completed', 'customer_id' => 42, 'payment_id' => 123, 'currency_id' => 999, 'amount' => -1, 'booking_number' => 'INJECTED']));
     $booking = $db->table('ht_bookings')->orderByDesc('id')->first();
-    check($booking->status === 'pending' && $booking->customer_id === null && $booking->payment_id === null, 'Protected fields spoofed.');
+    check($booking->status === 'pending' && $booking->customer_id === 43 && $booking->payment_id === null, 'Protected fields spoofed.');
     check($booking->currency_id === 1 && (float) $booking->amount === 200.0 && $booking->booking_number !== 'INJECTED', 'Server totals/identity spoofed.');
 });
 test('Authenticated checkout always uses authenticated customer', function () use ($payload, $guard, $db) {
     $guard->customerId = 42;
-    try { checkout(array_merge($payload, ['customer_id' => 999])); }
+    try { checkout(array_merge($payload, ['customer_id' => 999, 'email' => 'private@example.invalid'])); }
     finally { $guard->customerId = null; }
     check($db->table('ht_bookings')->orderByDesc('id')->value('customer_id') === 42, 'Wrong customer assigned.');
 });
@@ -332,6 +347,8 @@ test('JWT signed token verifies and altered payload is rejected', function () {
 if (! getenv('HOTEL_SECURITY_ONLY')) {
     require __DIR__ . '/BackendCases.php';
 }
+
+require __DIR__ . '/CustomerAuthCases.php';
 
 if (defined('HOTEL_INTEGRATION_TESTS')) {
     require dirname(__DIR__) . '/Integration/Cases.php';

@@ -1,0 +1,35 @@
+{
+    "date": "2026-10-09",
+    "results": {
+        "Catalogue paginates two rooms": "PASS",
+        "Warm cache executes no room queries": "PASS",
+        "Pages do not overlap": "PASS",
+        "HTTP catalogue excludes shared caching": "PASS",
+        "Page size limited to 100": "PASS",
+        "Catalogue invalidation waits for commit": "PASS",
+        "Committed room save invalidates cache": "PASS",
+        "Compressed catalogue decodes exactly": "PASS",
+        "gzip q=0 is respected": "PASS",
+        "Catalogue index has correct columns": "PASS",
+        "Index rollback removes only its index": "PASS",
+        "Index reapplies successfully": "PASS"
+    },
+    "cold_room_queries": 2,
+    "warm_room_queries": 0,
+    "json_bytes": 3829,
+    "gzip_bytes": 1331,
+    "query_plan": [
+        {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "ht_rooms",
+            "type": "ref",
+            "possible_keys": "ht_rooms_catalogue_order_index",
+            "key": "ht_rooms_catalogue_order_index",
+            "key_len": "242",
+            "ref": "const",
+            "rows": "7",
+            "Extra": "Using where; Using index"
+        }
+    ]
+}

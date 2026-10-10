@@ -221,11 +221,8 @@ class CookieConsentServiceProvider extends ServiceProvider
 
     public function registerCookieConsent(?string $html): string
     {
-        $cookieConsentConfig = config('plugins.cookie-consent.general', []);
-
-        $alreadyConsentedWithCookies = Cookie::has($cookieConsentConfig['cookie_name'] ?? 'cookie_for_consent');
-
-        if (is_in_admin() || $alreadyConsentedWithCookies) {
+        // Keep preferences available so returning users can withdraw analytics consent.
+        if (is_in_admin()) {
             return $html;
         }
 

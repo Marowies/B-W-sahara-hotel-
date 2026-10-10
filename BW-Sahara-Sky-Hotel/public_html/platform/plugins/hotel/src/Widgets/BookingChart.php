@@ -28,12 +28,12 @@ class BookingChart extends Chart
             ->all();
 
         return [
-            'series' => [
+            'series' => $data ? [
                 [
                     'name' => trans('plugins/hotel::booking-reports.number_of_bookings'),
                     'data' => array_values($data),
                 ],
-            ],
+            ] : [],
             'xaxis' => [
                 'categories' => $this->translateCategories($data),
             ],

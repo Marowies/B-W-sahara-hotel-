@@ -12,6 +12,27 @@
     sceneLoads: 0, modelBuilds: 0, renderersCreated: 0, clientNavigations: 0,
     largestContentfulPaint: null, cumulativeLayoutShift: 0,
   };
+  window.hotelDebounce = (callback, delay = 120) => {
+    const scope = window.__hotelViewScope;
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => { if (!scope || scope.active) callback.apply(this, args); }, delay);
+    };
+  };
+  // Only a read-only public catalogue can use this small memory cache.
+  // Session, availability, quote and payment endpoints always go to the server.
+  const catalogueRequests = new Map();
+  window.hotelCatalogue = (path, loader) => {
+    const cacheKey = (window.hotelI18n?.locale()||'en') + ':' + path;
+    const hit = catalogueRequests.get(cacheKey);
+    if (hit && hit.expires > Date.now()) return hit.promise.then(structuredClone);
+    const entry = {expires:Date.now()+15000};
+    entry.promise = loader().catch(error => { if (catalogueRequests.get(cacheKey) === entry) catalogueRequests.delete(cacheKey); throw error; });
+    catalogueRequests.set(cacheKey, entry);
+    if (catalogueRequests.size > 32) catalogueRequests.delete(catalogueRequests.keys().next().value);
+    return entry.promise.then(structuredClone);
+  };
   function scoped(scope, callback, receiver, args) {
     const previous = window.__hotelViewScope;
     window.__hotelViewScope = scope;
@@ -85,12 +106,22 @@
     if (img.dataset.optimized === 'true') return;
     const path = new URL(img.getAttribute('src') || '', location.href).pathname;
     const info = assetInfo[path];
-    if (!info) return;
+    // A carousel can replace an optimised image with a backend URL. Leaving the
+    // old srcset attached makes the browser show the previous photograph.
+    if (!info) {
+      if (img.dataset.hotelResponsive === 'true') {
+        img.removeAttribute('srcset');
+        img.removeAttribute('sizes');
+        delete img.dataset.hotelResponsive;
+      }
+      return;
+    }
     img.dataset.optimized = 'true';
     img.decoding = 'async';
     img.width = info.width; img.height = info.height;
     if (info.srcset && !img.closest('dialog')) {
       img.srcset = info.srcset;
+      img.dataset.hotelResponsive = 'true';
       img.sizes = img.classList.contains('hero-image') || img.closest('.page-hero,.horizon,.final-photo')
         ? '100vw' : '(max-width: 760px) 100vw, 60vw';
     }

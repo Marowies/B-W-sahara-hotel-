@@ -315,15 +315,14 @@
                     theme_option('cookie_consent_message', trans('plugins/cookie-consent::cookie-consent.message')),
                 ) !!}
                 @if (
-                    ($learnMoreUrl = theme_option('cookie_consent_learn_more_url')) &&
+                    ($learnMoreUrl = Botble\CookieConsent\Supports\LearnMoreUrl::resolve(theme_option('cookie_consent_learn_more_url'), BaseHelper::getHomepageUrl())) &&
                         ($learnMoreText = theme_option('cookie_consent_learn_more_text')))
-                    <a
-                        href="{{ Str::startsWith($learnMoreUrl, ['http://', 'https://']) ? $learnMoreUrl : BaseHelper::getHomepageUrl() . '/' . $learnMoreUrl }}">{{ $learnMoreText }}</a>
+                    <a href="{{ $learnMoreUrl }}">{{ $learnMoreText }}</a>
                 @endif
             </div>
 
             <div class="site-notice__actions">
-                @if (theme_option('cookie_consent_show_reject_button', 'no') == 'yes')
+                @if (config('tracking.mode', 'off') !== 'off' || theme_option('cookie_consent_show_reject_button', 'no') == 'yes')
                     <button
                         class="js-site-notice-reject site-notice__reject"
                         style="background-color: {{ theme_option('cookie_consent_text_color', '#fff') }}; color: {{ theme_option('cookie_consent_background_color', '#000') }}; border: 1px solid {{ theme_option('cookie_consent_text_color', '#fff') }};"
@@ -333,7 +332,7 @@
                 @endif
                 @if (
                     !empty($cookieConsentConfig['cookie_categories']) &&
-                        theme_option('cookie_consent_show_customize_button', 'no') == 'yes')
+                        (config('tracking.mode', 'off') !== 'off' || theme_option('cookie_consent_show_customize_button', 'no') == 'yes'))
                     <button
                         class="js-site-notice-customize site-notice__customize"
                         style="background-color: {{ theme_option('cookie_consent_text_color', '#fff') }}; color: {{ theme_option('cookie_consent_background_color', '#000') }}; border: 1px solid {{ theme_option('cookie_consent_text_color', '#fff') }};"
@@ -384,6 +383,9 @@
     </div>
 </div>
 
+@if (config('tracking.mode', 'off') !== 'off')
+    <button type="button" class="js-cookie-preferences">{{ trans('plugins/cookie-consent::cookie-consent.customize_text') }}</button>
+@endif
 <div data-site-cookie-name="{{ $cookieConsentConfig['cookie_name'] ?? 'cookie_for_consent' }}"></div>
 <div data-site-cookie-lifetime="{{ $cookieConsentConfig['cookie_lifetime'] ?? 36000 }}"></div>
 <div data-site-cookie-domain="{{ config('session.domain') ?? request()->getHost() }}"></div>
@@ -408,34 +410,6 @@
     });
 
     window.addEventListener('load', function() {
-        if (typeof gtag !== 'undefined') {
-            gtag('consent', 'default', {
-                'ad_storage': 'denied',
-                'analytics_storage': 'denied'
-            });
-
-            document.addEventListener('click', function(event) {
-                if (event.target.classList.contains('js-site-notice-agree')) {
-                    const categories = document.querySelectorAll('.js-cookie-category:checked');
-                    const consents = {
-                        'ad_storage': 'denied',
-                        'analytics_storage': 'denied'
-                    };
-
-                    categories.forEach(function(category) {
-                        if (category.value === 'marketing') {
-                            consents.ad_storage = 'granted';
-                        }
-                        if (category.value === 'analytics') {
-                            consents.analytics_storage = 'granted';
-                        }
-                    });
-
-                    gtag('consent', 'update', consents);
-                }
-            });
-        }
-
         window.botbleCookieConsent = (function() {
             const COOKIE_NAME = document.querySelector('div[data-site-cookie-name]').getAttribute(
                 'data-site-cookie-name') || 'cookie_for_consent';
@@ -468,6 +442,7 @@
                     categories[checkbox.value] = true;
                 });
                 setCookie(COOKIE_NAME, JSON.stringify(categories), COOKIE_LIFETIME);
+                document.dispatchEvent(new CustomEvent('hotel:consent', {detail: categories}));
                 hideCookieDialog();
             }
 
@@ -501,26 +476,24 @@
             }
 
             function rejectAllCookies() {
-                if (cookieExists(COOKIE_NAME)) {
-                    const secure = window.location.protocol === 'https:' ? '; Secure' : '';
-                    document.cookie = COOKIE_NAME +
-                        '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=' +
-                        COOKIE_DOMAIN +
-                        '; path=/; SameSite=Lax' +
-                        secure +
-                        SESSION_SECURE;
-                }
-
-                if (typeof gtag !== 'undefined') {
-                    gtag('consent', 'update', {
-                        'ad_storage': 'denied',
-                        'analytics_storage': 'denied'
-                    });
-                }
-
+                const categories = {essential: true, analytics: false, marketing: false};
+                setCookie(COOKIE_NAME, JSON.stringify(categories), COOKIE_LIFETIME);
+                document.dispatchEvent(new CustomEvent('hotel:consent', {detail: categories}));
                 hideCookieDialog();
             }
 
+            function showPreferences() {
+                let preferences = {};
+                try { preferences = JSON.parse(getCookie(COOKIE_NAME) || '{}'); } catch (_) {}
+                document.querySelectorAll('.js-cookie-category:not(:disabled)').forEach(function(checkbox) {
+                    checkbox.checked = preferences[checkbox.value] === true;
+                });
+                if (cookieDialog) {
+                    cookieDialog.style.display = '';
+                    cookieDialog.classList.add('site-notice--visible');
+                }
+                if (cookieCategories) { cookieCategories.style.display = 'block'; }
+            }
             function cookieExists(name) {
                 const cookie = getCookie(name);
                 return cookie !== null && cookie !== undefined;
@@ -631,6 +604,8 @@
                     toggleCustomizeView();
                 } else if (event.target.classList.contains('js-site-notice-save')) {
                     savePreferences();
+                } else if (event.target.classList.contains('js-cookie-preferences')) {
+                    showPreferences();
                 }
             });
 
@@ -639,6 +614,7 @@
                 rejectAllCookies: rejectAllCookies,
                 hideCookieDialog: hideCookieDialog,
                 savePreferences: savePreferences,
+                showPreferences: showPreferences,
             };
         })();
     });

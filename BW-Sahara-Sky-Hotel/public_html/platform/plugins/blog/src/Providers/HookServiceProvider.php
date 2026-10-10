@@ -3,7 +3,6 @@
 namespace Botble\Blog\Providers;
 
 use Botble\Base\Facades\Assets;
-use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\Html;
 use Botble\Base\Forms\FieldOptions\SelectFieldOption;
 use Botble\Base\Forms\Fields\SelectField;
@@ -12,10 +11,10 @@ use Botble\Blog\Models\Category;
 use Botble\Blog\Models\Post;
 use Botble\Blog\Models\Tag;
 use Botble\Blog\Services\BlogService;
+use Botble\Blog\Supports\PostSchema;
 use Botble\Dashboard\Events\RenderingDashboardWidgets;
 use Botble\Dashboard\Supports\DashboardWidgetInstance;
 use Botble\LanguageAdvanced\Supports\LanguageAdvancedManager;
-use Botble\Media\Facades\RvMedia;
 use Botble\Menu\Events\RenderingMenuOptions;
 use Botble\Menu\Facades\Menu;
 use Botble\Page\Models\Page;
@@ -28,6 +27,7 @@ use Botble\Theme\Events\RenderingAdminBar;
 use Botble\Theme\Events\RenderingThemeOptionSettings;
 use Botble\Theme\Facades\AdminBar;
 use Botble\Theme\Facades\Theme;
+use Botble\Theme\Supports\JsonLd;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -136,43 +136,9 @@ class HookServiceProvider extends ServiceProvider
                         return $html;
                     }
 
-                    $schemaType = setting('blog_post_schema_type', 'NewsArticle');
+                    $schema = PostSchema::make($post, setting('blog_post_schema_type', 'NewsArticle'));
 
-                    if (! in_array($schemaType, ['NewsArticle', 'News', 'Article', 'BlogPosting'])) {
-                        $schemaType = 'NewsArticle';
-                    }
-
-                    $schema = [
-                        '@context' => 'https://schema.org',
-                        '@type' => $schemaType,
-                        'mainEntityOfPage' => [
-                            '@type' => 'WebPage',
-                            '@id' => $post->url,
-                        ],
-                        'headline' => BaseHelper::clean($post->name),
-                        'description' => BaseHelper::clean($post->description),
-                        'image' => [
-                            '@type' => 'ImageObject',
-                            'url' => RvMedia::getImageUrl($post->image, null, false, RvMedia::getDefaultImage()),
-                        ],
-                        'author' => [
-                            '@type' => 'Person',
-                            'url' => fn () => BaseHelper::getHomepageUrl(),
-                            'name' => class_exists($post->author_type) ? $post->author->name : '',
-                        ],
-                        'publisher' => [
-                            '@type' => 'Organization',
-                            'name' => Theme::getSiteTitle(),
-                            'logo' => [
-                                '@type' => 'ImageObject',
-                                'url' => RvMedia::getImageUrl(Theme::getLogo()),
-                            ],
-                        ],
-                        'datePublished' => $post->created_at->toIso8601String(),
-                        'dateModified' => $post->updated_at->toIso8601String(),
-                    ];
-
-                    return $html . Html::tag('script', json_encode($schema, JSON_UNESCAPED_UNICODE), ['type' => 'application/ld+json'])
+                    return $html . Html::tag('script', JsonLd::encode($schema), ['type' => 'application/ld+json'])
                         ->toHtml();
                 }, 35);
             }, 35, 2);

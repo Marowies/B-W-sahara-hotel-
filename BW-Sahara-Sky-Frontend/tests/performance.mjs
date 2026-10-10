@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import {chromium} from 'playwright';
+import {readFile,writeFile} from 'node:fs/promises';
+const base='http://127.0.0.1:8782';
+const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'});
+const page=await browser.newPage({serviceWorkers:'block'}),checks=[],errors=[],calls=[];
+page.on('pageerror',error=>errors.push(error.message));
+await page.route('**/*',route=>new URL(route.request().url()).hostname==='127.0.0.1'?route.continue():route.abort());
+try {
+ const response=await page.request.get(base+'/api/hotel/rooms?per_page=2');
+ assert.equal(response.status(),200);const reference=(await response.json()).rooms[0];
+ await page.route('**/api/hotel/rooms?**',async route=>{
+  const url=new URL(route.request().url()),number=Number(url.searchParams.get('page')||1);calls.push(number);
+  const rows=Array.from({length:number===3?1:20},(_,i)=>({...reference,id:(number-1)*20+i+1,name:'Performance fixture '+((number-1)*20+i+1)}));
+  await new Promise(done=>setTimeout(done,350));
+  await route.fulfill({json:{rooms:rows,pagination:{page:number,per_page:20,total:41,last_page:3}}});
+ });
+ await page.goto(base+'/rooms/',{waitUntil:'domcontentloaded'});
+ await page.waitForFunction(()=>document.querySelector('.catalogue-pagination'));
+ assert.equal(await page.locator('.room-grid .stay-card').count(),20);checks.push('Large catalogue renders one page of 20');
+ await page.locator('.catalogue-pagination [data-page="2"]').click();
+ assert.equal(await page.locator('.room-grid').getAttribute('aria-busy'),'true');
+ await page.waitForFunction(()=>document.querySelector('.catalogue-pagination span')?.textContent==='2 / 3');
+ assert.equal(await page.locator('.room-grid').getAttribute('aria-busy'),null);checks.push('Loading skeleton clears after page response');
+ await page.locator('.catalogue-pagination [data-page="3"]').click();
+ await page.waitForFunction(()=>document.querySelector('.catalogue-pagination span')?.textContent==='3 / 3');
+ assert.equal(await page.locator('.room-grid .stay-card').count(),1);checks.push('Last page contains only remaining rows');
+ await page.locator('.catalogue-pagination [data-page="2"]').click();
+ await page.waitForFunction(()=>document.querySelector('.catalogue-pagination span')?.textContent==='2 / 3');
+ assert.equal(calls.filter(n=>n===2).length,1);checks.push('Repeated catalogue page uses bounded memory cache');
+ const debounced=await page.evaluate(async()=>{let calls=0;const fn=window.hotelDebounce(()=>calls++,30);for(let i=0;i<10;i++)fn();await new Promise(done=>setTimeout(done,70));return calls;});
+ assert.equal(debounced,1);checks.push('Burst input invokes one debounced update');
+ assert.deepEqual(errors,[]);checks.push('Paginated view has no JavaScript errors');
+ const manifest=JSON.parse(await readFile('dist/build-manifest.json','utf8'));
+ const home=await(await page.request.get('http://127.0.0.1:8780/')).text();
+ assert(!home.includes(manifest.files['route-render.js']));checks.push('Home does not load inner-page render chunk');
+ const asset='/'+manifest.files['approval.js'];
+ const identity=await page.request.get('http://127.0.0.1:8780'+asset,{headers:{'Accept-Encoding':'gzip;q=0, br;q=0'}});
+ assert.equal(identity.headers()['content-encoding'],undefined);checks.push('Static compression honors disabled encodings');
+ const cached=await page.request.get('http://127.0.0.1:8780'+asset,{headers:{'If-None-Match':identity.headers().etag}});
+ assert.equal(cached.status(),304);assert(identity.headers()['cache-control'].includes('immutable'));checks.push('Hashed asset supports immutable caching and conditional requests');
+ await writeFile('test-results/performance-regression.json',JSON.stringify({passed:true,checks,errors,calls},null,2));
+ console.log(JSON.stringify({passed:true,checks}));
+} finally {await browser.close();}

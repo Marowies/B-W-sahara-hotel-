@@ -8,6 +8,14 @@
     "preview": "node tools/serve.mjs",
     "prerender": "node tools/prerender.mjs",
     "test:seo": "node tests/seo.mjs",
+    "test:performance": "node tests/performance.mjs",
+    "test:admin-mobile": "node tests/admin-mobile.mjs",
+    "test:admin-polish": "node tests/admin-polish.mjs",
+    "test:admin-assets": "node tests/local-admin-assets.mjs",
+    "test:ui-layout": "node tests/ui-layout.mjs",
+    "test:mobile-regressions": "node tests/mobile-regressions.mjs",
+    "test:deployment-config": "node --test tests/deployment-config.mjs",
+    "audit:performance": "node tools/audit-performance.mjs",
     "test": "node tests/verify.mjs",
     "vercel-build": "node tools/vercel-build.mjs"
   },
@@ -15,8 +23,10 @@
     "@vercel/functions": "3.9.11"
   },
   "devDependencies": {
+    "esbuild": "0.28.2",
+    "lighthouse": "13.5.0",
     "playwright": "1.62.1",
-    "sharp": "0.35.4"
+    "sharp": "0.35.5"
   },
   "optionalDependencies": {
     "@sparticuz/chromium": "153.0.0"

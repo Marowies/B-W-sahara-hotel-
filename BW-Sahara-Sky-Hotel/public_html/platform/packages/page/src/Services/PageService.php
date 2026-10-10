@@ -50,8 +50,8 @@ class PageService
 
             Theme::breadcrumb()->add($page->name, $page->url);
         } else {
-            $siteTitle = theme_option('seo_title') ?: Theme::getSiteTitle();
-            $seoDescription = theme_option('seo_description');
+            $siteTitle = theme_option('seo_title') ?: Theme::getSiteTitle() ?: $page->name;
+            $seoDescription = theme_option('seo_description') ?: $page->description;
 
             SeoHelper::setTitle($siteTitle)
                 ->setDescription($seoDescription);

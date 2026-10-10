@@ -26,6 +26,10 @@ abstract class Chart extends Widget
                 'type' => $this->type,
             ],
             'series' => [],
+            'noData' => [
+                'text' => trans('core/base::tables.no_data'),
+                'style' => ['fontSize' => '14px'],
+            ],
             'xaxis' => [
                 'categories' => [],
             ],

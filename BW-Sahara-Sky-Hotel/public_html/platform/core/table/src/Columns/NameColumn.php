@@ -8,6 +8,8 @@ class NameColumn extends LinkableColumn
     {
         return parent::make($data ?: 'name', $name)
             ->title(trans('core/base::tables.name'))
-            ->alignStart();
+            ->alignStart()
+            ->addClass('bw-record-name')
+            ->responsivePriority(1);
     }
 }

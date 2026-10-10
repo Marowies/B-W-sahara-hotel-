@@ -109,6 +109,9 @@ app()->booted(function (): void {
                     TextFieldOption::make()->label(__('Form button URL'))->toArray()
                 );
         });
+
+        // Like simple-slider: the hero title can be the page H1, which an AJAX render outside the page cannot decide.
+        Shortcode::ignoreLazyLoading(['hero-banner-with-booking-form']);
     }
 
     if (is_plugin_active('hotel')) {

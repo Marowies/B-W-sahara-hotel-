@@ -1,0 +1,269 @@
+[
+  {
+    "brokenImages": 0,
+    "errors": [],
+    "footer": "Copyright 2026 © B&W SAHARA SKY HOTEL. Version 1.9.1\nPage loaded in 0.26 seconds",
+    "headings": [],
+    "rows": 3,
+    "scrollWidth": 390,
+    "status": "",
+    "tableHeaders": [
+      "",
+      "ID",
+      "",
+      "OPERATIONS"
+    ],
+    "title": "Room categories | B&W SAHARA SKY HOTEL",
+    "url": "https://bwsaharaskyhotel.com/admin/hotel/room-categories",
+    "width": 390
+  },
+  {
+    "brokenImages": 0,
+    "errors": [],
+    "footer": "Copyright 2026 © B&W SAHARA SKY HOTEL. Version 1.9.1\nPage loaded in 0.19 seconds",
+    "headings": [],
+    "rows": 0,
+    "scrollWidth": 390,
+    "status": "",
+    "tableHeaders": [
+      "",
+      "ID",
+      "IMAGE",
+      "",
+      "OPERATIONS"
+    ],
+    "title": "Rooms | B&W SAHARA SKY HOTEL",
+    "url": "https://bwsaharaskyhotel.com/admin/hotel/rooms",
+    "width": 390
+  },
+  {
+    "brokenImages": 0,
+    "errors": [],
+    "footer": "Copyright 2026 © B&W SAHARA SKY HOTEL. Version 1.9.1\nPage loaded in 0.13 seconds",
+    "headings": [],
+    "rows": 0,
+    "scrollWidth": 390,
+    "status": "",
+    "tableHeaders": [
+      "",
+      "ID",
+      "NAME",
+      "",
+      "OPERATIONS"
+    ],
+    "title": "Amenities | B&W SAHARA SKY HOTEL",
+    "url": "https://bwsaharaskyhotel.com/admin/hotel/amenities",
+    "width": 390
+  },
+  {
+    "brokenImages": 0,
+    "errors": [],
+    "footer": "Copyright 2026 © B&W SAHARA SKY HOTEL. Version 1.9.1\nPage loaded in 0.14 seconds",
+    "headings": [],
+    "rows": 0,
+    "scrollWidth": 390,
+    "status": "",
+    "tableHeaders": [
+      "",
+      "ID",
+      "IMAGE",
+      "",
+      "OPERATIONS"
+    ],
+    "title": "Foods | B&W SAHARA SKY HOTEL",
+    "url": "https://bwsaharaskyhotel.com/admin/hotel/foods",
+    "width": 390
+  },
+  {
+    "brokenImages": 0,
+    "errors": [],
+    "footer": "Copyright 2026 © B&W SAHARA SKY HOTEL. Version 1.9.1\nPage loaded in 0.12 seconds",
+    "headings": [],
+    "rows": 0,
+    "scrollWidth": 390,
+    "status": "",
+    "tableHeaders": [
+      "",
+      "ID",
+      "NAME",
+      "",
+      "OPERATIONS"
+    ],
+    "title": "Food types | B&W SAHARA SKY HOTEL",
+    "url": "https://bwsaharaskyhotel.com/admin/hotel/food-types",
+    "width": 390
+  },
+  {
+    "brokenImages": 0,
+    "errors": [],
+    "footer": "Copyright 2026 © B&W SAHARA SKY HOTEL. Version 1.9.1\nPage loaded in 0.13 seconds",
+    "headings": [],
+    "rows": 0,
+    "scrollWidth": 390,
+    "status": "",
+    "tableHeaders": [
+      "",
+      "ID",
+      "NAME",
+      "",
+      "OPERATIONS"
+    ],
+    "title": "Features | B&W SAHARA SKY HOTEL",
+    "url": "https://bwsaharaskyhotel.com/admin/hotel/features",
+    "width": 390
+  },
+  {
+    "brokenImages": 0,
+    "errors": [],
+    "footer": "Copyright 2026 © B&W SAHARA SKY HOTEL. Version 1.9.1\nPage loaded in 0.12 seconds",
+    "headings": [],
+    "rows": 0,
+    "scrollWidth": 390,
+    "status": "",
+    "tableHeaders": [
+      "",
+      "ID",
+      "IMAGE",
+      "",
+      "OPERATIONS"
+    ],
+    "title": "Services | B&W SAHARA SKY HOTEL",
+    "url": "https://bwsaharaskyhotel.com/admin/hotel/services",
+    "width": 390
+  },
+  {
+    "brokenImages": 0,
+    "errors": [],
+    "footer": "Copyright 2026 © B&W SAHARA SKY HOTEL. Version 1.9.1\nPage loaded in 0.12 seconds",
+    "headings": [],
+    "rows": 10,
+    "scrollWidth": 380,
+    "status": "",
+    "tableHeaders": [
+      "",
+      "ID",
+      "IMAGE",
+      "",
+      "OPERATIONS"
+    ],
+    "title": "Services | B&W SAHARA SKY HOTEL",
+    "url": "https://bwsaharaskyhotel.com/admin/hotel/services",
+    "width": 390
+  },
+  {
+    "brokenImages": 0,
+    "errors": [],
+    "footer": "Copyright 2026 © B&W SAHARA SKY HOTEL. Version 1.9.1\nPage loaded in 0.16 seconds",
+    "headings": [],
+    "rows": 0,
+    "scrollWidth": 390,
+    "status": "",
+    "tableHeaders": [
+      "",
+      "ID",
+      "IMAGE",
+      "",
+      "OPERATIONS"
+    ],
+    "title": "Places | B&W SAHARA SKY HOTEL",
+    "url": "https://bwsaharaskyhotel.com/admin/hotel/places",
+    "width": 390
+  },
+  {
+    "brokenImages": 0,
+    "errors": [],
+    "footer": "Copyright 2026 © B&W SAHARA SKY HOTEL. Version 1.9.1\nPage loaded in 0.15 seconds",
+    "headings": [],
+    "rows": 0,
+    "scrollWidth": 390,
+    "status": "",
+    "tableHeaders": [
+      "",
+      "ID",
+      "NAME",
+      "OPERATIONS"
+    ],
+    "title": "Taxes | B&W SAHARA SKY HOTEL",
+    "url": "https://bwsaharaskyhotel.com/admin/hotel/taxes",
+    "width": 390
+  },
+  {
+    "brokenImages": 0,
+    "errors": [],
+    "footer": "Copyright 2026 © B&W SAHARA SKY HOTEL. Version 1.9.1\nPage loaded in 0.19 seconds",
+    "headings": [],
+    "rows": 0,
+    "scrollWidth": 390,
+    "status": "",
+    "tableHeaders": [
+      "",
+      "ID",
+      "NAME",
+      "",
+      "OPERATIONS"
+    ],
+    "title": "Pages | B&W SAHARA SKY HOTEL",
+    "url": "https://bwsaharaskyhotel.com/admin/pages",
+    "width": 390
+  },
+  {
+    "brokenImages": 0,
+    "errors": [],
+    "footer": "Copyright 2026 © B&W SAHARA SKY HOTEL. Version 1.9.1\nPage loaded in 0.15 seconds",
+    "headings": [],
+    "rows": 0,
+    "scrollWidth": 390,
+    "status": "",
+    "tableHeaders": [
+      "",
+      "ID",
+      "IMAGE",
+      "",
+      "OPERATIONS"
+    ],
+    "title": "Galleries | B&W SAHARA SKY HOTEL",
+    "url": "https://bwsaharaskyhotel.com/admin/galleries",
+    "width": 390
+  },
+  {
+    "brokenImages": 0,
+    "errors": [],
+    "footer": "\n                \n    \n                        Insert\n            \n        \n            ",
+    "headings": [
+      "",
+      "Upload progress",
+      "Create folder",
+      "Rename",
+      "Alt text",
+      "Move items to trash",
+      "Delete item(s)",
+      "Empty trash",
+      "\n                    \n  \n  \n  \n                    Download\n                ",
+      "Crop",
+      "Properties",
+      "Share"
+    ],
+    "rows": 0,
+    "scrollWidth": 380,
+    "tableHeaders": [],
+    "title": "Media | B&W SAHARA SKY HOTEL",
+    "url": "https://bwsaharaskyhotel.com/admin/media",
+    "width": 390
+  },
+  {
+    "brokenImages": 0,
+    "errors": [],
+    "footer": "Copyright 2026 © B&W SAHARA SKY HOTEL. Version 1.9.1\nPage loaded in 0.2 seconds",
+    "headings": [
+      "Common",
+      "Localization",
+      "Others"
+    ],
+    "rows": 0,
+    "scrollWidth": 380,
+    "tableHeaders": [],
+    "title": "Settings | B&W SAHARA SKY HOTEL",
+    "url": "https://bwsaharaskyhotel.com/admin/settings",
+    "width": 390
+  }
+]

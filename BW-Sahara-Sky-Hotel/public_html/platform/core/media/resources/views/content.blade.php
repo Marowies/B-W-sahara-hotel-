@@ -1,4 +1,4 @@
-<div class="rv-media-container">
+<div class="rv-media-container" data-bw-open-label="{{ __('Open') }}">
     <x-core::card class="rv-media-wrapper">
         <input
             type="checkbox"
@@ -130,6 +130,7 @@
                             :icon-only="true"
                             data-bs-toggle="offcanvas"
                             href="#rv-media-aside"
+                            aria-label="{{ trans('core/media::media.menu_name') }}"
                         />
 
                         <div class="btn-list">

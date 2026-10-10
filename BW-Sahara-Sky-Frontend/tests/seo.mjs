@@ -75,6 +75,8 @@ try{
   const contact=localizedPath('contact',lang);
   await page.locator(`footer a[href="${contact}"]`).first().click();
   await page.waitForFunction(()=>document.body.dataset.page==='contact');
+  // The router updates the body before loading route scripts and refreshing head metadata.
+  await page.waitForFunction(expected=>document.querySelector('link[rel="canonical"]')?.href===expected,config.origin+contact);
   check(await page.locator('link[rel="canonical"]').getAttribute('href')===config.origin+contact,'Client metadata updated');
   check((await page.locator('[data-hotel-answer]').count())===1,'Client GEO block');
   await mkdir(new URL('../test-results/seo/',import.meta.url),{recursive:true});

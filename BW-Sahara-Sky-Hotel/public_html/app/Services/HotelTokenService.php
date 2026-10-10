@@ -3,15 +3,16 @@
 namespace App\Services;
 
 use Botble\Hotel\Models\Customer;
+use App\Notifications\HotelSessionReuse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use Throwable;
 
 /**
- * Access token: stateless, HMAC-signed, 15 minutes. It is only honoured while its family still has an active refresh token,
+ * Access token: HMAC-signed, 15 minutes, validated against persisted family state on every use,
  * so logout or a detected attack kills it immediately.
  * Refresh token: opaque random value in an HttpOnly cookie, stored hashed, rotated on every use.
  */
@@ -29,7 +30,10 @@ class HotelTokenService
     {
         $familyId = (string) Str::uuid();
         $expires = now()->addDays(self::ABSOLUTE_DAYS);
-        $refresh = $this->insertRow($familyId, $customer->getKey(), $expires, $request);
+        $refresh = DB::transaction(function () use ($customer, $familyId, $expires, $request) {
+            Customer::query()->whereKey($customer->getKey())->lockForUpdate()->firstOrFail();
+            return $this->insertRow($familyId, $customer->getKey(), $expires, $request);
+        });
 
         return $this->pair($familyId, $customer->getKey(), $refresh, $expires);
     }
@@ -40,26 +44,35 @@ class HotelTokenService
     public function refresh(string $token, Request $request): array
     {
         $alert = null;
-        $result = DB::transaction(function () use ($token, $request, &$alert): array {
-            $row = DB::table(self::TABLE)->where('refresh_hash', $this->hash($token))->lockForUpdate()->first();
+        // Resolve only the immutable owner outside the transaction. State is read again after the common lock.
+        $identity = DB::table(self::TABLE)->where('refresh_hash', $this->hash($token))->first();
+        $result = DB::transaction(function () use ($identity, $request, &$alert): array {
+            $alert = null;
+            if (! $identity || ! Customer::query()->whereKey($identity->customer_id)->lockForUpdate()->first()) {
+                return ['ok' => false, 'reason' => 'invalid'];
+            }
+            // Rotation and logout acquire the same customer lock before reading token state.
+            $row = DB::table(self::TABLE)->where('id', $identity->id)->lockForUpdate()->first();
             if (! $row) {
                 return ['ok' => false, 'reason' => 'invalid'];
             }
             $expires = Carbon::parse($row->family_expires_at);
-            if ($expires->isPast()) {
+            if ($expires->lessThanOrEqualTo(now())) {
                 $this->revokeFamily($row->family_id, 'expired');
 
                 return ['ok' => false, 'reason' => 'expired'];
             }
-            $familyActive = DB::table(self::TABLE)->where('family_id', $row->family_id)->where('status', 'active')->exists();
+            $successor = DB::table(self::TABLE)->where('family_id', $row->family_id)->where('status', 'active')->lockForUpdate()->first();
+            $familyActive = $successor !== null;
 
             if ($row->status === 'revoked') {
                 if (! $familyActive || $row->revoke_reason !== 'rotated') {
                     return ['ok' => false, 'reason' => 'revoked'];
                 }
                 if (Carbon::parse($row->revoked_at)->gt(now()->subSeconds(self::GRACE_SECONDS))) {
-                    // Concurrent request that raced the rotation: the browser already holds the successor cookie, so only a fresh access token is returned.
-                    $pair = $this->pair($row->family_id, $row->customer_id, null, $expires);
+                    // Return the same current successor, never a second branch. This also recovers a lost rotation response.
+                    $refresh = $successor->refresh_ciphertext ? Crypt::decryptString($successor->refresh_ciphertext) : null;
+                    $pair = $this->pair($row->family_id, $row->customer_id, $refresh, $expires);
 
                     return ['ok' => true] + $pair;
                 }
@@ -70,11 +83,11 @@ class HotelTokenService
                 return ['ok' => false, 'reason' => 'reuse'];
             }
 
-            DB::table(self::TABLE)->where('id', $row->id)->update(['status' => 'revoked', 'revoke_reason' => 'rotated', 'revoked_at' => now(), 'updated_at' => now()]);
+            DB::table(self::TABLE)->where('id', $row->id)->update(['status' => 'revoked', 'revoke_reason' => 'rotated', 'refresh_ciphertext' => null, 'revoked_at' => now(), 'updated_at' => now()]);
             $next = $this->insertRow($row->family_id, $row->customer_id, $expires, $request);
 
             return ['ok' => true] + $this->pair($row->family_id, $row->customer_id, $next, $expires);
-        });
+        }, 3);
 
         if ($alert) {
             $this->notifyReuse($alert);
@@ -93,10 +106,10 @@ class HotelTokenService
             return null;
         }
         $claims = json_decode((string) base64_decode(strtr($body, '-_', '+/')), true);
-        if (! is_array($claims) || ($claims['exp'] ?? 0) < time() || empty($claims['fid']) || empty($claims['cid'])) {
+        if (! is_array($claims) || ! is_int($claims['exp'] ?? null) || $claims['exp'] <= now()->timestamp || empty($claims['fid']) || empty($claims['cid'])) {
             return null;
         }
-        $active = DB::table(self::TABLE)->where('family_id', $claims['fid'])->where('status', 'active')->where('family_expires_at', '>', now())->exists();
+        $active = DB::table(self::TABLE)->where('family_id', $claims['fid'])->where('customer_id', $claims['cid'])->where('status', 'active')->where('family_expires_at', '>', now())->exists();
 
         return $active ? Customer::query()->find($claims['cid']) : null;
     }
@@ -118,16 +131,20 @@ class HotelTokenService
 
     public function revokeFamily(string $familyId, string $reason): void
     {
-        DB::table(self::TABLE)->where('family_id', $familyId)->where('status', 'active')
-            ->update(['status' => 'revoked', 'revoke_reason' => $reason, 'revoked_at' => now(), 'updated_at' => now()]);
+        DB::transaction(function () use ($familyId, $reason): void {
+            $customerId = DB::table(self::TABLE)->where('family_id', $familyId)->value('customer_id');
+            if (! $customerId || ! Customer::query()->whereKey($customerId)->lockForUpdate()->first()) {
+                return;
+            }
+            DB::table(self::TABLE)->where('family_id', $familyId)->where('status', 'active')
+                ->update(['status' => 'revoked', 'revoke_reason' => $reason, 'refresh_ciphertext' => null, 'revoked_at' => now(), 'updated_at' => now()]);
+        }, 3);
     }
 
-    /** Daily garbage collection: expired families and revoked rows older than a week (kept briefly for security review). */
+    /** Keep rotated token hashes until absolute family expiry so reuse remains detectable. */
     public function prune(): int
     {
-        return DB::table(self::TABLE)->where('family_expires_at', '<', now())
-            ->orWhere(fn ($q) => $q->where('status', 'revoked')->where('revoked_at', '<', now()->subDays(7)))
-            ->delete();
+        return DB::table(self::TABLE)->where('family_expires_at', '<=', now())->delete();
     }
 
     public function cookie(?string $refresh, ?Carbon $expires, Request $request): \Symfony\Component\HttpFoundation\Cookie
@@ -145,6 +162,7 @@ class HotelTokenService
         $refresh = Str::random(64);
         DB::table(self::TABLE)->insert([
             'family_id' => $familyId, 'customer_id' => $customerId, 'refresh_hash' => $this->hash($refresh), 'status' => 'active',
+            'refresh_ciphertext' => Crypt::encryptString($refresh),
             'family_expires_at' => $expires, 'ip' => $request->ip(), 'user_agent' => Str::limit((string) $request->userAgent(), 250, ''),
             'last_used_at' => now(), 'created_at' => now(), 'updated_at' => now(),
         ]);
@@ -154,26 +172,23 @@ class HotelTokenService
 
     private function pair(string $familyId, int|string $customerId, ?string $refresh, Carbon $expires): array
     {
-        $body = rtrim(strtr(base64_encode(json_encode(['fid' => $familyId, 'cid' => (int) $customerId, 'exp' => time() + self::ACCESS_TTL])), '+/', '-_'), '=');
+        $expiresIn = min(self::ACCESS_TTL, max(0, $expires->timestamp - now()->timestamp));
+        $body = rtrim(strtr(base64_encode(json_encode(['fid' => $familyId, 'cid' => (int) $customerId, 'exp' => now()->timestamp + $expiresIn])), '+/', '-_'), '=');
 
         return [
-            'access_token' => 'v1.' . $body . '.' . $this->sign('v1.' . $body), 'expires_in' => self::ACCESS_TTL,
+            'access_token' => 'v1.' . $body . '.' . $this->sign('v1.' . $body), 'expires_in' => $expiresIn,
             'refresh_token' => $refresh, 'family_expires_at' => $expires,
         ];
     }
 
-    private function notifyReuse(array $alert): void
+    protected function notifyReuse(array $alert): void
     {
         $customer = Customer::query()->find($alert['customer_id']);
         if (! $customer) {
             return;
         }
         try {
-            Mail::raw(
-                "Security alert · B&W Sahara Sky\n\nAn old sign-in token for your account was used again, which can mean it was stolen. We signed you out of every device.\n\n"
-                . 'Time: ' . now()->toDateTimeString() . " UTC\nIP address: {$alert['ip']}\nDevice: {$alert['ua']}\n\nSign in again with an email code. If this was not you, contact the hotel.",
-                fn ($m) => $m->to($customer->email)->subject('Security alert: you were signed out · B&W Sahara Sky')
-            );
+            $customer->notify(new HotelSessionReuse($alert['ip'], Str::limit($alert['ua'], 250, ''), now()->utc()->toDateTimeString()));
         } catch (Throwable $e) {
             report($e);
         }

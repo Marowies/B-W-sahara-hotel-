@@ -28,12 +28,12 @@ class CustomerChart extends Chart
             ->all();
 
         return [
-            'series' => [
+            'series' => $data ? [
                 [
                     'name' => trans('plugins/hotel::booking-reports.number_of_customers'),
                     'data' => array_values($data),
                 ],
-            ],
+            ] : [],
             'xaxis' => [
                 'categories' => $this->translateCategories($data),
             ],

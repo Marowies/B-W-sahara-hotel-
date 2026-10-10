@@ -3,10 +3,17 @@
 use App\Http\Controllers\HotelCustomerAuthController;
 use App\Http\Controllers\HotelFrontendController;
 use App\Http\Middleware\RequireHotelCustomer;
+use Botble\Theme\Supports\RobotsTxt;
 use Illuminate\Support\Facades\Route;
 
+Route::get('robots.txt', fn () => response(
+    RobotsTxt::render(RobotsTxt::content(), route('public.sitemap')),
+    200,
+    ['Content-Type' => 'text/plain; charset=UTF-8']
+))->name('public.robots');
+
 Route::prefix('api/hotel')->middleware('throttle:60,1')->group(function (): void {
-    Route::get('rooms', [HotelFrontendController::class, 'rooms']);
+    Route::get('rooms', [HotelFrontendController::class, 'rooms'])->middleware(\App\Http\Middleware\CompressHotelCatalogue::class);
     Route::get('availability', [HotelFrontendController::class, 'availability']);
     Route::get('session', [HotelFrontendController::class, 'session'])->middleware(RequireHotelCustomer::class . ':optional');
     Route::post('locale', [HotelFrontendController::class, 'locale'])->middleware(['throttle:10,1', RequireHotelCustomer::class . ':optional']);

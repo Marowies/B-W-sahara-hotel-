@@ -1,0 +1,55 @@
+/* Room cards styling */
+.room-card {
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.room-card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.room-card.selected {
+    border: 2px solid #36a3f7;
+    box-shadow: 0 5px 15px rgba(54, 163, 247, 0.2);
+}
+
+.room-card .card-img-top {
+    height: 180px;
+    object-fit: cover;
+}
+
+.room-card .card-body {
+    padding: 15px;
+}
+
+.room-card .card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.room-card .card-text {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.room-card .btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Booking form styling */
+#booking_details_container {
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+}
+
+#selected_room_name {
+    color: #36a3f7;
+    font-weight: 600;
+}

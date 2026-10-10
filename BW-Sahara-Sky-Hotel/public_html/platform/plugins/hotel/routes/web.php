@@ -288,7 +288,9 @@ Route::group(['namespace' => 'Botble\Hotel\Http\Controllers', 'middleware' => ['
             Route::post('booking', 'PublicController@postBooking')->name('public.booking');
             Route::get('booking/{token}', 'PublicController@getBooking')->name('public.booking.form');
 
-            Route::post('checkout', 'PublicController@postCheckout')->name('public.booking.checkout');
+            Route::post('checkout', 'PublicController@postCheckout')
+                ->middleware(\App\Http\Middleware\RequireHotelCustomer::class)
+                ->name('public.booking.checkout');
 
             Route::get('checkout/{transactionId}', 'PublicController@checkoutSuccess')
                 ->name('public.booking.information');

@@ -316,6 +316,52 @@ app()->booted(function (): void {
             'helper' => __('If set, all "Book Now" and "Check Availability" buttons will redirect to this external booking engine URL.'),
         ])
         ->setField([
+            'id' => 'rooms_page_seo_title',
+            'section_id' => 'opt-text-subsection-hotel',
+            'type' => 'text',
+            'label' => __('Rooms page SEO title'),
+            'attributes' => [
+                'name' => 'rooms_page_seo_title',
+                'value' => null,
+                'options' => [
+                    'class' => 'form-control',
+                    'data-counter' => 120,
+                ],
+            ],
+            'helper' => __('Saved for the language selected above only; empty keeps the default title. The site name is appended automatically.'),
+        ])
+        ->setField([
+            'id' => 'rooms_page_seo_description',
+            'section_id' => 'opt-text-subsection-hotel',
+            'type' => 'textarea',
+            'label' => __('Rooms page meta description'),
+            'attributes' => [
+                'name' => 'rooms_page_seo_description',
+                'value' => null,
+                'options' => [
+                    'class' => 'form-control',
+                    'rows' => 3,
+                    'data-counter' => 386,
+                ],
+            ],
+            'helper' => __('Saved for the language selected above only; empty keeps the site default description.'),
+        ])
+        ->setField([
+            'id' => 'rooms_page_heading',
+            'section_id' => 'opt-text-subsection-hotel',
+            'type' => 'text',
+            'label' => __('Rooms page heading (H1)'),
+            'attributes' => [
+                'name' => 'rooms_page_heading',
+                'value' => null,
+                'options' => [
+                    'class' => 'form-control',
+                    'data-counter' => 120,
+                ],
+            ],
+            'helper' => __('Saved for the language selected above only; empty keeps the default "Rooms" heading.'),
+        ])
+        ->setField([
             'id' => 'hotel_rules',
             'section_id' => 'opt-text-subsection-hotel',
             'type' => 'editor',

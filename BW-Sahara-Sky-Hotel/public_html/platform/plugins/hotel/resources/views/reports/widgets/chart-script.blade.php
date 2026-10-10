@@ -1,15 +1,13 @@
 <script>
     $(document).ready(function() {
-        new ApexCharts(document.getElementById('revenue-chart'), {
+        if (document.getElementById('revenue-chart')) new ApexCharts(document.getElementById('revenue-chart'), {
             series: @json($revenues('value')),
             colors: @json($revenues('color')),
             chart: {
                 height: '250',
                 type: 'donut'
             },
-            chartOptions: {
-                labels: @json($revenues('label'))
-            },
+            labels: @json($revenues('label')),
             plotOptions: {
                 pie: {
                     donut: {
@@ -40,7 +38,7 @@
             }
         }).render();
 
-        new ApexCharts(document.getElementById('sales-report-chart'), {
+        if (document.getElementById('sales-report-chart')) new ApexCharts(document.getElementById('sales-report-chart'), {
             series: @json($bookingsReport['series']),
             chart: {
                 height: 350,

@@ -1,0 +1,468 @@
+[
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/",
+    "Status": 200,
+    "RequestMs": 2731,
+    "Bytes": 104227,
+    "H1Count": 0,
+    "CanonicalCount": 1,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:53:47 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:53:47 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/rooms",
+    "Status": 200,
+    "RequestMs": 6491,
+    "Bytes": 75132,
+    "H1Count": 0,
+    "CanonicalCount": 0,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:53:50 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:53:50 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/rooms/bw-sahara-sky-hotel-superior-room-single",
+    "Status": 200,
+    "RequestMs": 2486,
+    "Bytes": 80706,
+    "H1Count": 0,
+    "CanonicalCount": 0,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:53:55 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:53:55 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/about-us",
+    "Status": 200,
+    "RequestMs": 1401,
+    "Bytes": 76316,
+    "H1Count": 0,
+    "CanonicalCount": 1,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:53:57 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:53:57 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/services",
+    "Status": 200,
+    "RequestMs": 590,
+    "Bytes": 75362,
+    "H1Count": 0,
+    "CanonicalCount": 1,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:53:58 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:53:58 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/contact-us",
+    "Status": 200,
+    "RequestMs": 1367,
+    "Bytes": 84389,
+    "H1Count": 0,
+    "CanonicalCount": 1,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:53:59 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:53:59 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/galleries",
+    "Status": 200,
+    "RequestMs": 1784,
+    "Bytes": 65271,
+    "H1Count": 0,
+    "CanonicalCount": 1,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:54:01 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:54:01 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/blog",
+    "Status": 200,
+    "RequestMs": 1451,
+    "Bytes": 68762,
+    "H1Count": 0,
+    "CanonicalCount": 1,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:54:02 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:54:02 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/faq",
+    "Status": 200,
+    "RequestMs": 1367,
+    "Bytes": 84529,
+    "H1Count": 0,
+    "CanonicalCount": 1,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:54:04 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:54:04 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/privacy",
+    "Status": 200,
+    "RequestMs": 1278,
+    "Bytes": 64540,
+    "H1Count": 0,
+    "CanonicalCount": 1,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:54:05 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:54:05 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/term-and-conditions",
+    "Status": 200,
+    "RequestMs": 1590,
+    "Bytes": 64555,
+    "H1Count": 0,
+    "CanonicalCount": 1,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:54:07 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:54:07 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/ar",
+    "Status": 200,
+    "RequestMs": 1378,
+    "Bytes": 138517,
+    "H1Count": 0,
+    "CanonicalCount": 1,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:54:08 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:54:08 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/zh",
+    "Status": 200,
+    "RequestMs": 1008,
+    "Bytes": 126580,
+    "H1Count": 0,
+    "CanonicalCount": 1,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:54:09 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:54:09 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/login",
+    "Status": 200,
+    "RequestMs": 843,
+    "Bytes": 71991,
+    "H1Count": 1,
+    "CanonicalCount": 0,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:54:10 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:54:10 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/register",
+    "Status": 200,
+    "RequestMs": 1222,
+    "Bytes": 77890,
+    "H1Count": 0,
+    "CanonicalCount": 0,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "7.6.3",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:54:11 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:54:11 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/robots.txt",
+    "Status": 200,
+    "RequestMs": 1362,
+    "Bytes": 233,
+    "H1Count": 0,
+    "CanonicalCount": 0,
+    "Headers": {
+      "X-Powered-By": "",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "",
+      "Cache-Control": "",
+      "Content-Encoding": "",
+      "X-Frame-Options": "",
+      "x-hcdn-cache-status": "MISS",
+      "X-Content-Type-Options": "",
+      "Server": "hcdn",
+      "Referrer-Policy": "",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      ""
+    ],
+    "TextPreview": "User-agent: *\r\nAllow: /\r\n\r\nDisallow: /wp-admin/\r\nDisallow: /wp-login.php\r\nDisallow: /wp-includes/\r\nDisallow: /wp-content/plugins/\r\nDisallow: /wp-content/cache/\r\nDisallow: /cgi-bin/\r\n\r\nSitemap: https://bwsaharaskyhotel.com/sitemap.xml"
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/sitemap.xml",
+    "Status": 200,
+    "RequestMs": 1533,
+    "Bytes": 1443,
+    "H1Count": 0,
+    "CanonicalCount": 0,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:54:14 GMT; Max-Age=7200; path=/; samesite=lax; secure",
+      " expires=Sat, 10 Oct 2026 22:54:14 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n    <?xml-stylesheet href=\"https://www.bwsaharaskyhotel.com/vendor/core/packages/sitemap/styles/sitemapindex.xsl\" type=\"text/xsl\"?>\n\n<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n            <sitemap>\n            <loc>https://www.bwsaharaskyhotel.com/pages.xml</loc>\n                            <lastmod>2025-04-17T00:00:00+00:00</lastmod>\n                    </sitemap>\n            <sitemap>\n            <loc>https://www.bwsaharaskyhotel.com/blog-posts-2026-07.xml</loc>\n                            <lastmod>2026-07-17T19:17:37+00:00</lastmod>\n                    </sitemap>\n            <sitemap>\n            <loc>https://www.bwsaharaskyhotel.com/blog-categories.xml</loc>\n                            <lastmod>2026-07-23T19:24:27+00:00</lastmod>\n                    </sitemap>\n            <sitemap>\n            <loc>https://www.bwsaharaskyhotel.com/blog-tags.xml</loc>\n                            <lastmod>2025-06-10T10:38:04+00:00</lastmod>\n                    </sitemap>\n            <sitemap>\n            <loc>https://www.bwsaharaskyhotel.com/galleries.xml</loc>\n                            <lastmod>2026-07-23T19:18:10+00:00</lastmod>\n                    </sitemap>\n            <sitemap>\n            <loc>https://www.bwsaharaskyhotel.com/rooms.xml</loc>\n                            <lastmod>2026-07-23T19:04:52+00:00</lastmod>\n                    </sitemap>\n    </sitemapindex>\n"
+  },
+  {
+    "Url": "https://bwsaharaskyhotel.com/admin",
+    "Status": 200,
+    "RequestMs": 2679,
+    "Bytes": 28428,
+    "H1Count": 1,
+    "CanonicalCount": 0,
+    "Headers": {
+      "X-Powered-By": "PHP/8.3.35",
+      "Content-Security-Policy": "upgrade-insecure-requests",
+      "cms-version": "",
+      "Cache-Control": "no-cache, private",
+      "Content-Encoding": "",
+      "X-Frame-Options": "SAMEORIGIN",
+      "x-hcdn-cache-status": "DYNAMIC",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "hcdn",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": ""
+    },
+    "CookieFlags": [
+      " expires=Sat, 10 Oct 2026 22:54:17 GMT; Max-Age=7200; path=/; httponly; samesite=lax; secure"
+    ],
+    "TextPreview": null
+  }
+]

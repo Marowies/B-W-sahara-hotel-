@@ -21,8 +21,7 @@
                     <a
                         class="page-link"
                         href="{{ $paginator->previousPageUrl() }}"
-                        tabindex="-1"
-                        aria-disabled="true"
+                        aria-label="{{ trans('pagination.previous') }}"
                     >
                         <x-core::icon name="ti ti-chevron-left" />
                     </a>
@@ -34,6 +33,7 @@
                     <a
                         class="page-link"
                         href="{{ $paginator->nextPageUrl() }}"
+                        aria-label="{{ trans('pagination.next') }}"
                     >
                         <x-core::icon name="ti ti-chevron-right" />
                     </a>

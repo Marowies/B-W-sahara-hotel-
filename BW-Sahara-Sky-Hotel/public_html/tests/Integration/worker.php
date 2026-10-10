@@ -4,6 +4,25 @@
 $worker = (int) ($argv[4] ?? 0);
 $startAt = (float) ($argv[5] ?? 0);
 $kind = $argv[6] ?? 'checkout';
+if (str_starts_with($kind, 'auth-')) {
+    Carbon\Carbon::setTestNow('2026-10-04 12:00:00');
+    while (microtime(true) < $startAt) { usleep(10000); }
+    $token = $argv[7] ?? '';
+    $request = Illuminate\Http\Request::create('https://hotel.example/api/hotel/auth', 'POST');
+    $service = app(App\Services\HotelTokenService::class);
+    if ($kind === 'auth-refresh') {
+        $result = $service->refresh($token, $request);
+        echo json_encode(['ok' => $result['ok'], 'hash' => isset($result['refresh_token']) ? hash('sha256', $result['refresh_token']) : null]);
+    } elseif ($kind === 'auth-logout') {
+        $service->logout($token, null);
+        echo json_encode(['ok' => true]);
+    } else {
+        $request->merge(['email' => 'synthetic@example.invalid', 'code' => '123456']);
+        $response = (new App\Http\Controllers\HotelCustomerAuthController($service))->verifyCode($request);
+        echo json_encode(['status' => $response->getStatusCode()]);
+    }
+    return;
+}
 if ($kind === 'stripe-webhook') {
     require __DIR__ . '/payment-worker.php';
     return;
@@ -53,6 +72,9 @@ $data = [
 ];
 $session->put($data['token'], ['room_id' => $roomId, 'start_date' => $data['start_date'], 'end_date' => $data['end_date'], 'rooms' => 1, 'adults' => 1, 'children' => 0]);
 $request = Botble\Hotel\Http\Requests\CheckoutRequest::create('/checkout', 'POST', $data);
+$customer = Botble\Hotel\Models\Customer::query()->findOrFail(43);
+$pair = app(App\Services\HotelTokenService::class)->issue($customer, $request);
+$request->headers->set('Authorization', 'Bearer ' . $pair['access_token']);
 $validation = $validator->make($data, $request->rules());
 $validation->validate();
 $request->setValidator($validation);

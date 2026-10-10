@@ -1,3 +1,4 @@
+{!! \Botble\Theme\Supports\WebsiteTracking::roomEvent('begin_checkout', $room->getKey(), $token) !!}
 @if (is_plugin_active('payment'))
     <link rel="stylesheet" href="{{ asset('vendor/core/plugins/payment/css/payment.css') }}?v=1.0.3">
     @php

@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {gzipSync,brotliCompressSync,constants} from 'node:zlib';
 import {createRequire} from 'node:module';
+import {transform} from 'esbuild';
 import {seoConfig,sitemap,robots,llms,markdownPage} from './seo.mjs';
 import {routeDefinitions,resolveRoute} from '../src/shared/locale.mjs';
 
@@ -24,17 +25,18 @@ for(const name of await readdir(join(src,'assets'))){
  measure.originalImageBytes+=input.length;
  const stem=name.replace(/\.[^.]+$/,'');
  const width=meta.width, height=meta.height;
- const base=await image.clone().webp({quality:88,effort:6}).toBuffer();
+ const base=await image.clone().resize({width:1920,withoutEnlargement:true}).webp({quality:name.includes('logo')?88:82,effort:6}).toBuffer();
+ const baseWidth=Math.min(width,1920),baseHeight=Math.round(height*baseWidth/width);
  const file=`${stem}.${hash(base)}.webp`;await writeFile(join(out,'assets',file),base);
  measure.optimizedBaseImageBytes+=base.length;
  const variants=[];
- if(name!=='logo.png')for(const size of [480,800,1280].filter(w=>w<width)){
+ if(!name.includes('logo'))for(const size of [480,800,1280].filter(w=>w<baseWidth)){
   const data=await image.clone().resize({width:size,withoutEnlargement:true}).webp({quality:size===480?80:85,effort:6}).toBuffer();
   const variant=`${stem}-${size}.${hash(data)}.webp`;await writeFile(join(out,'assets',variant),data);
   variants.push(`/assets/${variant} ${size}w`);measure.responsiveImageBytes+=data.length;
  }
- variants.push(`/assets/${file} ${width}w`);
- const item={src:`/assets/${file}`,width,height,srcset:name==='logo.png'?null:variants.join(', ')};
+ variants.push(`/assets/${file} ${baseWidth}w`);
+ const item={src:`/assets/${file}`,width:baseWidth,height:baseHeight,srcset:name.includes('logo')?null:variants.join(', ')};
  aliases[name]=item;info[item.src]=item;replacement.set(name,file);
 }
 function images(text){
@@ -46,7 +48,12 @@ function images(text){
  return text;
 }
 const emitted={};
-async function emit(name,text){const file=`${name.replace(/\.[^.]+$/,'')}.${hash(text)}${extname(name)}`;await writeFile(join(out,file),text);emitted[name]=file;return file;}
+async function emit(name,text){
+ const loader=extname(name)==='.css'?'css':'js';
+ // Preserve classic-script globals used by route code. Modules may safely minify identifiers.
+ text=(await transform(text,{loader,minifyWhitespace:true,minifySyntax:true,minifyIdentifiers:loader==='css'||/^(three|batch|dome|scene)\./.test(name),target:'es2020',legalComments:'eof'})).code;
+ const file=`${name.replace(/\.[^.]+$/,'')}.${hash(text)}${extname(name)}`;await writeFile(join(out,file),text);emitted[name]=file;return file;
+}
 const fontDir=join(out,'fonts');await mkdir(fontDir,{recursive:true});
 let fontCss=await readFile(join(src,'fonts','fonts.css'),'utf8');
 for(const name of await readdir(join(src,'fonts'))){
@@ -58,6 +65,8 @@ await emit('locale.js',(await readFile(join(src,'shared','locale.mjs'),'utf8')).
 await emit('metadata.js',(await readFile(join(src,'shared','metadata.mjs'),'utf8')).replaceAll('export ','')+'\nwindow.hotelMetadata={pageMetadata,pageContent};');
 await emit('i18n.js',await readFile(join(js,'i18n.js'),'utf8'));
 for(const name of ['style.css','approval.css','burgundy.css','performance.css'])await emit(name,images((await readFile(join(css,name),'utf8')).replace(/@import\s+url\(['"]?https:\/\/fonts\.googleapis\.com\/[^)]+\);?/g,'')));
+const siteStyles=(await Promise.all(['style.css','approval.css','burgundy.css'].map(name=>readFile(join(css,name),'utf8')))).join('\n')+'\n'+fontCss+'\n'+await readFile(join(css,'performance.css'),'utf8');
+await emit('site.css',images(siteStyles.replace(/@import\s+url\(['"]?https:\/\/fonts\.googleapis\.com\/[^)]+\);?/g,'')));
 await emit('three.module.js',await readFile(join(vendor,'three.module.js'),'utf8'));
 await emit('batch-model.js',(await readFile(join(js3d,'batch-model.js'),'utf8')).replace('../vendor/three.module.js','./'+emitted['three.module.js']));
 let dome=await readFile(join(js3d,'dome-model.js'),'utf8');dome=dome.replace('../vendor/three.module.js','./'+emitted['three.module.js']).replace('./batch-model.js','./'+emitted['batch-model.js']);await emit('dome-model.js',dome);
@@ -65,7 +74,7 @@ let scene=images(await readFile(join(js3d,'scene.js'),'utf8'));scene=scene.repla
 let runtime=await readFile(join(js,'runtime.js'),'utf8');runtime=runtime.replace('./3d/scene.js','./'+emitted['scene.js']);await emit('runtime.js',runtime);
 await emit('asset-map.js',`window.__HOTEL_SEO__=${JSON.stringify(seo)};window.__HOTEL_ASSETS__=${JSON.stringify(info)};window.__HOTEL_ASSET_ALIASES__=${JSON.stringify(aliases)};window.hotelAssetUrl=name=>window.__HOTEL_ASSET_ALIASES__[name]?.src||('assets/'+name);`);
 await emit('seo.js',await readFile(join(js,'seo.js'),'utf8'));
-for(const name of ['app.js','edition.js','approval.js','geo.js','analytics.js'])await emit(name,images(await readFile(join(js,name),'utf8')));
+for(const name of ['app.js','edition.js','route-render.js','approval.js','geo.js','analytics.js'])await emit(name,images(await readFile(join(js,name),'utf8')));
 const routes=[];
 async function pages(dir,relative=''){
  for(const item of await readdir(dir,{withFileTypes:true})){
@@ -75,7 +84,10 @@ async function pages(dir,relative=''){
    html=html.replace(/<link[^>]+(?:fonts\.googleapis\.com|fonts\.gstatic\.com)[^>]*>/g,'');
    html=html.replace('</head>',`<link rel="stylesheet" href="/${emitted['fonts.css']}"><link rel="stylesheet" href="/${emitted['performance.css']}"></head>`);
    for(const [original,file] of Object.entries(emitted))html=html.replace(new RegExp(`(["'])${original.replace(/\./g,'\\.')}(?:\\?[^"']*)?(["'])`,'g'),`$1/${file}$2`);
+   let bundledStyles=false;
+   html=html.replace(/<link\b[^>]*rel="stylesheet"[^>]*>/g,tag=>{if(!['style.css','approval.css','burgundy.css','fonts.css','performance.css'].some(name=>tag.includes('/'+emitted[name])))return tag;if(bundledStyles)return '';bundledStyles=true;return `<link rel="stylesheet" href="/${emitted['site.css']}">`;});
    html=html.replace(/<script src=/g,'<script defer src=');
+   if(!/data-page="home"/.test(html))html=html.replace(`<script defer src="/${emitted['approval.js']}"`, `<script defer src="/${emitted['route-render.js']}"></script><script defer src="/${emitted['approval.js']}"`);
    html=html.replace('</body>',`<script defer src="/${emitted['geo.js']}"></script><script defer src="/${emitted['seo.js']}"></script><script defer src="/${emitted['analytics.js']}"></script></body>`);
    html=html.replace(/(<script defer src=)/,['asset-map.js','locale.js','i18n.js','metadata.js','runtime.js'].map(name=>`<script defer src="/${emitted[name]}"></script>`).join('')+'$1');
    // Responsive hero attributes are emitted into HTML, before any JS runs.
@@ -84,6 +96,7 @@ async function pages(dir,relative=''){
     const item=info['/assets/'+match[1]];if(!item)return tag;
     if(!/\bwidth=/.test(tag))tag=tag.replace('<img','<img width="'+item.width+'" height="'+item.height+'"');
     if(!/\bdecoding=/.test(tag))tag=tag.replace('<img','<img decoding="async"');
+    if(!/\bloading=/.test(tag)&&!/fetchpriority="high"|hero-image|class="[^"\n]*brand/.test(tag)&&!match[1].startsWith('logo.'))tag=tag.replace('<img','<img loading="lazy"');
     if(item.srcset&&!/\bsrcset=/.test(tag))tag=tag.replace('<img',`<img srcset="${item.srcset}" sizes="${/hero-image|model-fallback/.test(tag)?'100vw':'(max-width: 760px) 100vw, 60vw'}"`);
     return tag;
    });
@@ -116,11 +129,20 @@ ${routeDefinitions.filter(r=>r[0]!=='404').flatMap(r=>['en','ar','zh'].map((lang
 </IfModule>
 <IfModule mod_headers.c>
 Header always set X-Content-Type-Options "nosniff"
+<FilesMatch "\\.[a-f0-9]{12}\\.(js|css|webp|woff2)$">
+Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
+<FilesMatch "\\.(html)$|^(sw\\.js)$">
+Header set Cache-Control "no-cache"
+</FilesMatch>
 ${seo.indexable?'':'Header always set X-Robots-Tag "noindex, nofollow"'}
+</IfModule>
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript text/javascript application/xml
 </IfModule>
 `);
 const version=hash(JSON.stringify(emitted));
-const shell=['asset-map.js','locale.js','i18n.js','metadata.js','runtime.js','app.js','edition.js','approval.js','geo.js','seo.js','analytics.js','style.css','approval.css','burgundy.css','performance.css','fonts.css'].map(n=>'/'+emitted[n]);
+const shell=['asset-map.js','locale.js','i18n.js','metadata.js','runtime.js','approval.js','seo.js','site.css'].map(n=>'/'+emitted[n]);
 const sw=`const VERSION=${JSON.stringify(version)},STATIC='hotel-static-'+VERSION,PAGES='hotel-pages-'+VERSION,CORE=${JSON.stringify(shell)};
 self.addEventListener('install',e=>e.waitUntil(caches.open(STATIC).then(c=>c.addAll(CORE))));
 self.addEventListener('activate',e=>e.waitUntil((async()=>{const keys=await caches.keys();for(const prefix of ['hotel-static-','hotel-pages-']){const old=keys.filter(k=>k.startsWith(prefix)&&k!==prefix+VERSION);for(const k of old.slice(0,-1))await caches.delete(k);}await self.clients.claim();})()));

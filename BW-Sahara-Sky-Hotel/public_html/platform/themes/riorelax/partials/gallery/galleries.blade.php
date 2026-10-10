@@ -5,11 +5,8 @@
                 <div class="button-group filter-button-group">
                     <button class="active" data-filter="*">{{ __('All') }}</button>
                     @foreach ($galleries as $gallery)
-                        @php
-                            $galleryName = $gallery->name;
-                            $galleryClass = '.' . str_replace(' ', '', strtolower($gallery->name));
-                        @endphp
-                        <button data-filter="{{ $galleryClass }}">{{ $galleryName }}</button>
+                        {{-- Filter by record ID: album names may contain characters (e.g. &) that break CSS selectors. --}}
+                        <button data-filter=".gallery-filter-{{ $gallery->getKey() }}">{{ $gallery->name }}</button>
                     @endforeach
                 </div>
             </div>
@@ -19,14 +16,10 @@
                 <div class="grid">
                     <div class="gallery-wrap">
                         @foreach ($galleries as $gallery)
-                            @php
-                                $galleryName = $gallery->name;
-                                $galleryClass = str_replace(' ', '', strtolower($gallery->name));
-                            @endphp
-                            <div class="grid-item {{ $galleryClass }}">
+                            <div class="grid-item gallery-filter-{{ $gallery->getKey() }}">
                                 <a href="{{ $gallery->url }}">
                                     <figure class="gallery-image">
-                                        <img src="{{ RvMedia::getImageUrl($gallery->image, 'medium') }}" alt="{{ $gallery->name }}" class="img" />
+                                        <img src="{{ RvMedia::getImageUrl($gallery->image, 'medium', false, RvMedia::getDefaultImage()) }}" alt="{{ $gallery->name }}" class="img" />
                                     </figure>
                                 </a>
                             </div>

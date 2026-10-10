@@ -236,9 +236,9 @@ class ThemeController extends BaseController
     {
         abort_unless(config('packages.theme.general.enable_robots_txt_editor'), 404);
 
-        $path = public_path('robots.txt');
+        $path = \Botble\Theme\Supports\RobotsTxt::path();
 
-        if (! File::isWritable($path)) {
+        if (! File::isWritable(File::exists($path) ? $path : dirname($path))) {
             return $this
                 ->httpResponse()
                 ->setError()
@@ -248,7 +248,7 @@ class ThemeController extends BaseController
         File::put($path, $request->input('robots_txt_content'));
 
         if ($request->hasFile('robots_txt_file')) {
-            $request->file('robots_txt_file')->move(public_path(), 'robots.txt');
+            $request->file('robots_txt_file')->move(dirname($path), 'robots.txt');
         }
 
         return $this->httpResponse()->withUpdatedSuccessMessage();

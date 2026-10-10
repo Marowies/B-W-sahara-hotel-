@@ -1,0 +1,234 @@
+[
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/about-us",
+    "Status": 200,
+    "RequestMs": 768,
+    "Bytes": 76316,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/blog",
+    "Status": 200,
+    "RequestMs": 760,
+    "Bytes": 68762,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/contact-us",
+    "Status": 200,
+    "RequestMs": 796,
+    "Bytes": 84389,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/faq",
+    "Status": 200,
+    "RequestMs": 707,
+    "Bytes": 84529,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/galleries",
+    "Status": 200,
+    "RequestMs": 812,
+    "Bytes": 65271,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/galleries/deluxe-room",
+    "Status": 200,
+    "RequestMs": 1649,
+    "Bytes": 75996,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/galleries/overview",
+    "Status": 200,
+    "RequestMs": 906,
+    "Bytes": 93271,
+    "H1Count": 1,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/galleries/standard-room",
+    "Status": 200,
+    "RequestMs": 697,
+    "Bytes": 85461,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/galleries/superior-room",
+    "Status": 200,
+    "RequestMs": 722,
+    "Bytes": 80938,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/home-page-02",
+    "Status": 200,
+    "RequestMs": 678,
+    "Bytes": 97864,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/home-page-full-menu",
+    "Status": 200,
+    "RequestMs": 676,
+    "Bytes": 106547,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/home-page-side-menu",
+    "Status": 200,
+    "RequestMs": 574,
+    "Bytes": 80483,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/news/general",
+    "Status": 200,
+    "RequestMs": 582,
+    "Bytes": 69214,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/news/home-is-wherever-you-pitch-your-tent",
+    "Status": 200,
+    "RequestMs": 602,
+    "Bytes": 75175,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/news/one-in-a-billion-starry-night",
+    "Status": 200,
+    "RequestMs": 656,
+    "Bytes": 76415,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/news/this-is-not-a-trip-it-is-a-new-family",
+    "Status": 200,
+    "RequestMs": 847,
+    "Bytes": 75269,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/privacy",
+    "Status": 200,
+    "RequestMs": 755,
+    "Bytes": 64540,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/rooms",
+    "Status": 200,
+    "RequestMs": 689,
+    "Bytes": 75132,
+    "H1Count": 0,
+    "CanonicalCount": 0
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/rooms/bw-sahara-sky-hotel-deluxe-room-double",
+    "Status": 200,
+    "RequestMs": 687,
+    "Bytes": 77335,
+    "H1Count": 0,
+    "CanonicalCount": 0
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/rooms/bw-sahara-sky-hotel-deluxe-room-single",
+    "Status": 200,
+    "RequestMs": 749,
+    "Bytes": 77360,
+    "H1Count": 0,
+    "CanonicalCount": 0
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/rooms/bw-sahara-sky-hotel-standard-room-double",
+    "Status": 200,
+    "RequestMs": 723,
+    "Bytes": 77973,
+    "H1Count": 0,
+    "CanonicalCount": 0
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/rooms/bw-sahara-sky-hotel-standard-room-triple",
+    "Status": 200,
+    "RequestMs": 664,
+    "Bytes": 72281,
+    "H1Count": 0,
+    "CanonicalCount": 0
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/rooms/bw-sahara-sky-hotel-superior-room-double",
+    "Status": 200,
+    "RequestMs": 653,
+    "Bytes": 77973,
+    "H1Count": 0,
+    "CanonicalCount": 0
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/rooms/bw-sahara-sky-hotel-superior-room-single",
+    "Status": 200,
+    "RequestMs": 809,
+    "Bytes": 80706,
+    "H1Count": 0,
+    "CanonicalCount": 0
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/rooms/standard-room-single",
+    "Status": 200,
+    "RequestMs": 847,
+    "Bytes": 80492,
+    "H1Count": 0,
+    "CanonicalCount": 0
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/services",
+    "Status": 200,
+    "RequestMs": 987,
+    "Bytes": 75362,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/tag/general",
+    "Status": 200,
+    "RequestMs": 954,
+    "Bytes": 64989,
+    "H1Count": 1,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/team",
+    "Status": 200,
+    "RequestMs": 1284,
+    "Bytes": 82988,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  },
+  {
+    "Url": "https://www.bwsaharaskyhotel.com/term-and-conditions",
+    "Status": 200,
+    "RequestMs": 1082,
+    "Bytes": 64555,
+    "H1Count": 0,
+    "CanonicalCount": 1
+  }
+]

@@ -12,7 +12,7 @@
         do_action(BASE_ACTION_META_BOXES, 'top', new Payment);
     @endphp
 
-    <div class="my-5 d-block d-md-flex">
+    <div class="my-5 d-block d-md-flex bw-payment-settings">
         <div class="col-12 col-md-3"></div>
         <div class="col-12 col-md-9">
             {!! apply_filters(PAYMENT_METHODS_SETTINGS_PAGE, null) !!}

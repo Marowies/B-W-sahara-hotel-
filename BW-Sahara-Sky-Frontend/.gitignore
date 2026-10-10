@@ -5,6 +5,7 @@ test-results/
 *.log
 .env*
 !.env.example
+!.env.production.example
 *.sql
 *.sqlite*
 *.pem

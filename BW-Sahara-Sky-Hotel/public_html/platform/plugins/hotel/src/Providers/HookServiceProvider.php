@@ -52,11 +52,15 @@ class HookServiceProvider extends ServiceProvider
 
         if (defined('PAYMENT_FILTER_PAYMENT_DATA')) {
             add_filter(PAYMENT_FILTER_PAYMENT_DATA, function (array $data, Request $request) {
+                $customer = app(\App\Services\HotelTokenService::class)->authenticate($request->bearerToken());
+                if (! $customer) {
+                    return [];
+                }
                 $orderIds = (array) $request->input('order_id', []);
 
                 $booking = Booking::query()->find(Arr::first($orderIds));
 
-                if (! $booking || count($orderIds) !== 1
+                if (! $booking || (string) $booking->customer_id !== (string) $customer->getKey() || count($orderIds) !== 1
                     || ! $booking->transaction_id
                     || ! hash_equals((string) $booking->transaction_id, (string) session('booking_transaction_id', ''))) {
                     return [];

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\HotelTokenService;
+use App\Services\HotelLoginLock;
 use Botble\Hotel\Models\Customer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -29,6 +30,8 @@ class HotelCustomerAuthController extends Controller
     {
         $data = $request->validate(['email' => ['required', 'email:rfc', 'max:255']]);
         $email = Str::lower(trim($data['email']));
+
+        return app(HotelLoginLock::class)->run($email, function () use ($email): JsonResponse {
 
         $last = DB::table('hotel_login_codes')->where('email', $email)->latest('id')->first();
         if ($last) {
@@ -58,6 +61,7 @@ class HotelCustomerAuthController extends Controller
         }
 
         return $this->reply(['sent' => true, 'expires_in' => self::TTL_MINUTES * 60, 'resend_in' => self::RESEND_SECONDS]);
+        });
     }
 
     public function verifyCode(Request $request): JsonResponse
@@ -68,6 +72,8 @@ class HotelCustomerAuthController extends Controller
             'name' => ['nullable', 'string', 'max:100'],
         ]);
         $email = Str::lower(trim($data['email']));
+
+        return app(HotelLoginLock::class)->run($email, function () use ($email, $data, $request): JsonResponse {
 
         $row = DB::table('hotel_login_codes')->where('email', $email)->latest('id')->first();
         if (! $row || Carbon::parse($row->expires_at)->isPast()) {
@@ -101,6 +107,7 @@ class HotelCustomerAuthController extends Controller
         $pair = $this->tokens->issue($customer, $request);
 
         return $this->session($pair, $request, ['authenticated' => true, 'email' => $customer->email]);
+        });
     }
 
     /** Rotates the HttpOnly refresh cookie and returns a new 15-minute access token. */

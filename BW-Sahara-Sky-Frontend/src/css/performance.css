@@ -1,5 +1,9 @@
 /* Layout is inherited from the approved design; only loading/motion behavior changes. */
 .model-stage { contain: layout; }
+.room-grid[aria-busy="true"] { min-height:320px; pointer-events:none; opacity:.7; }
+.room-grid[aria-busy="true"]::before { content:''; display:block; grid-column:1/-1; height:200px; border-radius:16px; background:linear-gradient(100deg,#bc946f 25%,#dfbd96 45%,#bc946f 65%); background-size:200% 100%; animation:hotel-skeleton 1.3s linear infinite; }
+.catalogue-pagination { display:flex; gap:16px; align-items:center; justify-content:center; padding-block:24px; }
+@keyframes hotel-skeleton { to { background-position:-200% 0; } }
 .model-stage canvas { display: block; }
 .model-loading [data-retry-model] { display: block; margin: 12px auto 0; }
 /* The same footer component is used by every page and language. */
@@ -83,9 +87,40 @@ footer .footer-bottom { width:calc(100% - 12%); margin-inline:auto; }
 .answer-comparison table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.65;color:#571c35}
 .answer-comparison th,.answer-comparison td{padding:20px;text-align:start;vertical-align:top;border-block-end:1px solid #87543555;min-width:150px}
 .answer-comparison thead{background:#571c35;color:#ecd0a9}
+/* Every comparison remains readable without dragging a narrow phone table. */
+@media(max-width:600px){
+ .answer-comparison table,.answer-comparison tbody,.answer-comparison tr,.answer-comparison th,.answer-comparison td{display:block;min-width:0;width:100%;box-sizing:border-box}
+ .answer-comparison thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+ .answer-comparison tbody th{background:#571c35;color:#ecd0a9}
+ .answer-comparison th,.answer-comparison td{padding:14px 18px;overflow-wrap:anywhere}
+ .answer-comparison td::before{content:attr(data-label);display:block;font-weight:600;margin-bottom:5px}
+ .stay-strip form{grid-template-columns:minmax(0,1fr)!important}
+ .stay-strip input[type=date],.approval-form input[type=date],#stay-form input[type=date]{width:100%;min-height:52px;font-size:16px;padding-inline:12px}
+ .approval-form .form-grid,#stay-form .form-grid{grid-template-columns:minmax(0,1fr)!important}
+ .stay-strip .enquiry-select{margin:8px 0 0}
+}
+.enquiry-options{max-height:280px;max-height:min(280px,45dvh);overflow-y:auto}
 .answer-faq details{padding-block:20px;border-block-end:1px solid #87543566}
 .answer-faq summary{cursor:pointer;font-weight:600;line-height:1.6}
 .answer-faq p{max-width:900px;line-height:1.85}
 .guide-article{padding-block:32px!important}
 .guide-article h2{margin-block:32px 12px}
 [dir=rtl] .answer-section,[dir=rtl] .answer-faq,[dir=rtl] .guide-article{text-align:start}
+
+/* Grid children and translated copy must fit their own track, not just the page. */
+.room-grid>*,.service-grid>*,.article-grid>*,.detail-layout>*,.contact-layout>*,
+.auth-layout>*,.footer-top>*,.room-showcase>*{min-width:0}
+.stay-card h3,.stay-card p,.article-card h2,.service h3,.booking-aside,
+.form-status,.footer-story p,.footer-contact p{overflow-wrap:anywhere}
+.stay-card .card-actions{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.stay-card .card-actions>*{max-width:100%;min-width:0}
+.stay-card .button,.approval-form .button,.catalogue-pagination .button{white-space:normal;overflow-wrap:anywhere;text-align:center;line-height:1.5}
+.catalogue-pagination{flex-wrap:wrap;gap:12px}
+.approval-form input,.approval-form select,.approval-form textarea{min-width:0;max-width:100%}
+.footer-bottom>*{min-width:0;overflow-wrap:anywhere}
+@media(max-width:600px){
+ .stay-card h3{font-size:clamp(26px,7.5vw,32px);line-height:1.25}
+ .stay-card .card-actions .button{flex:1 1 145px}
+ .stay-card .card-actions .text-link{flex:0 1 auto}
+ .enquiry-select-button>span{min-width:0;overflow-wrap:anywhere}
+}

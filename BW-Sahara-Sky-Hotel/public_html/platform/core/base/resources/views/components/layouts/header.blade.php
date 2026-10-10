@@ -5,13 +5,8 @@
     }
 </style>
 
-{!! BaseHelper::googleFonts(
-    'https://fonts.googleapis.com/' .
-        sprintf(
-            'css2?family=%s:wght@300;400;500;600;700&display=swap',
-            urlencode(setting('admin_primary_font', 'Inter')),
-        ),
-) !!}
+{{-- The branded admin uses self-hosted fonts from bw-fonts.css. Avoid a
+     synchronous external font download while rendering every admin page. --}}
 
 <style>
     :root {
@@ -32,4 +27,5 @@
 
 {!! Assets::renderHeader(['core']) !!}
 
-<link rel="stylesheet" href="{{ asset('vendor/core/core/base/css/bw-brand/bw-admin.css') }}?v=2">
+<link rel="stylesheet" href="{{ asset('vendor/core/core/base/css/bw-brand/bw-admin.css') }}?v=9">
+<script defer src="{{ asset('vendor/core/core/base/js/bw-admin-mobile.js') }}?v=5"></script>
