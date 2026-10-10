@@ -116,3 +116,4 @@
         </div>
     </div>
 </div>
+{!! \Botble\Theme\Supports\WebsiteTracking::roomEvent('view_item', $room->getKey()) !!}

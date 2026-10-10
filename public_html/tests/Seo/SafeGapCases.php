@@ -77,7 +77,7 @@ test('A missing cookie policy destination renders no link instead of pointing at
 test('Cookie banner renders the normalized link and keeps its consent controls', function () use ($compileBlade, $root): void {
     $view = file_get_contents("$root/platform/plugins/cookie-consent/resources/views/index.blade.php");
     check(! str_contains($view, "BaseHelper::getHomepageUrl() . '/' ."), 'Unnormalized concatenation remains.');
-    foreach (['js-site-notice-agree', 'js-site-notice-reject', 'js-site-notice-customize', 'data-site-cookie-name', "gtag('consent', 'default'"] as $control) {
+    foreach (['js-site-notice-agree', 'js-site-notice-reject', 'js-site-notice-customize', 'data-site-cookie-name', 'hotel:consent'] as $control) {
         check(str_contains($view, $control), "Consent control changed: $control");
     }
     preg_match('/<div class="site-notice__message">.*?<\/div>/s', $view, $message);
