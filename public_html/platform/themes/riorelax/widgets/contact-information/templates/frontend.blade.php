@@ -2,7 +2,7 @@
     <div class="footer-widget mb-30">
         @if ($logo = theme_option('logo'))
             <div class="f-widget-title mb-30">
-                <img src="{{ Rvmedia::getImageUrl($logo) }}" alt="{{ theme_option('site_name') }}">
+                <img src="{{ Rvmedia::getImageUrl($logo) }}" alt="{{ theme_option('site_name') ?: Theme::getSiteTitle() }}">
             </div>
         @endif
         <div class="f-contact">

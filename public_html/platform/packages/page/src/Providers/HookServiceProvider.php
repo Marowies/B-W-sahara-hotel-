@@ -23,6 +23,7 @@ use Botble\Table\Columns\Column;
 use Botble\Table\Columns\NameColumn;
 use Botble\Theme\Events\RenderingThemeOptionSettings;
 use Botble\Theme\Facades\Theme;
+use Botble\Theme\Supports\JsonLd;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -90,18 +91,18 @@ class HookServiceProvider extends ServiceProvider
                             return $html;
                         }
 
-                        $schema = [
-                            '@context' => 'https://schema.org',
-                            '@type' => 'Organization',
-                            'name' => rescue(fn () => SeoHelper::openGraph()->getProperty('site_name')),
-                            'url' => $page->url,
-                            'logo' => [
-                                '@type' => 'ImageObject',
-                                'url' => RvMedia::getImageUrl(Theme::getLogo()),
-                            ],
-                        ];
+                        $schema = JsonLd::organization(
+                            url(''),
+                            rescue(fn () => SeoHelper::openGraph()->getProperty('site_name')),
+                            ($logo = Theme::getLogo()) ? RvMedia::getImageUrl($logo) : null
+                        );
 
-                        return $html . Html::tag('script', json_encode($schema, JSON_UNESCAPED_UNICODE), ['type' => 'application/ld+json'])
+                        // Plugins with a more specific verified entity (e.g. Hotel) may merge or replace it.
+                        if (! $schema = apply_filters('page_organization_schema', $schema, $page)) {
+                            return $html;
+                        }
+
+                        return $html . Html::tag('script', JsonLd::encode($schema), ['type' => 'application/ld+json'])
                                 ->toHtml();
                     }, 2);
                 }, 2, 2);

@@ -3,7 +3,7 @@
         <li @class(['has-sub' => $row->has_child, $row->css_class])>
             <a @class(['active' => $row->active]) href="{{ $row->url }}" target="{{ $row->target }}">
                 @if($iconImage = $row->getMetaData('icon_image', true))
-                    <img src="{{ RvMedia::getImageUrl($iconImage) }}" alt="{{ $row->title }}" loading="lazy"/>
+                    <img src="{{ RvMedia::getImageUrl($iconImage) }}" alt="" loading="lazy"/>
                 @elseif($row->icon_font)
                     <i class="{{ trim($row->icon_font) }}"></i>
                 @endif

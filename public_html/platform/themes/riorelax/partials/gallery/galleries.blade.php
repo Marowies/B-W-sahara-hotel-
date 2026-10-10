@@ -26,7 +26,7 @@
                             <div class="grid-item {{ $galleryClass }}">
                                 <a href="{{ $gallery->url }}">
                                     <figure class="gallery-image">
-                                        <img src="{{ RvMedia::getImageUrl($gallery->image, 'medium') }}" alt="{{ $gallery->name }}" class="img" />
+                                        <img src="{{ RvMedia::getImageUrl($gallery->image, 'medium', false, RvMedia::getDefaultImage()) }}" alt="{{ $gallery->name }}" class="img" />
                                     </figure>
                                 </a>
                             </div>

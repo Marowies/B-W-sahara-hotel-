@@ -1,7 +1,7 @@
 <section class="about-area about-p pt-90 pb-90 p-relative fix">
     @if($floatingRightImage = $shortcode->floating_right_image)
         <div class="animations-02">
-            <img src="{{ RvMedia::getImageUrl($floatingRightImage) }}" alt="{{ $shortcode->title }}" />
+            <img src="{{ RvMedia::getImageUrl($floatingRightImage) }}" alt="" />
         </div>
     @endif
     <div class="container">

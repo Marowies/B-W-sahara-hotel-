@@ -20,28 +20,28 @@ class AddHrefLangListener
                 return;
             }
 
-            add_filter(THEME_FRONT_HEADER, function ($header) use ($event) {
-                $referenceType = $event->slug->reference_type;
-                $referenceId = $event->slug->reference_id;
+            $referenceType = $event->slug->reference_type;
+            $referenceId = $event->slug->reference_id;
 
-                if (! $referenceType && ! $referenceId) {
-                    $referenceType = Page::class;
-                }
+            if (! $referenceType && ! $referenceId) {
+                $referenceType = Page::class;
+            }
 
-                $isSupported = in_array($referenceType, Language::supportedModels());
+            $isSupported = in_array($referenceType, Language::supportedModels());
 
-                if (is_plugin_active('language-advanced') && class_exists(LanguageAdvancedManager::class)) {
-                    $isSupported = $isSupported || LanguageAdvancedManager::isSupported($referenceType);
-                }
+            if (is_plugin_active('language-advanced') && class_exists(LanguageAdvancedManager::class)) {
+                $isSupported = $isSupported || LanguageAdvancedManager::isSupported($referenceType);
+            }
 
-                if (! $isSupported) {
-                    return $header;
-                }
+            if (! $isSupported) {
+                return;
+            }
 
-                $hreflangUrls = $this->generateHreflangUrls($referenceType, $referenceId);
+            $hreflangUrls = $this->generateHreflangUrls($referenceType, $referenceId);
 
-                Language::setSwitcherURLs($hreflangUrls);
+            Language::setSwitcherURLs($this->switcherUrls($hreflangUrls));
 
+            add_filter(THEME_FRONT_HEADER, function ($header) use ($hreflangUrls) {
                 return $header . view('plugins/language::partials.hreflang', compact('hreflangUrls'))->render();
             }, 55);
         } catch (Exception $exception) {
@@ -49,10 +49,25 @@ class AddHrefLangListener
         }
     }
 
+    // One row per language, in the shape LanguageManager::getSwitcherUrl() looks up by lang_code.
+    protected function switcherUrls(array $hreflangUrls): array
+    {
+        $rows = [];
+
+        foreach (Language::getSupportedLocales() as $localeCode => $properties) {
+            $hreflangCode = Language::formatLocaleForHrefLang($properties['lang_code']);
+
+            if (isset($hreflangUrls[$hreflangCode])) {
+                $rows[] = ['lang_code' => $properties['lang_code'], 'locale' => $localeCode, 'url' => $hreflangUrls[$hreflangCode]];
+            }
+        }
+
+        return $rows;
+    }
+
     protected function generateHreflangUrls(?string $referenceType, int|string|null $referenceId): array
     {
         $hreflangUrls = [];
-        $currentAppLocale = app()->getLocale();
 
         foreach (Language::getSupportedLocales() as $localeCode => $properties) {
             $hreflangCode = Language::formatLocaleForHrefLang($properties['lang_code']);
@@ -69,14 +84,10 @@ class AddHrefLangListener
             if (str_contains($hreflangCode, '-')) {
                 $languageOnly = explode('-', $hreflangCode)[0];
 
-                if ($localeCode === $currentAppLocale) {
+                $hreflangUrls[$hreflangCode] = $url;
+                // Keep the generic target identical across the cluster, even with multiple regions.
+                if (! isset($hreflangUrls[$languageOnly])) {
                     $hreflangUrls[$languageOnly] = $url;
-                    $hreflangUrls[$hreflangCode] = $url;
-                } else {
-                    $hreflangUrls[$hreflangCode] = $url;
-                    if (! isset($hreflangUrls[$languageOnly])) {
-                        $hreflangUrls[$languageOnly] = $url;
-                    }
                 }
             } else {
                 $hreflangUrls[$hreflangCode] = $url;
@@ -119,6 +130,12 @@ class AddHrefLangListener
             return null;
         }
 
+        if ($langCode === Language::getDefaultLocaleCode()) {
+            $locale = $localeCode === $defaultLocale && Language::hideDefaultLocaleInURL() ? null : $localeCode;
+            $prefix = $slug->getRawOriginal('prefix');
+
+            return url($locale . ($prefix ? '/' . $prefix : '') . '/' . $slug->getRawOriginal('key'));
+        }
         foreach ($slug->translations as $translation) {
             if ($translation->lang_code === $langCode) {
                 $locale = Language::getLocaleByLocaleCode($translation->lang_code);

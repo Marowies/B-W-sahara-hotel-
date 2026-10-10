@@ -1,13 +1,13 @@
 <section id="pricing" class="pricing-area pt-90 pb-60 fix p-relative">
     @if($bgImage1 = $shortcode->background_image_1)
         <div class="animations-01">
-            <img src="{{ RvMedia::getImageUrl($bgImage1) }}" alt="{{ __('Background image 1') }}">
+            <img src="{{ RvMedia::getImageUrl($bgImage1) }}" alt="">
         </div>
     @endif
 
     @if ($bgImage2 = $shortcode->background_image_2)
         <div class="animations-02">
-            <img src="{{ RvMedia::getImageUrl($bgImage2) }}" alt="{{ __('Background image 2') }}">
+            <img src="{{ RvMedia::getImageUrl($bgImage2) }}" alt="">
         </div>
     @endif
 

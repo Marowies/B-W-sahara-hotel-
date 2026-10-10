@@ -1,7 +1,7 @@
 <section id="skill" class="skill-area p-relative fix" @if($backgroundColor = $shortcode->background_color) style="background: {{ $backgroundColor }};" @endif>
     @if($backgroundImage = $shortcode->background_image)
         <div class="animations-01">
-            <img src="{{ RvMedia::getImageURL($backgroundImage) }}" alt="{{ $shortcode->title }}" />
+            <img src="{{ RvMedia::getImageURL($backgroundImage) }}" alt="" />
         </div>
     @endif
     <div class="container">

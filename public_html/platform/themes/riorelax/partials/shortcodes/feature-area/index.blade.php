@@ -3,7 +3,7 @@
 <section class="feature-area2 p-relative fix" style="background: {{ $bgColor }}">
     @if ($bgImage = $shortcode->background_image)
         <div class="animations-02">
-            <img src="{{ RvMedia::getImageUrl($bgImage) }}" alt="{{ __('Background image') }}">
+            <img src="{{ RvMedia::getImageUrl($bgImage) }}" alt="">
         </div>
     @endif
 
