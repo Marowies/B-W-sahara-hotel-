@@ -1,4 +1,5 @@
 @php($bgColor = $shortcode->background_color ?: '#101010')
+@php(Botble\Theme\Supports\HeroImagePreload::homepageHero($shortcode->background_image ? RvMedia::getImageUrl($shortcode->background_image) : null))
 
 {{-- Outer wrapper: inset from page edges; booking floats over bottom edge --}}
 <div class="bw-hero-wrapper">
@@ -15,9 +16,13 @@
                             <div class="col-lg-10">
                                 <div class="slider-content s-slider-content mt-30">
                                     @if ($title = $shortcode->title)
-                                        <h2 data-animation="fadeInUp" data-delay=".4s" class="mb-15">
+                                        {{-- One H1 per page: the first hero title, unless the breadcrumb banner already shows the page title as H1.
+                                             Keep these one-line PHP directives: a multi-line PHP block after the inline one on line 1 would not compile. --}}
+                                        @php($heroHeading = Theme::get('heroHeading') || (Theme::get('breadcrumb', true) && Theme::get('pageTitle')) ? 'h2' : 'h1')
+                                        @php(Theme::set('heroHeading', 'h2'))
+                                        <{{ $heroHeading }} data-animation="fadeInUp" data-delay=".4s" class="mb-15">
                                             {!! BaseHelper::clean($title) !!}
-                                        </h2>
+                                        </{{ $heroHeading }}>
                                     @endif
 
                                     @if ($description = $shortcode->description)

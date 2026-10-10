@@ -1,7 +1,7 @@
 <section class="booking pt-90 pb-90 p-relative fix">
     @if ($shapeImage = $shortcode->shape_image)
         <div class="animations-01">
-            <img src="{{ RvMedia::getImageUrl($shapeImage) }}" alt="{{ __('Shape image') }}">
+            <img src="{{ RvMedia::getImageUrl($shapeImage) }}" alt="">
         </div>
     @endif
     @php $externalBookingUrl = theme_option('external_booking_url'); @endphp

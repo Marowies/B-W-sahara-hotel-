@@ -10,7 +10,7 @@
                 <div class="breadcrumb-wrap text-center">
                     <div class="breadcrumb-title">
                         @if($pageTitle = Theme::get('pageTitle'))
-                            <h2>{!! BaseHelper::clean($pageTitle) !!}</h2>
+                            <h1>{!! BaseHelper::clean($pageTitle) !!}</h1>
                         @endif
 
                         @if($crumbs = Theme::breadcrumb()->getCrumbs())

@@ -76,23 +76,23 @@
                                     @if ($url = $author->getMetaData($social, true))
                                         @switch($social)
                                             @case('twitter')
-                                                <a href="{{ $url }}"><i class="fab fa-twitter"></i></a>
+                                                <a href="{{ $url }}" aria-label="X (Twitter)"><i class="fab fa-twitter" aria-hidden="true"></i></a>
                                                 @break
 
                                             @case('facebook')
-                                                <a href="{{ $url }}"><i class="fab fa-facebook-f"></i></a>
+                                                <a href="{{ $url }}" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
                                                 @break
 
                                             @case('instagram')
-                                                <a href="{{ $url }}"><i class="fab fa-instagram"></i></a>
+                                                <a href="{{ $url }}" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
                                                 @break
 
                                             @case('behance')
-                                                <a href="{{ $url }}"><i class="fab fa-behance"></i></a>
+                                                <a href="{{ $url }}" aria-label="Behance"><i class="fab fa-behance" aria-hidden="true"></i></a>
                                                 @break
 
                                             @case('linkedin')
-                                                <a href="{{ $url }}"><i class="fab fa-linkedin"></i></a>
+                                                <a href="{{ $url }}" aria-label="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
                                                 @break
                                         @endswitch
                                     @endif

@@ -980,42 +980,22 @@ class ThemeSupport
 
     public static function isGoogleTagManagerEnabled(): bool
     {
-        $type = setting('google_tag_manager_type');
-
-        return match ($type) {
-            'gtm' => (bool) setting('gtm_container_id'),
-            'id' => (setting('google_tag_manager_id') || setting('google_analytics')),
-            'custom', 'code' => (setting('custom_tracking_header_js') || setting('custom_tracking_body_html') || setting('google_tag_manager_code')),
-            default => (setting('gtm_container_id') || setting('google_tag_manager_id') || setting('google_analytics') || setting('custom_tracking_header_js') || setting('custom_tracking_body_html') || setting('google_tag_manager_code'))
-        };
+        return WebsiteTracking::options(config('tracking', [])) !== null;
     }
 
     public static function isGoogleTagManagerDebugEnabled(): bool
     {
-        return (bool) setting('gtm_debug_mode', false);
+        return false;
     }
 
     public static function getGoogleTagManagerType(): ?string
     {
-        $type = setting('google_tag_manager_type');
-
-        if ($type === 'code') {
-            return 'custom';
-        }
-
-        if (! $type) {
-            if (setting('gtm_container_id')) {
-                return 'gtm';
-            } elseif (setting('custom_tracking_header_js') || setting('custom_tracking_body_html') || setting('google_tag_manager_code')) {
-                return 'custom';
-            } elseif (setting('google_tag_manager_id') || setting('google_analytics')) {
-                return 'id';
-            }
-        }
-
-        return $type;
+        return match (config('tracking.mode', 'off')) {
+            'ga4' => 'id',
+            'gtm' => 'gtm',
+            default => null,
+        };
     }
-
     public static function registerSiteLogoHeight(int $defaultValue = 50): void
     {
         app('events')->listen(RenderingThemeOptionSettings::class, function () use ($defaultValue): void {

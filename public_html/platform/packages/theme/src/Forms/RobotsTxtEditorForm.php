@@ -9,14 +9,16 @@ use Botble\Base\Forms\Fields\AlertField;
 use Botble\Base\Forms\Fields\CodeEditorField;
 use Botble\Base\Forms\FormAbstract;
 use Botble\Theme\Http\Requests\RobotsTxtRequest;
+use Botble\Theme\Supports\RobotsTxt;
 use Illuminate\Support\Facades\File;
 
 class RobotsTxtEditorForm extends FormAbstract
 {
     public function setup(): void
     {
-        $isRobotsTxtWritable = File::isWritable($path = public_path('robots.txt'));
-        $robotsTxtContent = $isRobotsTxtWritable && File::exists($path) ? File::get($path) : '';
+        $path = RobotsTxt::path();
+        $isRobotsTxtWritable = File::isWritable(File::exists($path) ? $path : dirname($path));
+        $robotsTxtContent = RobotsTxt::render(RobotsTxt::content(), route('public.sitemap'));
         $sitemapUrl = route('public.sitemap');
         $hasSitemapReference = stripos($robotsTxtContent, 'sitemap:') !== false;
 

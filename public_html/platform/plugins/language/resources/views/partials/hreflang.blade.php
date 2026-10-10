@@ -1,5 +1,11 @@
+@php
+    $defaultLocale = Language::getDefaultLocale();
+    $defaultProperties = Language::getSupportedLocales()[$defaultLocale] ?? [];
+    $defaultCode = Language::formatLocaleForHrefLang($defaultProperties['lang_code'] ?? null);
+    $defaultUrl = $hreflangUrls[$defaultCode] ?? Language::getLocalizedURL($defaultLocale, url()->current(), [], false);
+@endphp
 <link
-    href="{{ rtrim(Language::getLocalizedURL(Language::getDefaultLocale(), url()->current(), [], false), '/') }}"
+    href="{{ rtrim($defaultUrl, '/') }}"
     hreflang="x-default"
     rel="alternate"
 />

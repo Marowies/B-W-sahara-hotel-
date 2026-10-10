@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -157,12 +157,23 @@
             background-size: cover !important;
             background-repeat: no-repeat !important;
         }
-        .bw-hero-image-clip .slider-content.s-slider-content h2 {
+        .bw-hero-image-clip .slider-content.s-slider-content h1, .bw-hero-image-clip .slider-content.s-slider-content h2 {
             font-size: clamp(32px, 4.5vw, 56px) !important;
             line-height: 1.15 !important;
             font-weight: 800 !important;
             color: #ffffff !important;
             text-shadow: 0 2px 16px rgba(0,0,0,0.45) !important;
+        }
+        /* Album description: no longer an <h6>, same look (theme h6 + Bootstrap heading metrics) */
+        .custom-gallery-description {
+            color: #101010;
+            font-family: var(--heading-font), sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-top: 0;
+            margin-bottom: .5rem;
+            overflow-wrap: break-word;
         }
         .bw-hero-image-clip .slider-content.s-slider-content p {
             color: rgba(255,255,255,0.92) !important;

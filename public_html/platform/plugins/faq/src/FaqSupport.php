@@ -9,6 +9,7 @@ use Botble\Base\Models\BaseModel;
 use Botble\Faq\Contracts\Faq as FaqContract;
 use Botble\Faq\Models\Faq;
 use Botble\Theme\Facades\Theme;
+use Botble\Theme\Supports\JsonLd;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -18,34 +19,39 @@ class FaqSupport implements FaqContract
 {
     public function registerSchema(FaqCollection $faqs): void
     {
-        $faqs = $faqs->toArray();
-
-        if (empty($faqs)) {
+        if (! $schema = static::schema($faqs->toArray())) {
             return;
         }
 
-        $schema = [
-            '@context' => 'https://schema.org',
-            '@type' => 'FAQPage',
-            'mainEntity' => [],
-        ];
+        Theme::asset()
+            ->container('header')
+            ->writeScript('faq-schema', JsonLd::encode($schema), attributes: ['type' => 'application/ld+json']);
+    }
+
+    /**
+     * FAQPage from question/answer pairs. Questions are plain text decoded once; answers keep their already
+     * cleaned HTML (allowed in Answer.text). Pairs missing a question or answer are skipped.
+     */
+    public static function schema(array $faqs): ?array
+    {
+        $questions = [];
 
         foreach ($faqs as $faq) {
-            $schema['mainEntity'][] = [
+            $question = JsonLd::text($faq->getQuestion());
+            $answer = trim($faq->getAnswer());
+
+            if (! $question || JsonLd::text($answer) === null) {
+                continue;
+            }
+
+            $questions[] = [
                 '@type' => 'Question',
-                'name' => $faq->getQuestion(),
-                'acceptedAnswer' => [
-                    '@type' => 'Answer',
-                    'text' => $faq->getAnswer(),
-                ],
+                'name' => $question,
+                'acceptedAnswer' => ['@type' => 'Answer', 'text' => $answer],
             ];
         }
 
-        $schema = json_encode($schema, JSON_UNESCAPED_UNICODE);
-
-        Theme::asset()
-            ->container('header')
-            ->writeScript('faq-schema', $schema, attributes: ['type' => 'application/ld+json']);
+        return $questions ? ['@context' => 'https://schema.org', '@type' => 'FAQPage', 'mainEntity' => $questions] : null;
     }
 
     public function saveConfigs(BaseModel|Model $model, string|array|null $data): void

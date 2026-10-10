@@ -24,6 +24,9 @@ class PublicController extends BaseController
     {
         Theme::addBodyAttributes(['id' => 'page-home']);
 
+        SeoHelper::meta()->setUrl(route('public.index'));
+        SeoHelper::openGraph()->setUrl(route('public.index'));
+
         if (defined('PAGE_MODULE_SCREEN_NAME') && BaseHelper::getHomepageId()) {
             $data = (new PageService())->handleFrontRoutes(null);
 
@@ -34,7 +37,9 @@ class PublicController extends BaseController
             }
         }
 
-        SeoHelper::setTitle(Theme::getSiteTitle());
+        SeoHelper::setTitle(theme_option('seo_title') ?: Theme::getSiteTitle());
+        SeoHelper::setDescription(theme_option('seo_description'));
+        SeoHelper::meta()->addMeta('robots', theme_option('seo_index', true) ? 'index, follow' : 'noindex, nofollow');
 
         event(RenderingHomePageEvent::class);
 
