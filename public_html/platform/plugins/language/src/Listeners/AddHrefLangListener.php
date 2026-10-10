@@ -75,6 +75,10 @@ class AddHrefLangListener
 
             $translatedUrl = $this->getTranslatedUrl($referenceType, $referenceId, $properties['lang_code'], $localeCode);
 
+            if ($referenceType && $referenceId && ! $translatedUrl) {
+                continue;
+            }
+
             if ($translatedUrl) {
                 $url = $translatedUrl;
             }
@@ -103,12 +107,7 @@ class AddHrefLangListener
             return null;
         }
 
-        $currentLocaleCode = Language::getCurrentLocaleCode();
         $defaultLocale = Language::getDefaultLocale();
-
-        if ($langCode === $currentLocaleCode) {
-            return null;
-        }
 
         if ($this->isLanguageAdvancedSupported($referenceType)) {
             return $this->getAdvancedTranslatedUrl($referenceType, $referenceId, $langCode, $localeCode, $defaultLocale);
@@ -144,11 +143,15 @@ class AddHrefLangListener
                     $locale = null;
                 }
 
-                return url($locale . ($slug->prefix ? '/' . $slug->prefix : '') . '/' . $translation->key);
+                return url($locale . ($slug->getRawOriginal('prefix') ? '/' . $slug->getRawOriginal('prefix') : '') . '/' . $translation->key);
             }
         }
 
-        return null;
+        // Advanced translations fall back to the original slug, just like the CMS canonical.
+        $locale = $localeCode === $defaultLocale && Language::hideDefaultLocaleInURL() ? null : $localeCode;
+        $prefix = $slug->getRawOriginal('prefix');
+
+        return url($locale . ($prefix ? '/' . $prefix : '') . '/' . $slug->getRawOriginal('key'));
     }
 
     protected function getStandardTranslatedUrl(string $referenceType, int|string $referenceId, string $langCode, string $localeCode, string $defaultLocale): ?string
