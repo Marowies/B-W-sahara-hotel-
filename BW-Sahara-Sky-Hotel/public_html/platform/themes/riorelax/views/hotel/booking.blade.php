@@ -11,6 +11,7 @@
 @php
     Theme::set('pageTitle', __('Booking'));
     Theme::asset()->container('footer')->usePath()->add('checkout-js', 'js/checkout.js');
+    Theme::asset()->container('footer')->usePath()->add('hotel-checkout-auth-js', 'js/hotel-checkout-auth.js');
 @endphp
 
 <section class="checkout-booking-page">
