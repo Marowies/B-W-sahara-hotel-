@@ -909,3 +909,113 @@ html body footer .footer-contact h3{margin-bottom:6px!important}
  html body footer .footer-contact{padding:32px 0 0!important;margin-top:0!important}
  html body footer .footer-links{padding-bottom:0!important}
 }
+/* Sign-in welcome layout */
+.auth-welcome{min-height:calc(100vh - 90px);min-height:calc(100svh - 90px)}
+.auth-welcome .auth-panel{align-self:stretch;display:flex;flex-direction:column;justify-content:center;background:#f8f1e7;color:#38242a;padding:48px clamp(28px,7%,96px)}
+.auth-welcome .auth-panel>*{width:100%;max-width:440px}
+.auth-welcome .auth-panel>.eyebrow{color:#7b4a57;letter-spacing:.3em;font-size:11px}
+.auth-welcome .auth-panel h2{font-size:clamp(38px,3.4vw,52px);line-height:1.05;letter-spacing:-.015em;margin:18px 0 8px;color:var(--burgundy)}
+.auth-sub{font-size:16px;color:#6d5a52;margin:0 0 28px}
+.welcome-form{display:grid;gap:0}
+.welcome-form .google-button{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:50px;padding:0 18px;background:#fff;color:#2b1a1f;border:1px solid #d6c8b6;border-radius:8px;font-size:15px;font-weight:500;letter-spacing:0;text-transform:none;box-shadow:0 1px 2px #3510200a;transition:border-color .2s,box-shadow .2s}
+.welcome-form .google-button:hover{border-color:#b49c85;box-shadow:0 4px 14px #35102012;background:#fff;color:#2b1a1f}
+.welcome-form .google-button svg{width:20px;height:20px;flex:none}
+.welcome-divider{display:flex;align-items:center;gap:14px;margin:20px 0;color:#8a776d;font-size:13px}
+.welcome-divider::before,.welcome-divider::after{content:'';flex:1;height:1px;background:#e2d5c4}
+.welcome-form>label{display:grid;gap:8px;color:#5a4640;font-size:13px;font-weight:500;letter-spacing:0;text-transform:none}
+.welcome-form .input-icon{position:relative;display:block}
+.welcome-form .input-icon>svg{position:absolute;inset-inline-start:16px;top:50%;width:19px;height:19px;transform:translateY(-50%);fill:none;stroke:#7a665d;stroke-width:1.6;pointer-events:none}
+.welcome-form .input-icon input{width:100%;min-height:50px;margin:0;padding-block:0;padding-inline:48px 16px;background:#fffdf9;border:1px solid #d6c8b6;border-radius:8px;color:#2b1a1f;font-size:15px;box-shadow:none;transition:border-color .2s,box-shadow .2s}
+.welcome-form .input-icon input::placeholder{color:#a3938a}
+.welcome-form .input-icon input:focus{outline:0;border-color:#8a4a62;box-shadow:0 0 0 3px #571c351a}
+.welcome-form>button[type=submit]{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:50px;margin-top:14px;background:var(--burgundy);color:var(--gold);border:0;border-radius:8px;font-size:15px;font-weight:600;letter-spacing:0;text-transform:none;box-shadow:0 6px 18px #571c3526;transition:background .2s,transform .2s}
+.welcome-form>button[type=submit]:hover{background:#4a1529;transform:translateY(-1px)}
+.welcome-form .arrow{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8}
+[dir=rtl] .welcome-form .arrow{transform:scaleX(-1)}
+.welcome-note{margin:12px 0 0;color:#7a665d;font-size:13px}
+.welcome-private{display:flex;align-items:center;justify-content:center;gap:8px;margin:28px 0 0;padding-top:20px;border-top:1px solid #ecdfcf;color:#8a776d;font-size:12px}
+.welcome-private svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6}
+.auth-welcome .form-status{max-width:440px;margin:10px 0 0;font-size:13px}
+.auth-welcome .form-status:empty{display:none}
+.auth-welcome .auth-image h1{font-size:clamp(40px,4vw,60px)}
+@media(max-width:900px){.auth-welcome{min-height:0}.auth-welcome .auth-panel>*{max-width:none}}
+@media(max-width:600px){.auth-welcome .auth-panel{padding:36px 6%}.auth-welcome .auth-panel h2{font-size:36px}.auth-sub{font-size:15px;margin-bottom:22px}}
+.nav-signin{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border:.8px solid #e5c19455;border-radius:999px;background:#ffffff08;color:var(--gold);font-size:13px;font-weight:500;letter-spacing:.06em;white-space:nowrap;transition:background .2s,border-color .2s}
+.nav-signin:hover,.nav-signin[aria-current=page]{background:#e5c19414;border-color:#e5c194aa}
+.nav-signin svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.5}
+@media(max-width:900px){.nav-signin{display:none}}
+.welcome-intro{margin:0 0 20px;color:#6d5a52;font-size:14px;line-height:1.6}
+.welcome-intro strong{color:#2b1a1f;font-weight:600;overflow-wrap:anywhere}
+.welcome-code .code-input{width:100%;min-height:58px;margin:0;padding:0 16px;background:#fffdf9;border:1px solid #d6c8b6;border-radius:8px;color:#2b1a1f;font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:.5em;text-align:center;text-indent:.5em;box-shadow:none;transition:border-color .2s,box-shadow .2s}
+.welcome-code .code-input::placeholder{color:#d9cdbf;letter-spacing:.55em}
+.welcome-code .code-input:focus{outline:0;border-color:#8a4a62;box-shadow:0 0 0 3px #571c351a}
+.welcome-code>button[type=submit]:disabled{opacity:.7;cursor:progress;transform:none}
+.welcome-links{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin:16px 0 0;color:#b3a294;font-size:13px}
+.welcome-links button{appearance:none;background:none;border:0;border-radius:4px;padding:4px 6px;color:var(--burgundy);font:inherit;font-weight:500;text-decoration:underline;text-decoration-color:#571c3540;text-underline-offset:3px;cursor:pointer;box-shadow:none}
+.welcome-links button:hover:not(:disabled){text-decoration-color:var(--burgundy)}
+.welcome-links button:disabled{color:#9a8a80;text-decoration:none;cursor:default}
+.welcome-signed{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;max-width:440px;margin:0;padding:16px 18px;background:#fff;border:1px solid #d6c8b6;border-radius:8px;color:#38242a;font-size:14px}
+.welcome-signed button{appearance:none;background:none;border:0;padding:0;margin-inline-start:auto;color:var(--burgundy);font:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+/* Sign-in: the panel hugs the form so the photo gets the rest of the width */
+.auth-welcome{grid-template-columns:minmax(0,1fr) minmax(460px,540px)}
+.auth-welcome .auth-panel{padding:44px 50px;align-items:center}
+.auth-welcome .auth-image{background-position:center 62%;padding:56px}
+.auth-welcome .auth-image::before{background:linear-gradient(to top,#24091599 0%,#2409154d 38%,#24091500 65%)}
+.auth-welcome .auth-image h1{max-width:17ch;color:#f6e3c6;text-shadow:0 2px 24px #1a050f99}
+@media(max-width:900px){.auth-welcome{grid-template-columns:1fr}.auth-welcome .auth-panel{padding:36px 6%;align-items:stretch}.auth-welcome .auth-image{min-height:240px;padding:28px 6%}}
+/* Photo copy */
+.auth-welcome .auth-image{align-items:flex-end;padding:56px 56px 13vh}
+.auth-welcome .auth-image::before{background:linear-gradient(to top,#240915b3 0%,#24091566 40%,#24091500 72%)}
+.auth-copy{position:relative;max-width:560px;color:#f6e3c6}
+.auth-kicker{display:inline-flex;align-items:center;gap:14px;margin-bottom:18px;color:var(--gold);font-size:12px;font-weight:600;letter-spacing:.32em;text-transform:uppercase}
+.auth-kicker::before{content:'';width:42px;height:1px;background:currentColor}
+.auth-welcome .auth-copy h1{max-width:none;margin:0;font-size:clamp(52px,5.2vw,84px);line-height:1;letter-spacing:-.01em;color:#f8e8cf;text-shadow:0 2px 30px #1a050fb3}
+.auth-copy p{max-width:400px;margin:22px 0 0;color:#ecd9bdd9;font-size:16px;line-height:1.6;text-shadow:0 1px 12px #1a050f99}
+.mail-badge{display:flex;align-items:center;justify-content:center;width:44px;height:44px;margin-bottom:14px;border-radius:50%;background:#571c3512;color:var(--burgundy)}
+.mail-badge svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6}
+.welcome-intro{display:block}
+@media(max-width:900px){.auth-welcome .auth-image{padding:28px 6%;min-height:260px}.auth-welcome .auth-copy h1{font-size:40px}.auth-copy p{display:none}.auth-kicker{margin-bottom:10px}}
+/* Sign-in on phones: no photo, the form is the page */
+.auth-welcome .welcome-form .google-button,.auth-welcome .welcome-form .google-button:hover,.auth-welcome .welcome-form .google-button:active,.auth-welcome .welcome-form .google-button:focus{background:#fff;color:#2b1a1f}
+@media(max-width:900px){
+ .auth-welcome .auth-image{display:none}
+ .auth-welcome .auth-panel{min-height:calc(100svh - 80px);justify-content:flex-start;padding:40px 22px 48px;background:#f8f1e7}
+ .auth-welcome .auth-panel>*{max-width:480px;margin-inline:auto}
+ .auth-welcome .auth-panel>.eyebrow{font-size:10px;letter-spacing:.28em}
+ .auth-welcome .auth-panel h2{font-size:38px;margin:14px auto 6px}
+ .auth-welcome .auth-sub{font-size:15px;margin-bottom:26px}
+ .welcome-form .google-button,.welcome-form .input-icon input,.welcome-form>button[type=submit]{min-height:52px;font-size:16px}
+ .welcome-divider{margin:18px 0}
+ .welcome-private{margin-top:24px}
+}
+[dir=rtl] .welcome-form .input-icon input{padding-inline:16px 48px}
+/* Sign-in on phones: centred welcome, form on a card, soft dunes below */
+@media(max-width:900px){
+ .auth-welcome .auth-panel{justify-content:center;padding:32px 18px 120px;background:#f8f1e7 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 120' preserveAspectRatio='none'%3E%3Cpath d='M0 70C60 40 120 40 190 62s130 30 210-8V120H0z' fill='%23ead9c3'/%3E%3Cpath d='M0 92c70-26 150-30 220-8s120 18 180-4V120H0z' fill='%23e2ccb1'/%3E%3C/svg%3E") bottom/100% 110px no-repeat}
+ .auth-welcome .auth-panel>.eyebrow,.auth-welcome .auth-panel h2,.auth-welcome .auth-sub{text-align:center}
+ .auth-welcome .auth-panel>.eyebrow{display:flex;align-items:center;justify-content:center;gap:10px;color:#9a6a4a}
+ .auth-welcome .auth-panel>.eyebrow::before,.auth-welcome .auth-panel>.eyebrow::after{content:'';width:22px;height:1px;background:currentColor;opacity:.6}
+ .auth-welcome .auth-sub{margin-bottom:22px}
+ .auth-welcome .otp-gate{padding:22px 18px;background:#fffdf9;border:1px solid #eadfd0;border-radius:16px;box-shadow:0 12px 32px #5a2a1a14}
+ .auth-welcome .welcome-private{margin-top:20px;padding-top:16px}
+ .auth-welcome .welcome-signed{border:0;padding:0;background:none}
+}
+@media(max-width:900px){.auth-welcome .welcome-note{text-align:center}}
+/* Signed-in success card */
+.welcome-done{display:grid;justify-items:center;text-align:center;padding:28px 22px;background:#fffdf9;border:1px solid #eadfd0;border-radius:16px;box-shadow:0 12px 32px #5a2a1a14}
+.done-badge{display:flex;align-items:center;justify-content:center;width:56px;height:56px;margin-bottom:16px;border-radius:50%;background:#2f7a4f14;color:#2f7a4f;animation:done-pop .45s cubic-bezier(.2,1.4,.4,1) both}
+.done-badge svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.welcome-done h3{margin:0;color:var(--burgundy);font-size:30px;line-height:1.1}
+.done-who{margin:8px 0 0;color:#6d5a52;font-size:14px;overflow-wrap:anywhere}
+.done-who strong{color:#2b1a1f;font-weight:600}
+.done-actions{display:grid;gap:10px;width:100%;margin-top:22px}
+.welcome-done .done-actions .button{display:flex;align-items:center;justify-content:center;width:100%;min-height:50px;border-radius:8px;font-size:15px;font-weight:600;letter-spacing:0;text-transform:none}
+.welcome-done .done-primary{background:var(--burgundy);color:var(--gold);border:0;box-shadow:0 6px 18px #571c3526}
+.welcome-done .done-primary:hover{background:#4a1529;color:var(--gold)}
+.welcome-done .done-secondary{background:#fff;color:#2b1a1f;border:1px solid #d6c8b6}
+.welcome-done .done-secondary:hover{background:#fff;border-color:#b49c85;color:#2b1a1f}
+.done-signout{appearance:none;margin-top:16px;padding:4px 6px;background:none;border:0;color:#7a665d;font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.done-signout:hover{color:var(--burgundy)}
+@keyframes done-pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){.done-badge{animation:none}}
+@media(max-width:900px){.auth-welcome .otp-gate:has(.welcome-done){padding:0;background:none;border:0;box-shadow:none}}

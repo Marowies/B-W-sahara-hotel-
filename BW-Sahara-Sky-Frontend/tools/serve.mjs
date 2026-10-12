@@ -21,7 +21,7 @@ createServer(async(req,res)=>{
   const incoming=new URL(req.url,'http://127.0.0.1');
   if(backend && await serveAdminAsset(req,res,process.env.HOTEL_BACKEND_PUBLIC||resolve(root,'../../BW-Sahara-Sky-Hotel/public_html/public')))return;
   if(backend&&incoming.pathname==='/login/admin'){res.writeHead(302,{Location:'/admin/login','Cache-Control':'no-store'});res.end();return;}
-  if(backend&&/^\/(?:admin(?:\/|$)|api\/hotel(?:\/|$)|vendor\/|storage\/)/.test(incoming.pathname)){
+  if(backend&&/^\/(?:admin(?:\/|$)|api\/hotel(?:\/|$)|auth\/callback\/|vendor\/|storage\/)/.test(incoming.pathname)){
    const headers={...req.headers,host:'127.0.0.1:'+port};delete headers['connection'];
    const target=new URL(backend);target.pathname=incoming.pathname;target.search=incoming.search;
    const upstream=backendRequest(target,{method:req.method,headers},response=>{

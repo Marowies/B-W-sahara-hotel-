@@ -51,7 +51,10 @@ class HotelGoogleSession
 
     public static function returnPath(mixed $path): string
     {
-        return is_string($path) && preg_match('~^/(?:ar/|zh/)?(?:login|register|booking/review)/$~D', $path)
+        // The frontend sends its localized route (e.g. /ar/dokhool/), see src/shared/locale.mjs.
+        $localized = ['/ar/dokhool/', '/zh/denglu/', '/ar/hesab-gadeed/', '/zh/zhuce/', '/ar/takhteet-eqama/moragaa/', '/zh/zhusu-jihua/queren/'];
+
+        return is_string($path) && (preg_match('~^/(?:ar/|zh/)?(?:login|register|booking/review)/$~D', $path) || in_array($path, $localized, true))
             ? $path : '/login/';
     }
 }

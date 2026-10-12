@@ -248,7 +248,7 @@ test('Google: API logout clears both customer sessions and callback intent', fun
 });
 
 test('Google: return destinations reject external and unrelated application paths', function (): void {
-    foreach (['/login/', '/ar/login/', '/zh/register/', '/booking/review/'] as $path) {
+    foreach (['/login/', '/ar/login/', '/zh/register/', '/booking/review/', '/ar/dokhool/', '/zh/denglu/', '/ar/takhteet-eqama/moragaa/'] as $path) {
         check(App\Services\HotelGoogleSession::returnPath($path) === $path, 'Valid return rejected');
     }
     foreach (['https://evil.example/', '//evil.example/', '/admin/', '/auth/google', '/login/?token=secret', null, [], "/login/\n"] as $path) {
