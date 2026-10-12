@@ -254,12 +254,24 @@ test('Calendar form validates unsafe URLs before saving', function () use ($vali
     check($validator->make(['room_id' => 1, 'name' => 'Calendar', 'url' => 'https://calendar.example/feed.ics'], $rules)->passes(), 'Valid calendar form failed.');
 });
 test('Production cookies remain Secure and HttpOnly despite false environment overrides', function () use ($source) {
-    $repository = Illuminate\Support\Env::getRepository();
-    $repository->set('APP_ENV', 'production');
-    $repository->set('SESSION_SECURE_COOKIE', 'false');
-    $repository->set('SESSION_HTTP_ONLY', 'false');
-    $config = require $source . '/config/session.php';
-    check($config['secure'] === true && $config['http_only'] === true, 'Production cookies are insecure.');
+    // Laravel's immutable dotenv repository cannot overwrite inherited CI variables.
+    // Set all read adapters for this fixture, then restore the exact prior environment.
+    $saved = [];
+    foreach (['APP_ENV' => 'production', 'SESSION_SECURE_COOKIE' => 'false', 'SESSION_HTTP_ONLY' => 'false'] as $key => $value) {
+        $saved[$key] = [$_ENV[$key] ?? null, $_SERVER[$key] ?? null, getenv($key)];
+        $_ENV[$key] = $_SERVER[$key] = $value;
+        putenv($key . '=' . $value);
+    }
+    try {
+        $config = require $source . '/config/session.php';
+        check($config['secure'] === true && $config['http_only'] === true, 'Production cookies are insecure.');
+    } finally {
+        foreach ($saved as $key => [$envValue, $serverValue, $processValue]) {
+            if ($envValue === null) { unset($_ENV[$key]); } else { $_ENV[$key] = $envValue; }
+            if ($serverValue === null) { unset($_SERVER[$key]); } else { $_SERVER[$key] = $serverValue; }
+            putenv($processValue === false ? $key : $key . '=' . $processValue);
+        }
+    }
 });
 
 function checkout(array $data, ?array $selection = null, bool $authenticated = true) {
