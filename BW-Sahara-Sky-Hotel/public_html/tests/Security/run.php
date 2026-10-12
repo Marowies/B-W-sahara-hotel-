@@ -89,6 +89,7 @@ $guard = new class {
     public function check() { return $this->customerId !== null; }
     public function id() { return $this->customerId; }
     public function setUser($customer) { $this->customerId = (int) $customer->getKey(); return $this; }
+    public function logout() { $this->customerId = null; }
     public function user() { return $this->customerId ? Botble\Hotel\Models\Customer::query()->find($this->customerId) : null; }
 };
 Illuminate\Support\Facades\Auth::swap(new class($guard) {

@@ -6,6 +6,8 @@ use Botble\SocialLogin\Models\SocialLogin;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use RuntimeException;
 
 class SocialLoginService
 {
@@ -50,6 +52,35 @@ class SocialLoginService
     {
         $data['user_id'] = $user->getKey();
         $data['user_type'] = $user::class;
+
+        if ($data['provider'] === 'google') {
+            return DB::transaction(function () use ($user, $data): SocialLogin {
+                // Serialize initial links for one customer as well as identity updates.
+                $user->newQuery()->whereKey($user->getKey())->lockForUpdate()->firstOrFail();
+
+                $identity = SocialLogin::query()
+                    ->where('provider', 'google')
+                    ->where('provider_id', $data['provider_id'])
+                    ->lockForUpdate()
+                    ->first();
+
+                if ($identity) {
+                    if ((string) $identity->user_id !== (string) $user->getKey() || $identity->user_type !== $user::class) {
+                        throw new RuntimeException('Google identity is already linked to another account.');
+                    }
+
+                    $identity->update($data);
+
+                    return $identity;
+                }
+
+                if ($this->hasSocialLogin($user, 'google')) {
+                    throw new RuntimeException('The account is already linked to another Google identity.');
+                }
+
+                return SocialLogin::query()->create($data);
+            });
+        }
 
         // First, check if this provider_id is already used
         $existingSocialLogin = $this->findSocialLoginByProviderAndId($data['provider'], $data['provider_id']);

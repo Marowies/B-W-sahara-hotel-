@@ -6,8 +6,11 @@ use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Media\Facades\RvMedia;
+use Botble\Hotel\Models\Customer;
 use Botble\SocialLogin\Facades\SocialService;
+use Botble\SocialLogin\Services\GoogleAccountResolver;
 use Botble\SocialLogin\Services\SocialLoginService;
+use Botble\SocialLogin\Supports\LoginRedirect;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Events\Registered;
@@ -143,11 +146,25 @@ class SocialLoginController extends BaseController
 
         $model = new $providerData['model']();
 
-        $account = $this->socialLoginService->findUserByEmail($oAuth->getEmail(), $model::class);
+        $isGoogleCustomer = $provider === 'google' && $guard === 'customer' && $model instanceof Customer;
 
-        $socialLoginUser = $this->socialLoginService->findUserByProvider($provider, $oAuth->getId());
+        if ($isGoogleCustomer) {
+            try {
+                $account = app(GoogleAccountResolver::class)->resolve($oAuth, $model::class);
+            } catch (\RuntimeException $exception) {
+                return $this->httpResponse()
+                    ->setError()
+                    ->setNextUrl($providerData['login_url'])
+                    ->setMessage(trans('plugins/social-login::social-login.login_error'));
+            }
 
-        if ($socialLoginUser && $account && $socialLoginUser->getKey() !== $account->getKey()) {
+            $socialLoginUser = null;
+        } else {
+            $account = $this->socialLoginService->findUserByEmail($oAuth->getEmail(), $model::class);
+            $socialLoginUser = $this->socialLoginService->findUserByProvider($provider, $oAuth->getId());
+        }
+
+        if (! $isGoogleCustomer && $socialLoginUser && $account && $socialLoginUser->getKey() !== $account->getKey()) {
             $this->socialLoginService->updateSocialLogin($socialLoginUser, $provider, [
                 'user_id' => $account->getKey(),
                 'user_type' => $account::class,
@@ -208,7 +225,16 @@ class SocialLoginController extends BaseController
             'avatar' => $oAuth->getAvatar(),
         ]);
 
-        $this->socialLoginService->createOrUpdateSocialLogin($account, $socialLoginData);
+        try {
+            $this->socialLoginService->createOrUpdateSocialLogin($account, $socialLoginData);
+        } catch (\RuntimeException $exception) {
+            BaseHelper::logError($exception);
+
+            return $this->httpResponse()
+                ->setError()
+                ->setNextUrl($providerData['login_url'])
+                ->setMessage(trans('plugins/social-login::social-login.login_error'));
+        }
 
         try {
             $url = $oAuth->getAvatar();
@@ -229,11 +255,22 @@ class SocialLoginController extends BaseController
             BaseHelper::logError($exception);
         }
 
+        if ($isGoogleCustomer && ! $account->confirmed_at) {
+            $account->confirmed_at = Carbon::now();
+            $account->save();
+        }
+
         Auth::guard($guard)->login($account, true);
+        session()->regenerate();
+        session()->forget('social_login_guard_current');
+
+        if ($isGoogleCustomer && session()->has(\App\Services\HotelGoogleSession::RETURN_KEY)) {
+            return app(\App\Services\HotelGoogleSession::class)->complete($account, request());
+        }
 
         $redirectUrl = $providerData['redirect_url'] ?: BaseHelper::getHomepageUrl();
 
-        $redirectUrl = session()->has('url.intended') ? session('url.intended') : $redirectUrl;
+        $redirectUrl = LoginRedirect::resolve(session()->pull('url.intended'), url('/'), $redirectUrl);
 
         return $this
             ->httpResponse()
@@ -243,6 +280,13 @@ class SocialLoginController extends BaseController
 
     protected function ensureProviderIsExisted(string $provider): void
     {
-        abort_if(! in_array($provider, SocialService::getProviderKeys(), true), 404);
+        abort_if(
+            ! in_array($provider, SocialService::getProviderKeys(), true)
+            || ! SocialService::setting('enable')
+            || ! SocialService::getProviderEnabled($provider)
+            || ! SocialService::setting($provider . '_app_id')
+            || ! SocialService::setting($provider . '_app_secret'),
+            404
+        );
     }
 }

@@ -216,6 +216,46 @@ if ($db->getDriverName() === 'mysql' && isset($argv[2])) {
     });
 }
 
+test('Google: callback creates the existing customer token session without leaking tokens', function () use ($app, $session, $url, $db): void {
+    $app->instance('redirect', new Illuminate\Routing\Redirector($url));
+    $request = authRequest();
+    $request->setLaravelSession($session);
+    $session->put(App\Services\HotelGoogleSession::RETURN_KEY, '/ar/booking/review/');
+    $response = app(App\Services\HotelGoogleSession::class)->complete(Customer::query()->findOrFail(43), $request);
+    check(str_ends_with($response->headers->get('Location'), '/ar/booking/review/'), 'Return language/booking step lost');
+    check(! $session->has(App\Services\HotelGoogleSession::RETURN_KEY), 'Callback intent not consumed');
+    check(str_contains($response->headers->get('Cache-Control'), 'no-store'), 'Private callback was cacheable');
+    $cookies = $response->headers->getCookies();
+    $cookie = $cookies[0];
+    check($cookie->getName() === HotelTokenService::COOKIE && $cookie->isHttpOnly() && $cookie->isSecure() && $cookie->getSameSite() === 'strict' && $cookie->getPath() === HotelTokenService::COOKIE_PATH, 'Google cookie policy differs from OTP');
+    $pair = app(HotelTokenService::class)->refresh($cookie->getValue(), $request);
+    check($pair['ok'] && app(HotelTokenService::class)->authenticate($pair['access_token'])->getKey() === 43, 'Google did not preserve customer identity');
+    check(! str_contains($response->headers->get('Location'), $cookie->getValue()), 'Refresh token leaked into URL');
+});
+
+test('Google: API logout clears both customer sessions and callback intent', function () use ($session, $guard): void {
+    $service = app(HotelTokenService::class);
+    $customer = Customer::query()->findOrFail(43);
+    $pair = $service->issue($customer, authRequest());
+    $request = authRequest();
+    $request->cookies->set(HotelTokenService::COOKIE, $pair['refresh_token']);
+    $request->setLaravelSession($session);
+    $session->put(App\Services\HotelGoogleSession::RETURN_KEY, '/login/');
+    $guard->setUser($customer);
+    (new App\Http\Controllers\HotelCustomerAuthController($service))->logout($request);
+    check(! $guard->check() && ! $session->has(App\Services\HotelGoogleSession::RETURN_KEY), 'CMS session survived logout');
+    check(! $service->authenticate($pair['access_token']) && ! $service->refresh($pair['refresh_token'], $request)['ok'], 'API session survived logout');
+});
+
+test('Google: return destinations reject external and unrelated application paths', function (): void {
+    foreach (['/login/', '/ar/login/', '/zh/register/', '/booking/review/'] as $path) {
+        check(App\Services\HotelGoogleSession::returnPath($path) === $path, 'Valid return rejected');
+    }
+    foreach (['https://evil.example/', '//evil.example/', '/admin/', '/auth/google', '/login/?token=secret', null, [], "/login/\n"] as $path) {
+        check(App\Services\HotelGoogleSession::returnPath($path) === '/login/', 'Unsafe return accepted');
+    }
+});
+
 test('Auth: concurrency migration rollback and reapply', function () use ($source, $db): void {
     $migration = require $source . '/database/migrations/2026_10_08_110000_harden_customer_auth_concurrency.php';
     $migration->down();

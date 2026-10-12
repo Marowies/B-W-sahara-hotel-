@@ -520,16 +520,20 @@ class HotelServiceProvider extends ServiceProvider
                     'model' => Customer::class,
                     'login_url' => route('customer.login'),
                     'redirect_url' => route('public.index'),
+                    'view' => 'plugins/hotel::themes.customers.social-login',
                 ]);
             }
 
             add_filter('social_login_before_saving_account', function ($data, $oAuth, $providerData) {
                 if (Arr::get($providerData, 'model') == Customer::class && Arr::get($providerData, 'guard') == 'customer') {
-                    $firstName = implode(' ', explode(' ', $oAuth->getName(), -1));
+                    $name = trim((string) $oAuth->getName()) ?: $oAuth->getEmail();
+                    $parts = preg_split('/\s+/', $name);
+                    $lastName = count($parts) > 1 ? array_pop($parts) : '';
+                    $firstName = implode(' ', $parts);
                     Arr::forget($data, 'name');
                     $data = array_merge($data, [
                         'first_name' => $firstName,
-                        'last_name' => trim(str_replace($firstName, '', $oAuth->getName())),
+                        'last_name' => $lastName,
                     ]);
                 }
 

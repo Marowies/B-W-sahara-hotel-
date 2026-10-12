@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'continue_with_google' => 'Continue with Google',
+    'or' => 'Or',
     'name' => 'Customers',
     'create' => 'New customer',
     'edit' => 'Edit customer',

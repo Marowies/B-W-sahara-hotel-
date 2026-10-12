@@ -187,7 +187,8 @@
   const keep=r=>{if(r.ok&&r.data.access_token){auth.token=r.data.access_token;auth.exp=Date.now()+r.data.expires_in*1000;auth.email=r.data.email||auth.email;}return r;};
   const ensureToken=()=>{if(auth.token&&auth.exp-Date.now()>30000)return Promise.resolve(true);return auth.pending||(auth.pending=send('auth/refresh',{}).then(r=>{auth.pending=null;if(!keep(r).ok){auth.token=null;return false;}return true;}));};
   const gateCall=async(path,body)=>{if(path==='auth/otp/verify'||path==='auth/otp/request')return keep(await send(path,body));if(path==='auth/logout'){const r=await send(path,{},auth.token);if(r.ok){auth.token=null;auth.exp=0;auth.email=null;}return r;}if(!await ensureToken())return {ok:false,status:401,data:{code:'login_required'}};return send(path,body,auth.token);};
-  // One-time-code sign-in UI shared by the payment gate and the login pages.
+  const googleProviders=send('auth/providers');
+  // Google and email-code sign-in share the existing customer token session.
   const otpFlow=(gate,status,onShow,onDone,introKey='otp.intro')=>{
   const fail=r=>{const d=r.data||{};if(r.status===429&&d.retry_after)return t('otp.errWait').replace('{s}',d.retry_after);const map={invalid:'otp.errInvalid',expired:'otp.errExpired',locked:'otp.errLocked'};if(map[d.code])return t(map[d.code]);if(r.status===422)return t('otp.errEmail');if(r.status===503)return t('otp.errSend');return t('otp.errGeneric');};
   const field=(label,attrs)=>{const l=document.createElement('label');l.append(label);const i=document.createElement('input');Object.entries(attrs).forEach(([k,v])=>i.setAttribute(k,v));l.append(i);return [l,i];};
@@ -199,6 +200,7 @@
   const [l,i]=field(t('marketing.m_654a3e34016c'),{type:'email',name:'email',required:'',autocomplete:'email',maxlength:'255',inputmode:'email'});i.value=email;
   const send=mk('button',t('otp.send'),'submit');
   form.append(intro(t(introKey)),l,send);gate.replaceChildren(form);i.focus();
+  googleProviders.then(r=>{if(!form.isConnected||!r.ok||!r.data.google)return;const google=document.createElement('a');google.className='button secondary';google.textContent=t('Continue with Google','المتابعة باستخدام Google','使用 Google 继续');google.href='/api/hotel/auth/google?'+new URLSearchParams({return_to:location.pathname});google.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();location.assign(google.href);});form.prepend(google);});
   form.onsubmit=async e=>{e.preventDefault();send.disabled=true;status.textContent=t('otp.sending');const r=await gateCall('auth/otp/request',{email:i.value.trim()});send.disabled=false;if(r.ok){status.textContent='';showCode(i.value.trim().toLowerCase(),r.data.resend_in||60);}else status.textContent=fail(r);};
   }
   function showCode(email,wait){

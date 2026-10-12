@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'continue_with_google' => 'المتابعة باستخدام Google',
+    'or' => 'أو',
     'name' => 'العملاء',
     'create' => 'عميل جديد',
     'edit' => 'تعديل العميل',

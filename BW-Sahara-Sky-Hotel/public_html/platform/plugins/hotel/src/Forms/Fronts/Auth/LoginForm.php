@@ -71,6 +71,9 @@ class LoginForm extends AuthForm
                 'html' => '</div>',
             ])
             ->submitButton(trans('plugins/hotel::customer.login'), 'ti ti-arrow-narrow-right')
+            ->add('filters', HtmlField::class, [
+                'html' => apply_filters(BASE_FILTER_AFTER_LOGIN_OR_REGISTER_FORM, null, Customer::class),
+            ])
             ->add('register', HtmlField::class, [
                 'html' => sprintf(
                     '<div class="mt-3 text-center">%s <a href="%s" class="text-decoration-underline">%s</a></div>',
@@ -78,9 +81,6 @@ class LoginForm extends AuthForm
                     route('customer.register'),
                     trans('plugins/hotel::customer.register_now')
                 ),
-            ])
-            ->add('filters', HtmlField::class, [
-                'html' => apply_filters(BASE_FILTER_AFTER_LOGIN_OR_REGISTER_FORM, null, Customer::class),
             ]);
     }
 }
