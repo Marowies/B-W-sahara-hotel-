@@ -184,9 +184,21 @@
   // Access token (15 min) lives only in memory; the rotating refresh token is an HttpOnly cookie the page cannot read.
   const auth=window.hotelAuth||(window.hotelAuth={token:null,exp:0,pending:null});
   const send=async(path,body,bearer)=>{try{const headers={Accept:'application/json'};if(body){const s=await(await fetch('/api/hotel/session',{credentials:'same-origin',cache:'no-store'})).json();Object.assign(headers,{'Content-Type':'application/json','X-CSRF-TOKEN':s.csrf_token});}if(bearer)headers.Authorization='Bearer '+bearer;const r=await fetch('/api/hotel/'+path,{method:body?'POST':'GET',credentials:'same-origin',cache:'no-store',headers,body:body?JSON.stringify(body):undefined});let data={};try{data=await r.json();}catch{}return {ok:r.ok,status:r.status,data};}catch{return {ok:false,status:0,data:{}};}};
-  const keep=r=>{if(r.ok&&r.data.access_token){auth.token=r.data.access_token;auth.exp=Date.now()+r.data.expires_in*1000;auth.email=r.data.email||auth.email;}return r;};
-  const ensureToken=()=>{if(auth.token&&auth.exp-Date.now()>30000)return Promise.resolve(true);return auth.pending||(auth.pending=send('auth/refresh',{}).then(r=>{auth.pending=null;if(!keep(r).ok){auth.token=null;return false;}return true;}));};
-  const gateCall=async(path,body)=>{if(path==='auth/otp/verify'||path==='auth/otp/request')return keep(await send(path,body));if(path==='auth/logout'){const r=await send(path,{},auth.token);if(r.ok){auth.token=null;auth.exp=0;auth.email=null;}return r;}if(!await ensureToken())return {ok:false,status:401,data:{code:'login_required'}};return send(path,body,auth.token);};
+  const updateAccountHeader=()=>{
+   const signedIn=!!auth.token&&auth.exp>Date.now();
+   const label=signedIn?t('My account','حسابي','我的账户'):labels.login;
+   header.querySelectorAll('.nav-signin,.nav-mobile-signin').forEach(link=>{
+    link.href=signedIn?'/customer/overview':url(routes.login);
+    const text=Array.from(link.childNodes).find(node=>node.nodeType===Node.TEXT_NODE);
+    if(text)text.textContent=label;else link.append(document.createTextNode(label));
+    if(!signedIn&&page==='login')link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');
+   });
+  };
+  const keep=r=>{if(r.ok&&r.data.access_token){auth.token=r.data.access_token;auth.exp=Date.now()+r.data.expires_in*1000;auth.email=r.data.email||auth.email;updateAccountHeader();}return r;};
+  const ensureToken=()=>{if(auth.token&&auth.exp-Date.now()>30000)return Promise.resolve(true);return auth.pending||(auth.pending=send('auth/refresh',{}).then(r=>{auth.pending=null;keep(r);if(!r.ok||!r.data.access_token){auth.token=null;auth.exp=0;auth.email=null;updateAccountHeader();return false;}return true;}));};
+  const gateCall=async(path,body)=>{if(path==='auth/otp/verify'||path==='auth/otp/request')return keep(await send(path,body));if(path==='auth/logout'){const r=await send(path,{},auth.token);if(r.ok){auth.token=null;auth.exp=0;auth.email=null;updateAccountHeader();}return r;}if(!await ensureToken())return {ok:false,status:401,data:{code:'login_required'}};return send(path,body,auth.token);};
+  // Every connected page restores the real customer session before changing its account link.
+  ensureToken().then(updateAccountHeader);
   const googleProviders=send('auth/providers');
   if(bookingSearch){
    const note=main.querySelector('.booking-aside p');if(note)note.textContent=t('Search live hotel availability, select a room, then continue to the hotel booking form.','ابحث عن الغرف المتاحة، واختر غرفتك، ثم تابع إلى نموذج حجز الفندق.','查询酒店实时空房，选择客房，然后继续填写酒店预订表单。');
