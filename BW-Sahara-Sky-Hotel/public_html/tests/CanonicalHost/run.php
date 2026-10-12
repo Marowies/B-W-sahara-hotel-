@@ -104,7 +104,16 @@ test('Actual environment configuration is disabled and temporary by default',fun
     $config=require $root.'/config/canonical-host.php';
     check($config['enabled']===false && $config['status']===302 && $config['permanent_confirmed']===false,'Unsafe configuration defaults.');
 });
-test('Both Apache trailing slash rules exclude unsafe methods cookies signed links and stateful paths',function()use($root){foreach([$root.'/.htaccess',$root.'/public/.htaccess']as$file){$source=file_get_contents($file);check((bool)preg_match('/RewriteCond %\{REQUEST_METHOD\} \^\(GET\|HEAD\)\$\s+RewriteCond %\{HTTP_COOKIE\} \^\$\s+RewriteCond %\{QUERY_STRING\} .*signature.*\s+RewriteCond %\{REQUEST_URI\} .*booking.*\s+RewriteCond %\{REQUEST_FILENAME\} !-d/',$source),'Unsafe slash redirect rule.');}});
+test('Both Apache trailing slash rules exclude unsafe methods headers cookies signed links and stateful paths',function()use($root){foreach([$root.'/.htaccess',$root.'/public/.htaccess']as$file){$source=file_get_contents($file);check((bool)preg_match('/RewriteCond %\{REQUEST_METHOD\} \^\(GET\|HEAD\)\$\s+RewriteCond %\{HTTP:Authorization\} \^\$\s+RewriteCond %\{HTTP:X-XSRF-Token\} \^\$\s+RewriteCond %\{HTTP_COOKIE\} \^\$\s+RewriteCond %\{QUERY_STRING\} .*signature.*payment_intent_client_secret.*code.*order_id.*\s+RewriteCond %\{REQUEST_URI\} .*booking.*\s+RewriteCond %\{REQUEST_FILENAME\} !-d/',$source),'Unsafe slash redirect rule.');}});
+test('Google auth and callback paths bypass redirects with the real application configuration',function()use($root){
+    $settings=require $root.'/config/canonical-host.php';
+    $settings['enabled']=true;
+    $settings['origin']='https://hotel-stage.example';
+    foreach(['/auth/callback/google','/auth/callback/google?code=synthetic&state=synthetic','/api/hotel/auth/google?return_to=/login/']as$path){
+        [$response,$next]=runRequest('https://www.hotel-stage.example'.$path,'GET',$settings);
+        check($next&&$response->getStatusCode()===200,'Google authentication path redirected: '.$path);
+    }
+});
 test('Global middleware registration is present',function()use($root){check(str_contains(file_get_contents($root.'/bootstrap/app.php'),'$middleware->append(\App\Http\Middleware\CanonicalHost::class)'),'Middleware not registered.');});
 echo json_encode($results,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE).PHP_EOL;
 exit(count(array_filter($results,fn($result)=>str_starts_with($result,'FAIL'))) ? 1 : 0);

@@ -32,6 +32,7 @@ $loader->addPsr4('Botble\\SeoHelper\\', $source . '/platform/packages/seo-helper
 $loader->addPsr4('Botble\\Theme\\', $source . '/platform/packages/theme/src', true);
 $loader->addPsr4('Botble\\Base\\', $source . '/platform/core/base/src', true);
 $loader->addPsr4('Botble\\Page\\', $source . '/platform/packages/page/src', true);
+// Optimized dependency classmaps must not shadow the Page source under test.
 $loader->addClassMap([
     Botble\Page\Listeners\RenderingSiteMapListener::class => $source . '/platform/packages/page/src/Listeners/RenderingSiteMapListener.php',
     Botble\Page\Models\Page::class => $source . '/platform/packages/page/src/Models/Page.php',

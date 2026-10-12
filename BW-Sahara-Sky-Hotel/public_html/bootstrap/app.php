@@ -12,6 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Appended after trusted proxy handling; disabled unless explicitly configured.
         $middleware->append(\App\Http\Middleware\CanonicalHost::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

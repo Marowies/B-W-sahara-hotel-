@@ -141,8 +141,8 @@ $renderCardLink = function (string $requestUrl, string $file) use ($app, $compil
         return $compileBlade($block[0] . "\n{{ \$roomUrl }}", ['room' => $room, 'startDate' => $start, 'endDate' => $end, 'adults' => (int) ($search['adults'] ?? 1)]);
     }
     preg_match('/^@php\b.*?@endphp/s', $source, $block);
-    preg_match('/<a href="\{\{ Botble\\\\Hotel\\\\Supports\\\\RoomSearchLink::url[^\n]*/', $source, $link);
-    return $compileBlade($block[0] . "\n" . $link[0], ['room' => $room, 'category' => (object) ['name' => 'Suites']]);
+    preg_match_all('/<a href="\{\{ Botble\\\\Hotel\\\\Supports\\\\RoomSearchLink::url[^\n]*/', $source, $link);
+    return $compileBlade($block[0] . "\n" . implode("\n", $link[0]), ['room' => $room, 'category' => (object) ['name' => 'Suites']]);
 };
 
 test('Room and room-category cards link to the clean room URL when nobody searched', function () use ($renderCardLink, $themePath): void {
@@ -192,3 +192,48 @@ foreach ($linkState['facades'] as $facade => $previous) {
         $facade::clearResolvedInstance((new ReflectionMethod($facade, 'getFacadeAccessor'))->invoke(null));
     }
 }
+
+test('Room card booking inputs render the integration search values', function () use ($compileBlade, $themePath, $app): void {
+    $source = file_get_contents("$themePath/partials/rooms/item.blade.php");
+    check(str_contains($source, '<form action="{{ route(\'public.booking\') }}" method="POST">') && str_contains($source, '@csrf'), 'Booking action, method or CSRF changed.');
+    $start = strpos($source, '<input type="hidden" name="room_id"');
+    $end = strpos($source, '<button', $start);
+    check($start !== false && $end !== false, 'Booking inputs missing.');
+    $inputs = substr($source, $start, $end - $start);
+    $helper = Botble\Base\Facades\BaseHelper::getFacadeRoot();
+    $hotel = Botble\Hotel\Facades\HotelHelper::getFacadeRoot();
+    $oldRequest = $app->bound('request') ? $app['request'] : null;
+    Botble\Base\Facades\BaseHelper::swap(new class { public function stringify($value): string { return (string) $value; } });
+    Botble\Hotel\Facades\HotelHelper::swap(new class { public function getDateFormat(): string { return 'd-m-Y'; } });
+    try {
+        foreach ([['children' => 0, 'rooms' => 1], ['children' => 1, 'rooms' => 2]] as $query) {
+            $app->instance('request', Illuminate\Http\Request::create('https://hotel.example/rooms', 'GET', $query));
+            $html = $compileBlade($inputs, [
+                'arrival' => '20-10-2026', 'departure' => '22-10-2026', 'children' => $query['children'], 'numberOfRooms' => $query['rooms'], 'room' => (object) ['id' => 17], 'adults' => 3,
+                'startDate' => Carbon::createFromFormat('d-m-Y', '20-10-2026'),
+                'endDate' => Carbon::createFromFormat('d-m-Y', '22-10-2026'),
+            ]);
+            $document = new DOMDocument();
+            @$document->loadHTML($html);
+            $values = [];
+            foreach ($document->getElementsByTagName('input') as $input) {
+                $name = $input->getAttribute('name');
+                check(! array_key_exists($name, $values), "Duplicate booking input: $name");
+                check($input->getAttribute('type') === 'hidden', "Non-hidden booking input: $name");
+                $values[$name] = $input->getAttribute('value');
+            }
+            check($values === ['room_id' => '17', 'start_date' => '20-10-2026', 'end_date' => '22-10-2026', 'adults' => '3', 'children' => (string) $query['children'], 'rooms' => (string) $query['rooms']], 'Booking values changed: ' . json_encode($values));
+        }
+    } finally {
+        Botble\Base\Facades\BaseHelper::swap($helper);
+        Botble\Hotel\Facades\HotelHelper::swap($hotel);
+        if ($oldRequest) { $app->instance('request', $oldRequest); } else { $app->forgetInstance('request'); }
+    }
+});
+test('Category image and title both retain the full room search', function () use ($renderCardLink): void {
+    $html = $renderCardLink('https://hotel.example/zh/room-categories/suites?start_date=20-10-2026&end_date=22-10-2026&adults=2&children=1&rooms=2', 'views/hotel/room-category.blade.php');
+    preg_match_all('/href="([^"]+)"/', $html, $links);
+    $expected = 'https://hotel.example/zh/rooms/deluxe-room?start_date=20-10-2026&end_date=22-10-2026&adults=2&children=1&rooms=2';
+    check(count($links[1]) === 2, 'Both image and title anchors must be rendered.');
+    foreach ($links[1] as $url) check(html_entity_decode($url) === $expected, 'Category room link lost search: ' . $url);
+});
