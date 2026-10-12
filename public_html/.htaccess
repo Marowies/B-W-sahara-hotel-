@@ -1,6 +1,10 @@
 RewriteEngine on
 
 # Redirect Trailing Slashes If Not A Folder...
+RewriteCond %{REQUEST_METHOD} ^(GET|HEAD)$
+RewriteCond %{HTTP_COOKIE} ^$
+RewriteCond %{QUERY_STRING} !(^|&)(signature|token|_token|checkout_token|transaction_id|payment_intent|PayerID|paymentId)= [NC]
+RewriteCond %{REQUEST_URI} !/(booking|bookings|checkout|payment|payments|paypal|stripe|webhook|webhooks|callback|callbacks|customer|customers|login|register|logout|password|admin|api)(/|$) [NC]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} (.+)/$
 RewriteRule ^ %1 [L,R=301]

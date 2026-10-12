@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [seo/clean-implementation]
+    branches: [seo/clean-implementation, seo/canonical-host-staging]
   workflow_dispatch:
 
 permissions:
@@ -58,6 +58,8 @@ jobs:
         run: php scripts/check-php-syntax.php
       - name: SEO regressions
         run: php tests/Seo/run.php
+      - name: Canonical host redirect regressions without network or CMS data
+        run: php tests/CanonicalHost/run.php
       - name: Consent and event regressions without Google requests
         run: node --test tests/Tracking/managed.test.cjs
       - name: PHPUnit with isolated SQLite and no outbound PHP transport

@@ -11,7 +11,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Appended after Laravel's default TrustProxies middleware, before route/session handling.
+        $middleware->append(\App\Http\Middleware\CanonicalHost::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
