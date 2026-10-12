@@ -28,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
             }
         };
         foreach ([\Botble\Hotel\Models\Room::class, \Botble\Hotel\Models\Currency::class, \Botble\Slug\Models\Slug::class] as $model) {
+            // Plugins are only autoloaded once activated (fresh install / plugin disabled)
+            if (! class_exists($model)) {
+                continue;
+            }
             $model::saved($invalidate);
             $model::deleted($invalidate);
         }

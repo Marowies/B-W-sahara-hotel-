@@ -892,3 +892,20 @@ input[type=date]::-webkit-date-and-time-value{text-align:start;margin:0}
 #quick-stay label.date-empty::after{content:attr(data-placeholder);position:absolute;inset-inline-start:46px;bottom:0;height:56px;display:none;align-items:center;font-size:15px;font-weight:500;letter-spacing:.01em;text-transform:none;color:#571c358c;pointer-events:none}
 @supports(-webkit-touch-callout:none){#quick-stay label.date-empty::after{display:flex}}
 @media(max-width:700px){#quick-stay label.date-empty::after{inset-inline-start:13px;font-size:14px}}
+
+/* Footer spacing: one rhythm for every column — room above the content, the same
+   20px from each heading to its first item, and no empty bands on small screens. */
+html body footer .footer-top{padding:56px 0 48px!important;row-gap:32px!important}
+html body footer .footer-top h3{margin:4px 0 8px!important}
+html body footer .footer-links{gap:8px}
+html body footer .footer-links a{padding-block:2px}
+html body footer .footer-links h3{margin-bottom:10px!important}
+html body footer .footer-contact{gap:14px!important}
+html body footer .footer-contact h3{margin-bottom:6px!important}
+@media(max-width:1000px){
+ html body footer .footer-top{padding:40px 0 32px!important;row-gap:32px!important}
+ html body footer .footer-story{padding-bottom:32px!important;margin-bottom:0!important}
+ html body footer .footer-top h3{margin-top:0!important}
+ html body footer .footer-contact{padding:32px 0 0!important;margin-top:0!important}
+ html body footer .footer-links{padding-bottom:0!important}
+}

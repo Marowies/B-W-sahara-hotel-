@@ -52,22 +52,31 @@
     const tableResize = typeof ResizeObserver === 'function' ? new ResizeObserver(() => schedule()) : null;
     const imageFallback = img => {
         if (!(img instanceof HTMLImageElement) || img.dataset.bwFallback) return;
-        const media = img.closest('.rv-media-thumbnail');
-        if (!media && !img.classList.contains('avatar')) return;
+        const media = img.closest('.rv-media-thumbnail,.bw-calendar-rooms');
+        const logo = img.classList.contains('navbar-brand-image');
+        if (!media && !logo && !img.classList.contains('avatar')) return;
         img.dataset.bwFallback = '1';
         img.classList.add('bw-missing-image');
         img.title = document.body.dir === 'rtl' ? 'المعاينة غير متاحة' : 'Preview unavailable';
-        img.src = '/vendor/core/core/base/css/bw-brand/img/' + (media ? 'media-placeholder.svg' : 'avatar-placeholder.svg');
+        img.src = '/vendor/core/core/base/css/bw-brand/img/' + (logo ? 'logo.webp' : media ? 'media-placeholder.svg' : 'avatar-placeholder.svg');
     };
     document.addEventListener('error', event => imageFallback(event.target), true);
     const enhance = () => {
         pending = false;
-        document.querySelectorAll('.rv-media-thumbnail img,img.avatar').forEach(img => {
+        document.querySelectorAll('.rv-media-thumbnail img,.bw-calendar-rooms img,img.avatar,img.navbar-brand-image').forEach(img => {
             if (img.complete && img.naturalWidth === 0) imageFallback(img);
         });
         document.querySelectorAll('table.dataTable tbody td.dtr-control').forEach(cell => {
-            cell.setAttribute('aria-expanded', String(cell.closest('tr').classList.contains('parent')));
-            cell.setAttribute('aria-label', document.body.dir === 'rtl' ? 'تفاصيل الصف' : 'Row details');
+            let button = cell.querySelector('.bw-row-details');
+            if (!button) {
+                button = document.createElement('button');
+                button.type = 'button'; button.className = 'bw-row-details';
+                button.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>';
+                cell.prepend(button);
+            }
+            button.setAttribute('aria-expanded', String(cell.closest('tr').classList.contains('parent')));
+            button.setAttribute('aria-label', document.documentElement.dir === 'rtl' ? 'تفاصيل الصف' : 'Row details');
+            cell.removeAttribute('aria-expanded');cell.removeAttribute('aria-label');
         });
         document.querySelectorAll('.table-responsive').forEach(table => {
             const grid = table.querySelector('table');

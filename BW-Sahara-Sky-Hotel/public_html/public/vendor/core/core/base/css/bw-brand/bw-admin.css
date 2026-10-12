@@ -711,3 +711,57 @@ table.dataTable .bw-record-name{white-space:normal!important;overflow-wrap:anywh
  .rv-media-grid .rv-media-description{padding:10px 10px 54px;min-height:88px}
  .rv-media-grid .rv-media-description .title{white-space:normal;overflow-wrap:anywhere;display:block}
 }
+
+/* Table toolbar: "Bulk Actions" and "Filters" stay on one line at the same height
+   (the card rule above lets button text wrap, which made Bulk Actions two lines tall). */
+.table-wrapper .card-header .btn,
+.table-wrapper .card-header .dropdown-toggle{white-space:nowrap;line-height:1.25}
+/* Phones: keep the row-details/checkbox cell and the actions column compact so the
+   guest/record name fits beside the actions instead of moving into row details. */
+@media(max-width:767.98px){
+ table.dataTable>tbody>tr>td.dtr-control{min-width:0;width:84px;padding-inline-end:8px!important}
+ table.dataTable>thead>tr>th{letter-spacing:.04em}
+ table.dataTable>thead>tr>th:last-child{font-size:0}
+ table.dataTable .table-actions{gap:6px;flex-wrap:nowrap;justify-content:center}
+ table.dataTable>tbody>tr>td:last-child,table.dataTable>thead>tr>th:last-child{padding-inline:6px!important}
+ table.dataTable .table-actions .btn-icon{min-width:40px;width:40px;min-height:40px;height:40px;padding:0}
+}
+/* Switch labels ("Is featured?") keep a gap from the toggle in LTR and RTL. */
+.form-check.form-switch{padding-inline-start:0}
+.form-check.form-switch>.form-check-input{float:none;margin-block:0;margin-inline:0 10px;vertical-align:middle}
+.form-check.form-switch>.form-check-label{display:inline;vertical-align:middle}
+/* Row-details toggle (added by bw-admin-mobile.js at every width): styled everywhere,
+   shown only while DataTables has collapsed columns into row details. */
+table.dataTable>tbody>tr>td.dtr-control{position:relative;cursor:pointer}
+table.dataTable>tbody>tr>td.dtr-control:before{display:none!important}
+table.dataTable.collapsed>tbody>tr>td.dtr-control{padding-inline-start:48px!important}
+.bw-row-details{position:absolute;inset-inline-start:2px;top:50%;transform:translateY(-50%);width:44px;height:44px!important;min-height:44px;padding:0;display:flex;align-items:center;justify-content:center;border:0;background:transparent;color:var(--bw-burgundy);border-radius:10px;cursor:pointer;-webkit-appearance:none;appearance:none}
+.bw-row-details svg{transition:transform .2s}
+table.dataTable:not(.collapsed) .bw-row-details{display:none}
+table.dataTable:not(.collapsed)>tbody>tr>td.dtr-control{cursor:default}
+/* Tinted icon tiles (e.g. iCal Sync stats): the brand primary is a solid colour, so
+   bg-opacity utilities rendered an opaque tile that hid its same-coloured icon. */
+.bg-primary.bg-opacity-10{background-color:#571c351a!important}
+.bg-primary.bg-opacity-25{background-color:#571c3540!important}
+[data-bs-theme=dark] .bg-primary.bg-opacity-10{background-color:#e5c1941f!important}
+[data-bs-theme=dark] .bg-primary.bg-opacity-10 .text-primary{color:#e5c194!important}
+/* Dashboard "Recent posts": keep the date (2026-10-12) on one line. */
+#widget_posts_recent table{table-layout:auto!important;width:100%}
+#widget_posts_recent th:last-child,#widget_posts_recent td:last-child{width:auto!important;white-space:nowrap!important;font-variant-numeric:tabular-nums}
+/* Header user menu: the navbar is data-bs-theme=dark, so its dropdown inherited light
+   text while keeping the light surface. Give it the light-theme colours unless the
+   whole admin is in dark mode. */
+body:not([data-bs-theme=dark]) header.navbar .dropdown-menu{background:#f6ecdd;border:1px solid #8754352e;color:#38242a;box-shadow:0 18px 40px -18px #35102059}
+body:not([data-bs-theme=dark]) header.navbar .dropdown-menu .dropdown-item{color:#571c35}
+body:not([data-bs-theme=dark]) header.navbar .dropdown-menu .dropdown-item .icon,body:not([data-bs-theme=dark]) header.navbar .dropdown-menu .dropdown-item svg{color:#875435}
+body:not([data-bs-theme=dark]) header.navbar .dropdown-menu .dropdown-item:hover,body:not([data-bs-theme=dark]) header.navbar .dropdown-menu .dropdown-item:focus-visible{background:#571c3512;color:#571c35}
+body:not([data-bs-theme=dark]) header.navbar .dropdown-menu-arrow:before{background:#f6ecdd;border-color:#8754352e}
+/* Initial-letter avatar for users without a photo. */
+.avatar.bw-avatar-initial{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e5c194,#c99a66);color:#351020;font-family:var(--bw-font-text);font-size:1rem;font-weight:700;line-height:1;text-transform:uppercase;box-shadow:inset 0 0 0 1px #ffffff40}
+/* Phones: the user menu sits in the sidebar's top bar, where sidebar dropdowns are
+   transparent with light text; give this one the same light card as the desktop menu. */
+body:not([data-bs-theme=dark]) .navbar-vertical .navbar-nav.d-lg-none .dropdown-menu{background:#f6ecdd!important;border:1px solid #8754352e!important;color:#38242a;box-shadow:0 18px 40px -18px #35102059;padding-block:6px}
+body:not([data-bs-theme=dark]) .navbar-vertical .navbar-nav.d-lg-none .dropdown-menu .dropdown-item{color:#571c35!important}
+body:not([data-bs-theme=dark]) .navbar-vertical .navbar-nav.d-lg-none .dropdown-menu .dropdown-item svg{color:#875435}
+body:not([data-bs-theme=dark]) .navbar-vertical .navbar-nav.d-lg-none .dropdown-menu .dropdown-item:hover{background:#571c3512!important}
+body:not([data-bs-theme=dark]) .navbar-vertical .navbar-nav.d-lg-none .dropdown-menu-arrow:before{background:#f6ecdd;border-color:#8754352e}

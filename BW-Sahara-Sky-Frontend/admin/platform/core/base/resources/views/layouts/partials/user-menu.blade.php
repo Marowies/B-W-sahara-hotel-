@@ -10,10 +10,16 @@
             data-bs-toggle="dropdown"
             aria-label="{{ trans('core/base::forms.open_user_menu') }}"
         >
-            <span
-                class="crop-image-original avatar avatar-sm"
-                style="background-image: url({{ Auth::guard()->user()->avatar_url }})"
-            ></span>
+            @php($bwUser = Auth::guard()->user())
+            @if ($bwUser->avatar && $bwUser->avatar->url)
+                <span
+                    class="crop-image-original avatar avatar-sm"
+                    style="background-image: url({{ $bwUser->avatar_url }})"
+                ></span>
+            @else
+                {{-- No uploaded photo: show the first letter of the login username --}}
+                <span class="avatar avatar-sm bw-avatar-initial" aria-hidden="true">{{ mb_strtoupper(mb_substr(trim($bwUser->username ?: $bwUser->name), 0, 1)) }}</span>
+            @endif
             <div class="d-none d-xl-block ps-2">
                 <div>{{ Auth::guard()->user()->name }}</div>
                 <div class="mt-1 small text-muted">{{ Auth::guard()->user()->email }}</div>

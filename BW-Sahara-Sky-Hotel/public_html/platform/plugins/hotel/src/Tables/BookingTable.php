@@ -129,6 +129,8 @@ class BookingTable extends TableAbstract
                 Column::make('customer_id')
                     ->title(trans('plugins/hotel::booking.customer'))
                     ->alignLeft()
+                    // Phones show the guest beside the row actions (99); status and dates follow as width allows
+                    ->responsivePriority(1)
                     ->orderable(false)
                     ->searchable(false),
                 Column::make('room_id')
@@ -141,6 +143,7 @@ class BookingTable extends TableAbstract
                     ->alignLeft(),
                 Column::make('booking_period')
                     ->title(trans('plugins/hotel::booking.booking_period'))
+                    ->responsivePriority(101)
                     ->orderable(false)
                     ->searchable(false)
                     ->alignLeft(),
@@ -164,7 +167,7 @@ class BookingTable extends TableAbstract
         }
 
         return array_merge($columns, [
-            StatusColumn::make(),
+            StatusColumn::make()->responsivePriority(100),
         ]);
     }
 

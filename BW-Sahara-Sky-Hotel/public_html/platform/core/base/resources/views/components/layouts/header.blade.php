@@ -27,5 +27,5 @@
 
 {!! Assets::renderHeader(['core']) !!}
 
-<link rel="stylesheet" href="{{ asset('vendor/core/core/base/css/bw-brand/bw-admin.css') }}?v=9">
+<link rel="stylesheet" href="{{ asset('vendor/core/core/base/css/bw-brand/bw-admin.css') }}?v=17">
 <script defer src="{{ asset('vendor/core/core/base/js/bw-admin-mobile.js') }}?v=5"></script>
