@@ -14,6 +14,7 @@ function add_filter($name, $callback, ...$arguments): void { $GLOBALS['seoFilter
 function do_action(...$arguments): void {}
 function add_action(...$arguments): void {}
 function is_plugin_active(string $name): bool { return false; }
+function is_in_admin(): bool { return false; }
 function theme_option(string $key, $default = null) { return $GLOBALS['seoThemeOptions'][$key] ?? $default; }
 
 $source = dirname(__DIR__, 2);
@@ -28,6 +29,12 @@ $loader->addPsr4('Botble\\Language\\', $source . '/platform/plugins/language/src
 $loader->addPsr4('Botble\\SeoHelper\\', $source . '/platform/packages/seo-helper/src', true);
 $loader->addPsr4('Botble\\Theme\\', $source . '/platform/packages/theme/src', true);
 $loader->addPsr4('Botble\\Base\\', $source . '/platform/core/base/src', true);
+$loader->addPsr4('Botble\\Page\\', $source . '/platform/packages/page/src', true);
+// Optimized dependency classmaps must not shadow the Page source under test.
+$loader->addClassMap([
+    Botble\Page\Listeners\RenderingSiteMapListener::class => $source . '/platform/packages/page/src/Listeners/RenderingSiteMapListener.php',
+    Botble\Page\Models\Page::class => $source . '/platform/packages/page/src/Models/Page.php',
+]);
 $loader->addPsr4('Botble\\Blog\\', $source . '/platform/plugins/blog/src', true);
 $loader->addPsr4('Botble\\CookieConsent\\', $source . '/platform/plugins/cookie-consent/src', true);
 $loader->addPsr4('Botble\\Faq\\', $source . '/platform/plugins/faq/src', true);

@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [seo/clean-implementation, seo/canonical-host-staging]
+    branches: [seo/clean-implementation, seo/canonical-host-staging, seo/page-sitemap-noindex]
   workflow_dispatch:
 
 permissions:

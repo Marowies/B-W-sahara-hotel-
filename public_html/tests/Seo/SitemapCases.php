@@ -8,6 +8,8 @@ use Botble\Hotel\Models\Room;
 use Botble\Hotel\Models\RoomCategory;
 use Botble\Hotel\Models\Service;
 use Botble\Slug\Models\Slug;
+use Botble\Page\Models\Page;
+use Botble\Page\Listeners\RenderingSiteMapListener;
 use Botble\Theme\Events\RenderingSiteMapEvent;
 use Botble\Theme\Facades\SiteMapManager;
 use Illuminate\Database\Capsule\Manager as Capsule;
@@ -95,6 +97,42 @@ test('Sitemap index lists rooms, room categories, services and places sitemaps',
         check(in_array("https://hotel.example/$key.xml", $sitemaps, true), "$key sitemap missing.");
     }
     check(! in_array('https://hotel.example/foods.xml', $sitemaps, true), 'Foods sitemap should stay excluded.');
+});
+
+test('Page sitemap retains index/default pages and excludes noindex, draft and pending pages', function () use ($capsule, $macros): void {
+    $db = $capsule->getConnection();
+    $db->statement('CREATE TABLE pages (id INTEGER PRIMARY KEY, name TEXT, status TEXT, created_at TEXT, updated_at TEXT)');
+    Page::resolveRelationUsing('slugable', fn ($item) => $item->morphOne(Slug::class, 'reference'));
+    $macros->addMacro(Page::class, 'getUrlAttribute', function () {
+        return 'https://hotel.example/' . $this->slugable->key;
+    });
+    foreach (['published', 'published', 'published', 'draft', 'pending'] as $i => $status) {
+        $id = $i + 1;
+        $db->table('pages')->insert(['id' => $id, 'name' => "Page $id", 'status' => $status, 'created_at' => '2026-10-01', 'updated_at' => '2026-10-01']);
+        $db->table('slugs')->insert(['key' => "page-$id", 'reference_type' => Page::class, 'reference_id' => $id, 'prefix' => '']);
+    }
+    foreach ([1 => 'index', 2 => 'noindex', 4 => 'index', 5 => 'index'] as $id => $index) {
+        $db->table('meta_boxes')->insert(['meta_key' => 'seo_meta', 'meta_value' => json_encode([['index' => $index]]), 'reference_type' => Page::class, 'reference_id' => $id]);
+    }
+    $recorder = new class {
+        public array $urls = [];
+        public function add(string $url, $date, string $priority): void { $this->urls[] = $url; }
+    };
+    SiteMapManager::swap($recorder);
+    try {
+        Botble\Base\Supports\MetadataCache::flush();
+        (new RenderingSiteMapListener())->handle(new RenderingSiteMapEvent('pages'));
+        sort($recorder->urls);
+        check($recorder->urls === ['https://hotel.example/page-1', 'https://hotel.example/page-3'], 'Wrong Page sitemap: ' . implode(', ', $recorder->urls));
+        $recorder->urls = [];
+        (new RenderingSiteMapListener())->handle(new RenderingSiteMapEvent('rooms'));
+        check($recorder->urls === [], 'Page listener changed a different sitemap key.');
+    } finally {
+        $db->table('meta_boxes')->where('reference_type', Page::class)->delete();
+        $db->table('slugs')->where('reference_type', Page::class)->delete();
+        $db->statement('DROP TABLE pages');
+        Botble\Base\Supports\MetadataCache::flush();
+    }
 });
 
 test('Rooms sitemap lists the listing and only published, slugged rooms', function () use ($sitemapFor): void {
