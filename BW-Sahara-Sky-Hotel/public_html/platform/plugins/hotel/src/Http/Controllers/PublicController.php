@@ -632,6 +632,7 @@ class PublicController extends Controller
 
         return $response
             ->setNextUrl($redirectUrl)
+            ->setData(['next_url' => $redirectUrl])
             ->setMessage(trans('plugins/hotel::hotel.booking_successful'));
     }
 

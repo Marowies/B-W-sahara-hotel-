@@ -106,6 +106,10 @@ class HotelCustomerAuthController extends Controller
 
         $pair = $this->tokens->issue($customer, $request);
 
+        // The existing hotel booking/account pages use the same customer guard.
+        \Illuminate\Support\Facades\Auth::guard('customer')->login($customer);
+        $request->session()->regenerate();
+
         return $this->session($pair, $request, ['authenticated' => true, 'email' => $customer->email]);
         });
     }

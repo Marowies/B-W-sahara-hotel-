@@ -51,7 +51,7 @@ class HotelGoogleSession
 
     public static function returnPath(mixed $path): string
     {
-        return is_string($path) && preg_match('~^/(?:ar/|zh/)?(?:login|register|booking/review)/$~D', $path)
+        return is_string($path) && preg_match('~^/(?:login|register|booking/review|ar/(?:login|register|booking/review|dokhool|hesab-gadeed|takhteet-eqama/moragaa)|zh/(?:login|register|booking/review|denglu|zhuce|zhusu-jihua/queren))/$~D', $path)
             ? $path : '/login/';
     }
 }

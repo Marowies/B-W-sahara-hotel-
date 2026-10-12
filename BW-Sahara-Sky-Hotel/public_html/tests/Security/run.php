@@ -89,6 +89,7 @@ $guard = new class {
     public function check() { return $this->customerId !== null; }
     public function id() { return $this->customerId; }
     public function setUser($customer) { $this->customerId = (int) $customer->getKey(); return $this; }
+    public function login($customer) { $this->setUser($customer); }
     public function logout() { $this->customerId = null; }
     public function user() { return $this->customerId ? Botble\Hotel\Models\Customer::query()->find($this->customerId) : null; }
 };
@@ -362,6 +363,7 @@ if (! getenv('HOTEL_SECURITY_ONLY')) {
 }
 
 require __DIR__ . '/CustomerAuthCases.php';
+require __DIR__ . '/BookingHandoffCases.php';
 
 if (defined('HOTEL_INTEGRATION_TESTS')) {
     require dirname(__DIR__) . '/Integration/Cases.php';
