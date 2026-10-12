@@ -23,7 +23,7 @@
  const link = (key,extra='') => `<a href="${url(routes[key])}" ${extra}>${labels[key]}</a>`;
  const brand = `<a class="brand" href="${url('/')}"><img src="assets/logo.png" alt="B&W Sahara Sky"><span>B&W SAHARA SKY<small>${t('marketing.m_756d2e378ba6')}</small></span></a>`;
  const header = document.querySelector('header.nav');
- header.innerHTML=brand+`<nav id="nav-links">${['home','rooms','experiences','gallery','about','contact'].map(key=>link(key, page===key?'aria-current="page"':'')).join('')}${page==='home'?`<button class="motion-button mobile-motion" aria-pressed="false">${t('marketing.m_a03a59d6a6ef')}</button>`:''}</nav><div class="nav-actions"><label class="sr-only" for="language">${labels.language}</label><select id="language" class="language-select"><option value="en">EN</option><option value="ar">العربية</option><option value="zh">中文</option></select>${page==='home'?`<button class="motion-button" aria-pressed="false">${t('marketing.m_a03a59d6a6ef')}</button>`:''}<button class="button small" data-book>${labels.availability}</button><button class="menu-toggle" aria-expanded="false" aria-controls="nav-links">${labels.menu}</button></div>`;
+ header.innerHTML=brand+`<nav id="nav-links">${['home','rooms','experiences','gallery','about','contact'].map(key=>link(key, page===key?'aria-current="page"':'')).join('')}${page==='home'?`<button class="motion-button mobile-motion" aria-pressed="false">${t('marketing.m_a03a59d6a6ef')}</button>`:''}</nav><div class="nav-actions"><label class="sr-only" for="language">${labels.language}</label><select id="language" class="language-select"><option value="en">EN</option><option value="ar">العربية</option><option value="zh">中文</option></select>${page==='home'?`<button class="motion-button" aria-pressed="false">${t('marketing.m_a03a59d6a6ef')}</button>`:''}<button class="button small" data-book>${labels.availability}</button><a class="nav-signin" href="${url(routes.login)}"${page==='login'?' aria-current="page"':''}><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>${labels.login}</a><button class="menu-toggle" aria-expanded="false" aria-controls="nav-links">${labels.menu}</button></div>`;
  document.querySelector('#language').value=lang;
  document.querySelector('#language').addEventListener('change',async event=>{const code=event.target.value;await window.hotelI18n.remember(code);location.href=window.hotelLocale.localizedPath(path==='/'?'/':path+'/',code);});
  // Styled language menu; the native select stays the source of truth.
@@ -194,6 +194,11 @@
   }
   // Google and email-code sign-in share the existing customer token session.
   const otpFlow=(gate,status,onShow,onDone,introKey='otp.intro')=>{
+  // Sign-in and register use the welcome layout: Google first, then the email code.
+  const welcome=introKey==='otp.introLogin';
+  // The code step swaps the panel heading; calling it with no text restores the original.
+  const panelHead=gate.parentElement?.querySelector('h2'),panelSub=gate.parentElement?.querySelector('.auth-sub'),original=[panelHead?.textContent,panelSub?.textContent];
+  const heading=(h=original[0],p=original[1])=>{if(panelHead&&h)panelHead.textContent=h;if(panelSub&&p)panelSub.textContent=p;};
   const fail=r=>{const d=r.data||{};if(r.status===429&&d.retry_after)return t('otp.errWait').replace('{s}',d.retry_after);const map={invalid:'otp.errInvalid',expired:'otp.errExpired',locked:'otp.errLocked'};if(map[d.code])return t(map[d.code]);if(r.status===422)return t('otp.errEmail');if(r.status===503)return t('otp.errSend');return t('otp.errGeneric');};
   const field=(label,attrs)=>{const l=document.createElement('label');l.append(label);const i=document.createElement('input');Object.entries(attrs).forEach(([k,v])=>i.setAttribute(k,v));l.append(i);return [l,i];};
   const intro=text=>{const p=document.createElement('p');p.textContent=text;return p;};
@@ -202,9 +207,21 @@
   status.textContent='';gate.hidden=false;onShow();
   const form=document.createElement('form');form.className='approval-form';form.noValidate=false;
   const [l,i]=field(t('marketing.m_654a3e34016c'),{type:'email',name:'email',required:'',autocomplete:'email',maxlength:'255',inputmode:'email'});i.value=email;
-  const send=mk('button',t('otp.send'),'submit');
-  form.append(intro(t(introKey)),l,send);gate.replaceChildren(form);i.focus();
-  googleProviders.then(r=>{if(!form.isConnected||!r.ok||!r.data.google)return;const google=document.createElement('a');google.className='button secondary';google.textContent=t('Continue with Google','المتابعة باستخدام Google','使用 Google 继续');google.href='/api/hotel/auth/google?'+new URLSearchParams({return_to:location.pathname});google.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();location.assign(google.href);});form.prepend(google);});
+  const send=mk('button',welcome?t('Send sign-in code','ابعت كود الدخول','发送登录验证码'):t('otp.send'),'submit');
+  if(welcome){
+   form.classList.add('welcome-form');i.placeholder='you@example.com';i.dir='ltr';
+   const box=document.createElement('span');box.className='input-icon';box.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>';box.append(i);l.append(box);
+   send.insertAdjacentHTML('beforeend','<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>');
+   const note=intro(t('No password needed. We’ll email you a one-time code.','مش محتاج كلمة سر. هنبعتلك كود لمرة واحدة على إيميلك.','无需密码。我们会通过邮件发送一次性验证码。'));note.className='welcome-note';
+   const priv=intro(t('Your details stay private.','بياناتك بتفضل خاصة.','您的信息将被妥善保密。'));priv.className='welcome-private';priv.insertAdjacentHTML('afterbegin','<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>');
+   form.append(l,send,note,priv);
+  }else form.append(intro(t(introKey)),l,send);
+  if(welcome)heading();
+  gate.replaceChildren(form);i.focus();
+  const addGoogle=()=>{let or=null;const google=document.createElement('a');google.className=welcome?'button google-button':'button secondary';google.textContent=t('Continue with Google','المتابعة باستخدام Google','使用 Google 继续');if(welcome){google.insertAdjacentHTML('afterbegin','<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.9 6.2C12.5 13.6 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.8c4.3-4 6.9-9.9 6.9-17.2z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.7 10.7l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.8c-2.1 1.4-4.8 2.3-8.5 2.3-6.2 0-11.5-4.1-13.4-9.8l-7.9 6.1C6.6 42.6 14.6 48 24 48z"/></svg>');or=document.createElement('p');or.className='welcome-divider';or.innerHTML='<span></span>';or.firstChild.textContent=t('or continue with email','أو كمّل بالإيميل','或使用邮箱继续');form.prepend(or);}google.href='/api/hotel/auth/google?'+new URLSearchParams({return_to:location.pathname});google.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();location.assign(google.href);});form.prepend(google);return [google,or];};
+  // The welcome layout shows Google straight away and drops it only if the server has it disabled, so the page does not jump.
+  if(welcome){const added=addGoogle();googleProviders.then(r=>{if(!r.ok||!r.data.google)added.forEach(n=>n?.remove());});}
+  else googleProviders.then(r=>{if(form.isConnected&&r.ok&&r.data.google)addGoogle();});
   form.onsubmit=async e=>{e.preventDefault();send.disabled=true;status.textContent=t('otp.sending');const r=await gateCall('auth/otp/request',{email:i.value.trim()});send.disabled=false;if(r.ok){status.textContent='';showCode(i.value.trim().toLowerCase(),r.data.resend_in||60);}else status.textContent=fail(r);};
   }
   function showCode(email,wait){
@@ -212,12 +229,20 @@
   const [l,i]=field(t('otp.codeLabel'),{type:'text',name:'code',required:'',inputmode:'numeric',pattern:'[0-9]{6}',maxlength:'6',autocomplete:'one-time-code',dir:'ltr'});
   const verify=mk('button',t('otp.verify'),'submit'),resend=mk('text-link',''),change=mk('text-link',t('otp.change'));
   const row=document.createElement('p');row.append(resend,' · ',change);
-  form.append(intro(t('otp.codeHelp').replace('{email}',email)),l,verify,row);gate.replaceChildren(form);i.focus();
+  const help=intro(t('otp.codeHelp').replace('{email}',email));
+  if(welcome){
+   form.classList.add('welcome-form','welcome-code');row.className='welcome-links';i.className='code-input';i.placeholder='000000';
+   const [before,after]=t('otp.codeHelp').split('{email}'),who=document.createElement('strong');who.textContent=email;help.replaceChildren(before,who,after??'');help.className='welcome-intro';help.insertAdjacentHTML('afterbegin','<span class="mail-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg></span>');
+   // Accept pasted codes with spaces and submit as soon as six digits are in.
+   i.addEventListener('input',()=>{i.value=i.value.replace(/\D/g,'').slice(0,6);if(i.value.length===6&&!verify.disabled)form.requestSubmit();});
+  }
+  if(welcome)heading(t('Check your inbox','شوف إيميلك','请查收邮件'),t('Enter the 6-digit code we just sent you.','اكتب الكود المكوّن من 6 أرقام اللي لسه باعتينهولك.','请输入我们刚刚发送的 6 位验证码。'));
+  form.append(help,l,verify,row);gate.replaceChildren(form);i.focus();
   let left=wait;const tick=()=>{resend.disabled=left>0;resend.textContent=left>0?t('otp.resendIn').replace('{s}',left):t('otp.resend');};tick();
   const timer=setInterval(()=>{if(!form.isConnected){clearInterval(timer);return;}if(left>0){left--;tick();}},1000);
   change.onclick=()=>{clearInterval(timer);showEmail(email);};
   resend.onclick=async()=>{if(left>0)return;resend.disabled=true;const r=await gateCall('auth/otp/request',{email});if(r.ok){left=r.data.resend_in||60;status.textContent=t('otp.resent');}else{status.textContent=fail(r);left=r.data?.retry_after||0;}tick();};
-  form.onsubmit=async e=>{e.preventDefault();verify.disabled=true;status.textContent=t('otp.verifying');const r=await gateCall('auth/otp/verify',{email,code:i.value.trim()});if(r.ok){clearInterval(timer);onDone(email);}else{verify.disabled=false;status.textContent=fail(r);i.select();}};
+  form.onsubmit=async e=>{e.preventDefault();verify.disabled=true;status.textContent=t('otp.verifying');const r=await gateCall('auth/otp/verify',{email,code:i.value.trim()});if(r.ok){clearInterval(timer);if(welcome)heading();onDone(email);}else{verify.disabled=false;status.textContent=fail(r);i.select();}};
   }
   return {showEmail,fail};
   };
@@ -228,9 +253,24 @@
     const status=document.createElement('p');status.className='form-status';status.setAttribute('role','status');
     const gate=document.createElement('div');gate.className='otp-gate';
     form.replaceWith(gate,status);
-    const done=email=>{const who=document.createElement('p'),out=document.createElement('button');out.type='button';out.className='text-link';out.textContent=t('otp.signOut');who.append(t('otp.signedIn').replace('{email}',email||'')+' ',out);gate.replaceChildren(who);status.textContent='';out.onclick=async()=>{out.disabled=true;const result=await gateCall('auth/logout');if(result.ok)flow.showEmail();else{status.textContent=flow.fail(result);out.disabled=false;}};};
+    // The code sign-in creates the account too, so the password links do not apply.
+    if(page==='login')panel.querySelectorAll(':scope>a').forEach(a=>a.remove());
+    // Signed in: a clear success card with the next steps.
+    const done=email=>{
+     const box=document.createElement('div');box.className='welcome-done';
+     box.innerHTML='<span class="done-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span><h3></h3><p class="done-who"></p><div class="done-actions"><a class="button done-primary"></a><a class="button done-secondary"></a></div>';
+     box.querySelector('h3').textContent=t('You’re signed in','تم تسجيل الدخول','您已登录');
+     const who=box.querySelector('.done-who'),mail=document.createElement('strong');mail.textContent=email||'';who.append(t('Signed in as ','داخل بحساب ','当前账号 '),mail);if(!email)who.hidden=true;
+     const book=box.querySelector('.done-primary'),home=box.querySelector('.done-secondary');
+     book.href=url(routes.booking);book.textContent=t('Book your stay','احجز إقامتك','预订住宿');
+     home.href=url(routes.home);home.textContent=t('Back to home','الرجوع للرئيسية','返回首页');
+     const out=document.createElement('button');out.type='button';out.className='done-signout';out.textContent=t('otp.signOut');box.append(out);
+     gate.replaceChildren(box);status.textContent='';
+     out.onclick=async()=>{out.disabled=true;const result=await gateCall('auth/logout');if(result.ok)flow.showEmail();else{status.textContent=flow.fail(result);out.disabled=false;}};
+    };
     const flow=otpFlow(gate,status,()=>{},done,'otp.introLogin');
-    ensureToken().then(ok=>{if(!main.isConnected)return;if(ok)done(auth.email);else flow.showEmail();});
+    // Show the form immediately; swap to the signed-in state only if the session check succeeds.
+    flow.showEmail();ensureToken().then(ok=>{if(main.isConnected&&ok)done(auth.email);});
    }
   }
   if(page==='review'){
