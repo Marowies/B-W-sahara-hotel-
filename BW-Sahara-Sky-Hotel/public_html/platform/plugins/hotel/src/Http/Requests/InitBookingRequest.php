@@ -32,6 +32,7 @@ class InitBookingRequest extends Request
 
         if (is_int($roomId) || (is_string($roomId) && ctype_digit($roomId))) {
             $room = Room::query()
+                ->wherePublished()
                 ->select('number_of_rooms')
                 ->find($roomId);
 

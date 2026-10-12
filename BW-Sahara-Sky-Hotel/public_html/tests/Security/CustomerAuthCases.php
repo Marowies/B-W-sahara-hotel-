@@ -16,7 +16,10 @@ class AuthFixtureRequest extends Request
 
 function authRequest(array $data = []): AuthFixtureRequest
 {
-    return AuthFixtureRequest::create('https://hotel.example/api/hotel/auth/otp/verify', 'POST', $data);
+    $request = AuthFixtureRequest::create('https://hotel.example/api/hotel/auth/otp/verify', 'POST', $data);
+    $request->setLaravelSession(app('session'));
+
+    return $request;
 }
 
 function authCode(string $code = '123456'): void
@@ -52,6 +55,7 @@ test('Auth: OTP can be consumed only once', function (): void {
     $request = authRequest(['email' => 'synthetic@example.invalid', 'code' => '123456']);
     $first = $controller->verifyCode($request);
     check($first->getStatusCode() === 200 && $first->getData(true)['authenticated'], 'Valid OTP failed');
+    check(\Illuminate\Support\Facades\Auth::guard('customer')->check(), 'OTP did not authenticate the existing account pages');
     check($controller->verifyCode($request)->getStatusCode() === 422, 'OTP replay accepted');
 });
 
@@ -248,7 +252,7 @@ test('Google: API logout clears both customer sessions and callback intent', fun
 });
 
 test('Google: return destinations reject external and unrelated application paths', function (): void {
-    foreach (['/login/', '/ar/login/', '/zh/register/', '/booking/review/'] as $path) {
+    foreach (['/login/', '/ar/login/', '/zh/register/', '/booking/review/', '/ar/dokhool/', '/ar/hesab-gadeed/', '/ar/takhteet-eqama/moragaa/', '/zh/denglu/', '/zh/zhuce/', '/zh/zhusu-jihua/queren/'] as $path) {
         check(App\Services\HotelGoogleSession::returnPath($path) === $path, 'Valid return rejected');
     }
     foreach (['https://evil.example/', '//evil.example/', '/admin/', '/auth/google', '/login/?token=secret', null, [], "/login/\n"] as $path) {

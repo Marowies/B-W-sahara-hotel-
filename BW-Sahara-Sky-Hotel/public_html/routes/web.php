@@ -25,4 +25,5 @@ Route::prefix('api/hotel')->middleware('throttle:60,1')->group(function (): void
     Route::post('auth/refresh', [HotelCustomerAuthController::class, 'refresh'])->middleware('throttle:30,1,otp-refresh');
     Route::post('auth/logout', [HotelCustomerAuthController::class, 'logout']);
     Route::get('checkout/eligibility', [HotelCustomerAuthController::class, 'checkoutEligibility'])->middleware(RequireHotelCustomer::class);
+    Route::post('booking/start', [\App\Http\Controllers\HotelBookingStartController::class, 'start'])->middleware(RequireHotelCustomer::class);
 });

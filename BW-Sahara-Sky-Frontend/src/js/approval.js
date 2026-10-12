@@ -105,7 +105,7 @@
  const collectStay=form=>{
  const data=Object.fromEntries(new FormData(form));
  if(!data.arrival||!data.departure||data.arrival<today||data.departure<=data.arrival){form.querySelector('[role=status]')?.replaceChildren(document.createTextNode(t('errors.m_02470b2b6c2c')));return null;}
- const previous=getStay();let experience=data.experience||'room';if(!['room','safari','stars'].includes(experience))experience=experience.includes('safari')?'safari':experience.includes('stargazing')?'stars':'room';return {arrival:data.arrival,departure:data.departure,adults:String(data.adults||2),children:String(data.children||0),experience,roomId:previous?.roomId||null};
+ const previous=getStay();let experience=data.experience||'room';if(!['room','safari','stars'].includes(experience))experience=experience.includes('safari')?'safari':experience.includes('stargazing')?'stars':'room';return {arrival:data.arrival,departure:data.departure,adults:String(data.adults||2),children:String(data.children||0),experience,roomId:previous?.roomId||null,backendRoomId:previous?.backendRoomId||null};
  };
  function openBooking(roomId){const form=document.querySelector('#stay-form');if(roomId){const stay=getStay()||{};stay.roomId=Number(roomId);saveStay(stay);}fillForm(form,getStay());document.querySelector('#booking').showModal();}
  document.addEventListener('click',event=>{
@@ -115,7 +115,7 @@
  const photo=event.target.closest('[data-lightbox]');if(photo)showPhoto(photo.dataset.lightbox,photo.dataset.caption||'B&W Sahara Sky');
  const filter=event.target.closest('[data-filter]');if(filter){const container=filter.closest('.page-body');container.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===filter)));container.querySelectorAll('[data-category]').forEach(card=>card.hidden=filter.dataset.filter!=='all'&&card.dataset.category!==filter.dataset.filter);}
  if(event.target.closest('#nav-links a')){document.querySelector('#nav-links')?.classList.remove('open');document.querySelector('.menu-toggle')?.setAttribute('aria-expanded','false');}const menu=event.target.closest('.menu-toggle');if(menu&&page!=='home'){const nav=document.querySelector('#nav-links');const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));}
- const choose=event.target.closest('[data-select-room]');if(choose){const s=getStay();if(!s?.arrival){window.hotelNavigate(url('/booking/'));return;}s.roomId=Number(choose.dataset.selectRoom);saveStay(s);window.hotelNavigate(url('/booking/review/'));}
+ const choose=event.target.closest('[data-select-room]');if(choose){const s=getStay();if(!s?.arrival){window.hotelNavigate(url('/booking/'));return;}s.roomId=Number(choose.dataset.selectRoom);s.backendRoomId=Number(choose.closest("[data-backend-room-id]")?.dataset.backendRoomId)||null;saveStay(s);window.hotelNavigate(url('/booking/review/'));}
  });
  document.querySelectorAll('dialog').forEach(dialog=>dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}}));
  if(page!=='home'){
@@ -166,7 +166,7 @@
   const catalogue=['rooms','room'].includes(page)?window.hotelCatalogue(cataloguePath,()=>api(cataloguePath)):Promise.resolve(null);
   const busyGrid=main.querySelector('.room-grid');
   if(page==='rooms')busyGrid?.setAttribute('aria-busy','true');
-  function backendCards(rows,grid){if(!grid)return;grid.innerHTML=rows.map((row,i)=>{const original=rooms.find(r=>r.slug===row.slug);const card={...original,id:original?.id||2,slug:original?.slug||'copper-glass-domes',category:original?.category||'standard',name:lang==='en'?esc(row.name):(original?.name||labels.rooms),size:row.size,people:row.max_adults,beds:esc(String(row.number_of_beds))+' '+t('marketing.m_58799a0f9b97')};return roomCard(card,i);}).join('');grid.querySelectorAll('.stay-card').forEach((card,i)=>{const row=rows[i];card.dataset.backendRoomId=row.id;const rate=document.createElement('p');rate.className='backend-room-rate';rate.textContent=t('marketing.m_9cb4df045594')+new Intl.NumberFormat(lang,{maximumFractionDigits:2}).format(row.price)+' '+(row.currency||'');card.append(rate);if(!rooms.some(r=>r.slug===row.slug)){card.querySelectorAll('a').forEach(a=>a.href=url('/contact-us/')+'#contact-form');}});if(!rows.length){const empty=document.createElement('p');empty.textContent=t('marketing.m_6436a2b10eba');grid.append(empty);}}
+  function backendCards(rows,grid){if(!grid)return;grid.innerHTML=rows.map((row,i)=>{const original=rooms.find(r=>r.slug===row.slug);const card={...original,id:original?.id||2,slug:original?.slug||'copper-glass-domes',category:original?.category||'standard',name:lang==='en'?esc(row.name):(original?.name||labels.rooms),size:row.size,people:row.max_adults,beds:esc(String(row.number_of_beds))+' '+t('marketing.m_58799a0f9b97')};return roomCard(card,i,page==='booking');}).join('');grid.querySelectorAll('.stay-card').forEach((card,i)=>{const row=rows[i];card.dataset.backendRoomId=row.id;const rate=document.createElement('p');rate.className='backend-room-rate';rate.textContent=t('marketing.m_9cb4df045594')+new Intl.NumberFormat(lang,{maximumFractionDigits:2}).format(row.price)+' '+(row.currency||'');card.append(rate);if(!rooms.some(r=>r.slug===row.slug)){card.querySelectorAll('a').forEach(a=>a.href=url('/contact-us/')+'#contact-form');}});if(!rows.length){const empty=document.createElement('p');empty.textContent=t('marketing.m_6436a2b10eba');grid.append(empty);}}
   function paginate(data,grid,load){
    if(!grid)return;
    grid.removeAttribute('aria-busy');
@@ -178,7 +178,7 @@
   }
   async function loadCatalogue(pageNumber=1){const key='rooms?'+new URLSearchParams({per_page:20,page:pageNumber});const data=await window.hotelCatalogue(key,()=>api(key));if(!main.isConnected)return;const grid=main.querySelector('.room-grid');backendCards(data.rooms,grid);paginate(data,grid,loadCatalogue);main.querySelector('[data-filter="all"]')?.click();}
   catalogue.finally(()=>busyGrid?.removeAttribute('aria-busy')).then(data=>{if(!data||!main.isConnected)return;if(page==='rooms'){backendCards(data.rooms,busyGrid);paginate(data,busyGrid,loadCatalogue);}if(page==='room'&&lang==='en'){const row=data.rooms.find(r=>path==='/rooms/'+r.slug);if(row){main.querySelector('h1').textContent=row.name;const description=main.querySelector('.detail-layout>div>p');if(description)description.textContent=row.description;}}}).catch(()=>{if(!main.isConnected)return;const notice=document.createElement('p');notice.className='form-status';notice.textContent=t('errors.m_a4e9a6b424d4');main.querySelector('.page-body')?.prepend(notice);});
-  if(bookingSearch){main.querySelector('.booking-results').hidden=true;main.querySelector('.booking-results .eyebrow').textContent=t('marketing.m_d6f2ad9b46c6');bookingSearch.querySelector('button[type=submit]').textContent=labels.availability;bookingSearch.onsubmit=async event=>{event.preventDefault();const stay=collectStay(bookingSearch);if(!stay)return;saveStay(stay);const status=bookingSearch.querySelector('.form-status'),button=bookingSearch.querySelector('button[type=submit]');button.disabled=true;status.textContent=t('marketing.m_613b4731c1c5');try{const result=await api('availability?'+new URLSearchParams({...stay,per_page:20}));if(!main.isConnected)return;showResults(stay);const results=main.querySelector('.booking-results');backendCards(result.rooms,results.querySelector('.room-grid'));paginate(result,results.querySelector('.room-grid'),async function nextAvailability(pageNumber){const next=await api('availability?'+new URLSearchParams({...stay,per_page:20,page:pageNumber}));if(!main.isConnected)return;backendCards(next.rooms,results.querySelector('.room-grid'));paginate(next,results.querySelector('.room-grid'),nextAvailability);});results.querySelector('.preview-note').textContent=t('marketing.m_1cc550df65ff');status.textContent='';}catch(error){status.textContent=error.message;main.querySelector('.booking-results').hidden=true;}finally{button.disabled=false;}};}
+  if(bookingSearch){main.querySelector('.booking-results').hidden=true;main.querySelector('.booking-results .eyebrow').textContent=t('marketing.m_d6f2ad9b46c6');bookingSearch.querySelector('button[type=submit]').textContent=labels.availability;bookingSearch.onsubmit=async event=>{event.preventDefault();const stay=collectStay(bookingSearch);if(!stay)return;saveStay(stay);const status=bookingSearch.querySelector('.form-status'),button=bookingSearch.querySelector('button[type=submit]');button.disabled=true;status.textContent=t('marketing.m_613b4731c1c5');try{const result=await api('availability?'+new URLSearchParams({...stay,per_page:20}));if(!main.isConnected)return;showResults(stay);const results=main.querySelector('.booking-results');backendCards(result.rooms,results.querySelector('.room-grid'));paginate(result,results.querySelector('.room-grid'),async function nextAvailability(pageNumber){const next=await api('availability?'+new URLSearchParams({...stay,per_page:20,page:pageNumber}));if(!main.isConnected)return;backendCards(next.rooms,results.querySelector('.room-grid'));paginate(next,results.querySelector('.room-grid'),nextAvailability);});results.querySelector('.preview-note').textContent=t('Select an available room to continue. The hotel confirms the final total.','اختَر غرفة متاحة للمتابعة. الفندق يحسب الإجمالي النهائي.','选择可用客房以继续，酒店将计算最终总价。');status.textContent='';}catch(error){status.textContent=error.message;main.querySelector('.booking-results').hidden=true;}finally{button.disabled=false;}};}
   const contact=document.querySelector('#contact-form');if(contact){contact.querySelector('button[type=submit]').textContent=t('marketing.m_71ffefe08618');contact.querySelector('.preview-note').textContent=t('marketing.m_549e4c6fa72f');contact.onsubmit=async event=>{event.preventDefault();const status=contact.querySelector('.form-status'),button=contact.querySelector('button[type=submit]');button.disabled=true;try{const session=await api('session');await api('contact',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':session.csrf_token},body:JSON.stringify(Object.fromEntries(new FormData(contact)))});status.textContent=t('marketing.m_aa47a94c0e44');contact.reset();}catch(error){status.textContent=error.message;}finally{button.disabled=false;}};}
   // Payment step is closed until the guest signs in with a one-time code emailed to them. The server enforces it too (checkout/eligibility).
   // Access token (15 min) lives only in memory; the rotating refresh token is an HttpOnly cookie the page cannot read.
@@ -188,6 +188,10 @@
   const ensureToken=()=>{if(auth.token&&auth.exp-Date.now()>30000)return Promise.resolve(true);return auth.pending||(auth.pending=send('auth/refresh',{}).then(r=>{auth.pending=null;if(!keep(r).ok){auth.token=null;return false;}return true;}));};
   const gateCall=async(path,body)=>{if(path==='auth/otp/verify'||path==='auth/otp/request')return keep(await send(path,body));if(path==='auth/logout'){const r=await send(path,{},auth.token);if(r.ok){auth.token=null;auth.exp=0;auth.email=null;}return r;}if(!await ensureToken())return {ok:false,status:401,data:{code:'login_required'}};return send(path,body,auth.token);};
   const googleProviders=send('auth/providers');
+  if(bookingSearch){
+   const note=main.querySelector('.booking-aside p');if(note)note.textContent=t('Search live hotel availability, select a room, then continue to the hotel booking form.','ابحث عن الغرف المتاحة، واختر غرفتك، ثم تابع إلى نموذج حجز الفندق.','查询酒店实时空房，选择客房，然后继续填写酒店预订表单。');
+   const resultNote=main.querySelector('.booking-results .preview-note');if(resultNote)resultNote.textContent=t('Availability is checked by the hotel. The final total is calculated in the booking form.','الفندق يتحقق من التوافر ويحسب الإجمالي النهائي داخل نموذج الحجز.','空房由酒店验证，最终总价将在预订表单中计算。');
+  }
   // Google and email-code sign-in share the existing customer token session.
   const otpFlow=(gate,status,onShow,onDone,introKey='otp.intro')=>{
   const fail=r=>{const d=r.data||{};if(r.status===429&&d.retry_after)return t('otp.errWait').replace('{s}',d.retry_after);const map={invalid:'otp.errInvalid',expired:'otp.errExpired',locked:'otp.errLocked'};if(map[d.code])return t(map[d.code]);if(r.status===422)return t('otp.errEmail');if(r.status===503)return t('otp.errSend');return t('otp.errGeneric');};
@@ -232,6 +236,8 @@
   if(page==='review'){
    const aside=main.querySelector('.booking-aside'),go=aside?.querySelector('a.button');
    if(aside&&go){
+    aside.querySelectorAll('p').forEach(p=>p.remove());
+    const note=document.createElement('p');note.textContent=t('Continue to the hotel booking form to review the final rate and guest details.','تابع إلى نموذج حجز الفندق لمراجعة السعر النهائي وبيانات الضيوف.','继续前往酒店预订表单，核对最终价格和客人信息。');go.before(note);
     const btn=document.createElement('button');btn.type='button';btn.className='button';btn.textContent=t('otp.continue');go.replaceWith(btn);
     const status=document.createElement('p');status.className='form-status';status.setAttribute('role','status');
     const gate=document.createElement('div');gate.className='otp-gate';gate.hidden=true;
@@ -239,7 +245,18 @@
     const proceed=async()=>{
      const result=await gateCall('checkout/eligibility');
      if(!main.isConnected)return;
-     if(result.ok){status.textContent=t('marketing.m_1cc550df65ff');gate.hidden=true;btn.hidden=false;return;}
+     if(result.ok){
+      const stay=getStay();
+      if(!stay?.backendRoomId){status.textContent=t('Please select an available room again.','اختَر غرفة متاحة مرة أخرى.','请重新选择可用客房。');return;}
+      status.textContent=t('Opening your booking…','جاري فتح الحجز…','正在打开预订…');
+      const booking=await gateCall('booking/start',{room_id:stay.backendRoomId,arrival:stay.arrival,departure:stay.departure,adults:Number(stay.adults),children:Number(stay.children),rooms:1});
+      if(!main.isConnected)return;
+      if(booking.ok&&!booking.data.error&&booking.data.next_url){
+       const next=new URL(booking.data.next_url,location.origin);
+       if(next.origin===location.origin&&/^\/booking\/[a-f0-9]{32}$/.test(next.pathname)){location.assign(next.href);return;}
+      }
+      status.textContent=booking.data.message||t('This room could not be booked. Check availability again.','تعذّر حجز الغرفة. راجع التوافر مرة أخرى.','无法预订此客房，请重新查询空房。');gate.hidden=true;btn.hidden=false;return;
+     }
      if(result.status===401){gate.hidden=false;showEmail();return;}
      status.textContent=fail(result);
     };
