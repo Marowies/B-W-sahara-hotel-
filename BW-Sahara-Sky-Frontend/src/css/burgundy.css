@@ -1019,3 +1019,6 @@ html body footer .footer-contact h3{margin-bottom:6px!important}
 @keyframes done-pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
 @media(prefers-reduced-motion:reduce){.done-badge{animation:none}}
 @media(max-width:900px){.auth-welcome .otp-gate:has(.welcome-done){padding:0;background:none;border:0;box-shadow:none}}
+
+.nav #nav-links .nav-mobile-signin{display:none}
+@media(max-width:900px){.nav #nav-links .nav-mobile-signin{display:block}}
