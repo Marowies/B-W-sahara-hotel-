@@ -13,6 +13,8 @@ Route::get('robots.txt', fn () => response(
 ))->name('public.robots');
 
 Route::prefix('api/hotel')->middleware('throttle:60,1')->group(function (): void {
+    Route::get('auth/providers', fn () => response()->json(['google' => \App\Services\HotelGoogleSession::enabled()])->header('Cache-Control', 'no-store'));
+    Route::get('auth/google', [\App\Services\HotelGoogleSession::class, 'start']);
     Route::get('rooms', [HotelFrontendController::class, 'rooms'])->middleware(\App\Http\Middleware\CompressHotelCatalogue::class);
     Route::get('availability', [HotelFrontendController::class, 'availability']);
     Route::get('session', [HotelFrontendController::class, 'session'])->middleware(RequireHotelCustomer::class . ':optional');

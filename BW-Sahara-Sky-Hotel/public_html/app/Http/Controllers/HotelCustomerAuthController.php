@@ -130,6 +130,8 @@ class HotelCustomerAuthController extends Controller
     public function logout(Request $request): JsonResponse
     {
         $this->tokens->logout((string) $request->cookie(HotelTokenService::COOKIE) ?: null, $request->bearerToken());
+        \Illuminate\Support\Facades\Auth::guard('customer')->logout();
+        $request->session()->forget(\App\Services\HotelGoogleSession::RETURN_KEY);
 
         return $this->reply(['authenticated' => false])->withCookie($this->tokens->cookie(null, null, $request));
     }

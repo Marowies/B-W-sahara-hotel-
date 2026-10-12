@@ -15,11 +15,17 @@ class RenderingSiteMapListener
             $pages = Page::query()
                 ->wherePublished()->latest()
                 ->select(['id', 'name', 'updated_at'])
-                ->with('slugable');
+                ->with(['slugable', 'metadata']);
 
             $pages = RepositoryHelper::applyBeforeExecuteQuery($pages, new Page())->get();
 
             foreach ($pages as $page) {
+                // Published pages can be deliberately excluded through the CMS SEO control.
+                $seoMeta = $page->getMetaData('seo_meta', true);
+                if (is_array($seoMeta) && ($seoMeta['index'] ?? 'index') === 'noindex') {
+                    continue;
+                }
+
                 SiteMapManager::add($page->url, $page->updated_at, '0.8');
             }
         }

@@ -30,12 +30,8 @@ class HookServiceProvider extends ServiceProvider
         $supportedModules = SocialService::supportedModules();
 
         if ($total = count($supportedModules)) {
-            $params = [];
             $data = collect($supportedModules)->firstWhere('model', $module);
-
-            if ($total > 1) {
-                $params = ['guard' => $data['guard']];
-            }
+            $params = ['guard' => $data['guard']];
 
             if (Arr::get($data, 'use_css', true) && defined('THEME_OPTIONS_MODULE_SCREEN_NAME')) {
                 Theme::asset()
