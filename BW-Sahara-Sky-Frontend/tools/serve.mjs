@@ -6,6 +6,8 @@ import {createHash} from 'node:crypto';
 import {localeRedirect} from '../src/shared/locale-resolver.mjs';
 import {resolveRoute} from '../src/shared/locale.mjs';
 import {serveAdminAsset} from './local-admin-assets.mjs';
+import {createTrafficLimit} from './traffic-limit.mjs';
+const documentLimit=createTrafficLimit();
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..','dist');
 const port=Number(process.env.PORT||8780);
 const backend=process.env.HOTEL_BACKEND_ORIGIN?new URL(process.env.HOTEL_BACKEND_ORIGIN):null;
@@ -19,9 +21,13 @@ function acceptedEncodings(header=''){
 createServer(async(req,res)=>{
  try {
   const incoming=new URL(req.url,'http://127.0.0.1');
+  if(['GET','HEAD'].includes(req.method)&&!extname(incoming.pathname)&&!/^\/(?:api|storage|vendor)\//.test(incoming.pathname)){
+   const result=documentLimit(req.socket.remoteAddress||'unknown');
+   if(!result.allowed){res.writeHead(429,{'Content-Type':'text/html; charset=utf-8','Retry-After':result.retryAfter,'Cache-Control':'no-store'});res.end('<!doctype html><html><meta name="viewport" content="width=device-width,initial-scale=1"><title>A little pause | B&W Sahara Sky</title><body style="background:#eee3d3;color:#60452f;font-family:system-ui;padding:10vh 8vw"><h1>A little pause.</h1><p>Please wait a minute and try again.</p></body></html>');return;}
+  }
   if(backend && await serveAdminAsset(req,res,process.env.HOTEL_BACKEND_PUBLIC||resolve(root,'../../BW-Sahara-Sky-Hotel/public_html/public')))return;
   if(backend&&incoming.pathname==='/login/admin'){res.writeHead(302,{Location:'/admin/login','Cache-Control':'no-store'});res.end();return;}
-  if(backend&&/^\/(?:admin(?:\/|$)|api\/hotel(?:\/|$)|vendor\/|storage\/)/.test(incoming.pathname)){
+  if(backend&&/^\/(?:admin(?:\/|$)|customer(?:\/|$)|booking\/[a-f0-9]{32}$|checkout(?:\/|$)|api\/hotel(?:\/|$)|auth\/callback\/|vendor\/|storage\/)/.test(incoming.pathname)){
    const headers={...req.headers,host:'127.0.0.1:'+port};delete headers['connection'];
    const target=new URL(backend);target.pathname=incoming.pathname;target.search=incoming.search;
    const upstream=backendRequest(target,{method:req.method,headers},response=>{

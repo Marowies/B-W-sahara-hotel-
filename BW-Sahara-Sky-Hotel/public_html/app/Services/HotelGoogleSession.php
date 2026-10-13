@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class HotelGoogleSession
 {
     public const RETURN_KEY = 'hotel_google_return';
+    public const PENDING_KEY = 'hotel_google_otp';
 
     public function __construct(private HotelTokenService $tokens)
     {
@@ -40,18 +41,45 @@ class HotelGoogleSession
     public function complete(Customer $customer, Request $request): Response
     {
         $returnTo = self::returnPath($request->session()->pull(self::RETURN_KEY));
-        $pair = $this->tokens->issue($customer, $request);
+        // Google identifies the mailbox; only the emailed OTP may create a session.
+        $this->tokens->logout($request->cookie(HotelTokenService::COOKIE), $request->bearerToken());
+        \Illuminate\Support\Facades\Auth::guard('customer')->logout();
+        $result = app(\App\Http\Controllers\HotelCustomerAuthController::class)->requestCodeForEmail($customer->email);
+        $data = $result->getData(true);
+        $request->session()->put(self::PENDING_KEY, [
+            'email' => $customer->email, 'pending' => $result->getStatusCode() === 200,
+            'status' => $result->getStatusCode(), 'resend_in' => $data['resend_in'] ?? 60,
+            'resend_at' => now()->addSeconds($data['resend_in'] ?? $data['retry_after'] ?? 60)->timestamp,
+            'retry_after' => $data['retry_after'] ?? null,
+            'expires_at' => now()->addMinutes(10)->timestamp,
+        ]);
 
-        // Tokens never enter the URL or browser storage. The frontend refreshes
-        // through its existing API to obtain the short-lived access token.
+        // Neither codes, email addresses nor tokens enter the return URL.
         return (new \Illuminate\Http\RedirectResponse($returnTo))
-            ->withCookie($this->tokens->cookie($pair['refresh_token'], $pair['family_expires_at'], $request))
+            ->withCookie($this->tokens->cookie(null, null, $request))
             ->header('Cache-Control', 'no-store');
+    }
+
+    public function pending(Request $request): Response
+    {
+        $pending = $request->session()->get(self::PENDING_KEY);
+        if (! $pending || $pending['expires_at'] <= now()->timestamp) {
+            $request->session()->forget(self::PENDING_KEY);
+            $pending = ['pending' => false];
+        } else {
+            $pending['resend_in'] = max(0, ($pending['resend_at'] ?? now()->timestamp) - now()->timestamp);
+            if ($pending['retry_after'] ?? null) {
+                $pending['retry_after'] = $pending['resend_in'];
+            }
+            unset($pending['resend_at'], $pending['expires_at']);
+        }
+
+        return (new \Illuminate\Http\JsonResponse($pending))->header('Cache-Control', 'no-store');
     }
 
     public static function returnPath(mixed $path): string
     {
-        return is_string($path) && preg_match('~^/(?:ar/|zh/)?(?:login|register|booking/review)/$~D', $path)
+        return is_string($path) && preg_match('~^/(?:login|register|booking/review|ar/(?:login|register|booking/review|dokhool|hesab-gadeed|takhteet-eqama/moragaa)|zh/(?:login|register|booking/review|denglu|zhuce|zhusu-jihua/queren))/$~D', $path)
             ? $path : '/login/';
     }
 }

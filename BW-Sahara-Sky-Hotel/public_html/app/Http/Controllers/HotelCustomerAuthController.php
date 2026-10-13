@@ -31,7 +31,22 @@ class HotelCustomerAuthController extends Controller
         $data = $request->validate(['email' => ['required', 'email:rfc', 'max:255']]);
         $email = Str::lower(trim($data['email']));
 
+        return $this->requestCodeForEmail($email);
+    }
+
+    /** Shared delivery path for validated email input and the verified Google mailbox. */
+    public function requestCodeForEmail(string $email): JsonResponse
+    {
+        $email = Str::lower(trim($email));
+
         return app(HotelLoginLock::class)->run($email, function () use ($email): JsonResponse {
+
+        // Resolving the mail manager applies the CMS email settings, which can
+        // override .env. A testing sink must never be reported as real delivery.
+        Mail::getFacadeRoot();
+        if (! $this->deliversMail(config('mail.default'))) {
+            return $this->reply(['message' => 'We could not send the code. Please try again shortly.', 'code' => 'mail_not_configured'], 503);
+        }
 
         $last = DB::table('hotel_login_codes')->where('email', $email)->latest('id')->first();
         if ($last) {
@@ -106,6 +121,11 @@ class HotelCustomerAuthController extends Controller
 
         $pair = $this->tokens->issue($customer, $request);
 
+        // The existing hotel booking/account pages use the same customer guard.
+        \Illuminate\Support\Facades\Auth::guard('customer')->login($customer);
+        $request->session()->regenerate();
+        $request->session()->forget(\App\Services\HotelGoogleSession::PENDING_KEY);
+
         return $this->session($pair, $request, ['authenticated' => true, 'email' => $customer->email]);
         });
     }
@@ -132,6 +152,7 @@ class HotelCustomerAuthController extends Controller
         $this->tokens->logout((string) $request->cookie(HotelTokenService::COOKIE) ?: null, $request->bearerToken());
         \Illuminate\Support\Facades\Auth::guard('customer')->logout();
         $request->session()->forget(\App\Services\HotelGoogleSession::RETURN_KEY);
+        $request->session()->forget(\App\Services\HotelGoogleSession::PENDING_KEY);
 
         return $this->reply(['authenticated' => false])->withCookie($this->tokens->cookie(null, null, $request));
     }
@@ -162,6 +183,30 @@ class HotelCustomerAuthController extends Controller
     private function hash(string $email, string $code): string
     {
         return hash_hmac('sha256', $email . '|' . $code, (string) config('app.key'));
+    }
+
+    private function deliversMail(?string $name, array $visited = []): bool
+    {
+        if (! $name || in_array($name, $visited, true)) {
+            return false;
+        }
+        $transport = config('mail.mailers.' . $name . '.transport');
+        if (! $transport || in_array($transport, ['log', 'array'], true)) {
+            return false;
+        }
+        if (in_array($transport, ['failover', 'roundrobin'], true)) {
+            $children = config('mail.mailers.' . $name . '.mailers', []);
+            if (! is_array($children) || ! $children) {
+                return false;
+            }
+            foreach ($children as $child) {
+                if (! is_string($child) || ! $this->deliversMail($child, [...$visited, $name])) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     private function reply(array $data, int $status = 200): JsonResponse

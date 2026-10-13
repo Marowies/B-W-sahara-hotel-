@@ -16,7 +16,10 @@ class AuthFixtureRequest extends Request
 
 function authRequest(array $data = []): AuthFixtureRequest
 {
-    return AuthFixtureRequest::create('https://hotel.example/api/hotel/auth/otp/verify', 'POST', $data);
+    $request = AuthFixtureRequest::create('https://hotel.example/api/hotel/auth/otp/verify', 'POST', $data);
+    $request->setLaravelSession(app('session'));
+
+    return $request;
 }
 
 function authCode(string $code = '123456'): void
@@ -52,6 +55,7 @@ test('Auth: OTP can be consumed only once', function (): void {
     $request = authRequest(['email' => 'synthetic@example.invalid', 'code' => '123456']);
     $first = $controller->verifyCode($request);
     check($first->getStatusCode() === 200 && $first->getData(true)['authenticated'], 'Valid OTP failed');
+    check(\Illuminate\Support\Facades\Auth::guard('customer')->check(), 'OTP did not authenticate the existing account pages');
     check($controller->verifyCode($request)->getStatusCode() === 422, 'OTP replay accepted');
 });
 
@@ -72,6 +76,7 @@ test('Auth: expired OTP rejected', function () use ($db): void {
 });
 
 test('Auth: resend cooldown and mail failure rollback', function () use ($db): void {
+    config(['mail.default' => 'smtp', 'mail.mailers.smtp.transport' => 'smtp']);
     $mail = new class {
         public bool $fail = false;
         public function raw(...$args): void { if ($this->fail) throw new RuntimeException('Synthetic delivery failure'); }
@@ -89,6 +94,35 @@ test('Auth: resend cooldown and mail failure rollback', function () use ($db): v
     });
     check($controller->requestCode(authRequest(['email' => 'failed-send@example.invalid']))->getStatusCode() === 503, 'Delivery failure hidden');
     check(! $db->table('hotel_login_codes')->where('email', 'failed-send@example.invalid')->exists(), 'Failed delivery left a usable code');
+});
+
+test('Auth: local, staging and production refuse logging mailers without creating OTPs', function () use ($db): void {
+    $originalEnv = app('env');
+    $originalMail = config('mail');
+    $calls = 0;
+    Illuminate\Support\Facades\Mail::swap(new class($calls) {
+        public function __construct(private int &$calls) {}
+        public function raw(...$args): void { $this->calls++; }
+    });
+    try {
+        config(['mail.mailers.log.transport' => 'log', 'mail.mailers.array.transport' => 'array',
+            'mail.mailers.failover.transport' => 'failover', 'mail.mailers.failover.mailers' => ['smtp', 'log']]);
+        foreach (['local', 'staging', 'production'] as $environment) {
+            app()->instance('env', $environment);
+            foreach (['log', 'array', 'failover'] as $driver) {
+                config(['mail.default' => $driver]);
+                $email = "$environment-$driver@example.invalid";
+                $response = (new App\Http\Controllers\HotelCustomerAuthController(app(HotelTokenService::class)))->requestCode(authRequest(['email' => $email]));
+                check($response->getStatusCode() === 503, 'Non-delivery mailer reported success');
+                check($response->getData(true)['code'] === 'mail_not_configured', 'Missing error code');
+                check(! $db->table('hotel_login_codes')->where('email', $email)->exists(), 'Non-delivery mailer created an OTP');
+            }
+        }
+        check($calls === 0, 'OTP leaked into testing mail transport');
+    } finally {
+        app()->instance('env', $originalEnv);
+        config(['mail' => $originalMail]);
+    }
 });
 
 test('Auth: rotation grace returns one successor and hashed storage', function () use ($db): void {
@@ -216,21 +250,62 @@ if ($db->getDriverName() === 'mysql' && isset($argv[2])) {
     });
 }
 
-test('Google: callback creates the existing customer token session without leaking tokens', function () use ($app, $session, $url, $db): void {
+test('Google: callback requires an emailed OTP before either customer session exists', function () use ($app, $session, $url, $db, $guard): void {
     $app->instance('redirect', new Illuminate\Routing\Redirector($url));
+    config(['mail.default' => 'smtp', 'mail.mailers.smtp.transport' => 'smtp']);
+    $mail = new class { public string $body = ''; public function raw($body, $callback): void { $this->body = $body; } };
+    Illuminate\Support\Facades\Mail::swap($mail);
+    $customer = Customer::query()->findOrFail(43);
+    $db->table('hotel_login_codes')->where('email', $customer->email)->delete();
+    $before = $db->table('hotel_auth_tokens')->count();
+    $guard->setUser($customer);
     $request = authRequest();
     $request->setLaravelSession($session);
     $session->put(App\Services\HotelGoogleSession::RETURN_KEY, '/ar/booking/review/');
-    $response = app(App\Services\HotelGoogleSession::class)->complete(Customer::query()->findOrFail(43), $request);
+    $response = app(App\Services\HotelGoogleSession::class)->complete($customer, $request);
     check(str_ends_with($response->headers->get('Location'), '/ar/booking/review/'), 'Return language/booking step lost');
     check(! $session->has(App\Services\HotelGoogleSession::RETURN_KEY), 'Callback intent not consumed');
     check(str_contains($response->headers->get('Cache-Control'), 'no-store'), 'Private callback was cacheable');
     $cookies = $response->headers->getCookies();
     $cookie = $cookies[0];
     check($cookie->getName() === HotelTokenService::COOKIE && $cookie->isHttpOnly() && $cookie->isSecure() && $cookie->getSameSite() === 'strict' && $cookie->getPath() === HotelTokenService::COOKIE_PATH, 'Google cookie policy differs from OTP');
-    $pair = app(HotelTokenService::class)->refresh($cookie->getValue(), $request);
-    check($pair['ok'] && app(HotelTokenService::class)->authenticate($pair['access_token'])->getKey() === 43, 'Google did not preserve customer identity');
-    check(! str_contains($response->headers->get('Location'), $cookie->getValue()), 'Refresh token leaked into URL');
+    check(! $cookie->getValue(), 'Google minted a refresh token before OTP');
+    check(! $guard->check() && $db->table('hotel_auth_tokens')->count() === $before, 'Google bypassed OTP');
+    $pending = app(App\Services\HotelGoogleSession::class)->pending($request)->getData(true);
+    check($pending['pending'] && $pending['email'] === $customer->email, 'Verified mailbox missing from pending session');
+    check(! str_contains($response->headers->get('Location'), $customer->email), 'Email leaked in return URL');
+    preg_match('/verification code is (\d{6})/', $mail->body, $match);
+    check(isset($match[1]), 'Google did not request an OTP');
+    $controller = new App\Http\Controllers\HotelCustomerAuthController(app(HotelTokenService::class));
+    $result = $controller->verifyCode(authRequest(['email' => $customer->email, 'code' => $match[1]]));
+    check($result->getStatusCode() === 200 && $guard->check(), 'Correct Google OTP did not sign in');
+    check(! $session->has(App\Services\HotelGoogleSession::PENDING_KEY), 'OTP intent survived verification');
+});
+
+test('Google: email delivery failure never creates a customer session', function () use ($session, $db, $guard): void {
+    $customer = Customer::query()->findOrFail(43);
+    $db->table('hotel_login_codes')->where('email', $customer->email)->delete();
+    Illuminate\Support\Facades\Mail::swap(new class { public function raw(...$args): void { throw new RuntimeException('Synthetic delivery failure'); } });
+    $before = $db->table('hotel_auth_tokens')->count();
+    $request = authRequest();$request->setLaravelSession($session);
+    app(App\Services\HotelGoogleSession::class)->complete($customer, $request);
+    check(! $guard->check() && $db->table('hotel_auth_tokens')->count() === $before, 'Delivery failure authenticated Google customer');
+    check(! $session->get(App\Services\HotelGoogleSession::PENDING_KEY)['pending'], 'Failed mail was reported as sent');
+    check(! $db->table('hotel_login_codes')->where('email', $customer->email)->exists(), 'Failed delivery retained OTP');
+    $session->forget(App\Services\HotelGoogleSession::PENDING_KEY);
+});
+
+test('Google: pending OTP cooldown survives reload and expires without leaking internal deadlines', function () use ($session): void {
+    $clock = Carbon::getTestNow();
+    $session->put(App\Services\HotelGoogleSession::PENDING_KEY, ['pending' => true, 'email' => 'synthetic@example.invalid', 'resend_at' => now()->addSeconds(15)->timestamp, 'expires_at' => now()->addMinutes(10)->timestamp]);
+    try {
+        $first = app(App\Services\HotelGoogleSession::class)->pending(authRequest())->getData(true);
+        check($first['resend_in'] === 15 && ! isset($first['expires_at'], $first['resend_at']), 'Internal pending state leaked');
+        Carbon::setTestNow(now()->addSeconds(16));
+        check(app(App\Services\HotelGoogleSession::class)->pending(authRequest())->getData(true)['resend_in'] === 0, 'Reload reset cooldown');
+        Carbon::setTestNow(now()->addMinutes(11));
+        check(app(App\Services\HotelGoogleSession::class)->pending(authRequest())->getData(true) === ['pending' => false], 'Expired Google OTP intent survived');
+    } finally { Carbon::setTestNow($clock);$session->forget(App\Services\HotelGoogleSession::PENDING_KEY); }
 });
 
 test('Google: API logout clears both customer sessions and callback intent', function () use ($session, $guard): void {
@@ -248,12 +323,35 @@ test('Google: API logout clears both customer sessions and callback intent', fun
 });
 
 test('Google: return destinations reject external and unrelated application paths', function (): void {
-    foreach (['/login/', '/ar/login/', '/zh/register/', '/booking/review/'] as $path) {
+    foreach (['/login/', '/ar/login/', '/zh/register/', '/booking/review/', '/ar/dokhool/', '/ar/hesab-gadeed/', '/ar/takhteet-eqama/moragaa/', '/zh/denglu/', '/zh/zhuce/', '/zh/zhusu-jihua/queren/'] as $path) {
         check(App\Services\HotelGoogleSession::returnPath($path) === $path, 'Valid return rejected');
     }
     foreach (['https://evil.example/', '//evil.example/', '/admin/', '/auth/google', '/login/?token=secret', null, [], "/login/\n"] as $path) {
         check(App\Services\HotelGoogleSession::returnPath($path) === '/login/', 'Unsafe return accepted');
     }
+});
+
+test('Booking: native form requires an authenticated customer session', function (): void {
+    $guard=\Illuminate\Support\Facades\Auth::guard('customer');$guard->logout();
+    $middleware=new App\Http\Middleware\RequireHotelBookingSession();
+    $request=authRequest();$request->headers->set('Accept','application/json');
+    $result=$middleware->handle($request,fn()=>response('reached'));
+    check($result->getStatusCode()===401,'Anonymous native booking was allowed');
+    $guard->setUser(Customer::query()->firstOrFail());
+    $result=$middleware->handle($request,fn()=>response('reached'));
+    check($result->getContent()==='reached','Signed-in booking was blocked');$guard->logout();
+});
+
+test('Traffic: bursts return 429 with retry guidance and expire', function (): void {
+    $limiter=new \Illuminate\Cache\RateLimiter(new \Illuminate\Cache\Repository(new \Illuminate\Cache\ArrayStore()));
+    \Illuminate\Support\Facades\RateLimiter::swap($limiter);
+    $request=\Illuminate\Http\Request::create('https://hotel.example/api/hotel/rooms','GET',[],[],[],['REMOTE_ADDR'=>'192.0.2.9','HTTP_ACCEPT'=>'application/json']);
+    $middleware=new App\Http\Middleware\LimitHotelTraffic();
+    for($i=0;$i<120;$i++)check($middleware->handle($request,fn()=>response('ok'))->getStatusCode()===200,'Normal request blocked');
+    $blocked=$middleware->handle($request,fn()=>response('ok'));
+    check($blocked->getStatusCode()===429 && (int)$blocked->headers->get('Retry-After')>0,'Burst not limited');
+    $key='hotel-traffic:'.hash('sha256','192.0.2.9');$limiter->clear($key);
+    check($middleware->handle($request,fn()=>response('ok'))->getStatusCode()===200,'Client did not recover');
 });
 
 test('Auth: concurrency migration rollback and reapply', function () use ($source, $db): void {

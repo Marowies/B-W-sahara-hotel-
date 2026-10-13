@@ -375,6 +375,7 @@
             .bw-hero-image-clip .single-slider { min-height: 360px !important; }
         }
     </style>
+<link rel="stylesheet" href="{{ asset('themes/riorelax/css/brown-beige.css') }}?v=3">
 </head>
 <body @if (BaseHelper::isRtlEnabled()) dir="rtl" @endif>
 {!! apply_filters(THEME_FRONT_BODY, null) !!}

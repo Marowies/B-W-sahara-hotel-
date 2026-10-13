@@ -174,7 +174,7 @@
       let parsed;
       if (!next) {
         const response = await fetch(url.pathname + url.search, {headers:{'X-Frontend-Navigation':'1'}});
-        if (!response.ok) throw new Error('Route unavailable');
+        if (!response.ok && response.status!==404) throw new Error('Route unavailable');
         parsed = new DOMParser().parseFromString(await response.text(), 'text/html');
         if (!parsed.querySelector('main') || !parsed.body.dataset.page) throw new Error('Invalid route');
         next = {active:false, listeners:[], observers:[], page:parsed.body.dataset.page, nodes:[...parsed.body.children].filter(n => n.tagName !== 'SCRIPT'), className:parsed.body.className, title:parsed.title};

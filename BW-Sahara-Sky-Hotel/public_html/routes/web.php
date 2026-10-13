@@ -15,6 +15,7 @@ Route::get('robots.txt', fn () => response(
 Route::prefix('api/hotel')->middleware('throttle:60,1')->group(function (): void {
     Route::get('auth/providers', fn () => response()->json(['google' => \App\Services\HotelGoogleSession::enabled()])->header('Cache-Control', 'no-store'));
     Route::get('auth/google', [\App\Services\HotelGoogleSession::class, 'start']);
+    Route::get('auth/google/pending', [\App\Services\HotelGoogleSession::class, 'pending']);
     Route::get('rooms', [HotelFrontendController::class, 'rooms'])->middleware(\App\Http\Middleware\CompressHotelCatalogue::class);
     Route::get('availability', [HotelFrontendController::class, 'availability']);
     Route::get('session', [HotelFrontendController::class, 'session'])->middleware(RequireHotelCustomer::class . ':optional');
@@ -25,4 +26,5 @@ Route::prefix('api/hotel')->middleware('throttle:60,1')->group(function (): void
     Route::post('auth/refresh', [HotelCustomerAuthController::class, 'refresh'])->middleware('throttle:30,1,otp-refresh');
     Route::post('auth/logout', [HotelCustomerAuthController::class, 'logout']);
     Route::get('checkout/eligibility', [HotelCustomerAuthController::class, 'checkoutEligibility'])->middleware(RequireHotelCustomer::class);
+    Route::post('booking/start', [\App\Http\Controllers\HotelBookingStartController::class, 'start'])->middleware(RequireHotelCustomer::class);
 });

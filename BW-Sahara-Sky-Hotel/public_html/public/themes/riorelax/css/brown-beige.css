@@ -1,0 +1,17 @@
+/* Shared identity for server-rendered booking and customer account pages. */
+:root{--primary-color:#60452f;--primary-color-rgb:96,69,47;--secondary-color:#987252;--heading-color:#382b20;--text-color:#605143;--brown-surface:#f4eadb;--brown-border:#c7ad8b}
+body{background:#eee3d3;color:#382b20}
+h1,h2,h3,h4,h5,h6{color:#382b20}
+a:hover{color:#75563d}
+.header-area,.menu-area,.customer-page .card,.booking-form-main{background:#f4eadb}
+.header-area{border-bottom:1px solid #c7ad8b}
+.booking-form-main,.customer-page .card,.auth-card,.checkout-form .card{border:1px solid #c7ad8b;border-radius:16px;box-shadow:0 6px 24px #60452f08}
+.btn-primary,.booking-form-main button[type=submit],.customer-page button[type=submit]{background:#60452f;border-color:#60452f;color:#f4eadb;border-radius:10px;min-height:46px}
+.btn-primary:hover,.booking-form-main button[type=submit]:hover{background:#75563d;border-color:#75563d;color:#f4eadb}
+.form-control,.form-select{background:#f4eadb;color:#382b20;border:1px solid #c7ad8b;border-radius:10px;min-height:46px}
+.form-control:focus,.form-select:focus{border-color:#60452f;box-shadow:0 0 0 3px #60452f1a}
+.booking-form-main label,.customer-page label{color:#60452f}
+.booking-form-main .card-header,.customer-page .card-header{background:#eee2d0;border-color:#c7ad8b}
+.footer-bg{background:#30251c;color:#f2e5d2}
+.footer-bg h3,.footer-bg h4,.footer-bg a{color:#f2e5d2}
+@media(max-width:600px){.booking-form-main,.customer-page .card{max-width:100%;min-width:0}.form-control,.form-select{font-size:16px}}

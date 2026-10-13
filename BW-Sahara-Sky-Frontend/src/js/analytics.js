@@ -1,5 +1,6 @@
 (() => {
  const record=()=>{
+  if(!document.cookie.split('; ').includes('hotel_cookie_consent=all'))return;
   const route=window.hotelLocale.resolveRoute(location.pathname);if(!route)return;
   let host='';try{host=new URL(document.referrer).hostname.toLowerCase();}catch{}
   const source=new URLSearchParams(location.search).get('utm_source')?.toLowerCase();
@@ -10,5 +11,5 @@
   window.hotelAnalyticsAdapter?.('hotel_page_view',payload);
  };
  const previous=window.__hotelViewScope;window.__hotelViewScope=null;
- document.addEventListener('hotelroutechange',record);window.__hotelViewScope=previous;record();
+ document.addEventListener('hotelroutechange',record);document.addEventListener('hotelconsentchange',record);window.__hotelViewScope=previous;record();
 })();

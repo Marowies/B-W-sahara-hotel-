@@ -19,6 +19,17 @@ try{
    assert(await fits('.stay-card,.stay-card h3,.stay-card .card-actions,.contact-layout>*,.footer-top>*,.footer-bottom'),'Public component overflow: '+path+' '+width);
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'Public page overflow');
    checks.push(`Public cards, forms and footer fit ${path} at ${width}px`);
+   if(path==='/rooms/'&&width===320){
+    const menu=page.getByRole('button',{name:'Menu',exact:true});await menu.click();
+    const contrast=await page.locator('#nav-links').evaluate(nav=>{
+     const luminance=value=>{const rgb=value.match(/[\d.]+/g).slice(0,3).map(Number).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;});return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];};
+     const bg=luminance(getComputedStyle(nav).backgroundColor),fg=luminance(getComputedStyle(nav.querySelector('a')).color);
+     return (Math.max(bg,fg)+.05)/(Math.min(bg,fg)+.05);
+    });
+    assert(contrast>=4.5,'Mobile navigation text must be readable against its background');
+    assert(await page.locator('#nav-links').isVisible(),'Mobile navigation must open');
+    await menu.click();checks.push('Mobile navigation opens with readable text contrast');
+   }
   }
  }
  // Real responsive-image mutation: a new source must not display an old srcset.

@@ -55,14 +55,16 @@ class MailConfigServiceProvider extends ServiceProvider
                         $config->set([
                             'mail.mailers.smtp' => array_merge($config->get('mail.mailers.smtp'), [
                                 'transport' => 'smtp',
-                                'schema' => $config->get('mail.mailers.smtp.schema'),
+                                'scheme' => $setting->get('email_encryption') === 'ssl' ? 'smtps' : 'smtp',
                                 'host' => $setting->get('email_host', $config->get('mail.mailers.smtp.host')),
                                 'port' => (int) $setting->get('email_port', $config->get('mail.mailers.smtp.port')),
                                 'username' => $setting->get('email_username', $config->get('mail.mailers.smtp.username')),
                                 'password' => $setting->get('email_password', $config->get('mail.mailers.smtp.password')),
                                 'encryption' => $setting->get('email_encryption'),
                                 'auth_mode' => null,
-                                'verify_peer' => false,
+                                'verify_peer' => true,
+                                'verify_peer_name' => true,
+                                'require_tls' => in_array($setting->get('email_encryption', 'tls'), ['tls', 'ssl'], true),
                             ]),
                         ]);
 

@@ -285,8 +285,8 @@ Route::group(['namespace' => 'Botble\Hotel\Http\Controllers', 'middleware' => ['
 
             Route::get(SlugHelper::getPrefix(Place::class, 'places') . '/{slug}', 'PublicController@getPlace');
 
-            Route::post('booking', 'PublicController@postBooking')->name('public.booking');
-            Route::get('booking/{token}', 'PublicController@getBooking')->name('public.booking.form');
+            Route::post('booking', 'PublicController@postBooking')->middleware(\App\Http\Middleware\RequireHotelBookingSession::class)->name('public.booking');
+            Route::get('booking/{token}', 'PublicController@getBooking')->middleware(\App\Http\Middleware\RequireHotelBookingSession::class)->name('public.booking.form');
 
             Route::post('checkout', 'PublicController@postCheckout')
                 ->middleware(\App\Http\Middleware\RequireHotelCustomer::class)

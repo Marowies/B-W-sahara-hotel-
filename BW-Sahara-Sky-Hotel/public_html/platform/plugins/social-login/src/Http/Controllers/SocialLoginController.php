@@ -260,13 +260,16 @@ class SocialLoginController extends BaseController
             $account->save();
         }
 
+        if ($isGoogleCustomer) {
+            session()->regenerate();
+            session()->forget('social_login_guard_current');
+
+            return app(\App\Services\HotelGoogleSession::class)->complete($account, request());
+        }
+
         Auth::guard($guard)->login($account, true);
         session()->regenerate();
         session()->forget('social_login_guard_current');
-
-        if ($isGoogleCustomer && session()->has(\App\Services\HotelGoogleSession::RETURN_KEY)) {
-            return app(\App\Services\HotelGoogleSession::class)->complete($account, request());
-        }
 
         $redirectUrl = $providerData['redirect_url'] ?: BaseHelper::getHomepageUrl();
 

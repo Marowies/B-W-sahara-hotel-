@@ -20,8 +20,8 @@ try{
   }
   if(path.endsWith('booking-calendar'))await page.locator('.card:has(.fc) > .loading-spinner').waitFor({state:'hidden'});
   const table=page.locator('table.dataTable');if(await table.count())await table.first().locator('tbody tr').first().waitFor();
-  assert(await page.locator('link[href*="bw-admin.css?v=9"]').count(),`Brand CSS missing: ${path}`);
-  assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--bw-burgundy').trim()),'#571c35',`Brand styles unavailable: ${path}`);
+  assert(await page.locator('link[href*="bw-admin.css"]').count(),`Brand CSS missing: ${path}`);
+  assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--bw-burgundy').trim()),'#60452f',`Brand styles unavailable: ${path}`);
   for(const width of [320,390,768,1440]){
    await page.setViewportSize({width,height:900});
    const contained=await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2);
