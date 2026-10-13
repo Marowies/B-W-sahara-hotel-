@@ -9,6 +9,8 @@ if (str_starts_with($kind, 'auth-')) {
     while (microtime(true) < $startAt) { usleep(10000); }
     $token = $argv[7] ?? '';
     $request = Illuminate\Http\Request::create('https://hotel.example/api/hotel/auth', 'POST');
+    // Mirror the web middleware's session attachment for concurrent OTP requests.
+    $request->setLaravelSession($session);
     $service = app(App\Services\HotelTokenService::class);
     if ($kind === 'auth-refresh') {
         $result = $service->refresh($token, $request);
