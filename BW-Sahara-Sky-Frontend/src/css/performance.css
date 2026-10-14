@@ -263,9 +263,9 @@ html{scrollbar-color:#a98c6c #f2eadf}
 ::-webkit-scrollbar-track{background:#f2eadf}
 ::-webkit-scrollbar-thumb{background:#a98c6c;border-color:#f2eadf}
 footer{background:#30251c!important;color:#f4eadb}
-/* Keep scrolling available without a visible scroll rail. */
-html,body,body *{scrollbar-width:none!important}
-::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+/* The page keeps its brand-coloured scroll rail; only inner scrolling strips (carousels, filters) hide theirs. */
+body *{scrollbar-width:none!important}
+body *::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
 .account-control{position:relative}
 .nav .account-toggle,.nav .menu-toggle{align-items:center;justify-content:center;width:44px;height:44px;min-height:44px;padding:10px!important;border:0!important;border-radius:0!important;background:transparent!important;color:var(--brand-brown)!important;box-shadow:none!important;cursor:pointer}
 .nav .account-toggle{display:flex}
@@ -332,3 +332,6 @@ body{accent-color:var(--brand-brown)}
 [dir=rtl] .hero::before{background:radial-gradient(ellipse at 88% 80%,#71452d52,transparent 60%)}
 /* Phones hide the hero shade; Arabic text sits over the brighter right side of the photo, so keep its mirrored shade. */
 @media(max-width:900px){[dir=rtl] .hero-shade{display:block}}
+/* Header type: the page links and the account menu ("Sign in", "Sign up") share one size and weight. */
+@media(min-width:901px){.nav #nav-links>a{font-size:15px;font-weight:400;letter-spacing:normal}}
+.nav .account-panel .nav-signin,.nav .account-panel .nav-signup{font-family:Manrope,Arial,sans-serif;font-size:15px;font-weight:400;letter-spacing:normal}

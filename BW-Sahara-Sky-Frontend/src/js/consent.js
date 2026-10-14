@@ -22,14 +22,14 @@
  }
  function mount(){
   if(!document.getElementById('hotel-consent-style')){const style=document.createElement('style');style.id='hotel-consent-style';style.textContent='.hotel-consent-panel{position:fixed;inset:auto 16px 16px auto;z-index:10050;width:500px;max-width:calc(100vw - 32px);box-sizing:border-box;padding:22px;border:1px solid #ccb79b;border-radius:16px;background:#fffaf3;color:#382b20;box-shadow:0 12px 36px #30251c33;font:16px/1.5 Arial,sans-serif}.hotel-consent-panel h2{color:#60452f;font:26px/1.2 Georgia,serif;margin:0 0 12px}.hotel-consent-panel p{color:#382b20;margin:0 0 16px}.hotel-consent-actions{display:flex;flex-wrap:wrap;gap:10px}.hotel-consent-actions button{border:1px solid #60452f;border-radius:8px;padding:10px 14px;background:#60452f;color:#fffaf3;cursor:pointer;font:inherit}.hotel-consent-actions button:focus-visible{outline:3px solid #875435;outline-offset:3px}.cookie-settings{cursor:pointer;background:transparent;border:0;color:inherit;font:inherit;text-decoration:underline;padding:10px}';document.head.append(style);}
-  let button=document.querySelector('.cookie-settings');
-  if(!button){button=document.createElement('button');button.type='button';button.className='text-link cookie-settings';(document.querySelector('.footer-bottom,.sky-guest-footer')||document.querySelector('footer')||document.body).append(button);}
-  button.textContent=text('Cookie settings','إعدادات الكوكيز','Cookie 设置');button.onclick=show;
+  // No footer link: a page that wants one adds an element with class cookie-settings (or calls hotelConsent.show()).
+  const button=document.querySelector('.cookie-settings');
+  if(button){button.textContent=text('Cookie settings','إعدادات الكوكيز','Cookie 设置');button.onclick=show;}
   // Prerendered banners have no live handlers and must not override a saved choice.
   dismiss();
   if(!['necessary','all'].includes(preference()))show();
  }
- window.hotelConsent={mount,preference};
+ window.hotelConsent={mount,preference,show};
  window.addEventListener('pageshow',event=>{if(event.persisted)mount();});
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
 })();

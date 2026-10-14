@@ -23,7 +23,7 @@ try{
     await page.keyboard.press('Escape');
    }
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'Header overflow');
-   assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollbarWidth),'none');
+   assert.notEqual(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollbarWidth),'none','Page scroll rail hidden');
    checks.push(`${path} at ${width}px: account links, dismiss, menu and page width`);
   }
  }
