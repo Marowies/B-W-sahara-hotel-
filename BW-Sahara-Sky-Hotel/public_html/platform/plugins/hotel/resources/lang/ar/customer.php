@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'customers' => 'العملاء',
     'continue_with_google' => 'المتابعة باستخدام Google',
     'or' => 'أو',
     'name' => 'العملاء',

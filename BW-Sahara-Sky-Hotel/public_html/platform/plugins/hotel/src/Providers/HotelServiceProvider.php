@@ -305,7 +305,7 @@ class HotelServiceProvider extends ServiceProvider
                     'id' => 'cms-plugins-customer',
                     'priority' => 9,
                     'parent_id' => 'cms-plugins-hotel',
-                    'name' => 'plugins/hotel::customer.name',
+                    'name' => 'plugins/hotel::customer.customers',
                     'icon' => 'ti ti-users',
                     'route' => 'customer.index',
                 ])
