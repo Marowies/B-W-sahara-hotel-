@@ -2,6 +2,7 @@
 
 use Botble\Hotel\Enums\BookingStatusEnum;
 use Botble\Hotel\Models\Booking;
+use Botble\Hotel\Models\BookingRoom;
 use Botble\Hotel\Models\Customer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -93,31 +94,35 @@ function riorelax_guest_switch_url(string $locale): string
 }
 
 /**
- * Read-only figures for the account overview, from the customer's own bookings.
+ * Read-only figures for the account overview, from the customer's own bookings: two counts and at
+ * most two single-row lookups, so the cost does not grow with the customer's booking history.
+ * Upcoming means not cancelled and checking in today or later; the earliest check-in comes first.
+ * The latest booking (newest created) is only looked up when there is no upcoming one, because the
+ * overview shows it only in that case.
  *
  * @return array{total: int, upcoming_count: int, upcoming: ?Booking, latest: ?Booking}
  */
 function riorelax_customer_dashboard(Customer $customer): array
 {
-    $bookings = Booking::query()
-        ->where('customer_id', $customer->getKey())
-        ->with(['room.room', 'payment'])
-        ->latest()
-        ->get();
+    $bookings = fn () => Booking::query()->where('customer_id', $customer->getKey());
+    $today = Carbon::today()->toDateString();
+    $upcoming = fn () => $bookings()
+        ->where('status', '!=', BookingStatusEnum::CANCELLED)
+        ->whereHas('room', fn ($query) => $query->whereNotNull('start_date')->whereDate('start_date', '>=', $today));
 
-    $today = now()->startOfDay();
-    $upcoming = $bookings
-        ->filter(fn (Booking $booking) => $booking->status?->getValue() !== BookingStatusEnum::CANCELLED
-            && $booking->room->start_date
-            && $today->lte(Carbon::parse($booking->room->start_date)))
-        ->sortBy(fn (Booking $booking) => $booking->room->start_date)
-        ->values();
+    $next = $upcoming()
+        ->with(['room.room', 'payment'])
+        ->orderBy(
+            BookingRoom::query()->select('start_date')->whereColumn('booking_id', (new Booking())->qualifyColumn('id'))->orderBy('id')->limit(1)
+        )
+        ->latest()
+        ->first();
 
     return [
-        'total' => $bookings->count(),
-        'upcoming_count' => $upcoming->count(),
-        'upcoming' => $upcoming->first(),
-        'latest' => $bookings->first(),
+        'total' => $bookings()->count(),
+        'upcoming_count' => $upcoming()->count(),
+        'upcoming' => $next,
+        'latest' => $next ? null : $bookings()->with(['room.room', 'payment'])->latest()->first(),
     ];
 }
 
