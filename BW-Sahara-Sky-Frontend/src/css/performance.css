@@ -335,3 +335,24 @@ body{accent-color:var(--brand-brown)}
 /* Header type: the page links and the account menu ("Sign in", "Sign up") share one size and weight. */
 @media(min-width:901px){.nav #nav-links>a{font-size:15px;font-weight:400;letter-spacing:normal}}
 .nav .account-panel .nav-signin,.nav .account-panel .nav-signup{font-family:Manrope,Arial,sans-serif;font-size:15px;font-weight:400;letter-spacing:normal}
+/* Sign-up page: one centred "Already have an account? Sign in" line instead of a full-width underlined link. */
+.auth-panel .auth-switch{margin:22px 0 0;text-align:center;font-size:14px;color:#605143}
+.auth-panel .auth-switch a{display:inline;padding:0;border:0;color:var(--brand-brown);font-weight:600;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.auth-panel .auth-switch a:hover{color:#4e3426}
+/* Phones: the sign-in card already has padding, so the form inside drops its own and "Continue with Google" stays on one line. */
+@media(max-width:480px){.auth-panel .welcome-form{padding-inline:0}.auth-panel .google-button{white-space:nowrap}}
+/* Sign-in/sign-up image side (desktop): stays in view while the form scrolls, headline sized to fit, a readable shade and three short benefits. */
+@media(min-width:901px){
+ .auth-welcome{align-items:start}
+ .auth-welcome .auth-image{position:sticky;top:80px;height:calc(100vh - 80px);height:calc(100svh - 80px);min-height:560px;align-items:flex-end;padding:56px clamp(40px,5vw,80px) 64px}
+ .auth-welcome .auth-image::before{background:linear-gradient(to top,#241a14e6 0%,#241a14b3 32%,#241a1440 62%,#241a1400 85%),linear-gradient(to right,#241a1466,#241a1400 60%)}
+ [dir=rtl] .auth-welcome .auth-image::before{background:linear-gradient(to top,#241a14e6 0%,#241a14b3 32%,#241a1440 62%,#241a1400 85%),linear-gradient(to left,#241a1466,#241a1400 60%)}
+ .auth-welcome .auth-copy{max-width:520px}
+ .auth-welcome .auth-copy h1{font-size:clamp(40px,3.6vw,60px);line-height:1.06}
+ .auth-copy p{margin-top:18px;font-size:16px;color:#f2e2c9}
+ .auth-perks{display:grid;gap:12px;margin:26px 0 0;padding:22px 0 0;list-style:none;border-top:1px solid #e5c19440}
+ .auth-perks li{display:flex;align-items:center;gap:12px;color:#f2e2c9;font-size:15px;line-height:1.4}
+ .auth-perks li::before{content:'';flex:none;width:22px;height:22px;border-radius:50%;background:#e5c19426 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e5c194' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.5 4 4 8-9'/%3E%3C/svg%3E") center/13px no-repeat;border:1px solid #e5c19466}
+ [dir=rtl] .auth-welcome .auth-copy h1{font-size:clamp(34px,3vw,48px);line-height:1.5}
+}
+@media(max-width:900px){.auth-perks{display:none}}
