@@ -357,7 +357,8 @@ body{accent-color:var(--brand-brown)}
 }
 @media(max-width:900px){.auth-perks{display:none}}
 /* Sign-in / sign-up form, redesigned: elevated card, two-step indicator, larger fields and buttons. */
-.auth-welcome .auth-panel{background:radial-gradient(120% 70% at 100% 0%,#f6ecdd 0%,#eee3d3 55%,#eadcc8 100%)}
+/* Desktop only: phones keep the dune wave drawn at the bottom of the panel. */
+@media(min-width:901px){.auth-welcome .auth-panel{background:radial-gradient(120% 70% at 100% 0%,#f6ecdd 0%,#eee3d3 55%,#eadcc8 100%)}}
 .auth-welcome .auth-panel>.eyebrow{display:inline-flex;align-items:center;gap:10px;color:#9a6a4a}
 .auth-welcome .auth-panel>.eyebrow::before{content:'';width:26px;height:1px;background:currentColor;opacity:.7}
 .auth-welcome .auth-panel h2{margin:14px 0 8px;font-size:clamp(40px,3.2vw,50px)}
