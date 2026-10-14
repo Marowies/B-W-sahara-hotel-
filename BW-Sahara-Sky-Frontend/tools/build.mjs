@@ -74,7 +74,7 @@ let scene=images(await readFile(join(js3d,'scene.js'),'utf8'));scene=scene.repla
 let runtime=await readFile(join(js,'runtime.js'),'utf8');runtime=runtime.replace('./3d/scene.js','./'+emitted['scene.js']);await emit('runtime.js',runtime);
 await emit('asset-map.js',`window.__HOTEL_SEO__=${JSON.stringify(seo)};window.__HOTEL_ASSETS__=${JSON.stringify(info)};window.__HOTEL_ASSET_ALIASES__=${JSON.stringify(aliases)};window.hotelAssetUrl=name=>window.__HOTEL_ASSET_ALIASES__[name]?.src||('assets/'+name);`);
 await emit('seo.js',await readFile(join(js,'seo.js'),'utf8'));
-for(const name of ['app.js','edition.js','route-render.js','approval.js','geo.js','analytics.js'])await emit(name,images(await readFile(join(js,name),'utf8')));
+for(const name of ['app.js','edition.js','route-render.js','consent.js','approval.js','geo.js','analytics.js'])await emit(name,images(await readFile(join(js,name),'utf8')));
 const routes=[];
 async function pages(dir,relative=''){
  for(const item of await readdir(dir,{withFileTypes:true})){
@@ -89,7 +89,7 @@ async function pages(dir,relative=''){
    html=html.replace(/<script src=/g,'<script defer src=');
    if(!/data-page="home"/.test(html))html=html.replace(`<script defer src="/${emitted['approval.js']}"`, `<script defer src="/${emitted['route-render.js']}"></script><script defer src="/${emitted['approval.js']}"`);
    html=html.replace('</body>',`<script defer src="/${emitted['geo.js']}"></script><script defer src="/${emitted['seo.js']}"></script><script defer src="/${emitted['analytics.js']}"></script></body>`);
-   html=html.replace(/(<script defer src=)/,['asset-map.js','locale.js','i18n.js','metadata.js','runtime.js'].map(name=>`<script defer src="/${emitted[name]}"></script>`).join('')+'$1');
+   html=html.replace(/(<script defer src=)/,['asset-map.js','locale.js','i18n.js','metadata.js','runtime.js','consent.js'].map(name=>`<script defer src="/${emitted[name]}"></script>`).join('')+'$1');
    // Responsive hero attributes are emitted into HTML, before any JS runs.
    html=html.replace(/<img\b[^>]*>/g,tag=>{
     const match=tag.match(/src="(?:assets\/|\/assets\/)([^"]+)"/);if(!match)return tag;
@@ -141,6 +141,8 @@ ${seo.indexable?'':'Header always set X-Robots-Tag "noindex, nofollow"'}
 AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript text/javascript application/xml
 </IfModule>
 `);
+// Stable alias for the server-rendered customer and booking shell; HTTP revalidation is required.
+await copyFile(join(out,emitted['consent.js']),join(out,'hotel-consent.js'));
 const version=hash(JSON.stringify(emitted));
 const shell=['asset-map.js','locale.js','i18n.js','metadata.js','runtime.js','approval.js','seo.js','site.css'].map(n=>'/'+emitted[n]);
 const sw=`const VERSION=${JSON.stringify(version)},STATIC='hotel-static-'+VERSION,PAGES='hotel-pages-'+VERSION,CORE=${JSON.stringify(shell)};
@@ -152,7 +154,7 @@ if(['admin','api','vendor','storage','customer','booking'].includes(url.pathname
 if(e.request.mode==='navigate'||e.request.headers.has('X-Frontend-Navigation')){e.respondWith(fetch(e.request,{cache:'no-store'}));return;}
 if(/\\.[a-f0-9]{12}\\.(?:js|css|webp|woff2)$/.test(url.pathname)){e.respondWith((async()=>{const cache=await caches.open(STATIC),hit=await cache.match(e.request);if(hit)return hit;const response=await fetch(e.request);if(response.ok)await boundedPut(cache,e.request,response.clone());return response;})());}});`;
 await writeFile(join(out,'sw.js'),sw);
-await writeFile(join(out,'_headers'),'/*\n  Cache-Control: no-cache\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n/fonts/*\n  Cache-Control: public, max-age=31536000, immutable\n/sw.js\n  Cache-Control: no-cache\n');
+await writeFile(join(out,'_headers'),'/*\n  Cache-Control: no-cache\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n/fonts/*\n  Cache-Control: public, max-age=31536000, immutable\n/sw.js\n  Cache-Control: no-store\n/build-manifest.json\n  Cache-Control: no-store\n/hotel-consent.js\n  Cache-Control: no-cache\n');
 async function compress(dir){for(const item of await readdir(dir,{withFileTypes:true})){const path=join(dir,item.name);if(item.isDirectory())await compress(path);else if(/\.(js|css|html)$/.test(item.name)){const data=await readFile(path);await writeFile(path+'.gz',gzipSync(data,{level:9}));await writeFile(path+'.br',brotliCompressSync(data,{params:{[constants.BROTLI_PARAM_QUALITY]:9}}));}}}
 await compress(out);
 await writeFile(join(out,'build-manifest.json'),JSON.stringify({version,routes,files:emitted,images:aliases,measure},null,2));

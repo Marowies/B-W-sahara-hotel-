@@ -6,6 +6,18 @@ on:
 permissions:
   contents: read
 jobs:
+  frontend-stability:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: BW-Sahara-Sky-Frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node tests/consent.mjs
+      - run: node tests/release-update.mjs
   quality:
     runs-on: ubuntu-latest
     timeout-minutes: 20

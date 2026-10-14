@@ -1,5 +1,6 @@
 (() => {
   'use strict';
+  const runtimePath = document.currentScript?.src ? new URL(document.currentScript.src).pathname : null;
   const nativeAdd = EventTarget.prototype.addEventListener;
   const nativeRemove = EventTarget.prototype.removeEventListener;
   const NativeIntersection = window.IntersectionObserver;
@@ -145,105 +146,41 @@
     try { new PerformanceObserver(list => { for (const e of list.getEntries()) metrics.largestContentfulPaint = Math.round(e.startTime); }).observe({type:'largest-contentful-paint', buffered:true}); } catch {}
     try { new PerformanceObserver(list => { for (const e of list.getEntries()) if (!e.hadRecentInput) metrics.cumulativeLayoutShift += e.value; }).observe({type:'layout-shift', buffered:true}); } catch {}
   }
-  const language = () => window.hotelLocale.resolveRoute(location.pathname)?.locale||'en';
-  const key = url => url.pathname.replace(/\/$/, '') || '/';
-  const collect = () => [...document.body.children].filter(n => n.tagName !== 'SCRIPT');
-  const scriptsFor = parsed => [...parsed.querySelectorAll('script[src]')]
-    .map(s => s.getAttribute('src')).filter(src => !/runtime|asset-map|\/(?:seo|locale|i18n|metadata|analytics)\./.test(src));
-  async function execute(src, scope) {
-    await new Promise((resolve, reject) => {
-      const script = document.createElement('script'); script.src = new URL(src, location.origin).href;
-      window.__hotelViewScope = scope;
-      script.onload = () => { window.__hotelViewScope = null; script.remove(); resolve(); };
-      script.onerror = () => { window.__hotelViewScope = null; script.remove(); reject(new Error('Page script could not load')); };
-      document.body.append(script);
-    });
-  }
-  function dispose(view) {
-    for (const [target, type, , wrapped, options] of view.listeners) nativeRemove.call(target, type, wrapped, options);
-    view.observers.forEach(observer => observer.disconnect());
-  }
-  let navigating = false;
-  async function navigate(url, fromHistory = false) {
-    if (navigating) return;
-    navigating = true;
-    const requested = key(url);
-    document.querySelector('main')?.setAttribute('aria-busy', 'true');
-    try {
-      let next = views.get(requested);
-      let parsed;
-      if (!next) {
-        const response = await fetch(url.pathname + url.search, {headers:{'X-Frontend-Navigation':'1'}});
-        if (!response.ok && response.status!==404) throw new Error('Route unavailable');
-        parsed = new DOMParser().parseFromString(await response.text(), 'text/html');
-        if (!parsed.querySelector('main') || !parsed.body.dataset.page) throw new Error('Invalid route');
-        next = {active:false, listeners:[], observers:[], page:parsed.body.dataset.page, nodes:[...parsed.body.children].filter(n => n.tagName !== 'SCRIPT'), className:parsed.body.className, title:parsed.title};
-      }
-      for (const dialog of document.querySelectorAll('dialog[open]')) dialog.close();
-      // Restore the persistent stage to its original home before detaching the home view.
-      if (current.page === 'home') {
-        const stage = document.getElementById('model-stage'), home = document.getElementById('stage-home');
-        if (stage && home) home.after(stage);
-        document.dispatchEvent(new CustomEvent('immersivechange', {detail:false}));
-      }
-      current.nodes = collect(); current.title = document.title; current.active = false;
-      current.nodes.forEach(n => n.remove());
-      document.body.className = next.className; document.body.dataset.page = next.page;
-      next.nodes.forEach(n => document.body.append(n)); next.active = true; current = next;
-      if (!fromHistory) history.pushState({}, '', url);
-      document.title = next.title;
-      if (parsed) {
-        for (const src of scriptsFor(parsed)) await execute(src, next);
-        next.title = document.title;
-        views.set(requested, next);
-      }
-      document.documentElement.dataset.mood = 'day';
-      document.dispatchEvent(new CustomEvent('timechange', {detail:'day'}));
-      document.dispatchEvent(new CustomEvent('hotelroutechange', {detail:{page:next.page}}));
-      window.hotelUpdateSeo?.();
-      enhance(); metrics.clientNavigations++;
-      window.scrollTo({top:0, behavior:'instant'});
-      if (url.hash) document.getElementById(decodeURIComponent(url.hash.slice(1)))?.scrollIntoView({behavior:'instant'});
-      for (const [oldKey, view] of views) {
-        if (views.size <= 8) break;
-        if (view !== current && view.page !== 'home') { dispose(view); views.delete(oldKey); }
-      }
-    } catch {
-      location.assign(url.href); // Native navigation preserves a working site on unsupported transitions.
-    } finally {
-      document.querySelector('main')?.removeAttribute('aria-busy'); navigating = false;
-    }
-  }
-  window.hotelNavigate = href => navigate(new URL(href, location.href));
+  // Native document navigation keeps each route's head, styles and scripts in one release.
+  window.hotelNavigate = href => { location.assign(new URL(href, location.href).href); };
   nativeAdd.call(document, 'DOMContentLoaded', () => {
     window.__hotelViewScope = null;
-    initial.nodes = collect(); initial.className = document.body.className; initial.title = document.title;
-    views.set(key(new URL(location.href)), initial); enhance();
-    nativeAdd.call(document, 'click', event => {
-      const anchor = event.target.closest('a[href]');
-      if (!anchor || event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || anchor.target || anchor.download) return;
-      const url = new URL(anchor.href);
-      if(/^\/(?:admin(?:\/|$)|login\/admin(?:\/|$))/.test(url.pathname))return;
-      if (url.origin !== location.origin || (window.hotelLocale.resolveRoute(url.pathname)?.locale||'en') !== language()) return;
-      if (key(url) === key(new URL(location.href))) return;
-      if (!/\/$/.test(url.pathname) && !/\.html$/.test(url.pathname)) return;
-      event.preventDefault(); navigate(url);
-    });
-    nativeAdd.call(window, 'popstate', () => navigate(new URL(location.href), true));
+    enhance();
+    let edited = false, refreshed = false, checkingRelease = false;
+    document.addEventListener('input', () => { edited = true; }, {once:true});
+    const refreshPage = () => {
+      if (refreshed) return;
+      refreshed = true;
+      if (!edited) { location.reload(); return; }
+      const notice = document.createElement('button');
+      notice.type = 'button'; notice.className = 'button';
+      notice.textContent = ({ar:'تحديث الموقع متاح — اضغط بعد حفظ بياناتك', 'zh-Hans':'网站已更新，保存输入后点击刷新'})[document.documentElement.lang] || 'Site update available — refresh after saving your details';
+      notice.style.cssText = 'position:fixed;bottom:20px;left:20px;right:20px;z-index:9999';
+      notice.onclick = () => location.reload(); document.body.append(notice);
+    };
+    const checkRelease = async () => {
+      if (!runtimePath || checkingRelease || refreshed) return;
+      checkingRelease = true;
+      try {
+        const response = await fetch('/build-manifest.json', {cache:'no-store'});
+        if (!response.ok) return;
+        const manifest = await response.json(), latest = manifest.files?.['runtime.js'];
+        if (latest && new URL(latest, location.origin).pathname !== runtimePath) refreshPage();
+      } catch {} finally { checkingRelease = false; }
+    };
+    nativeAdd.call(window, 'pageshow', event => { if (event.persisted) checkRelease(); });
+    nativeAdd.call(document, 'visibilitychange', () => { if (document.visibilityState === 'visible') checkRelease(); });
     if ('serviceWorker' in navigator && (location.protocol === 'https:' || ['127.0.0.1','localhost'].includes(location.hostname))) {
       // Warm only the small shell; image/3D caching begins only after actual use.
-      let edited = false, refreshed = false;
-      document.addEventListener('input', () => { edited = true; }, {once:true});
       const hadController = !!navigator.serviceWorker.controller;
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (!hadController || refreshed) return;
-        refreshed = true;
-        if (!edited) { location.reload(); return; }
-        const notice = document.createElement('button');
-        notice.type = 'button'; notice.className = 'button';
-        notice.textContent = ({ar:'تحديث الموقع متاح — اضغط بعد حفظ بياناتك', 'zh-Hans':'网站已更新，保存输入后点击刷新'})[document.documentElement.lang] || 'Site update available — refresh after saving your details';
-        notice.style.cssText = 'position:fixed;bottom:20px;left:20px;right:20px;z-index:9999';
-        notice.onclick = () => location.reload(); document.body.append(notice);
+        refreshPage();
       });
       const register = () => navigator.serviceWorker.register('/sw.js', {updateViaCache:'none'}).then(reg => reg.update()).catch(() => {});
       if ('requestIdleCallback' in window) requestIdleCallback(register, {timeout:2500}); else setTimeout(register, 1200);

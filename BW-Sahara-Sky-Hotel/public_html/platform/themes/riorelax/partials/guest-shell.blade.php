@@ -47,6 +47,7 @@
         <a href="{{ url('/booking/') }}">{{ __('Book your stay') }}</a>
     </footer>
 </div>
+<script defer src="{{ asset('hotel-consent.js') }}?v={{ is_file(public_path('hotel-consent.js')) ? filemtime(public_path('hotel-consent.js')) : '1' }}"></script>
 <script>
 // The customer guard and OTP token family must both be closed on sign out.
 document.addEventListener('click', async function (event) {

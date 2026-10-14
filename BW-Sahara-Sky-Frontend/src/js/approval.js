@@ -102,20 +102,8 @@
  const consent=()=>document.cookie.split('; ').find(c=>c.startsWith('hotel_cookie_consent='))?.split('=')[1];
  const getStay=()=>{try{const current=JSON.parse(sessionStorage.getItem('sahara-stay-preview')||'null');if(current)return current;if(consent()==='all'){const saved=JSON.parse(localStorage.getItem('hotel-stay')||'null');if(saved?.expires>Date.now())return saved.stay;localStorage.removeItem('hotel-stay');}}catch{}return null;};
  const saveStay=stay=>{try{sessionStorage.setItem('sahara-stay-preview',JSON.stringify(stay));if(consent()==='all')localStorage.setItem('hotel-stay',JSON.stringify({stay,expires:Date.now()+7*86400000}));}catch{}};
- // Authentication and the active booking session are necessary; optional persistence and analytics require consent.
- document.querySelector('#hotel-cookie-banner')?.remove();
- const cookieButton=document.createElement('button');cookieButton.type='button';cookieButton.className='text-link cookie-settings';cookieButton.textContent=t('Cookie settings','إعدادات الكوكيز','Cookie 设置');document.querySelector('.footer-bottom').append(cookieButton);
- const showConsent=()=>{
-  document.querySelector('#hotel-cookie-banner')?.remove();
-  const box=document.createElement('section');box.id='hotel-cookie-banner';box.className='cookie-banner';box.setAttribute('aria-label',t('Cookie preferences','اختيارات الكوكيز','Cookie 偏好'));
-  const title=document.createElement('h2');title.textContent=t('Your privacy, your choice','خصوصيتك، اختيارك','您的隐私，由您选择');
-  const note=document.createElement('p');note.textContent=t('Necessary cookies keep sign-in and your current booking working. Accept all to remember your stay preferences and allow optional analytics.','الكوكيز الضرورية بتشغّل تسجيل الدخول والحجز الحالي. قبول الكل يسمح بحفظ اختيارات الإقامة وإحصائيات الاستخدام الاختيارية.','必要 Cookie 用于登录和当前预订。接受全部可保存住宿偏好并允许可选统计。');
-  const actions=document.createElement('div');actions.className='cookie-actions';
-  for(const [value,label] of [['necessary',t('Necessary only','الضرورية فقط','仅必要')],['all',t('Accept all','قبول الكل','接受全部')]]){const button=document.createElement('button');button.type='button';button.className='button';button.textContent=label;button.onclick=()=>{document.cookie='hotel_cookie_consent='+value+'; Path=/; Max-Age=15552000; SameSite=Lax'+(location.protocol==='https:'?'; Secure':'');try{if(value==='necessary')localStorage.removeItem('hotel-stay');else{const stay=getStay();if(stay)saveStay(stay);}}catch{}box.remove();document.dispatchEvent(new Event('hotelconsentchange'));};actions.append(button);}
-  box.append(title,note,actions);document.body.append(box);
- };
- cookieButton.onclick=showConsent;if(!['necessary','all'].includes(consent()))showConsent();
- document.addEventListener('hotelroutechange',()=>{if(['necessary','all'].includes(consent()))document.querySelector('#hotel-cookie-banner')?.remove();});
+ // One consent component is shared by static pages and the Laravel guest shell.
+ window.hotelConsent?.mount();
  const dateText=value=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(value||''))return '';const d=new Date(value+'T12:00:00');return d.toLocaleDateString(lang==='ar'?'ar-EG':lang==='zh'?'zh-CN':'en-GB',{day:'numeric',month:'short',year:'numeric'});};
  const summary=stay=>`${esc(dateText(stay.arrival))} · ${esc(dateText(stay.departure))}<br>${esc(stay.adults)} ${labels.adults} · ${esc(stay.children)} ${labels.children}`;
  const today=(()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;})();
