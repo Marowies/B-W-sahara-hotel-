@@ -249,7 +249,7 @@
   status.textContent='';gate.hidden=false;onShow();
   const form=document.createElement('form');form.className='approval-form';form.noValidate=false;
   const [l,i]=field(t('marketing.m_654a3e34016c'),{type:'email',name:'email',required:'',autocomplete:'email',maxlength:'255',inputmode:'email'});i.value=email;
-  const send=mk('button',welcome?t('Sign in','تسجيل الدخول','登录'):t('otp.send'),'submit');
+  const send=mk('button',welcome?(page==='register'?t('Create account','اعمل حسابك','创建账户'):t('Sign in','تسجيل الدخول','登录')):t('otp.send'),'submit');
   if(welcome){
    form.classList.add('welcome-form');i.placeholder='you@example.com';i.dir='ltr';
    const box=document.createElement('span');box.className='input-icon';box.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>';box.append(i);l.append(box);
