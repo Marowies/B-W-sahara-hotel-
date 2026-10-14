@@ -304,6 +304,14 @@
      const who=box.querySelector('.done-who'),mail=document.createElement('strong');mail.textContent=email||'';who.append(t('Signed in as ','داخل بحساب ','当前账号 '),mail);if(!email)who.hidden=true;
      const book=box.querySelector('.done-primary'),home=box.querySelector('.done-secondary');
      const next=params.get('next');const allowedNext=[url('/booking/'),url('/booking/review/')];book.href=allowedNext.includes(next)?next:url(routes.booking);book.textContent=t('Book your stay','احجز إقامتك','预订住宿');
+     // Laravel sends signed-out account pages here with ?next=; only same-origin account paths are followed.
+     const accountNext=/^\/customer\/[a-z0-9\/-]*(?:\?[a-z_]+=[a-z0-9]+(?:&[a-z_]+=[a-z0-9]+)*)?$/.test(next||'')?next:null;
+     if(accountNext){
+      book.href=accountNext;book.textContent=t('Continue to My account','تابع إلى حسابي','前往我的账户');
+      // Continue once automatically; a second bounce within a minute means the account page still refused, so stop and let the guest choose.
+      let last=null;try{last=JSON.parse(sessionStorage.getItem('hotel-account-return')||'null');}catch{}
+      if(!(last?.next===accountNext&&Date.now()-last.at<60000)){let guarded=false;try{sessionStorage.setItem('hotel-account-return',JSON.stringify({next:accountNext,at:Date.now()}));guarded=true;}catch{}if(guarded)location.replace(accountNext);}
+     }
      home.href=url(routes.home);home.textContent=t('Back to home','الرجوع للرئيسية','返回首页');
      const out=document.createElement('button');out.type='button';out.className='done-signout';out.textContent=t('otp.signOut');box.append(out);
      gate.replaceChildren(box);status.textContent='';

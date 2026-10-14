@@ -173,7 +173,20 @@
         if (latest && new URL(latest, location.origin).pathname !== runtimePath) refreshPage();
       } catch {} finally { checkingRelease = false; }
     };
-    nativeAdd.call(window, 'pageshow', event => { if (event.persisted) checkRelease(); });
+    // Each page records its release. A page restored from the back/forward cache, or a tab left open,
+    // can then see synchronously that a newer release has loaded since, instead of showing the old
+    // design until the manifest request returns. Hidden tabs update before they are seen again.
+    const releaseKey = 'hotel-release';
+    const seenRelease = () => { try { return localStorage.getItem(releaseKey); } catch { return null; } };
+    if (runtimePath) { try { localStorage.setItem(releaseKey, runtimePath); } catch {} }
+    nativeAdd.call(window, 'pageshow', event => {
+      if (!event.persisted) return;
+      const seen = seenRelease();
+      if (runtimePath && seen && seen !== runtimePath) refreshPage(); else checkRelease();
+    });
+    nativeAdd.call(window, 'storage', event => {
+      if (event.key === releaseKey && event.newValue && event.newValue !== runtimePath && document.visibilityState === 'hidden') checkRelease();
+    });
     nativeAdd.call(document, 'visibilitychange', () => { if (document.visibilityState === 'visible') checkRelease(); });
     if ('serviceWorker' in navigator && (location.protocol === 'https:' || ['127.0.0.1','localhost'].includes(location.hostname))) {
       // Warm only the small shell; image/3D caching begins only after actual use.

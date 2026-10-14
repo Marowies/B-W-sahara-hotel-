@@ -331,6 +331,89 @@ test('Google: return destinations reject external and unrelated application path
     }
 });
 
+/** POST /api/hotel/auth/refresh with only the HttpOnly cookie; extra request data must never pick the identity. */
+function refreshWith(?string $token, array $data = []): Illuminate\Http\JsonResponse
+{
+    $request = authRequest($data);
+    if ($token !== null) {
+        $request->cookies->set(HotelTokenService::COOKIE, $token);
+    }
+
+    return (new App\Http\Controllers\HotelCustomerAuthController(app(HotelTokenService::class)))->refresh($request);
+}
+
+test('Session: valid refresh restores the account-page session after the Laravel session expired', function () use ($guard, $session): void {
+    $service = app(HotelTokenService::class);
+    $pair = $service->issue(Customer::query()->findOrFail(43), authRequest());
+    $guard->logout();
+    $before = $session->getId();
+    $response = refreshWith($pair['refresh_token']);
+    check($response->getStatusCode() === 200 && $response->getData(true)['email'] === 'synthetic@example.invalid', 'Valid refresh rejected');
+    check($guard->id() === 43, 'Refresh left the account pages signed out (My account -> /login/ loop)');
+    check($session->getId() !== $before, 'Session id not regenerated when the page session was restored');
+    check($service->authenticate($response->getData(true)['access_token'])?->getKey() === 43, 'Rotated access token invalid');
+    $guard->logout();
+});
+
+test('Session: refresh replaces a different customer page session and ignores client identity', function () use ($guard): void {
+    $service = app(HotelTokenService::class);
+    $pair = $service->issue(Customer::query()->findOrFail(43), authRequest());
+    $guard->setUser(Customer::query()->findOrFail(42));
+    $response = refreshWith($pair['refresh_token'], ['email' => 'private@example.invalid', 'customer_id' => 42]);
+    check($response->getStatusCode() === 200 && $guard->id() === 43, 'Account pages kept another customer after refresh');
+    check($response->getData(true)['email'] === 'synthetic@example.invalid', 'Client-supplied identity leaked into the response');
+    $guard->logout();
+});
+
+test('Session: unchanged page session is kept without a new session id', function () use ($guard, $session): void {
+    $service = app(HotelTokenService::class);
+    $pair = $service->issue(Customer::query()->findOrFail(43), authRequest());
+    $guard->setUser(Customer::query()->findOrFail(43));
+    $before = $session->getId();
+    check(refreshWith($pair['refresh_token'])->getStatusCode() === 200 && $guard->id() === 43, 'Signed-in refresh failed');
+    check($session->getId() === $before, 'Every refresh regenerated the session (breaks other tabs)');
+    $guard->logout();
+});
+
+test('Session: missing, invalid, expired and revoked refresh tokens never sign in', function () use ($guard): void {
+    $service = app(HotelTokenService::class);
+    $guard->logout();
+    check(refreshWith(null)->getStatusCode() === 401 && ! $guard->check(), 'Missing cookie signed in');
+    check(refreshWith('not-a-real-token')->getStatusCode() === 401 && ! $guard->check(), 'Invalid token signed in');
+    // A rejected token also ends a page session left on this device.
+    $guard->setUser(Customer::query()->findOrFail(43));
+    check(refreshWith(str_repeat('x', 64))->getStatusCode() === 401 && ! $guard->check(), 'Rejected token left the account pages open');
+
+    $revoked = $service->issue(Customer::query()->findOrFail(43), authRequest());
+    $service->logout($revoked['refresh_token'], null);
+    $guard->setUser(Customer::query()->findOrFail(43));
+    check(refreshWith($revoked['refresh_token'])->getStatusCode() === 401 && ! $guard->check(), 'Revoked token kept or restored the page session');
+
+    $clock = Carbon::getTestNow();
+    try {
+        $expired = $service->issue(Customer::query()->findOrFail(43), authRequest());
+        Carbon::setTestNow(now()->addDays(HotelTokenService::ABSOLUTE_DAYS)->addMinute());
+        check(refreshWith($expired['refresh_token'])->getStatusCode() === 401 && ! $guard->check(), 'Expired token signed in');
+    } finally { Carbon::setTestNow($clock); }
+    // A missing cookie (for example the CMS password form) does not end a page session.
+    $guard->setUser(Customer::query()->findOrFail(43));
+    check(refreshWith(null)->getStatusCode() === 401 && $guard->id() === 43, 'Cookie-less refresh signed out a CMS session');
+    $guard->logout();
+});
+
+test('Session: logout closes both the token family and the restored page session', function () use ($guard): void {
+    $service = app(HotelTokenService::class);
+    $pair = $service->issue(Customer::query()->findOrFail(43), authRequest());
+    $guard->logout();
+    $next = refreshWith($pair['refresh_token'])->getData(true);
+    check($guard->id() === 43, 'Refresh did not restore the page session');
+    $request = authRequest();
+    $request->cookies->set(HotelTokenService::COOKIE, $service->refresh($pair['refresh_token'], authRequest())['refresh_token']);
+    (new App\Http\Controllers\HotelCustomerAuthController($service))->logout($request);
+    check(! $guard->check() && ! $service->authenticate($next['access_token']), 'Logout left a session open');
+    check(refreshWith($pair['refresh_token'])->getStatusCode() === 401 && ! $guard->check(), 'Logged-out family restored a session');
+});
+
 test('Booking: native form requires an authenticated customer session', function (): void {
     $guard=\Illuminate\Support\Facades\Auth::guard('customer');$guard->logout();
     $middleware=new App\Http\Middleware\RequireHotelBookingSession();

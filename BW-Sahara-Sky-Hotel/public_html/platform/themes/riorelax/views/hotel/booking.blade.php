@@ -11,7 +11,9 @@
 @php
     Theme::set('pageTitle', __('Complete your booking'));
     SeoHelper::setTitle(__('Complete your booking'));
-    Theme::asset()->container('footer')->usePath()->add('checkout-js', 'js/checkout.js');
+    // Versioned by file time so a corrected checkout.js reaches browsers that cached the previous one.
+    $checkoutJs = public_path('themes/riorelax/js/checkout.js');
+    Theme::asset()->container('footer')->usePath()->add('checkout-js', 'js/checkout.js', [], [], is_file($checkoutJs) ? (string) filemtime($checkoutJs) : null);
     Theme::asset()->container('footer')->usePath()->add('hotel-checkout-auth-js', 'js/hotel-checkout-auth.js');
 @endphp
 

@@ -138,13 +138,36 @@ class HotelCustomerAuthController extends Controller
             return $this->reply(['message' => 'Sign in with your email code to continue.', 'code' => 'login_required'], 401);
         }
         $result = $this->tokens->refresh($token, $request);
-        if (! $result['ok']) {
+        // The identity comes only from the rotated, server-validated token, never from request data.
+        $customer = $result['ok'] ? $this->tokens->authenticate($result['access_token']) : null;
+        if (! $customer) {
+            // A rejected token (expired, revoked, replayed) also ends the account-page session on this device.
+            \Illuminate\Support\Facades\Auth::guard('customer')->logout();
+
             return $this->reply(['message' => 'Your session ended. Sign in again.', 'code' => 'login_required'], 401)
                 ->withCookie($this->tokens->cookie(null, null, $request));
         }
-        $customer = Customer::query()->find($this->customerId($result['access_token']));
+        $this->restorePageSession($customer, $request);
 
-        return $this->session($result, $request, ['authenticated' => true, 'email' => $customer?->email]);
+        return $this->session($result, $request, ['authenticated' => true, 'email' => $customer->email]);
+    }
+
+    /**
+     * The Laravel session (account and booking pages) can expire long before the 30-day token family.
+     * A valid refresh re-establishes it for the token's customer, as OTP verification does.
+     */
+    private function restorePageSession(Customer $customer, Request $request): void
+    {
+        $guard = \Illuminate\Support\Facades\Auth::guard('customer');
+        if ((int) $guard->id() === (int) $customer->getKey()) {
+            return;
+        }
+        if ($guard->check()) {
+            $guard->logout();
+        }
+        $guard->login($customer);
+        // New identity on this session: rotate the id against fixation. Unchanged sessions keep theirs for other tabs.
+        $request->session()->regenerate();
     }
 
     public function logout(Request $request): JsonResponse
@@ -171,13 +194,6 @@ class HotelCustomerAuthController extends Controller
         }
 
         return $response;
-    }
-
-    private function customerId(string $access): ?int
-    {
-        $claims = json_decode((string) base64_decode(strtr(explode('.', $access)[1] ?? '', '-_', '+/')), true);
-
-        return $claims['cid'] ?? null;
     }
 
     private function hash(string $email, string $code): string

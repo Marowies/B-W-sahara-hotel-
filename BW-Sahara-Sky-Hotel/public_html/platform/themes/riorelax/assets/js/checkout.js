@@ -42,14 +42,22 @@ $(document).ready(function () {
                 $('body').css('cursor', 'default')
                 $('.custom-checkbox label').css('cursor', 'pointer')
 
+                // Without an enabled payment method there is no list to reload, and .load() would never call back.
+                if (! $('.payment-checkout-form .list_payment_method').length) {
+                    $checkoutButton.prop('disabled', false)
+                }
+
                 $('.payment-checkout-form .list_payment_method').load(window.location.href + ' .payment-checkout-form .list_payment_method > *', function() {
                     $checkoutButton.prop('disabled', false)
                     $(document).find('.payment-checkout-form .list_payment_method input[value="' + $selectedPaymentMethod + '"]').prop('checked', true).trigger('change')
                 })
             },
-            error: () => {
+            error: (xhr) => {
+                // A failed recalculation must not leave the booking button disabled without explanation.
                 $('body').css('cursor', 'default')
                 $('.custom-checkbox label').css('cursor', 'pointer')
+                $checkoutButton.prop('disabled', false)
+                RiorelaxTheme.handleError(xhr)
             },
         })
     })
@@ -95,14 +103,22 @@ $(document).ready(function () {
                 $('body').css('cursor', 'default')
                 $('.custom-checkbox label').css('cursor', 'pointer')
 
+                // Without an enabled payment method there is no list to reload, and .load() would never call back.
+                if (! $('.payment-checkout-form .list_payment_method').length) {
+                    $checkoutButton.prop('disabled', false)
+                }
+
                 $('.payment-checkout-form .list_payment_method').load(window.location.href + ' .payment-checkout-form .list_payment_method > *', function() {
                     $checkoutButton.prop('disabled', false)
                     $(document).find('.payment-checkout-form .list_payment_method input[value="' + $selectedPaymentMethod + '"]').prop('checked', true).trigger('change')
                 })
             },
-            error: () => {
+            error: (xhr) => {
+                // A failed recalculation must not leave the booking button disabled without explanation.
                 $('body').css('cursor', 'default')
                 $('.custom-checkbox label').css('cursor', 'pointer')
+                $checkoutButton.prop('disabled', false)
+                RiorelaxTheme.handleError(xhr)
             },
         })
     })
@@ -149,6 +165,11 @@ $(document).ready(function () {
                 $('.discount-text').text(data.discount_amount)
                 $('.tax-text').text(data.tax_amount)
 
+                // Without an enabled payment method there is no list to reload, and .load() would never call back.
+                if (! $('.payment-checkout-form .list_payment_method').length) {
+                    $checkoutButton.prop('disabled', false)
+                }
+
                 $('.payment-checkout-form .list_payment_method').load(window.location.href + ' .payment-checkout-form .list_payment_method > *', function() {
                     $checkoutButton.prop('disabled', false)
                     $(document).find('.payment-checkout-form .list_payment_method input[value="' + $selectedPaymentMethod + '"]').prop('checked', true).trigger('change')
@@ -184,6 +205,13 @@ $(document).ready(function () {
 
     $(document)
         .on('click', '.toggle-coupon-form', () => $(document).find('.coupon-form').toggle('fast'))
+        // Enter in the coupon field applies the coupon instead of submitting the booking form.
+        .on('keydown', '#coupon_code', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault()
+                $('.apply-coupon-code').trigger('click')
+            }
+        })
         .on('click', '.apply-coupon-code', (e) => {
             e.preventDefault()
 

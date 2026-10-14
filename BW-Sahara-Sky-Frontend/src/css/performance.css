@@ -314,3 +314,6 @@ body{accent-color:var(--brand-brown)}
 /* Cookie choices share the sand and earth palette. */
 .cookie-banner{position:fixed;z-index:1000;inset:auto 16px 16px;max-width:650px;margin-inline:auto;background:#f4eadb;color:#382b20;border:1px solid #c7ad8b;border-radius:18px;padding:20px;box-shadow:0 8px 32px #30251c33}
 .cookie-banner h2{font-size:25px;margin:0 0 8px}.cookie-banner p{font-size:14px;line-height:1.6;margin:0 0 16px}.cookie-actions{display:flex;gap:12px;flex-wrap:wrap}.cookie-actions .button{flex:1;min-height:44px}.cookie-settings{margin-top:12px}
+
+/* Breadcrumb links keep a 24px touch target (WCAG 2.2 target size) without changing the text size. */
+.crumbs{align-items:center}.crumbs a{display:inline-flex;align-items:center;min-height:24px;min-width:24px}
