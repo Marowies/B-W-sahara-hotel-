@@ -190,6 +190,17 @@
   async function loadCatalogue(pageNumber=1){const key='rooms?'+new URLSearchParams({per_page:20,page:pageNumber});const data=await window.hotelCatalogue(key,()=>api(key));if(!main.isConnected)return;const grid=main.querySelector('.room-grid');backendCards(data.rooms,grid);paginate(data,grid,loadCatalogue);main.querySelector('[data-filter="all"]')?.click();}
   catalogue.finally(()=>busyGrid?.removeAttribute('aria-busy')).then(data=>{if(!data||!main.isConnected)return;if(page==='rooms'){backendCards(data.rooms,busyGrid);paginate(data,busyGrid,loadCatalogue);}if(page==='room'&&lang==='en'){const row=data.rooms.find(r=>path==='/rooms/'+r.slug);if(row){main.querySelector('h1').textContent=row.name;const description=main.querySelector('.detail-layout>div>p');if(description)description.textContent=row.description;}}}).catch(()=>{if(!main.isConnected)return;const notice=document.createElement('p');notice.className='form-status';notice.textContent=t('errors.m_a4e9a6b424d4');main.querySelector('.page-body')?.prepend(notice);});
   if(bookingSearch){main.querySelector('.booking-results').hidden=true;main.querySelector('.booking-results .eyebrow').textContent=t('marketing.m_d6f2ad9b46c6');bookingSearch.querySelector('button[type=submit]').textContent=labels.availability;bookingSearch.onsubmit=async event=>{event.preventDefault();const stay=collectStay(bookingSearch);if(!stay)return;saveStay(stay);const status=bookingSearch.querySelector('.form-status'),button=bookingSearch.querySelector('button[type=submit]');button.disabled=true;status.textContent=t('marketing.m_613b4731c1c5');try{const result=await api('availability?'+new URLSearchParams({...stay,per_page:20}));if(!main.isConnected)return;showResults(stay);const results=main.querySelector('.booking-results');backendCards(result.rooms,results.querySelector('.room-grid'));paginate(result,results.querySelector('.room-grid'),async function nextAvailability(pageNumber){const next=await api('availability?'+new URLSearchParams({...stay,per_page:20,page:pageNumber}));if(!main.isConnected)return;backendCards(next.rooms,results.querySelector('.room-grid'));paginate(next,results.querySelector('.room-grid'),nextAvailability);});results.querySelector('.preview-note').textContent=t('Select an available room to continue. The hotel confirms the final total.','اختَر غرفة متاحة للمتابعة. الفندق يحسب الإجمالي النهائي.','选择可用客房以继续，酒店将计算最终总价。');status.textContent='';}catch(error){status.textContent=error.message;main.querySelector('.booking-results').hidden=true;}finally{button.disabled=false;}};}
+  // Connected pages book through the hotel's own form, so the design-preview wording no longer describes them.
+  if(['booking','review'].includes(page)){
+   const flowNote=t('Availability comes from the hotel’s reservation system. After you choose a room, you sign in and open the hotel booking form, which shows the final total before any payment.','التوافر بييجي من نظام حجز الفندق. بعد ما تختار غرفة، هتسجّل دخولك وتفتح نموذج حجز الفندق، واللي بيعرض الإجمالي النهائي قبل أي دفع.','空房信息来自酒店预订系统。选择客房后，请登录并打开酒店预订表单，付款前表单会显示最终总价。');
+   const swap=(from,to)=>main.querySelectorAll('p,span,h1,h2,h3').forEach(node=>{if(!node.childElementCount&&node.textContent.trim()===from)node.textContent=to;});
+   main.querySelectorAll('.booking-steps span:last-child').forEach(step=>step.textContent='03 / '+t('Booking form','نموذج الحجز','预订表单'));
+   if(page==='booking'){const aside=main.querySelector('.booking-aside');aside?.querySelectorAll('p').forEach(p=>p.remove());const note=document.createElement('p');note.textContent=flowNote;aside?.append(note);}
+   swap(t('marketing.m_79aa8a1c53d2'),t('Check your room and dates before you open the booking form.','راجع الغرفة والتواريخ قبل ما تفتح نموذج الحجز.','打开预订表单前，请核对客房和日期。'));
+  }
+  // The stay dialog on every page leads to the connected availability search.
+  document.querySelectorAll('#booking .preview-note').forEach(note=>note.textContent=t('Availability comes from the hotel’s reservation system. Choose your dates to see available rooms.','التوافر بييجي من نظام حجز الفندق. اختار تواريخك علشان تشوف الغرف المتاحة.','空房信息来自酒店预订系统。选择日期即可查看可订客房。'));
+  document.querySelectorAll('#stay-form button[type=submit]').forEach(button=>button.textContent=labels.availability);
   const contact=document.querySelector('#contact-form');if(contact){contact.querySelector('button[type=submit]').textContent=t('marketing.m_71ffefe08618');contact.querySelector('.preview-note').textContent=t('marketing.m_549e4c6fa72f');contact.onsubmit=async event=>{event.preventDefault();const status=contact.querySelector('.form-status'),button=contact.querySelector('button[type=submit]');button.disabled=true;try{const session=await api('session');await api('contact',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':session.csrf_token},body:JSON.stringify(Object.fromEntries(new FormData(contact)))});status.textContent=t('marketing.m_aa47a94c0e44');contact.reset();}catch(error){status.textContent=error.message;}finally{button.disabled=false;}};}
   // Payment step is closed until the guest signs in with a one-time code emailed to them. The server enforces it too (checkout/eligibility).
   // Access token (15 min) lives only in memory; the rotating refresh token is an HttpOnly cookie the page cannot read.
@@ -200,7 +211,8 @@
    const label=signedIn?t('My account','حسابي','我的账户'):labels.login;
    header.querySelectorAll('.nav-signup,.nav-mobile-signup').forEach(link=>link.hidden=signedIn);
    header.querySelectorAll('.nav-signin,.nav-mobile-signin').forEach(link=>{
-    link.href=signedIn?'/customer/overview':url(routes.login);
+    // Laravel serves the account without /ar/ or /zh/ prefixes; ?lang= carries the page language there.
+    link.href=signedIn?'/customer/overview?lang='+lang:url(routes.login);
     const text=Array.from(link.childNodes).find(node=>node.nodeType===Node.TEXT_NODE);
     if(text)text.textContent=label;else link.append(document.createTextNode(label));
     if(!signedIn&&page==='login')link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');
@@ -320,7 +332,7 @@
       if(!main.isConnected)return;
       if(booking.ok&&!booking.data.error&&booking.data.next_url){
        const next=new URL(booking.data.next_url,location.origin);
-       if(next.origin===location.origin&&/^\/booking\/[a-f0-9]{32}$/.test(next.pathname)){location.assign(next.href);return;}
+       if(next.origin===location.origin&&/^\/booking\/[a-f0-9]{32}$/.test(next.pathname)){next.searchParams.set('lang',lang);location.assign(next.href);return;}
       }
       status.textContent=booking.data.message||t('This room could not be booked. Check availability again.','تعذّر حجز الغرفة. راجع التوافر مرة أخرى.','无法预订此客房，请重新查询空房。');gate.hidden=true;btn.hidden=false;return;
      }

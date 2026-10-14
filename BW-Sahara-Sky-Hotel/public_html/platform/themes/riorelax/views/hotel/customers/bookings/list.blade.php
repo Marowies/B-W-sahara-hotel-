@@ -1,68 +1,72 @@
 @extends(HotelHelper::viewPath('customers.master'))
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h1 class="text-center mb-20">{{ SeoHelper::getTitle() }}</h1>
-        </div>
-        <div class="panel-body">
-            <div class="section-content">
-                <div class="table-responsive mb-20">
-                    <table class="table table-striped custom-booking-table">
-                        <thead class="text-center">
-                        <tr>
-                            <th>{{ __('Room') }}</th>
-                            <th>{{ __('Image') }}</th>
-                            <th>{{ __('Amount') }}</th>
-                            <th>{{ __('Booking Period') }}</th>
-                            <th>{{ __('Status') }}</th>
-                            <th></th>
-                        </tr>
-                        </thead>
+    @php
+        $hasPayments = is_plugin_active('payment');
+        $bookings->loadMissing('payment');
+        SeoHelper::setTitle(__('My Bookings'));
+    @endphp
 
-                        <tbody class="text-center">
-                        @if (count($bookings) > 0)
-                            @foreach ($bookings as $booking)
-                                <tr class="align-middle">
-                                    @if(($booking->room->room->exists) && ($room = $booking->room->room))
-                                        <td>
-                                            <a class="booking-information-link" href="{{ $room->url }}" target="_blank">
-                                                {{ $room->name }}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ $room->url }}" target="_blank">
-                                                <img src="{{ RvMedia::getImageUrl($room->image, 'thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $booking->room->name }}" width="100">
-                                            </a>
-                                        </td>
-                                    @else
-                                        <td>
-                                            {{ $booking->room->name }}
-                                        </td>
-                                        <td>
-                                            <img src="{{ RvMedia::getImageUrl($booking->room->room_image, 'thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $booking->room->name }}" width="100">
-                                        </td>
-                                    @endif
-                                    <td>{{ format_price($booking->room->price) }}</td>
-                                    <td>{{ $booking->room->booking_period }}</td>
-                                    <td>{{ $booking->status->label() }}</td>
-                                    <td>
-                                        <a class="btn btn-primary btn-sm"
-                                           href="{{ route('customer.bookings.show', $booking->transaction_id) }}">{{ __('View') }}</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td colspan="5" class="text-center">{{ __('No bookings!') }}</td>
-                            </tr>
-                        @endif
-                        </tbody>
-                    </table>
-                </div>
+    <header class="sky-page-head">
+        <p class="sky-eyebrow">{{ __('My account') }}</p>
+        <h1>{{ __('My Bookings') }}</h1>
+    </header>
 
-                {!! $bookings->links(Theme::getThemeNamespace('partials.pagination')) !!}
-            </div>
-        </div>
-    </div>
+    @if (count($bookings) > 0)
+        <ul class="sky-booking-list">
+            @foreach ($bookings as $booking)
+                @php
+                    $bookingRoom = $booking->room;
+                    $room = $bookingRoom->room->exists ? $bookingRoom->room : null;
+                    $roomName = $room?->name ?: $bookingRoom->room_name;
+                    $image = $room ? $room->image : $bookingRoom->room_image;
+                    $payment = $booking->payment;
+                @endphp
+                <li class="sky-card sky-booking-item">
+                    <img src="{{ RvMedia::getImageUrl($image, 'thumb', false, RvMedia::getDefaultImage()) }}" alt="" width="120" height="90" loading="lazy">
+                    <div class="sky-booking-body">
+                        <h2 class="sky-booking-room">
+                            @if ($room)
+                                <a href="{{ $room->url }}">{{ $roomName }}</a>
+                            @else
+                                {{ $roomName }}
+                            @endif
+                        </h2>
+                        <dl class="sky-facts">
+                            <div><dt>{{ __('Check-In') }}</dt><dd>{{ $bookingRoom->start_date ? Theme::formatDate($bookingRoom->start_date) : '—' }}</dd></div>
+                            <div><dt>{{ __('Check-Out') }}</dt><dd>{{ $bookingRoom->end_date ? Theme::formatDate($bookingRoom->end_date) : '—' }}</dd></div>
+                            <div><dt>{{ __('Total') }}</dt><dd>{{ format_price($booking->amount) }}</dd></div>
+                        </dl>
+                        <dl class="sky-status-list">
+                            <div>
+                                <dt>{{ __('Booking status') }}</dt>
+                                <dd><span class="sky-status sky-status-{{ riorelax_status_tone($booking->status?->getValue()) }}">{{ $booking->status?->label() }}</span></dd>
+                            </div>
+                            @if ($hasPayments)
+                                <div>
+                                    <dt>{{ __('Payment status') }}</dt>
+                                    <dd>
+                                        @if ($payment->id && $payment->status)
+                                            <span class="sky-status sky-status-{{ riorelax_status_tone($payment->status->getValue()) }}">{{ $payment->status->label() }}</span>
+                                        @else
+                                            <span class="sky-status sky-status-muted">{{ __('No payment recorded') }}</span>
+                                        @endif
+                                    </dd>
+                                </div>
+                            @endif
+                        </dl>
+                    </div>
+                    <a class="sky-button sky-button-quiet" href="{{ route('customer.bookings.show', $booking->transaction_id) }}">{{ __('View details') }}<span class="visually-hidden"> — {{ $roomName }}</span></a>
+                </li>
+            @endforeach
+        </ul>
+
+        {!! $bookings->links(Theme::getThemeNamespace('partials.pagination')) !!}
+    @else
+        <section class="sky-card sky-empty">
+            <h2>{{ __('No bookings yet') }}</h2>
+            <p>{{ __('When you book a room, its dates, booking status and payment status will appear here.') }}</p>
+            <a class="sky-button" href="{{ riorelax_guest_site_url('booking') }}">{{ __('Book your stay') }}</a>
+        </section>
+    @endif
 @stop

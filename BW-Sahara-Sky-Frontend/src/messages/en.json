@@ -819,8 +819,8 @@
     }
   },
   "otp": {
-    "continue": "Continue to payment",
-    "intro": "To continue to payment, sign in with a one-time code. We will email it to you.",
+    "continue": "Open booking form",
+    "intro": "To open the hotel booking form, sign in with a one-time code. We will email it to you. You can review the total there before any payment.",
     "send": "Send code",
     "sending": "Sending the code…",
     "codeLabel": "6-digit code",

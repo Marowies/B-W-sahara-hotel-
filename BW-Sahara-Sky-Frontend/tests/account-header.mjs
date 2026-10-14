@@ -30,11 +30,11 @@ try {
   await page.locator('input[name=code]').fill('123456');
   await page.locator('.welcome-done').waitFor();
   assert.equal(await header.textContent(),{en:'My account',ar:'حسابي',zh:'我的账户'}[lang]);
-  assert.equal(await header.getAttribute('href'),'/customer/overview');
+  assert.equal(await header.getAttribute('href'),'/customer/overview?lang='+lang);
   assert.equal(await signup.evaluate(link=>link.hidden),true);
   await page.reload({waitUntil:'networkidle'});
   await page.locator('.welcome-done').waitFor();
-  assert.equal(await header.getAttribute('href'),'/customer/overview');
+  assert.equal(await header.getAttribute('href'),'/customer/overview?lang='+lang);
   await page.locator('.done-signout').click();
   await page.locator('.welcome-form input[name=email]').waitFor();
   assert.equal(await header.textContent(),guestLabel);
@@ -42,7 +42,7 @@ try {
   assert.equal(await header.getAttribute('href'),localizedPath('/login/',lang));
   signedIn=true;
   await page.goto(base+localizedPath('/about-us/',lang),{waitUntil:'networkidle'});
-  assert.equal(await header.getAttribute('href'),'/customer/overview');
+  assert.equal(await header.getAttribute('href'),'/customer/overview?lang='+lang);
   checks++;await context.close();
  }
  console.log(JSON.stringify({checks,passed:true,scope:'Real client auth code with synthetic OTP/refresh/logout responses'}));

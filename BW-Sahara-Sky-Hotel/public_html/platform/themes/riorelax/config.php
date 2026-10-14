@@ -45,6 +45,11 @@ return [
         // this event should call to assign some assets,
         // breadcrumb template.
         'beforeRenderTheme' => function (Theme $theme): void {
+            // Runs after Botble's locale middleware and before the page content is rendered.
+            if (function_exists('riorelax_apply_guest_locale')) {
+                riorelax_apply_guest_locale();
+            }
+
             if (BaseHelper::isRtlEnabled()) {
                 $theme->asset()->usePath()->add('bootstrap-css', 'plugins/bootstrap/bootstrap.rtl.min.css');
             } else {

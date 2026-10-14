@@ -21,7 +21,8 @@ function gzipAllowed(header = '') {
 export async function serveAdminAsset(req, res, publicRoot) {
  if (!['GET','HEAD'].includes(req.method)) return false;
  const url = new URL(req.url, 'http://127.0.0.1');
- const prefix = ['/vendor/','/storage/'].find(value=>url.pathname.startsWith(value));
+ // /themes/ carries the customer account and booking pages' CSS/JS, as Laravel's public root does on the host.
+ const prefix = ['/vendor/','/storage/','/themes/'].find(value=>url.pathname.startsWith(value));
  if (!prefix) return false;
  if (!types[extname(url.pathname).toLowerCase()]) return false;
  const missing = () => {res.writeHead(404,{'Content-Type':'text/plain','Cache-Control':'no-store'});res.end('Asset not found.');return true;};

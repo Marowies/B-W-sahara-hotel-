@@ -9,13 +9,19 @@
     {!! apply_filters(PAYMENT_FILTER_HEADER_ASSETS, null) !!}
 @endif
 @php
-    Theme::set('pageTitle', __('Booking'));
+    Theme::set('pageTitle', __('Complete your booking'));
+    SeoHelper::setTitle(__('Complete your booking'));
     Theme::asset()->container('footer')->usePath()->add('checkout-js', 'js/checkout.js');
     Theme::asset()->container('footer')->usePath()->add('hotel-checkout-auth-js', 'js/hotel-checkout-auth.js');
 @endphp
 
-<section class="checkout-booking-page">
-    <div class="container pt-120 pb-40 checkout-booking">
+<section class="checkout-booking-page sky-checkout">
+    <div class="container pb-40 checkout-booking">
+        <header class="sky-page-head">
+            <p class="sky-eyebrow">{{ __('Booking form') }}</p>
+            <h1>{{ __('Complete your booking') }}</h1>
+            <p class="sky-lead">{{ __('Check your stay, add your details and review the total before you submit the booking.') }}</p>
+        </header>
         <div class="row">
             <div class="col-lg-8 col-md-12 col-sm-12">
                 <form action="{{ route('public.booking.checkout') }}" class="booking-form-main payment-checkout-form mb-50 shadow-block" method="POST">
@@ -41,7 +47,7 @@
                     @endif
 
                     <div class="mb-20">
-                        <h3 class="">{{ __('Add Extra Services') }}</h3>
+                        <h2 class="h3">{{ __('Add Extra Services') }}</h2>
                     </div>
                     <div class="room-booking-form p-0 mb-20">
                         @php
@@ -79,7 +85,7 @@
 
                     @if (count($foods) > 0)
                         <div class="mb-20">
-                            <h3 class="">{{ __('Add Foods') }}</h3>
+                            <h2 class="h3">{{ __('Add Foods') }}</h2>
                         </div>
 
                         <div class="room-booking-form p-0 mb-20">
@@ -99,7 +105,7 @@
                         </div>
                     @endif
 
-                    <h3 class="mb-20">{{ __('Your Information') }}</h3>
+                    <h2 class="h3 mb-20">{{ __('Your Information') }}</h2>
                     <div class="room-booking-form p-0">
 
                         <p class="mb-20">{{ __('Required fields are followed by *') }}</p>
@@ -141,7 +147,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-20">
-                                    <label for="txt-country">{{ __('State / Province') }}</label>
+                                    <label for="txt-state">{{ __('State / Province') }}</label>
                                     <input type="text" name="state" id="txt-state" class="form-control" value="{{ old('state', $customer) }}">
                                 </div>
                             </div>
@@ -235,7 +241,7 @@
 
                         @if (is_plugin_active('payment') && ($defaultPaymentMethod = PaymentMethods::getDefaultMethod()) && get_payment_setting('status', $defaultPaymentMethod))
                             <div class="form-group mb-20">
-                                <label for="requests">{{ __('Payment method') }}</label>
+                                <p class="form-label">{{ __('Payment method') }}</p>
                                 <ul class="list-group list_payment_method">
                                     {!! apply_filters(PAYMENT_FILTER_ADDITIONAL_PAYMENT_METHODS, null, [
                                         'amount' => $total,
@@ -267,20 +273,20 @@
 
                 @if ($hotelRules = theme_option('hotel_rules'))
                     <div class="widget-content mb-50 hotel-rules shadow-block">
-                        <h3 class="mb-20">{{ __('Hotel rules') }}</h3>
+                        <h2 class="h3 mb-20">{{ __('Hotel rules') }}</h2>
                         {!! BaseHelper::clean($hotelRules) !!}
                     </div>
                 @endif
 
                 @if ( $cancellation = theme_option('cancellation'))
                     <div class="widget-content mb-50 shadow-block">
-                        <h3 class="mb-20">{{ __('Cancellation') }}</h3>
+                        <h2 class="h3 mb-20">{{ __('Cancellation') }}</h2>
                         {!! BaseHelper::clean($cancellation) !!}
                     </div>
                 @endif
             </div>
             <div class="col-sm-12 col-md-12 col-lg-4 sidebar">
-                <aside>
+                <aside aria-label="{{ __('Your reservation') }}">
                     <div class="wrap">
                         <img src="{{ RvMedia::getImageUrl($room->image, default: RvMedia::getDefaultImage()) }}" alt="{{ $room->name }}">
 
@@ -289,7 +295,7 @@
                         </div>
                     </div>
                     <div class="form-information">
-                        <p class="text-center">{{ __('YOUR RESERVATION') }}</p>
+                        <h2 class="h3 text-center">{{ __('Your reservation') }}</h2>
                         <div>
                             <p>{{ __('Check-In') }}: {{ Theme::formatDate($startDate) }}</p>
                             <p>{{ __('Check-Out') }}: {{ Theme::formatDate($endDate) }}</p>
