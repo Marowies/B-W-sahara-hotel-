@@ -329,6 +329,14 @@ test('Google: return destinations reject external and unrelated application path
     foreach (['https://evil.example/', '//evil.example/', '/admin/', '/auth/google', '/login/?token=secret', null, [], "/login/\n"] as $path) {
         check(App\Services\HotelGoogleSession::returnPath($path) === '/login/', 'Unsafe return accepted');
     }
+    // A sign-in page keeps one account page to continue to; any other target is dropped.
+    foreach (['/login/?next=%2Fcustomer%2Foverview' => '/login/?next=%2Fcustomer%2Foverview',
+        '/ar/dokhool/?next=/customer/bookings' => '/ar/dokhool/?next=%2Fcustomer%2Fbookings',
+        '/login/?next=https://evil.example/' => '/login/', '/login/?next=//evil.example/' => '/login/',
+        '/login/?next=/customer/overview&token=secret' => '/login/', '/login/?next=/admin/' => '/login/',
+        '/booking/review/?next=/customer/overview' => '/booking/review/'] as $path => $expected) {
+        check(App\Services\HotelGoogleSession::returnPath($path) === $expected, 'Account return mishandled: ' . $path);
+    }
 });
 
 /** POST /api/hotel/auth/refresh with only the HttpOnly cookie; extra request data must never pick the identity. */
@@ -378,7 +386,8 @@ test('Session: unchanged page session is kept without a new session id', functio
 test('Session: missing, invalid, expired and revoked refresh tokens never sign in', function () use ($guard): void {
     $service = app(HotelTokenService::class);
     $guard->logout();
-    check(refreshWith(null)->getStatusCode() === 401 && ! $guard->check(), 'Missing cookie signed in');
+    $missing = refreshWith(null);
+    check($missing->getStatusCode() === 200 && $missing->getData(true)['authenticated'] === false && ! isset($missing->getData(true)['access_token']) && ! $guard->check(), 'Missing cookie signed in');
     check(refreshWith('not-a-real-token')->getStatusCode() === 401 && ! $guard->check(), 'Invalid token signed in');
     // A rejected token also ends a page session left on this device.
     $guard->setUser(Customer::query()->findOrFail(43));
@@ -397,7 +406,7 @@ test('Session: missing, invalid, expired and revoked refresh tokens never sign i
     } finally { Carbon::setTestNow($clock); }
     // A missing cookie (for example the CMS password form) does not end a page session.
     $guard->setUser(Customer::query()->findOrFail(43));
-    check(refreshWith(null)->getStatusCode() === 401 && $guard->id() === 43, 'Cookie-less refresh signed out a CMS session');
+    check(refreshWith(null)->getData(true)['authenticated'] === false && $guard->id() === 43, 'Cookie-less refresh signed out a CMS session');
     $guard->logout();
 });
 

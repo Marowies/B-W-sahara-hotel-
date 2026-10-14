@@ -108,10 +108,10 @@
     "m_82b639ed7c3e": "Can an extra bed be arranged?",
     "m_dbe00a900fdf": "An extra bed is listed for some room categories on the current hotel website. Confirm room capacity, availability and charges directly with the team.",
     "m_e698b193ae57": "A room. Your own rhythm.",
-    "m_69dbbcff35a1": "Seven room categories. One unhurried way to stay. Find the space that feels like you.",
+    "m_69dbbcff35a1": "Seven room types. One unhurried way to stay. Find the space that feels like you.",
     "m_6b68f47c6c4e": "YOUR DESERT SANCTUARY",
     "m_5f5b6a55d00a": "Make yourself<br><em>at home.</em>",
-    "m_d2a5282535f6": "Room areas and bed layouts follow the current hotel catalogue. Live rates will be confirmed through the booking partner.",
+    "m_d2a5282535f6": "Room areas and bed layouts follow the current hotel catalogue. Choose your dates to see live availability and rates.",
     "m_7d9092b09461": "Room categories",
     "m_8f8bb5caae56": "NEW AT SAHARA SKY",
     "m_533127151c29": "A new chapter in copper and glass. Discover the domes and the interactive architectural view.",
@@ -286,15 +286,16 @@
     "m_1f0f8f166b2e": "BEFORE YOUR NEXT CHAPTER",
     "m_7a9f988506bc": "A little inspiration.",
     "m_58799a0f9b97": "beds",
-    "m_9cb4df045594": "Base room rate: ",
+    "m_9cb4df045594": "Rate per night from: ",
     "m_6436a2b10eba": "No rooms match these dates and guests.",
     "m_d6f2ad9b46c6": "HOTEL AVAILABILITY",
     "m_613b4731c1c5": "Checking hotel availability…",
     "m_1cc550df65ff": "Availability comes from the hotel database. Base rates exclude final taxes and supplements. No reservation has been made; contact the hotel to complete your booking.",
     "m_71ffefe08618": "Send enquiry",
-    "m_549e4c6fa72f": "Your enquiry is saved to the hotel’s administration inbox.",
+    "m_549e4c6fa72f": "The hotel team will reply to you by email.",
     "m_aa47a94c0e44": "Your enquiry was saved. The hotel team can review it in their inbox.",
-    "m_6166ec0ee0a3": "Sahara Sky"
+    "m_6166ec0ee0a3": "Sahara Sky",
+    "m_58799a0f9b97_one": "bed"
   },
   "app": {
     "updated": "Content reviewed",
@@ -547,28 +548,28 @@
       "description": "Discovering the desert — draft. A preview or draft page, not a confirmed hotel offer."
     },
     "booking": {
-      "title": "Check local room availability | B&W Sahara Sky Hotel",
-      "description": "Check local room availability. A preview or draft page, not a confirmed hotel offer."
+      "title": "Check room availability | B&W Sahara Sky Hotel",
+      "description": "Check room availability for your dates at B&W Sahara Sky Hotel."
     },
     "review": {
-      "title": "Review your stay preview | B&W Sahara Sky Hotel",
-      "description": "Review your stay preview. A preview or draft page, not a confirmed hotel offer."
+      "title": "Review your stay | B&W Sahara Sky Hotel",
+      "description": "Review your room, dates and guests before you continue."
     },
     "confirmation": {
       "title": "Stay preview, not a reservation | B&W Sahara Sky Hotel",
       "description": "Stay preview, not a reservation. A preview or draft page, not a confirmed hotel offer."
     },
     "login": {
-      "title": "Customer sign-in preview | B&W Sahara Sky Hotel",
-      "description": "Customer sign-in preview. A preview or draft page, not a confirmed hotel offer."
+      "title": "Sign in | B&W Sahara Sky Hotel",
+      "description": "Sign in with a one-time email code or Google to book and manage your stay."
     },
     "register": {
-      "title": "Customer account preview | B&W Sahara Sky Hotel",
-      "description": "Customer account preview. A preview or draft page, not a confirmed hotel offer."
+      "title": "Create your account | B&W Sahara Sky Hotel",
+      "description": "Create your account with a one-time email code to book and manage your stay."
     },
     "forgot": {
-      "title": "Password recovery preview | B&W Sahara Sky Hotel",
-      "description": "Password recovery preview. A preview or draft page, not a confirmed hotel offer."
+      "title": "Sign-in help | B&W Sahara Sky Hotel",
+      "description": "Get a new one-time sign-in code by email."
     },
     "approval": {
       "title": "Design review | B&W Sahara Sky Hotel",

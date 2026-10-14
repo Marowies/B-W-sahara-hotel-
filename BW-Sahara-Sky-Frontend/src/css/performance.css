@@ -317,3 +317,18 @@ body{accent-color:var(--brand-brown)}
 
 /* Breadcrumb links keep a 24px touch target (WCAG 2.2 target size) without changing the text size. */
 .crumbs{align-items:center}.crumbs a{display:inline-flex;align-items:center;min-height:24px;min-width:24px}
+
+/* Site UI fixes (staging review, 2026-10-14) */
+/* Mobile menu opens right under the header at either header height (80px, or 72px once scrolled), and dims the page below it. */
+.nav #nav-links{top:100%}
+.nav #nav-links.open{box-shadow:0 0 0 100vmax #2b1e1773;clip-path:inset(0 -100vmax -100vmax -100vmax)}
+/* Contact cards: the hover arrow gets its own column instead of wrapping to an empty second row. */
+.contact-details>a,.contact-details>p{grid-template-columns:34px minmax(0,1fr) auto}
+/* Footer: "Cookie settings" is centred with the rest of the footer. */
+.footer-bottom .cookie-settings{align-self:center}
+/* Arabic has no italic: emphasis keeps the upright face and is marked by colour, as the headings already do. */
+[dir=rtl] em,[dir=rtl] i{font-style:normal}
+/* RTL: the hero's dark wash sits behind the text, which starts on the right. */
+[dir=rtl] .hero::before{background:radial-gradient(ellipse at 88% 80%,#71452d52,transparent 60%)}
+/* Phones hide the hero shade; Arabic text sits over the brighter right side of the photo, so keep its mirrored shade. */
+@media(max-width:900px){[dir=rtl] .hero-shade{display:block}}

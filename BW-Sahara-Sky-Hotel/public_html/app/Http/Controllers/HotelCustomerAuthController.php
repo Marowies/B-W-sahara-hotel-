@@ -135,7 +135,8 @@ class HotelCustomerAuthController extends Controller
     {
         $token = (string) $request->cookie(HotelTokenService::COOKIE);
         if ($token === '') {
-            return $this->reply(['message' => 'Sign in with your email code to continue.', 'code' => 'login_required'], 401);
+            // A visitor who never signed in on this device: an ordinary answer, not an error on every page load.
+            return $this->reply(['authenticated' => false, 'code' => 'signed_out']);
         }
         $result = $this->tokens->refresh($token, $request);
         // The identity comes only from the rotated, server-validated token, never from request data.

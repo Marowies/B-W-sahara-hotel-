@@ -111,7 +111,7 @@
     "m_69dbbcff35a1": "七种房型，同样从容的旅居体验。寻找适合您的空间。",
     "m_6b68f47c6c4e": "沙漠中的静谧居所",
     "m_5f5b6a55d00a": "宾至如归，<br><em>自在如家。</em>",
-    "m_d2a5282535f6": "客房面积及床型参考酒店当前目录。实时房价将通过预订合作方确认。",
+    "m_d2a5282535f6": "客房面积及床型参考酒店当前目录。选择日期即可查看实时空房和房价。",
     "m_7d9092b09461": "客房类别",
     "m_8f8bb5caae56": "酒店新体验",
     "m_533127151c29": "铜与玻璃书写全新篇章。探索穹顶及互动建筑视图。",
@@ -286,15 +286,16 @@
     "m_1f0f8f166b2e": "下一段旅程之前",
     "m_7a9f988506bc": "一点灵感。",
     "m_58799a0f9b97": "床",
-    "m_9cb4df045594": "客房基础价格：",
+    "m_9cb4df045594": "每晚起价：",
     "m_6436a2b10eba": "没有符合日期及人数的客房。",
     "m_d6f2ad9b46c6": "酒店空房",
     "m_613b4731c1c5": "正在查询酒店空房…",
     "m_1cc550df65ff": "空房信息来自酒店数据库。基础价格不含最终税费及附加项目。尚未创建预订，请联系酒店完成预订。",
     "m_71ffefe08618": "发送咨询",
-    "m_549e4c6fa72f": "咨询将保存至酒店管理收件箱。",
+    "m_549e4c6fa72f": "酒店团队将通过邮件回复您。",
     "m_aa47a94c0e44": "咨询已保存，酒店团队可在收件箱查看。",
-    "m_6166ec0ee0a3": "撒哈拉天空"
+    "m_6166ec0ee0a3": "撒哈拉天空",
+    "m_58799a0f9b97_one": "床"
   },
   "app": {
     "updated": "内容核对日期",
@@ -547,28 +548,28 @@
       "description": "探索沙漠——草稿. 此为预览或草稿页面，并非酒店已确认产品。"
     },
     "booking": {
-      "title": "查询本地客房空房 | B&W Sahara Sky Hotel",
-      "description": "查询本地客房空房. 此为预览或草稿页面，并非酒店已确认产品。"
+      "title": "查询空房 | B&W Sahara Sky Hotel",
+      "description": "查询 B&W Sahara Sky Hotel 在您所选日期的空房。"
     },
     "review": {
-      "title": "查看住宿预览 | B&W Sahara Sky Hotel",
-      "description": "查看住宿预览. 此为预览或草稿页面，并非酒店已确认产品。"
+      "title": "确认您的住宿 | B&W Sahara Sky Hotel",
+      "description": "继续之前，请确认房型、日期和入住人数。"
     },
     "confirmation": {
       "title": "住宿预览，并非预订 | B&W Sahara Sky Hotel",
       "description": "住宿预览，并非预订. 此为预览或草稿页面，并非酒店已确认产品。"
     },
     "login": {
-      "title": "客户登录预览 | B&W Sahara Sky Hotel",
-      "description": "客户登录预览. 此为预览或草稿页面，并非酒店已确认产品。"
+      "title": "登录 | B&W Sahara Sky Hotel",
+      "description": "使用邮箱一次性验证码或 Google 登录，预订并管理您的住宿。"
     },
     "register": {
-      "title": "客户账户预览 | B&W Sahara Sky Hotel",
-      "description": "客户账户预览. 此为预览或草稿页面，并非酒店已确认产品。"
+      "title": "创建账户 | B&W Sahara Sky Hotel",
+      "description": "使用邮箱一次性验证码创建账户，预订并管理您的住宿。"
     },
     "forgot": {
-      "title": "密码恢复预览 | B&W Sahara Sky Hotel",
-      "description": "密码恢复预览. 此为预览或草稿页面，并非酒店已确认产品。"
+      "title": "登录帮助 | B&W Sahara Sky Hotel",
+      "description": "通过邮箱获取新的一次性登录验证码。"
     },
     "approval": {
       "title": "设计审核 | B&W Sahara Sky Hotel",

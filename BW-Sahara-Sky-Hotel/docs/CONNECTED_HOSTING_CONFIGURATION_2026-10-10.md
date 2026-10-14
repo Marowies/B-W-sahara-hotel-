@@ -23,6 +23,16 @@ Confirm the hosting provider's document-root and web-server features before depl
 4. Decide the authoritative robots/sitemap and legacy URL redirects for the new public frontend before publishing. Export and migrate existing custom robots rules using the supplied migration tool before removing a legacy static override. The PHP SEO branch and standalone frontend generate metadata for their respective views; avoid publishing parallel public URL sets without an approved redirect/canonical map.
 5. Cache only hashed static assets. Keep HTML and `sw.js` revalidated; bypass authenticated/admin/API responses and responses carrying cookies or `no-store`. Preserve the previous release's hashed assets during rollout.
 
+## Old and mistyped public URLs
+
+The frontend build writes `route-map.json` next to its pages. Deploy it with them in `public/`. When it is present, `App\Http\Middleware\StaticFrontendGate` answers every public GET address that would otherwise reach the old CMS theme:
+
+- old CMS pages (`/ar/rooms`, `/zh/contact-us`, `/index.php`, old room slugs), common aliases (`/about`, `/contact`, `/news`) and wrong case (`/Rooms/`) get a 301 to the matching frontend page in the same language;
+- `?lang=en|ar|zh` gets a 301 to that language's page (`public/.htaccess` passes these requests to Laravel);
+- anything else gets the frontend's localized `404.html` with status 404, never the old theme.
+
+Admin, API, auth, `/customer/*` account pages, booking forms, payment callbacks and uploads are not touched. Set `FRONTEND_GATE_ENABLED=false` to show the CMS theme again. `public/.htaccess` also redirects `/page/index.html` to `/page/`, hides the internal design-review page, and adds `nosniff`, `Referrer-Policy`, `X-Frame-Options: SAMEORIGIN` and HSTS (HTTPS only) while removing `X-Powered-By`. Test: `php tests/FrontendGate/run.php`.
+
 ## Laravel configuration
 
 `public_html/.env.production.example` documents required settings without production secrets. Supply a valid production application key, database credentials and SMTP account on the host. Do not copy the local clone's key, accounts, mail-log driver or database configuration.

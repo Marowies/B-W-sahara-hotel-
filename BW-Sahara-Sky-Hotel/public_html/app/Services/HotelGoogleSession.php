@@ -79,7 +79,22 @@ class HotelGoogleSession
 
     public static function returnPath(mixed $path): string
     {
-        return is_string($path) && preg_match('~^/(?:login|register|booking/review|ar/(?:login|register|booking/review|dokhool|hesab-gadeed|takhteet-eqama/moragaa)|zh/(?:login|register|booking/review|denglu|zhuce|zhusu-jihua/queren))/$~D', $path)
-            ? $path : '/login/';
+        if (! is_string($path)) {
+            return '/login/';
+        }
+        [$base, $query] = array_pad(explode('?', $path, 2), 2, null);
+        if (! preg_match('~^/(?:login|register|booking/review|ar/(?:login|register|booking/review|dokhool|hesab-gadeed|takhteet-eqama/moragaa)|zh/(?:login|register|booking/review|denglu|zhuce|zhusu-jihua/queren))/$~D', $base)) {
+            return '/login/';
+        }
+        if ($query === null) {
+            return $base;
+        }
+        // A sign-in page may carry one account page to continue to (sent there by RedirectIfNotCustomer); nothing else.
+        parse_str($query, $params);
+        $next = $params['next'] ?? null;
+
+        return ! str_contains($base, 'booking/') && count($params) === 1 && is_string($next)
+            && preg_match('~^/customer/[a-z0-9/-]*$~D', $next)
+            ? $base . '?' . http_build_query(['next' => $next]) : $base;
     }
 }

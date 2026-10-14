@@ -108,6 +108,8 @@ async function pages(dir,relative=''){
 await pages(src);
 if(routes.length!==routeDefinitions.length||routes.some(file=>!resolveRoute(file)))throw Error('Every source template must have a locale registry entry.');
 await writeFile(join(out,'robots.txt'),robots(seo));
+// Laravel's StaticFrontendGate reads this to redirect old and mistyped URLs to these pages and serve the matching 404.
+await writeFile(join(out,'route-map.json'),JSON.stringify({languages:['en','ar','zh'],routes:routeDefinitions.map(([id,en,ar,zh])=>({id,en,ar,zh}))}));
 await writeFile(join(out,'sitemap.xml'),sitemap(seo,routes));
 await writeFile(join(out,'llms.txt'),llms(seo));
 for(const row of routeDefinitions)for(const path of row.slice(1,4)){
