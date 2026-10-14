@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Appended after trusted proxy handling; disabled unless explicitly configured.
         $middleware->append(\App\Http\Middleware\CanonicalHost::class);
         $middleware->append(\App\Http\Middleware\LimitHotelTraffic::class);
+        $middleware->append(\App\Http\Middleware\GuestPageCache::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

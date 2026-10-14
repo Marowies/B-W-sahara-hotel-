@@ -1,6 +1,9 @@
 @extends(Theme::getThemeNamespace('layouts.base'))
 
 @section('main')
+    @if (request()->routeIs('customer.*', 'public.booking.*'))
+        @include(Theme::getThemeNamespace('partials.guest-shell'))
+    @else
     <header class="header-area header-three">
         @if (theme_option('header_top_enabled', true))
             {!! Theme::partial('header-top') !!}
@@ -20,4 +23,5 @@
     </section>
 
     {!! Theme::partial('footer') !!}
+    @endif
 @endsection

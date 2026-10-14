@@ -232,7 +232,20 @@
     nativeAdd.call(window, 'popstate', () => navigate(new URL(location.href), true));
     if ('serviceWorker' in navigator && (location.protocol === 'https:' || ['127.0.0.1','localhost'].includes(location.hostname))) {
       // Warm only the small shell; image/3D caching begins only after actual use.
-      const register = () => navigator.serviceWorker.register('/sw.js').catch(() => {});
+      let edited = false, refreshed = false;
+      document.addEventListener('input', () => { edited = true; }, {once:true});
+      const hadController = !!navigator.serviceWorker.controller;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!hadController || refreshed) return;
+        refreshed = true;
+        if (!edited) { location.reload(); return; }
+        const notice = document.createElement('button');
+        notice.type = 'button'; notice.className = 'button';
+        notice.textContent = ({ar:'تحديث الموقع متاح — اضغط بعد حفظ بياناتك', 'zh-Hans':'网站已更新，保存输入后点击刷新'})[document.documentElement.lang] || 'Site update available — refresh after saving your details';
+        notice.style.cssText = 'position:fixed;bottom:20px;left:20px;right:20px;z-index:9999';
+        notice.onclick = () => location.reload(); document.body.append(notice);
+      });
+      const register = () => navigator.serviceWorker.register('/sw.js', {updateViaCache:'none'}).then(reg => reg.update()).catch(() => {});
       if ('requestIdleCallback' in window) requestIdleCallback(register, {timeout:2500}); else setTimeout(register, 1200);
     }
   });

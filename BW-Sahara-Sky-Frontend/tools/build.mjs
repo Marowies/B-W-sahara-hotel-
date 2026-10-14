@@ -144,13 +144,13 @@ AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascri
 const version=hash(JSON.stringify(emitted));
 const shell=['asset-map.js','locale.js','i18n.js','metadata.js','runtime.js','approval.js','seo.js','site.css'].map(n=>'/'+emitted[n]);
 const sw=`const VERSION=${JSON.stringify(version)},STATIC='hotel-static-'+VERSION,PAGES='hotel-pages-'+VERSION,CORE=${JSON.stringify(shell)};
-self.addEventListener('install',e=>e.waitUntil(caches.open(STATIC).then(c=>c.addAll(CORE))));
-self.addEventListener('activate',e=>e.waitUntil((async()=>{const keys=await caches.keys();for(const prefix of ['hotel-static-','hotel-pages-']){const old=keys.filter(k=>k.startsWith(prefix)&&k!==prefix+VERSION);for(const k of old.slice(0,-1))await caches.delete(k);}await self.clients.claim();})()));
+self.addEventListener('install',e=>e.waitUntil(caches.open(STATIC).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil((async()=>{const keys=await caches.keys();for(const key of keys){if((key.startsWith('hotel-static-')&&key!==STATIC)||key.startsWith('hotel-pages-'))await caches.delete(key);}await self.clients.claim();})()));
 async function boundedPut(cache,key,response){try{await cache.put(key,response);const keys=await cache.keys();if(keys.length>100)await cache.delete(keys[0]);}catch{}}
 self.addEventListener('fetch',e=>{const url=new URL(e.request.url);if(e.request.method!=='GET'||url.origin!==self.location.origin)return;
-if(['admin','api','vendor','storage'].includes(url.pathname.split('/')[1])||url.pathname==='/login/admin')return;
-if(e.request.mode==='navigate'||e.request.headers.has('X-Frontend-Navigation')){e.respondWith((async()=>{const cache=await caches.open(PAGES),key=url.pathname;try{const response=await fetch(e.request);if(response.ok&&!response.redirected)await boundedPut(cache,key,response.clone());return response;}catch{return await cache.match(key)||Response.error();}})());return;}
-if(/\\.(?:js|css|webp|woff2)$/.test(url.pathname)){e.respondWith((async()=>{const cache=await caches.open(STATIC),hit=await cache.match(e.request);if(hit)return hit;const response=await fetch(e.request);if(response.ok)await boundedPut(cache,e.request,response.clone());return response;})());}});`;
+if(['admin','api','vendor','storage','customer','booking'].includes(url.pathname.split('/')[1])||url.pathname==='/login/admin')return;
+if(e.request.mode==='navigate'||e.request.headers.has('X-Frontend-Navigation')){e.respondWith(fetch(e.request,{cache:'no-store'}));return;}
+if(/\\.[a-f0-9]{12}\\.(?:js|css|webp|woff2)$/.test(url.pathname)){e.respondWith((async()=>{const cache=await caches.open(STATIC),hit=await cache.match(e.request);if(hit)return hit;const response=await fetch(e.request);if(response.ok)await boundedPut(cache,e.request,response.clone());return response;})());}});`;
 await writeFile(join(out,'sw.js'),sw);
 await writeFile(join(out,'_headers'),'/*\n  Cache-Control: no-cache\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n/fonts/*\n  Cache-Control: public, max-age=31536000, immutable\n/sw.js\n  Cache-Control: no-cache\n');
 async function compress(dir){for(const item of await readdir(dir,{withFileTypes:true})){const path=join(dir,item.name);if(item.isDirectory())await compress(path);else if(/\.(js|css|html)$/.test(item.name)){const data=await readFile(path);await writeFile(path+'.gz',gzipSync(data,{level:9}));await writeFile(path+'.br',brotliCompressSync(data,{params:{[constants.BROTLI_PARAM_QUALITY]:9}}));}}}
