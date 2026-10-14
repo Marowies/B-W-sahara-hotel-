@@ -402,3 +402,14 @@ body{accent-color:var(--brand-brown)}
  .nav #nav-links>a::after{height:2px!important;background:var(--brand-brown)!important;border-radius:2px}
 }
 .auth-welcome .otp-gate .welcome-form{background:none!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+/* 404: no photo; a large, clear "404" centred on the beige page, with ways back. */
+.not-found{display:grid;place-items:center;min-height:calc(100vh - 80px);min-height:calc(100svh - 80px);margin-top:80px;padding:64px 6%;background:radial-gradient(70% 60% at 50% 40%,#f6ecdd 0%,#eee3d3 60%,#e8d9c3 100%);text-align:center}
+.not-found-inner{max-width:560px}
+.not-found .eyebrow{display:inline-flex;align-items:center;gap:12px;color:#9a6a4a;letter-spacing:.3em;font-size:12px}
+.not-found .eyebrow::before,.not-found .eyebrow::after{content:'';width:28px;height:1px;background:currentColor;opacity:.6}
+.not-found-code{margin:18px 0 6px;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(120px,22vw,240px);font-weight:500;line-height:1;letter-spacing:.02em;font-variant-numeric:lining-nums;font-feature-settings:'lnum' 1;color:var(--brand-brown);text-shadow:0 18px 40px #4e342626}
+.not-found p{margin:0 auto;max-width:420px;font-size:18px;line-height:1.6;color:#6b5a4a}
+.not-found-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px}
+.not-found-actions .button{min-height:50px;padding:0 26px;border-radius:999px}
+.not-found-actions .button.ghost{background:transparent!important;color:var(--brand-brown)!important;border:1px solid var(--brand-border)!important}
+[dir=rtl] .not-found-code{font-family:'Cormorant Garamond',Georgia,serif!important;line-height:1!important;direction:ltr}

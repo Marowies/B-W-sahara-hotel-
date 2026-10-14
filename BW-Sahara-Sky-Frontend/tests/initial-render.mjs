@@ -1,3 +1,4 @@
+import {fileURLToPath} from 'node:url';
 // Initial render and release transitions: the brown/beige design from the first paint, and old
 // release pages replaced without showing the old design or losing unsaved input.
 //   npm run build && node tools/serve.mjs   (or the connected gateway)
@@ -9,7 +10,8 @@ import {chromium} from 'playwright';
 import {localizedPath} from '../src/shared/locale.mjs';
 
 const base = process.env.HOTEL_TEST_URL || 'http://127.0.0.1:8780';
-const dist = new URL('../dist/', import.meta.url).pathname.slice(process.platform === 'win32' ? 1 : 0);
+// fileURLToPath decodes non-ASCII folder names (a URL pathname keeps them percent-encoded).
+const dist = fileURLToPath(new URL('../dist/', import.meta.url));
 const results = [];
 const check = (name, ok, detail = '') => {results.push({name, ok: !!ok});if (!ok) console.error('FAIL', name, detail);};
 let last = 0;
