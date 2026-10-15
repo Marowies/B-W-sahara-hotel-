@@ -1,6 +1,4 @@
-<x-core::alert type="success">
-    <div>Your license is fully activated and verified.</div>
-</x-core::alert>
+@props(['manageLicense' => false])
 
 <x-core::form.text-input
     label="Your username on Envato"

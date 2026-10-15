@@ -170,7 +170,14 @@
         const response = await fetch('/build-manifest.json', {cache:'no-store'});
         if (!response.ok) return;
         const manifest = await response.json(), latest = manifest.files?.['runtime.js'];
-        if (latest && new URL(latest, location.origin).pathname !== runtimePath) refreshPage();
+        // CSS or copy can change without changing runtime.js itself.
+        const staleAsset = Array.from(document.querySelectorAll?.('script[src],link[rel="stylesheet"]') || []).some(element => {
+          const path = new URL(element.src || element.href, location.origin).pathname;
+          const match = path.match(/^\/([^/]+)\.[a-f0-9]{12}\.(js|css)$/);
+          const expected = match && manifest.files?.[match[1] + '.' + match[2]];
+          return expected && new URL(expected, location.origin).pathname !== path;
+        });
+        if (staleAsset || (latest && new URL(latest, location.origin).pathname !== runtimePath)) refreshPage();
       } catch {} finally { checkingRelease = false; }
     };
     // Each page records its release. A page restored from the back/forward cache, or a tab left open,
@@ -188,6 +195,8 @@
       if (event.key === releaseKey && event.newValue && event.newValue !== runtimePath && document.visibilityState === 'hidden') checkRelease();
     });
     nativeAdd.call(document, 'visibilitychange', () => { if (document.visibilityState === 'visible') checkRelease(); });
+    // A normally loaded cached document can be stale too, not only a back/forward restore.
+    checkRelease();
     if ('serviceWorker' in navigator && (location.protocol === 'https:' || ['127.0.0.1','localhost'].includes(location.hostname))) {
       // Warm only the small shell; image/3D caching begins only after actual use.
       const hadController = !!navigator.serviceWorker.controller;
