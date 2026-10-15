@@ -17,6 +17,9 @@ use Botble\Page\Forms\PageForm;
 use Botble\SimpleSlider\Forms\SimpleSliderItemForm;
 use Botble\Theme\Supports\ThemeSupport;
 
+// Staff use the separate administration area; guest pages never render its editing toolbar.
+admin_bar()->setIsDisplay(false);
+
 register_page_template([
     'default' => __('Default'),
     'side-menu' => __('Side menu'),
