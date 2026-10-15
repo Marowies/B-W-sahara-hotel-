@@ -1,6 +1,5 @@
 @php
     Theme::set('pageTitle', __('My account'));
-    $accountCustomer = auth('customer')->user();
     $accountRoute = Route::currentRouteName();
     $accountLinks = [
         ['customer.overview', __('Overview'), ['customer.overview']],
@@ -14,7 +13,6 @@
 @endphp
 
 <div @class(['customer-page sky-account', 'sky-account-overview' => $accountRoute === 'customer.overview'])>
-    {{-- On small screens the tabs come first, then the page itself, then the profile card. --}}
     <nav class="sky-account-nav" aria-label="{{ __('Account navigation') }}">
         <ul>
             @foreach ($accountLinks as [$name, $label, $active])
@@ -31,14 +29,4 @@
     <section class="sky-account-content profile-content">
         @yield('content')
     </section>
-
-    @if ($accountRoute !== 'customer.overview')
-    <aside class="sky-account-profile profile-sidebar" aria-label="{{ __('Profile') }}">
-        <p class="sky-account-profile-name">{{ $accountCustomer->name }}</p>
-        @if ($accountCustomer->email)
-            <p class="sky-account-profile-email" dir="ltr">{{ $accountCustomer->email }}</p>
-        @endif
-    </aside>
-    @endif
-
 </div>
