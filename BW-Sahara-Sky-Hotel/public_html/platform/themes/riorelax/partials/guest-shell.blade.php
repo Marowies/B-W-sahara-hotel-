@@ -21,7 +21,19 @@
             <a href="{{ riorelax_guest_site_url('contact') }}">{{ __('Contact') }}</a>
         </nav>
         <div class="sky-site-tools">
-            {!! Theme::partial('currency-switcher') !!}
+            @if (is_plugin_active('hotel') && count($guestCurrencies = get_all_currencies()) > 1)
+                <details class="sky-lang sky-currency">
+                    <summary aria-label="{{ __('Currency') }}">
+                        <span>{{ get_application_currency()->title }}</span>
+                        <svg class="sky-lang-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                    </summary>
+                    <nav class="sky-lang-list" aria-label="{{ __('Currency') }}">
+                        @foreach ($guestCurrencies as $currency)
+                            <a href="{{ route('public.change-currency', [$currency->title, 'return' => request()->getRequestUri()]) }}" @if ($currency->id === get_application_currency_id()) aria-current="true" @endif><span>{{ $currency->title }}</span><small>{{ $currency->symbol }}</small></a>
+                        @endforeach
+                    </nav>
+                </details>
+            @endif
             <details class="sky-lang">
                 <summary aria-label="{{ __('Language') }}">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>
@@ -71,6 +83,16 @@ document.addEventListener('click', async function (event) {
         }
     } catch (_) {}
     location.assign(link.href);
+});
+// Only one header menu stays open, and a click elsewhere closes it.
+document.addEventListener('click', function (event) {
+    document.querySelectorAll('.sky-site-tools details[open]').forEach(function (menu) {
+        if (!menu.contains(event.target) || (event.target.closest('summary') && menu !== event.target.closest('details'))) menu.removeAttribute('open');
+    });
+});
+document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape') return;
+    document.querySelectorAll('.sky-site-tools details[open]').forEach(function (menu) { menu.removeAttribute('open'); menu.querySelector('summary').focus(); });
 });
 // The customer guard and OTP token family must both be closed on sign out.
 document.addEventListener('click', async function (event) {

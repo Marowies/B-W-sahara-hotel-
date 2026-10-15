@@ -18,15 +18,10 @@
         SeoHelper::setTitle(__('My account'));
     @endphp
 
-    <header class="sky-hero" style="--sky-hero-image: url('{{ asset('themes/riorelax/images/account-hero-1600.webp') }}'); --sky-hero-image-small: url('{{ asset('themes/riorelax/images/account-hero-800.webp') }}')">
+    <header class="sky-hero">
         <div class="sky-hero-body">
-            <span class="sky-hero-avatar" aria-hidden="true">
-                @if ($customer->avatar)
-                    <img src="{{ $customer->avatar_url }}" alt="" width="64" height="64">
-                @else
-                    {{ $initial }}
-                @endif
-            </span>
+            {{-- Google sends a generated teal letter when an account has no photo, so the initial is drawn in the site colours instead. --}}
+            <span class="sky-hero-avatar" aria-hidden="true">{{ $initial }}</span>
             <div>
                 <p class="sky-eyebrow">{{ __('My account') }}</p>
                 <h1>{{ __('Welcome back, :name', ['name' => $displayName]) }}</h1>
