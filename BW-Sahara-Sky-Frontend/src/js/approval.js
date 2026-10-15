@@ -18,6 +18,9 @@
   if(target.pathname.startsWith('/customer/'))target.searchParams.set('lang',locale);
   return target.pathname+target.search;
  }
+ function preferredRoomFirst(rows,requestedSlug){
+  return [...rows].sort((a,b)=>Number(b.slug===requestedSlug)-Number(a.slug===requestedSlug));
+ }
  const page = document.body.dataset.page;
  const path = (window.hotelLocale.resolveRoute(location.pathname)?.logical||location.pathname).replace(/\/$/,'') || '/';
  const url = route => {const u=new URL(route,location.origin);u.pathname=window.hotelLocale.localizedPath(u.pathname,lang);u.searchParams.delete('lang');return u.pathname+u.search+u.hash;};
@@ -126,7 +129,16 @@
  if(!data.arrival||!data.departure||data.arrival<today||data.departure<=data.arrival){form.querySelector('[role=status]')?.replaceChildren(document.createTextNode(t('errors.m_02470b2b6c2c')));return null;}
  const previous=getStay();let experience=data.experience||'room';if(!['room','safari','stars'].includes(experience))experience=experience.includes('safari')?'safari':experience.includes('stargazing')?'stars':'room';return {arrival:data.arrival,departure:data.departure,adults:String(data.adults||2),children:String(data.children||0),experience,roomId:previous?.roomId||null,backendRoomId:previous?.backendRoomId||null};
  };
- function openBooking(roomId){const form=document.querySelector('#stay-form');if(roomId){const stay=getStay()||{};stay.roomId=Number(roomId);saveStay(stay);}fillForm(form,getStay());document.querySelector('#booking').showModal();}
+ function openBooking(roomId){
+  const form=document.querySelector('#stay-form');
+  const requested=rooms.find(r=>r.id===Number(roomId))||(page==='room'?rooms.find(r=>path==='/rooms/'+r.slug):null);
+  const stay=getStay()||{};
+  // A room-detail CTA carries that room; a general enquiry starts without a stale selection.
+  stay.roomId=requested?.id||null;stay.backendRoomId=null;saveStay(stay);
+  form.querySelector('.requested-room')?.remove();
+  if(requested){const note=document.createElement('p');note.className='requested-room';note.textContent=t('Your room','غرفتك','您的客房')+': '+requested.name;form.prepend(note);}
+  fillForm(form,stay);document.querySelector('#booking').showModal();
+ }
  document.addEventListener('click',event=>{
  const book=event.target.closest('[data-book]');if(book&&page!=='home')openBooking(book.dataset.roomId);
  if(book&&page==='home'&&book.dataset.roomId){const s=getStay()||{};s.roomId=Number(book.dataset.roomId);saveStay(s);}
@@ -185,7 +197,7 @@
   const catalogue=['rooms','room'].includes(page)?window.hotelCatalogue(cataloguePath,()=>api(cataloguePath)):Promise.resolve(null);
   const busyGrid=main.querySelector('.room-grid');
   if(page==='rooms')busyGrid?.setAttribute('aria-busy','true');
-  function backendCards(rows,grid){if(!grid)return;grid.innerHTML=rows.map((row,i)=>{const original=rooms.find(r=>r.slug===row.slug);const card={...original,id:original?.id||2,slug:original?.slug||'copper-glass-domes',category:original?.category||'standard',name:lang==='en'?esc(roomName(row.name)):(original?.name||labels.rooms),size:row.size,people:row.max_adults,beds:esc(String(row.number_of_beds))+' '+t(Number(row.number_of_beds)===1?'marketing.m_58799a0f9b97_one':'marketing.m_58799a0f9b97')};return roomCard(card,i,page==='booking');}).join('');grid.querySelectorAll('.stay-card').forEach((card,i)=>{const row=rows[i];card.dataset.backendRoomId=row.id;const rate=document.createElement('p');rate.className='backend-room-rate';rate.textContent=t('marketing.m_9cb4df045594')+new Intl.NumberFormat(lang,{maximumFractionDigits:2}).format(row.price)+' '+(row.currency||'');card.append(rate);if(!rooms.some(r=>r.slug===row.slug)){card.querySelectorAll('a').forEach(a=>a.href=url('/contact-us/')+'#contact-form');}});if(!rows.length){const empty=document.createElement('p');empty.textContent=t('marketing.m_6436a2b10eba');grid.append(empty);}grid.closest('.page-body')?.querySelector('[data-filter][aria-pressed="true"]')?.click();}
+  function backendCards(rows,grid){if(!grid)return;if(page==='booking')rows=preferredRoomFirst(rows,rooms.find(r=>r.id===getStay()?.roomId)?.slug);grid.innerHTML=rows.map((row,i)=>{const original=rooms.find(r=>r.slug===row.slug);const card={...original,id:original?.id||2,slug:original?.slug||'copper-glass-domes',category:original?.category||'standard',name:lang==='en'?esc(roomName(row.name)):(original?.name||labels.rooms),size:row.size,people:row.max_adults,beds:esc(String(row.number_of_beds))+' '+t(Number(row.number_of_beds)===1?'marketing.m_58799a0f9b97_one':'marketing.m_58799a0f9b97')};return roomCard(card,i,page==='booking');}).join('');grid.querySelectorAll('.stay-card').forEach((card,i)=>{const row=rows[i];card.dataset.backendRoomId=row.id;if(page==='booking'&&rooms.find(r=>r.id===getStay()?.roomId)?.slug===row.slug){const marker=document.createElement('p');marker.className='requested-room';marker.textContent=t('Your selected room','غرفتك المختارة','您选择的客房');card.prepend(marker);}const rate=document.createElement('p');rate.className='backend-room-rate';rate.textContent=t('marketing.m_9cb4df045594')+new Intl.NumberFormat(lang,{maximumFractionDigits:2}).format(row.price)+' '+(row.currency||'');card.append(rate);if(!rooms.some(r=>r.slug===row.slug)){card.querySelectorAll('a').forEach(a=>a.href=url('/contact-us/')+'#contact-form');}});if(!rows.length){const empty=document.createElement('p');empty.textContent=t('marketing.m_6436a2b10eba');grid.append(empty);}grid.closest('.page-body')?.querySelector('[data-filter][aria-pressed="true"]')?.click();}
   function paginate(data,grid,load){
    if(!grid)return;
    grid.removeAttribute('aria-busy');
@@ -237,6 +249,8 @@
   main.addEventListener('click',async event=>{const button=event.target.closest('[data-select-room]');if(!button)return;event.preventDefault();event.stopImmediatePropagation();const stay=getStay();if(!stay?.arrival){window.hotelNavigate(url('/booking/'));return;}stay.roomId=Number(button.dataset.selectRoom);stay.backendRoomId=Number(button.closest('[data-backend-room-id]')?.dataset.backendRoomId)||null;saveStay(stay);button.disabled=true;const signedIn=await ensureToken();button.disabled=false;window.hotelNavigate(signedIn?url('/booking/review/'):url('/login/')+'?next='+encodeURIComponent(url('/booking/review/')));},true);
   const googleProviders=send('auth/providers');
   if(bookingSearch){
+   const requested=rooms.find(r=>r.id===getStay()?.roomId);
+   if(requested){const note=document.createElement('p');note.className='requested-room';note.setAttribute('role','status');note.textContent=t('Your selected room','غرفتك المختارة','您选择的客房')+': '+requested.name+'. '+t('If it is not listed in the results, choose another room or change your dates.','لو مش ظاهرة في النتائج اختار غرفة تانية أو غيّر التواريخ.','如果结果中没有该客房，请选择其他客房或更改日期。');bookingSearch.prepend(note);}
    const note=main.querySelector('.booking-aside p');if(note)note.textContent=t('Search live hotel availability, select a room, then continue to the hotel booking form.','ابحث عن الغرف المتاحة، واختر غرفتك، ثم تابع إلى نموذج حجز الفندق.','查询酒店实时空房，选择客房，然后继续填写酒店预订表单。');
    const resultNote=main.querySelector('.booking-results .preview-note');if(resultNote)resultNote.textContent=t('Availability is checked by the hotel. The final total is calculated in the booking form.','الفندق يتحقق من التوافر ويحسب الإجمالي النهائي داخل نموذج الحجز.','空房由酒店验证，最终总价将在预订表单中计算。');
   }
@@ -267,7 +281,7 @@
   if(welcome)heading();
   gate.replaceChildren(form);i.focus();
   const addGoogle=()=>{let or=null;const google=document.createElement('a');google.className=welcome?'button google-button':'button secondary';google.textContent=t('Continue with Google','المتابعة باستخدام Google','使用 Google 继续');if(welcome){google.insertAdjacentHTML('afterbegin','<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.9 6.2C12.5 13.6 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.8c4.3-4 6.9-9.9 6.9-17.2z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.7 10.7l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.8c-2.1 1.4-4.8 2.3-8.5 2.3-6.2 0-11.5-4.1-13.4-9.8l-7.9 6.1C6.6 42.6 14.6 48 24 48z"/></svg>');or=document.createElement('p');or.className='welcome-divider';or.innerHTML='<span></span>';or.firstChild.textContent=t('or continue with email','أو كمّل بالإيميل','或使用邮箱继续');form.prepend(or);}// Keep the booking or account page in progress: the server accepts the review path, or this sign-in page with an account ?next=.
-   const reviewPath=url('/booking/review/'),wanted=params.get('next')||'';google.href='/api/hotel/auth/google?'+new URLSearchParams({return_to:wanted===reviewPath?reviewPath:location.pathname+(/^\/customer\/[a-z0-9\/-]*$/.test(wanted)?'?next='+encodeURIComponent(wanted):'')});google.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();googleProviders.then(r=>{if(r.ok&&r.data.google)location.assign(google.href);else status.textContent=t('Google sign-in is not configured yet. Please sign in using your email code.','تسجيل الدخول بجوجل لسه مش متفعّل. استخدم كود البريد لتسجيل الدخول.','Google 登录尚未配置，请使用邮箱验证码登录。');});});form.prepend(google);return [google,or];};
+   const reviewPath=url('/booking/review/'),wanted=params.get('next')||'';google.href='/api/hotel/auth/google?'+new URLSearchParams({return_to:wanted===reviewPath?reviewPath:location.pathname+(/^\/customer\/[a-z0-9\/-]*(?:\?lang=(?:en|ar|zh))?$/.test(wanted)?'?next='+encodeURIComponent(wanted):'')});google.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();googleProviders.then(r=>{if(r.ok&&r.data.google)location.assign(google.href);else status.textContent=t('Google sign-in is not configured yet. Please sign in using your email code.','تسجيل الدخول بجوجل لسه مش متفعّل. استخدم كود البريد لتسجيل الدخول.','Google 登录尚未配置，请使用邮箱验证码登录。');});});form.prepend(google);return [google,or];};
   // Keep Google visible; an unavailable provider explains its setup requirement on click.
   if(welcome){const [google]=addGoogle();googleProviders.then(r=>{if(!r.ok||!r.data.google){google.dataset.providerUnavailable='true';google.title=t('Google sign-in requires setup','تسجيل الدخول بجوجل محتاج تفعيل','Google 登录需要配置');}});}
   else googleProviders.then(r=>{if(form.isConnected&&r.ok&&r.data.google)addGoogle();});

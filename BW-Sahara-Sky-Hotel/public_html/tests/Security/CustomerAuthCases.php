@@ -250,49 +250,32 @@ if ($db->getDriverName() === 'mysql' && isset($argv[2])) {
     });
 }
 
-test('Google: callback requires an emailed OTP before either customer session exists', function () use ($app, $session, $url, $db, $guard): void {
-    $app->instance('redirect', new Illuminate\Routing\Redirector($url));
-    config(['mail.default' => 'smtp', 'mail.mailers.smtp.transport' => 'smtp']);
-    $mail = new class { public string $body = ''; public function raw($body, $callback): void { $this->body = $body; } };
-    Illuminate\Support\Facades\Mail::swap($mail);
+test('Google: verified callback creates both sessions without requesting email OTP', function () use ($session, $db, $guard): void {
+    Illuminate\Support\Facades\Mail::swap(new class { public function raw(...$args): void { throw new RuntimeException('Google must not send an OTP'); } });
     $customer = Customer::query()->findOrFail(43);
-    $db->table('hotel_login_codes')->where('email', $customer->email)->delete();
     $before = $db->table('hotel_auth_tokens')->count();
-    $guard->setUser($customer);
     $request = authRequest();
-    $request->setLaravelSession($session);
-    $session->put(App\Services\HotelGoogleSession::RETURN_KEY, '/ar/booking/review/');
+    $session->put(App\Services\HotelGoogleSession::RETURN_KEY, '/ar/takhteet-eqama/moragaa/');
+    $session->put(App\Services\HotelGoogleSession::PENDING_KEY, ['pending' => true]);
     $response = app(App\Services\HotelGoogleSession::class)->complete($customer, $request);
-    check(str_ends_with($response->headers->get('Location'), '/ar/booking/review/'), 'Return language/booking step lost');
-    check(! $session->has(App\Services\HotelGoogleSession::RETURN_KEY), 'Callback intent not consumed');
-    check(str_contains($response->headers->get('Cache-Control'), 'no-store'), 'Private callback was cacheable');
-    $cookies = $response->headers->getCookies();
-    $cookie = $cookies[0];
-    check($cookie->getName() === HotelTokenService::COOKIE && $cookie->isHttpOnly() && $cookie->isSecure() && $cookie->getSameSite() === 'strict' && $cookie->getPath() === HotelTokenService::COOKIE_PATH, 'Google cookie policy differs from OTP');
-    check(! $cookie->getValue(), 'Google minted a refresh token before OTP');
-    check(! $guard->check() && $db->table('hotel_auth_tokens')->count() === $before, 'Google bypassed OTP');
-    $pending = app(App\Services\HotelGoogleSession::class)->pending($request)->getData(true);
-    check($pending['pending'] && $pending['email'] === $customer->email, 'Verified mailbox missing from pending session');
-    check(! str_contains($response->headers->get('Location'), $customer->email), 'Email leaked in return URL');
-    preg_match('/verification code is (\d{6})/', $mail->body, $match);
-    check(isset($match[1]), 'Google did not request an OTP');
-    $controller = new App\Http\Controllers\HotelCustomerAuthController(app(HotelTokenService::class));
-    $result = $controller->verifyCode(authRequest(['email' => $customer->email, 'code' => $match[1]]));
-    check($result->getStatusCode() === 200 && $guard->check(), 'Correct Google OTP did not sign in');
-    check(! $session->has(App\Services\HotelGoogleSession::PENDING_KEY), 'OTP intent survived verification');
+    check($response->headers->get('Location') === '/ar/takhteet-eqama/moragaa/', 'Booking return lost');
+    check(! $session->has(App\Services\HotelGoogleSession::RETURN_KEY) && ! $session->has(App\Services\HotelGoogleSession::PENDING_KEY), 'Old callback intent survived');
+    check(str_contains($response->headers->get('Cache-Control'), 'no-store'), 'Private callback cacheable');
+    $cookie = $response->headers->getCookies()[0];
+    check($cookie->getName() === HotelTokenService::COOKIE && $cookie->isHttpOnly() && $cookie->isSecure() && $cookie->getSameSite() === 'strict' && $cookie->getPath() === HotelTokenService::COOKIE_PATH, 'Google cookie policy differs');
+    check((bool) $cookie->getValue() && $guard->check() && $db->table('hotel_auth_tokens')->count() === $before + 1, 'Google session not established');
+    $pair = app(HotelTokenService::class)->refresh($cookie->getValue(), $request);
+    check($pair['ok'] && app(HotelTokenService::class)->authenticate($pair['access_token'])->getKey() === $customer->getKey(), 'Google refresh belongs to wrong customer');
+    check(! str_contains($response->headers->get('Location'), $customer->email), 'Identity leaked in redirect');
 });
 
-test('Google: email delivery failure never creates a customer session', function () use ($session, $db, $guard): void {
+test('Google: ordinary sign-in returns directly to the account and retains safe account destinations', function () use ($session): void {
     $customer = Customer::query()->findOrFail(43);
-    $db->table('hotel_login_codes')->where('email', $customer->email)->delete();
-    Illuminate\Support\Facades\Mail::swap(new class { public function raw(...$args): void { throw new RuntimeException('Synthetic delivery failure'); } });
-    $before = $db->table('hotel_auth_tokens')->count();
-    $request = authRequest();$request->setLaravelSession($session);
-    app(App\Services\HotelGoogleSession::class)->complete($customer, $request);
-    check(! $guard->check() && $db->table('hotel_auth_tokens')->count() === $before, 'Delivery failure authenticated Google customer');
-    check(! $session->get(App\Services\HotelGoogleSession::PENDING_KEY)['pending'], 'Failed mail was reported as sent');
-    check(! $db->table('hotel_login_codes')->where('email', $customer->email)->exists(), 'Failed delivery retained OTP');
-    $session->forget(App\Services\HotelGoogleSession::PENDING_KEY);
+    foreach (['/login/' => '/customer/overview?lang=en', '/ar/dokhool/' => '/customer/overview?lang=ar', '/zh/denglu/' => '/customer/overview?lang=zh', '/login/?next=%2Fcustomer%2Fbookings%3Flang%3Den' => '/customer/bookings?lang=en'] as $from => $to) {
+        $session->put(App\Services\HotelGoogleSession::RETURN_KEY, $from);
+        $response = app(App\Services\HotelGoogleSession::class)->complete($customer, authRequest());
+        check($response->headers->get('Location') === $to, 'Wrong Google destination: ' . $from);
+    }
 });
 
 test('Google: pending OTP cooldown survives reload and expires without leaking internal deadlines', function () use ($session): void {
