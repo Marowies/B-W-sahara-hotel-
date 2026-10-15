@@ -387,7 +387,9 @@ html:root{--primary-font:Manrope;--primary-color:#60452f;--primary-color-rgb:96,
 .apexcharts-canvas text,.apexcharts-canvas tspan,.apexcharts-legend-text,.apexcharts-tooltip,.apexcharts-xaxistooltip,.apexcharts-yaxistooltip{font-family:var(--bw-font-text)!important}
 .apexcharts-gridline,.apexcharts-grid line{stroke:var(--bb-border-color)}
 /* Dark top bar (header uses data-bs-theme=dark) */
-header.navbar[data-bs-theme=dark],header.navbar[data-bs-theme=dark] .navbar-nav{background:linear-gradient(90deg,#30251c,#60452f)!important;border-bottom-color:#dbc5a222}
+header.navbar[data-bs-theme=dark]{background:linear-gradient(90deg,#30251c,#60452f)!important;border-bottom-color:#dbc5a222}
+/* The inner nav must not paint a second gradient over the bar (it showed as a darker box behind the search). */
+header.navbar[data-bs-theme=dark] .navbar-nav{background:transparent!important}
 header.navbar[data-bs-theme=dark] .form-control,header.navbar[data-bs-theme=dark] .input-group-text,header.navbar[data-bs-theme=dark] .btn{background-color:#30231c;border-color:#dbc5a233;color:#f2e5d2}
 header.navbar[data-bs-theme=dark] .nav-link{color:#d9bb95}
 header.navbar[data-bs-theme=dark] .nav-link:hover{color:#f3dfc2}
