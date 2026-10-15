@@ -7,7 +7,7 @@
             @foreach ($currencies as $currency)
                 @continue($currency->id === get_application_currency_id())
                 <li>
-                    <a class="currency-item" href="{{ route('public.change-currency', $currency->title) }}">{{ $currency->title }}</a>
+                    <a class="currency-item" href="{{ route('public.change-currency', [$currency->title, 'return' => request()->getRequestUri()]) }}">{{ $currency->title }}</a>
                 </li>
             @endforeach
         </div>

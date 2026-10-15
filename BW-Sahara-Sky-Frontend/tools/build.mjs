@@ -152,7 +152,8 @@ self.addEventListener('install',e=>e.waitUntil(caches.open(STATIC).then(c=>c.add
 self.addEventListener('activate',e=>e.waitUntil((async()=>{const keys=await caches.keys();for(const key of keys){if((key.startsWith('hotel-static-')&&key!==STATIC)||key.startsWith('hotel-pages-'))await caches.delete(key);}await self.clients.claim();})()));
 async function boundedPut(cache,key,response){try{await cache.put(key,response);const keys=await cache.keys();if(keys.length>100)await cache.delete(keys[0]);}catch{}}
 self.addEventListener('fetch',e=>{const url=new URL(e.request.url);if(e.request.method!=='GET'||url.origin!==self.location.origin)return;
-if(e.request.mode==='navigate'||e.request.headers.has('X-Frontend-Navigation')){e.respondWith(fetch(e.request,{cache:'no-store'}));return;}
+// Passing init options resets the referrer to this worker (/sw.js); keep the page's own same-origin referrer so server-side 'back' redirects return to it.
+if(e.request.mode==='navigate'||e.request.headers.has('X-Frontend-Navigation')){let referrer='';try{if(e.request.referrer&&new URL(e.request.referrer).origin===self.location.origin)referrer=e.request.referrer;}catch{}e.respondWith(fetch(e.request,{cache:'no-store',referrer,referrerPolicy:e.request.referrerPolicy||'strict-origin-when-cross-origin'}));return;}
 if(['admin','api','vendor','storage','customer','booking'].includes(url.pathname.split('/')[1])||url.pathname==='/login/admin')return;
 if(/\\.[a-f0-9]{12}\\.(?:js|css|webp|woff2)$/.test(url.pathname)){e.respondWith((async()=>{const cache=await caches.open(STATIC),hit=await cache.match(e.request);if(hit)return hit;const response=await fetch(e.request);if(response.ok)await boundedPut(cache,e.request,response.clone());return response;})());}});`;
 await writeFile(join(out,'sw.js'),sw);

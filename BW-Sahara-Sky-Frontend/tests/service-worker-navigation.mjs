@@ -14,7 +14,12 @@ for(const path of ['/','/booking/','/booking/review/','/booking/0123456789abcdef
  let response;handlers.fetch({request:{url:'https://hotel.test'+path,method:'GET',mode:'navigate',headers:{has:()=>false}},respondWith:value=>response=value});
  assert.equal(await response,'network');assert.equal(fetches.at(-1).options.cache,'no-store');
 }
+// Laravel 'back' redirects (currency switch) read the referrer; it must stay the page, never /sw.js.
+for(const [referrer,expected] of [['https://hotel.test/customer/overview?lang=ar','https://hotel.test/customer/overview?lang=ar'],['https://elsewhere.test/page',''],['','']]){
+ let response;handlers.fetch({request:{url:'https://hotel.test/currency/switch/EUR',method:'GET',mode:'navigate',referrer,referrerPolicy:'strict-origin-when-cross-origin',headers:{has:()=>false}},respondWith:value=>response=value});
+ await response;assert.equal(fetches.at(-1).options.referrer,expected);assert.equal(fetches.at(-1).options.cache,'no-store');
+}
 const before=fetches.length;
 handlers.fetch({request:{url:'https://hotel.test/api/hotel/session',method:'GET',mode:'cors',headers:{has:()=>false}},respondWith:()=>{throw Error('Private API was intercepted');}});
 assert.equal(fetches.length,before);
-console.log('PASS: public, booking and account documents use network-only; private API remains untouched');
+console.log('PASS: public, booking and account documents use network-only and keep the page referrer; private API remains untouched');
