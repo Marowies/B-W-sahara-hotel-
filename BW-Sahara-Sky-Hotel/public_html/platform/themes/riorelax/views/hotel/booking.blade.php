@@ -191,7 +191,7 @@
                                         <option>8:00 - 9:00 {{ __('AM') }}</option>
                                         <option>9:00 - 10:00 {{ __('AM') }}</option>
                                         <option>10:00 - 11:00 {{ __('AM') }}</option>
-                                        <option>11:00 - 12:00 {{ __('AM') }}</option>
+                                        <option value="11:00 - 12:00 {{ __('AM') }}">11:00 {{ __('AM') }} - 12:00 {{ __('PM') }}</option>
                                         <option>12:00 - 1:00 {{ __('PM') }}</option>
                                         <option>1:00 - 2:00 {{ __('PM') }}</option>
                                         <option>2:00 - 3:00 {{ __('PM') }}</option>
@@ -203,7 +203,7 @@
                                         <option>8:00 - 9:00 {{ __('PM') }}</option>
                                         <option>9:00 - 10:00 {{ __('PM') }}</option>
                                         <option>10:00 - 11:00 {{ __('PM') }}</option>
-                                        <option>11:00 - 12:00 {{ __('PM') }}</option>
+                                        <option value="11:00 - 12:00 {{ __('PM') }}">11:00 {{ __('PM') }} - 12:00 {{ __('AM') }}</option>
                                     </select>
                                 </div>
                             </div>

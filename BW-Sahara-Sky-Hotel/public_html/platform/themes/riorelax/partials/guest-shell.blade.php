@@ -38,6 +38,8 @@
 </div>
 <script defer src="{{ asset('hotel-consent.js') }}?v={{ is_file(public_path('hotel-consent.js')) ? filemtime(public_path('hotel-consent.js')) : '1' }}"></script>
 <script>
+// Reaching the authenticated guest page completes the guarded sign-in return.
+try { sessionStorage.removeItem('hotel-account-return'); } catch (_) {}
 // The language choice is shared with the public site through the same cookie and saved preference.
 document.addEventListener('click', async function (event) {
     const link = event.target.closest('a[data-guest-locale]');

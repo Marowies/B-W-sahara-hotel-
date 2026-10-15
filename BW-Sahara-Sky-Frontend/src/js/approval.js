@@ -12,6 +12,12 @@
  const t = window.hotelI18n.t;
  // CMS room names repeat the hotel name and mix dash styles: "B&W SAHARA SKY Hotel - Deluxe Room - Double" -> "Deluxe Room – Double".
  const roomName=name=>String(name||'').replace(/^\s*B\s*&\s*W\s+SAHARA\s+SKY\s+Hotel\s*[-–]?\s*/i,'').replace(/\s+[-–]\s+/g,' – ').trim()||String(name||'');
+ function signInDestination(next,locale,bookingPaths){
+  const account=/^\/customer\/[a-z0-9\/-]*(?:\?[a-z_]+=[a-z0-9]+(?:&[a-z_]+=[a-z0-9]+)*)?$/.test(next||'');
+  const target=new URL(bookingPaths.includes(next)?next:account?next:'/customer/overview',location.origin);
+  if(target.pathname.startsWith('/customer/'))target.searchParams.set('lang',locale);
+  return target.pathname+target.search;
+ }
  const page = document.body.dataset.page;
  const path = (window.hotelLocale.resolveRoute(location.pathname)?.logical||location.pathname).replace(/\/$/,'') || '/';
  const url = route => {const u=new URL(route,location.origin);u.pathname=window.hotelLocale.localizedPath(u.pathname,lang);u.searchParams.delete('lang');return u.pathname+u.search+u.hash;};
@@ -179,7 +185,7 @@
   const catalogue=['rooms','room'].includes(page)?window.hotelCatalogue(cataloguePath,()=>api(cataloguePath)):Promise.resolve(null);
   const busyGrid=main.querySelector('.room-grid');
   if(page==='rooms')busyGrid?.setAttribute('aria-busy','true');
-  function backendCards(rows,grid){if(!grid)return;grid.innerHTML=rows.map((row,i)=>{const original=rooms.find(r=>r.slug===row.slug);const card={...original,id:original?.id||2,slug:original?.slug||'copper-glass-domes',category:original?.category||'standard',name:lang==='en'?esc(roomName(row.name)):(original?.name||labels.rooms),size:row.size,people:row.max_adults,beds:esc(String(row.number_of_beds))+' '+t(Number(row.number_of_beds)===1?'marketing.m_58799a0f9b97_one':'marketing.m_58799a0f9b97')};return roomCard(card,i,page==='booking');}).join('');grid.querySelectorAll('.stay-card').forEach((card,i)=>{const row=rows[i];card.dataset.backendRoomId=row.id;const rate=document.createElement('p');rate.className='backend-room-rate';rate.textContent=t('marketing.m_9cb4df045594')+new Intl.NumberFormat(lang,{maximumFractionDigits:2}).format(row.price)+' '+(row.currency||'');card.append(rate);if(!rooms.some(r=>r.slug===row.slug)){card.querySelectorAll('a').forEach(a=>a.href=url('/contact-us/')+'#contact-form');}});if(!rows.length){const empty=document.createElement('p');empty.textContent=t('marketing.m_6436a2b10eba');grid.append(empty);}}
+  function backendCards(rows,grid){if(!grid)return;grid.innerHTML=rows.map((row,i)=>{const original=rooms.find(r=>r.slug===row.slug);const card={...original,id:original?.id||2,slug:original?.slug||'copper-glass-domes',category:original?.category||'standard',name:lang==='en'?esc(roomName(row.name)):(original?.name||labels.rooms),size:row.size,people:row.max_adults,beds:esc(String(row.number_of_beds))+' '+t(Number(row.number_of_beds)===1?'marketing.m_58799a0f9b97_one':'marketing.m_58799a0f9b97')};return roomCard(card,i,page==='booking');}).join('');grid.querySelectorAll('.stay-card').forEach((card,i)=>{const row=rows[i];card.dataset.backendRoomId=row.id;const rate=document.createElement('p');rate.className='backend-room-rate';rate.textContent=t('marketing.m_9cb4df045594')+new Intl.NumberFormat(lang,{maximumFractionDigits:2}).format(row.price)+' '+(row.currency||'');card.append(rate);if(!rooms.some(r=>r.slug===row.slug)){card.querySelectorAll('a').forEach(a=>a.href=url('/contact-us/')+'#contact-form');}});if(!rows.length){const empty=document.createElement('p');empty.textContent=t('marketing.m_6436a2b10eba');grid.append(empty);}grid.closest('.page-body')?.querySelector('[data-filter][aria-pressed="true"]')?.click();}
   function paginate(data,grid,load){
    if(!grid)return;
    grid.removeAttribute('aria-busy');
@@ -189,7 +195,7 @@
    nav.innerHTML=`<button class="button small" type="button" data-page="${paging.page-1}" ${paging.page<=1?'disabled':''}>${labels.back}</button><span>${paging.page} / ${paging.last_page}</span><button class="button small" type="button" data-page="${paging.page+1}" ${paging.page>=paging.last_page?'disabled':''}>${labels.next}</button>`;
    grid.after(nav);nav.querySelectorAll('button').forEach(button=>button.onclick=async()=>{nav.querySelectorAll('button').forEach(b=>b.disabled=true);grid.setAttribute('aria-busy','true');try{await load(Number(button.dataset.page));}catch(error){grid.removeAttribute('aria-busy');nav.querySelector('span').textContent=error.message;nav.querySelectorAll('button').forEach(b=>b.disabled=Number(b.dataset.page)<1||Number(b.dataset.page)>paging.last_page);}});
   }
-  async function loadCatalogue(pageNumber=1){const key='rooms?'+new URLSearchParams({per_page:20,page:pageNumber});const data=await window.hotelCatalogue(key,()=>api(key));if(!main.isConnected)return;const grid=main.querySelector('.room-grid');backendCards(data.rooms,grid);paginate(data,grid,loadCatalogue);main.querySelector('[data-filter="all"]')?.click();}
+  async function loadCatalogue(pageNumber=1){const key='rooms?'+new URLSearchParams({per_page:20,page:pageNumber});const data=await window.hotelCatalogue(key,()=>api(key));if(!main.isConnected)return;const grid=main.querySelector('.room-grid');backendCards(data.rooms,grid);paginate(data,grid,loadCatalogue);}
   catalogue.finally(()=>busyGrid?.removeAttribute('aria-busy')).then(data=>{if(!data||!main.isConnected)return;if(page==='rooms'){backendCards(data.rooms,busyGrid);paginate(data,busyGrid,loadCatalogue);}if(page==='room'&&lang==='en'){const row=data.rooms.find(r=>path==='/rooms/'+r.slug);if(row){main.querySelector('h1').textContent=row.name;const description=main.querySelector('.detail-layout>div>p');if(description)description.textContent=row.description;}}}).catch(()=>{if(!main.isConnected)return;const notice=document.createElement('p');notice.className='form-status';notice.textContent=t('errors.m_a4e9a6b424d4');main.querySelector('.page-body')?.prepend(notice);});
   if(bookingSearch){main.querySelector('.booking-results').hidden=true;main.querySelector('.booking-results .eyebrow').textContent=t('marketing.m_d6f2ad9b46c6');bookingSearch.querySelector('button[type=submit]').textContent=labels.availability;bookingSearch.onsubmit=async event=>{event.preventDefault();const stay=collectStay(bookingSearch);if(!stay)return;saveStay(stay);const status=bookingSearch.querySelector('.form-status'),button=bookingSearch.querySelector('button[type=submit]');button.disabled=true;status.textContent=t('marketing.m_613b4731c1c5');try{const result=await api('availability?'+new URLSearchParams({...stay,per_page:20}));if(!main.isConnected)return;showResults(stay);const results=main.querySelector('.booking-results');backendCards(result.rooms,results.querySelector('.room-grid'));paginate(result,results.querySelector('.room-grid'),async function nextAvailability(pageNumber){const next=await api('availability?'+new URLSearchParams({...stay,per_page:20,page:pageNumber}));if(!main.isConnected)return;backendCards(next.rooms,results.querySelector('.room-grid'));paginate(next,results.querySelector('.room-grid'),nextAvailability);});results.querySelector('.preview-note').textContent=t('Select an available room to continue. The hotel confirms the final total.','اختَر غرفة متاحة للمتابعة. الفندق يحسب الإجمالي النهائي.','选择可用客房以继续，酒店将计算最终总价。');status.textContent='';}catch(error){status.textContent=error.message;main.querySelector('.booking-results').hidden=true;}finally{button.disabled=false;}};}
   // Connected pages book through the hotel's own form, so the design-preview wording no longer describes them.
@@ -306,15 +312,11 @@
      box.querySelector('h3').textContent=t('You’re signed in','تم تسجيل الدخول','您已登录');
      const who=box.querySelector('.done-who'),mail=document.createElement('strong');mail.textContent=email||'';who.append(t('Signed in as ','داخل بحساب ','当前账号 '),mail);if(!email)who.hidden=true;
      const book=box.querySelector('.done-primary'),home=box.querySelector('.done-secondary');
-     const next=params.get('next');const allowedNext=[url('/booking/'),url('/booking/review/')];book.href=allowedNext.includes(next)?next:url(routes.booking);book.textContent=t('Book your stay','احجز إقامتك','预订住宿');
-     // Laravel sends signed-out account pages here with ?next=; only same-origin account paths are followed.
-     const accountNext=/^\/customer\/[a-z0-9\/-]*(?:\?[a-z_]+=[a-z0-9]+(?:&[a-z_]+=[a-z0-9]+)*)?$/.test(next||'')?next:null;
-     if(accountNext){
-      book.href=accountNext;book.textContent=t('Continue to My account','تابع إلى حسابي','前往我的账户');
-      // Continue once automatically; a second bounce within a minute means the account page still refused, so stop and let the guest choose.
-      let last=null;try{last=JSON.parse(sessionStorage.getItem('hotel-account-return')||'null');}catch{}
-      if(!(last?.next===accountNext&&Date.now()-last.at<60000)){let guarded=false;try{sessionStorage.setItem('hotel-account-return',JSON.stringify({next:accountNext,at:Date.now()}));guarded=true;}catch{}if(guarded)location.replace(accountNext);}
-     }
+     const destination=signInDestination(params.get('next'),lang,[url('/booking/'),url('/booking/review/')]);
+     book.href=destination;book.textContent=destination.startsWith('/customer/')?t('Continue to My account','تابع إلى حسابي','前往我的账户'):t('Continue your booking','كمّل حجزك','继续预订');
+     // Continue once; a repeated bounce leaves a manual link instead of a redirect loop.
+     let last=null;try{last=JSON.parse(sessionStorage.getItem('hotel-account-return')||'null');}catch{}
+     if(!(last?.next===destination&&Date.now()-last.at<60000)){let guarded=false;try{sessionStorage.setItem('hotel-account-return',JSON.stringify({next:destination,at:Date.now()}));guarded=true;}catch{}if(guarded)location.replace(destination);}
      home.href=url(routes.home);home.textContent=t('Back to home','الرجوع للرئيسية','返回首页');
      const out=document.createElement('button');out.type='button';out.className='done-signout';out.textContent=t('otp.signOut');box.append(out);
      gate.replaceChildren(box);status.textContent='';
@@ -341,7 +343,7 @@
       const stay=getStay();
       if(!stay?.backendRoomId){status.textContent=t('Please select an available room again.','اختَر غرفة متاحة مرة أخرى.','请重新选择可用客房。');return;}
       status.textContent=t('Opening your booking…','جاري فتح الحجز…','正在打开预订…');
-      const booking=await gateCall('booking/start',{room_id:stay.backendRoomId,arrival:stay.arrival,departure:stay.departure,adults:Number(stay.adults),children:Number(stay.children),rooms:1});
+      const booking=await gateCall('booking/start',{room_id:stay.backendRoomId,arrival:stay.arrival,departure:stay.departure,adults:Number(stay.adults),children:Number(stay.children),rooms:1,locale:lang});
       if(!main.isConnected)return;
       if(booking.ok&&!booking.data.error&&booking.data.next_url){
        const next=new URL(booking.data.next_url,location.origin);
