@@ -4,6 +4,7 @@ import {resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 import {localizedPath} from '../src/shared/locale.mjs';
+import {paceDocuments} from './support/pace-documents.mjs';
 const require=createRequire(import.meta.url);
 let playwright;
 try{playwright=require('playwright');}catch{playwright=require('C:/Users/marwa/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');}
@@ -11,7 +12,7 @@ const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),out=resolve(roo
 const manifest=JSON.parse(await readFile(resolve(root,'dist/build-manifest.json'),'utf8'));
 const base=process.env.HOTEL_TEST_URL||'http://127.0.0.1:8780';
 const browser=await playwright.chromium.launch({executablePath:process.env.HOTEL_BROWSER_PATH||'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});
-const context=await browser.newContext({viewport:{width:1280,height:900},serviceWorkers:'block'});
+const context=await browser.newContext({viewport:{width:1280,height:900},serviceWorkers:'block'});await paceDocuments(context);
 const page=await context.newPage(),errors=[],badResponses=[],requests=[];
 page.on('pageerror',e=>errors.push(e.message));
 page.on('response',r=>{if(r.status()>=400)badResponses.push([r.status(),r.url()]);});
@@ -47,16 +48,18 @@ await check('Room layout and cutaway controls still work',async()=>{
  await page.waitForTimeout(1500);
  await page.screenshot({path:resolve(out,'model-interior.png')});
 });
-await check('Cross-page navigation returns to the original 3D instance',async()=>{
- await page.evaluate(()=>document.querySelector('header a[href="/rooms/"]').click());
- await page.waitForFunction(()=>document.body.dataset.page==='rooms'&&window.hotelPerformance.clientNavigations===1);
- assert.equal(await page.evaluate(()=>window.hotelPerformance.clientNavigations),1);
- await page.evaluate(()=>document.querySelector('header .brand').click());
- await page.waitForFunction(()=>document.body.dataset.page==='home'&&window.hotelPerformance.clientNavigations===2);
- await page.locator('#model-stage').scrollIntoViewIfNeeded();await page.waitForTimeout(400);
- assert.equal(await page.evaluate(()=>document.querySelector('#model-stage canvas')===window.__canvas),true);
- assert.equal(await page.evaluate(()=>window.hotel3D.getStats().modelBuilds),1);
- assert.equal(requests.filter(x=>/three\.module\./.test(x.url)).length,1);
+// Header links load full documents (one release per page), so the home builds one fresh scene on return.
+await check('Cross-page navigation rebuilds one 3D instance per document',async()=>{
+ await Promise.all([page.waitForURL(/\/rooms\//),page.evaluate(()=>document.querySelector('header a[href="/rooms/"]').click())]);
+ await page.waitForFunction(()=>document.body.dataset.page==='rooms');
+ const start=requests.length;
+ await Promise.all([page.waitForURL(url=>new URL(url).pathname==='/'),page.evaluate(()=>document.querySelector('header .brand').click())]);
+ await page.waitForFunction(()=>document.body.dataset.page==='home');
+ await page.locator('#model-stage').scrollIntoViewIfNeeded();
+ await page.waitForFunction(()=>window.hotel3D?.getStats().modelBuilds===1&&document.querySelector('#model-stage.ready canvas'),{timeout:30000});
+ assert.equal(await page.locator('#model-stage canvas').count(),1);
+ assert.equal(await page.evaluate(()=>window.hotel3D.getStats().renderersCreated),1);
+ assert(requests.slice(start).filter(x=>/three\.module\./.test(x.url)).length<=1);
 });
 await check('Offscreen 3D stops drawing frames',async()=>{
  await page.evaluate(()=>scrollTo(0,0));await page.waitForTimeout(400);
@@ -105,7 +108,7 @@ await check('Cache and compression headers are enabled',async()=>{
  const repeat=await context.request.get(base+'/'+three,{headers:{'If-None-Match':response.headers().etag}});assert.equal(repeat.status(),304);
 });
 await context.close();
-const cached=await browser.newContext({viewport:{width:1280,height:900}}),cachedPage=await cached.newPage();
+const cached=await browser.newContext({viewport:{width:1280,height:900}});await paceDocuments(cached);const cachedPage=await cached.newPage();
 await check('Service worker activates without eagerly fetching the 3D model',async()=>{
  const heavy=[];cachedPage.on('request',r=>{if(/three\.module\.|dome-model\.|scene\./.test(r.url()))heavy.push(r.url());});
  await cachedPage.goto(base+'/?lang=en',{waitUntil:'networkidle'});

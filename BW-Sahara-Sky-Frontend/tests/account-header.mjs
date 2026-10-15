@@ -4,7 +4,8 @@ import {localizedPath} from '../src/shared/locale.mjs';
 
 // Run against a connected preview (HOTEL_BACKEND_ORIGIN set on tools/serve.mjs) so the account code is active.
 // Every /api/hotel/ response below is synthetic; no backend request is made.
-const base=process.env.HOTEL_TEST_URL||'http://127.0.0.1:8780';
+// The email-code form is rendered by the connected frontend; API calls are mocked below.
+const base=process.env.HOTEL_TEST_URL||'http://127.0.0.1:8782';
 const browser=await chromium.launch({headless:true,...(process.env.HOTEL_BROWSER_PATH?{executablePath:process.env.HOTEL_BROWSER_PATH}:{})});let checks=0;
 try {
  for(const lang of ['en','ar','zh'])for(const width of [390,1280]) {
