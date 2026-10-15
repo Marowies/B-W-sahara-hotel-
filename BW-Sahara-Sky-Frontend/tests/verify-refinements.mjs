@@ -21,7 +21,7 @@ for(const width of [320,390,768,1024,1440])for(const lang of ['en','ar'])for(con
   const box=await icon.boundingBox();assert(box.width>=44&&box.height>=44);assert(box.x>=0&&box.x+box.width<=width+1);
  }
  assert.equal(await footer.locator('a[href="https://wa.me/201098255777"]').count(),1);
- assert.equal(await footer.locator('a[href="mailto:info@bwsaharaskyhotel.com"]').count(),1);
+ assert.equal(await footer.locator('.channel-icon[href="mailto:bwsaharaskycamp@gmail.com"]').count(),1);
  if(route==='/')await footer.screenshot({path:fileURLToPath(new URL(`../test-results/footer-${width}-${lang}.png`,import.meta.url))});
  results.push({width,lang,route,status:'PASS'});
 }
