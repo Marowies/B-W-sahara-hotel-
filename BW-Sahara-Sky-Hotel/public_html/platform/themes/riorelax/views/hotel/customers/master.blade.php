@@ -13,7 +13,7 @@
     $accountLinks[] = ['customer.change-password', __('Change password'), ['customer.change-password']];
 @endphp
 
-<div class="customer-page crop-avatar sky-account">
+<div @class(['customer-page crop-avatar sky-account', 'sky-account-overview' => $accountRoute === 'customer.overview'])>
     {{-- On small screens the tabs come first, then the page itself, then the profile card. --}}
     <nav class="sky-account-nav" aria-label="{{ __('Account navigation') }}">
         <ul>
@@ -32,6 +32,7 @@
         @yield('content')
     </section>
 
+    @if ($accountRoute !== 'customer.overview')
     <aside class="sky-account-profile profile-sidebar" aria-label="{{ __('Profile photo') }}">
         <form id="avatar-upload-form" enctype="multipart/form-data" action="javascript:void(0)" onsubmit="return false">
             <div class="avatar-upload-container">
@@ -51,6 +52,7 @@
         @endif
         <button type="button" class="sky-link-button avatar-view">{{ __('Change photo') }}</button>
     </aside>
+    @endif
 
     <div class="modal fade" id="avatar-modal" tabindex="-1" role="dialog" aria-labelledby="avatar-modal-label" aria-hidden="true">
         <div class="modal-dialog modal-lg">

@@ -17,25 +17,13 @@
         SeoHelper::setTitle(__('My account'));
     @endphp
 
-    <header class="sky-page-head">
+    <header class="sky-page-head sky-overview-head">
         <p class="sky-eyebrow">{{ __('My account') }}</p>
         <h1>{{ __('Welcome back, :name', ['name' => $displayName]) }}</h1>
-        <p class="sky-lead">{{ __('Your bookings and profile details with B&W Sahara Sky Hotel.') }}</p>
     </header>
 
-    <dl class="sky-stats">
-        <div>
-            <dt>{{ __('Upcoming stays') }}</dt>
-            <dd>{{ number_format($dashboard['upcoming_count']) }}</dd>
-        </div>
-        <div>
-            <dt>{{ __('All bookings') }}</dt>
-            <dd>{{ number_format($dashboard['total']) }}</dd>
-        </div>
-    </dl>
-
-    <div class="sky-dashboard-grid">
-        <section class="sky-card sky-card-booking" aria-labelledby="sky-booking-heading">
+    <div class="sky-dashboard-grid sky-overview-grid">
+        <section class="sky-card sky-card-booking sky-stay-panel" aria-labelledby="sky-booking-heading">
             @if ($featured)
                 @php
                     $bookingRoom = $featured->room;
@@ -73,7 +61,7 @@
                 </div>
             @else
                 <h2 id="sky-booking-heading">{{ __('No bookings yet') }}</h2>
-                <p>{{ __('When you book a room, its dates, booking status and payment status will appear here.') }}</p>
+                <p class="sky-empty-note">{{ __('When you book a room, its dates, booking status and payment status will appear here.') }}</p>
                 <div class="sky-actions">
                     <a class="sky-button" href="{{ riorelax_guest_site_url('booking') }}">{{ __('Book your stay') }}</a>
                     <a class="sky-text-link" href="{{ riorelax_guest_site_url('rooms') }}">{{ __('Browse rooms') }}</a>
@@ -83,7 +71,7 @@
 
         <section class="sky-card" aria-labelledby="sky-profile-heading">
             <h2 id="sky-profile-heading">{{ __('Profile') }}</h2>
-            <p class="sky-booking-room">{{ $customer->name }}</p>
+            <p class="sky-profile-fullname">{{ $customer->name }}</p>
             @if ($profileFields)
                 <dl class="sky-facts sky-facts-stacked">
                     @foreach ($profileFields as $label => $value)
@@ -93,8 +81,11 @@
             @endif
             <div class="sky-actions">
                 <a class="sky-button sky-button-quiet" href="{{ route('customer.edit-account') }}">{{ __('Edit profile') }}</a>
-                <a class="sky-text-link sky-account-signout" href="{{ route('customer.logout') }}">{{ __('Sign out') }}</a>
             </div>
         </section>
     </div>
+    <dl class="sky-account-summary">
+        <div><dt>{{ __('Upcoming stays') }}</dt><dd>{{ number_format($dashboard['upcoming_count']) }}</dd></div>
+        <div><dt>{{ __('All bookings') }}</dt><dd>{{ number_format($dashboard['total']) }}</dd></div>
+    </dl>
 @endsection

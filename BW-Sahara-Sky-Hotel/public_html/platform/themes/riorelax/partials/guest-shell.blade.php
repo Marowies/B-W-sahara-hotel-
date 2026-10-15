@@ -5,7 +5,7 @@
     $guestCss = public_path('themes/riorelax/css/guest-account.css');
 @endphp
 <link rel="stylesheet" href="{{ asset('themes/riorelax/css/guest-account.css') }}?v={{ is_file($guestCss) ? filemtime($guestCss) : '1' }}">
-<div class="sky-guest" lang="{{ $guestLocale }}" dir="{{ $guestLocale === 'ar' ? 'rtl' : 'ltr' }}">
+<div @class(['sky-guest', 'sky-guest-account' => request()->routeIs('customer.*')]) lang="{{ $guestLocale }}" dir="{{ $guestLocale === 'ar' ? 'rtl' : 'ltr' }}">
     <a class="sky-skip" href="#main">{{ __('Skip to content') }}</a>
     <header class="sky-guest-header">
         <a class="sky-guest-brand" href="{{ riorelax_guest_site_url('home') }}">B&amp;W SAHARA SKY</a>
