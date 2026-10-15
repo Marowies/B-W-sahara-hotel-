@@ -1,31 +1,48 @@
 {{-- Keep the CMS forms, assets and customer authorization; only replace the guest presentation. --}}
 @php
     $guestLocale = riorelax_guest_locale() ?: 'en';
-    $guestLanguages = ['en' => 'EN', 'ar' => 'العربية', 'zh' => '中文'];
     $guestCss = public_path('themes/riorelax/css/guest-account.css');
 @endphp
 <link rel="stylesheet" href="{{ asset('themes/riorelax/css/guest-account.css') }}?v={{ is_file($guestCss) ? filemtime($guestCss) : '1' }}">
 <div @class(['sky-guest', 'sky-guest-account' => request()->routeIs('customer.*')]) lang="{{ $guestLocale }}" dir="{{ $guestLocale === 'ar' ? 'rtl' : 'ltr' }}">
     <a class="sky-skip" href="#main">{{ __('Skip to content') }}</a>
-    <header class="sky-guest-header">
-        <a class="sky-guest-brand" href="{{ riorelax_guest_site_url('home') }}">B&amp;W SAHARA SKY</a>
-        <nav class="sky-guest-nav" aria-label="{{ __('Main navigation') }}">
+    {{-- Same brand, links and controls as the public site header. --}}
+    <header class="sky-guest-header sky-site-header">
+        <a class="sky-site-brand" href="{{ riorelax_guest_site_url('home') }}">
+            <img src="{{ asset('themes/riorelax/images/site-logo.webp') }}" alt="" width="120" height="54">
+            <span>B&amp;W SAHARA SKY<small>THE DESERT COLLECTION</small></span>
+        </a>
+        <nav class="sky-site-nav" aria-label="{{ __('Main navigation') }}">
+            <a href="{{ riorelax_guest_site_url('home') }}">{{ __('Home') }}</a>
             <a href="{{ riorelax_guest_site_url('rooms') }}">{{ __('Rooms') }}</a>
             <a href="{{ riorelax_guest_site_url('experiences') }}">{{ __('Experiences') }}</a>
+            <a href="{{ riorelax_guest_site_url('gallery') }}">{{ __('Gallery') }}</a>
+            <a href="{{ riorelax_guest_site_url('about') }}">{{ __('Our story') }}</a>
             <a href="{{ riorelax_guest_site_url('contact') }}">{{ __('Contact') }}</a>
-            @if (auth('customer')->check())
-                <a href="{{ route('customer.overview') }}" @if (request()->routeIs('customer.*')) aria-current="page" @endif>{{ __('My account') }}</a>
-            @else
-                <a href="{{ riorelax_guest_site_url('login') }}">{{ __('Sign in') }}</a>
-            @endif
         </nav>
-        <div class="sky-guest-tools">
-            <nav class="sky-language" aria-label="{{ __('Language') }}">
-                @foreach ($guestLanguages as $code => $label)
-                    <a href="{{ riorelax_guest_switch_url($code) }}" hreflang="{{ $code }}" lang="{{ $code }}" data-guest-locale="{{ $code }}" @if ($code === $guestLocale) aria-current="true" @endif>{{ $label }}</a>
-                @endforeach
-            </nav>
+        <div class="sky-site-tools">
             {!! Theme::partial('currency-switcher') !!}
+            <details class="sky-lang">
+                <summary aria-label="{{ __('Language') }}">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>
+                    <span>{{ ['en' => 'EN', 'ar' => 'AR', 'zh' => '中文'][$guestLocale] ?? 'EN' }}</span>
+                    <svg class="sky-lang-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <nav class="sky-lang-list" aria-label="{{ __('Language') }}">
+                    @foreach (['en' => ['English', 'EN'], 'ar' => ['العربية', 'AR'], 'zh' => ['中文', '中文']] as $code => [$name, $short])
+                        <a href="{{ riorelax_guest_switch_url($code) }}" hreflang="{{ $code }}" lang="{{ $code }}" data-guest-locale="{{ $code }}" @if ($code === $guestLocale) aria-current="true" @endif><span>{{ $name }}</span><small>{{ $short }}</small></a>
+                    @endforeach
+                </nav>
+            </details>
+            @if (auth('customer')->check())
+                <a class="sky-site-account" href="{{ route('customer.overview') }}" aria-label="{{ __('My account') }}" @if (request()->routeIs('customer.*')) aria-current="page" @endif>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></svg>
+                </a>
+            @else
+                <a class="sky-site-account" href="{{ riorelax_guest_site_url('login') }}" aria-label="{{ __('Sign in') }}">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></svg>
+                </a>
+            @endif
         </div>
     </header>
     <main id="main" class="sky-guest-main" tabindex="-1">{!! Theme::content() !!}</main>
