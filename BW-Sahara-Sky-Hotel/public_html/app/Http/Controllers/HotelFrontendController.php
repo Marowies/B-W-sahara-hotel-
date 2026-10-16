@@ -60,8 +60,17 @@ class HotelFrontendController extends Controller
         ]);
         $params->with[] = 'currency';
         $result = $rooms->getAvailableRooms($params);
-        return $this->reply(['rooms' => $result->getCollection()->map(fn (Room $room) => $this->room($room))->values(), 'total' => $result->total(),
-            'pagination' => ['page' => $result->currentPage(), 'per_page' => $result->perPage(), 'total' => $result->total(), 'last_page' => $result->lastPage()]]);
+        $response = ['rooms' => $result->getCollection()->map(fn (Room $room) => $this->room($room))->values(), 'total' => $result->total(),
+            'pagination' => ['page' => $result->currentPage(), 'per_page' => $result->perPage(), 'total' => $result->total(), 'last_page' => $result->lastPage()]];
+        if ($result->total() === 0) {
+            $maximum = Room::query()->wherePublished()->max('max_children');
+            if ($maximum !== null && (int) $input['children'] > (int) $maximum) {
+                // Explain the configured limit; never silently change guests or increase room capacity.
+                $response['capacity_notice'] = ['reason' => 'children_limit', 'max_children_per_room' => (int) $maximum];
+            }
+        }
+
+        return $this->reply($response);
     }
 
     public function session(): JsonResponse

@@ -12,6 +12,7 @@ Verified locally in the browser after the staging-mode build: the error has a vi
 
 - Home quick search carries 20–22 November 2026, two adults and two children into the booking search exactly.
 - Two children return no matches; zero children return seven room types for those dates. The public catalogue reports `max_children: 1` for all seven rooms. This is consistent with current configuration, not evidence of a transport defect. Hotel must approve occupancy values; none were edited.
+- Follow-up reproduction: 0/1 children each return seven types; 2/3 each return zero. A local follow-up adds an explicit capacity notice only when total availability is zero and the selected children exceed the maximum configured for any published room. The frontend explains this limit and links to hotel contact, preserving the entered guest counts. Ordinary no-availability messages remain unchanged. No capacity value or booking acceptance rule is altered.
 - Standard category filter shows the three Standard room cards. No broken loaded room images in the inspected English/Arabic/Chinese room states.
 - At a real 390px viewport, room pages in English, Arabic (RTL) and Chinese have no document horizontal overflow. Arabic navigation menu opens; language switching preserves the room-list page. This is one browser with a mobile viewport, not a physical iPhone/Safari test.
 - Cookie preferences reopen, Necessary only closes the banner and remains remembered on ordinary reload.
