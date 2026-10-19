@@ -23,9 +23,20 @@ test('Booking handoff uses configured dates and creates no reservation', functio
     check($db->table('ht_bookings')->count() === $before, 'Starting a booking reserved inventory');
 });
 
+test('Booking handoff carries the explicit locale without creating a reservation', function () use ($session, $db): void {
+    $before = $db->table('ht_bookings')->count();
+    foreach (['en', 'ar', 'zh'] as $locale) {
+        $request = authRequest(['room_id' => 1, 'arrival' => '2026-11-10', 'departure' => '2026-11-12', 'adults' => 2, 'children' => 0, 'locale' => $locale]);
+        $data = (new HotelBookingStartController())->start($request, new BaseHttpResponse())->getData(true);
+        parse_str(parse_url($data['next_url'], PHP_URL_QUERY) ?? '', $query);
+        check(($query['lang'] ?? null) === $locale && $session->get('hotel_ui_locale') === $locale, 'Booking handoff lost explicit locale');
+    }
+    check($db->table('ht_bookings')->count() === $before, 'Locale handoff created a reservation');
+});
+
 test('Booking handoff rejects invalid dates, draft rooms and excessive inventory', function (): void {
     $valid = ['room_id' => 1, 'arrival' => '2026-11-10', 'departure' => '2026-11-12', 'adults' => 2, 'children' => 0];
-    foreach ([['arrival' => '2026-02-31'], ['departure' => '2026-11-09'], ['room_id' => 2], ['rooms' => 6], ['adults' => -1], ['arrival' => []]] as $invalid) {
+    foreach ([['arrival' => '2026-02-31'], ['departure' => '2026-11-09'], ['room_id' => 2], ['rooms' => 6], ['adults' => -1], ['arrival' => []], ['locale' => 'xx'], ['locale' => []]] as $invalid) {
         try {
             (new HotelBookingStartController())->start(authRequest(array_replace($valid, $invalid)), new BaseHttpResponse());
             throw new RuntimeException('Invalid selection accepted');

@@ -2,10 +2,11 @@ import {createRequire} from 'node:module';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
+import {paceDocuments} from './support/pace-documents.mjs';
 const require=createRequire(import.meta.url);
 let playwright;try{playwright=require('playwright');}catch{playwright=require('C:/Users/marwa/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');}
 const browser=await playwright.chromium.launch({executablePath:process.env.HOTEL_BROWSER_PATH||'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});
-const context=await browser.newContext({serviceWorkers:'block',reducedMotion:'reduce'});
+const context=await browser.newContext({serviceWorkers:'block',reducedMotion:'reduce'});await paceDocuments(context);
 const page=await context.newPage(),results=[],errors=[];
 page.on('pageerror',e=>errors.push(e.message));
 await mkdir(new URL('../test-results/',import.meta.url),{recursive:true});
@@ -21,7 +22,7 @@ for(const width of [320,390,768,1024,1440])for(const lang of ['en','ar'])for(con
   const box=await icon.boundingBox();assert(box.width>=44&&box.height>=44);assert(box.x>=0&&box.x+box.width<=width+1);
  }
  assert.equal(await footer.locator('a[href="https://wa.me/201098255777"]').count(),1);
- assert.equal(await footer.locator('a[href="mailto:info@bwsaharaskyhotel.com"]').count(),1);
+ assert.equal(await footer.locator('.channel-icon[href="mailto:bwsaharaskycamp@gmail.com"]').count(),1);
  if(route==='/')await footer.screenshot({path:fileURLToPath(new URL(`../test-results/footer-${width}-${lang}.png`,import.meta.url))});
  results.push({width,lang,route,status:'PASS'});
 }
@@ -34,13 +35,15 @@ for(let i=0;i<6;i++)await page.keyboard.press('ArrowDown');
 for(let i=0;i<3;i++)await page.keyboard.press('ArrowRight');
 await page.waitForTimeout(800);
 await page.screenshot({path:fileURLToPath(new URL('../test-results/refined-perspective.png',import.meta.url))});
-// Keep a frame scheduled while the home DOM is detached for client navigation.
-await page.evaluate(()=>{window.__refinedCanvas=document.querySelector('#model-stage canvas');document.getElementById('rotate-model').click();});
+// Leave while a frame is scheduled. Navigation loads full documents, so each return builds one fresh scene.
 for(let i=0;i<3;i++){
- await page.evaluate(()=>window.hotelNavigate('/rooms/?lang=en'));
- await page.evaluate(()=>window.hotelNavigate('/?lang=en'));
- assert.equal(await page.evaluate(()=>document.querySelector('#model-stage canvas')===window.__refinedCanvas),true);
- assert.equal(await page.evaluate(()=>window.hotel3D.getStats().modelBuilds),1);
+ await page.evaluate(()=>document.getElementById('rotate-model').click());
+ await Promise.all([page.waitForURL(/\/rooms\//),page.evaluate(()=>window.hotelNavigate('/rooms/?lang=en'))]);
+ await Promise.all([page.waitForURL(url=>new URL(url).pathname==='/'),page.evaluate(()=>window.hotelNavigate('/?lang=en'))]);
+ await page.locator('#model-stage').scrollIntoViewIfNeeded();
+ await page.waitForFunction(()=>window.hotel3D?.getStats().modelBuilds===1);
+ assert.equal(await page.locator('#model-stage canvas').count(),1);
+ assert.equal(await page.evaluate(()=>window.hotel3D.getStats().renderersCreated),1);
 }
 assert.deepEqual(errors,[]);
 await writeFile(new URL('../test-results/refinements.json',import.meta.url),JSON.stringify({results,activeRenderNavigation:'PASS',errors},null,2));

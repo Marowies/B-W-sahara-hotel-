@@ -80,6 +80,9 @@ test('Auth: resend cooldown and mail failure rollback', function () use ($db): v
     $mail = new class {
         public bool $fail = false;
         public function raw(...$args): void { if ($this->fail) throw new RuntimeException('Synthetic delivery failure'); }
+        // The sign-in code is now a branded Mailable sent with Mail::to($email)->send(...).
+        public function to(...$args): static { return $this; }
+        public function send(...$args): void { if ($this->fail) throw new RuntimeException('Synthetic delivery failure'); }
     };
     Illuminate\Support\Facades\Mail::swap($mail);
     $controller = new App\Http\Controllers\HotelCustomerAuthController(app(HotelTokenService::class));
@@ -250,49 +253,32 @@ if ($db->getDriverName() === 'mysql' && isset($argv[2])) {
     });
 }
 
-test('Google: callback requires an emailed OTP before either customer session exists', function () use ($app, $session, $url, $db, $guard): void {
-    $app->instance('redirect', new Illuminate\Routing\Redirector($url));
-    config(['mail.default' => 'smtp', 'mail.mailers.smtp.transport' => 'smtp']);
-    $mail = new class { public string $body = ''; public function raw($body, $callback): void { $this->body = $body; } };
-    Illuminate\Support\Facades\Mail::swap($mail);
+test('Google: verified callback creates both sessions without requesting email OTP', function () use ($session, $db, $guard): void {
+    Illuminate\Support\Facades\Mail::swap(new class { public function raw(...$args): void { throw new RuntimeException('Google must not send an OTP'); } });
     $customer = Customer::query()->findOrFail(43);
-    $db->table('hotel_login_codes')->where('email', $customer->email)->delete();
     $before = $db->table('hotel_auth_tokens')->count();
-    $guard->setUser($customer);
     $request = authRequest();
-    $request->setLaravelSession($session);
-    $session->put(App\Services\HotelGoogleSession::RETURN_KEY, '/ar/booking/review/');
+    $session->put(App\Services\HotelGoogleSession::RETURN_KEY, '/ar/takhteet-eqama/moragaa/');
+    $session->put(App\Services\HotelGoogleSession::PENDING_KEY, ['pending' => true]);
     $response = app(App\Services\HotelGoogleSession::class)->complete($customer, $request);
-    check(str_ends_with($response->headers->get('Location'), '/ar/booking/review/'), 'Return language/booking step lost');
-    check(! $session->has(App\Services\HotelGoogleSession::RETURN_KEY), 'Callback intent not consumed');
-    check(str_contains($response->headers->get('Cache-Control'), 'no-store'), 'Private callback was cacheable');
-    $cookies = $response->headers->getCookies();
-    $cookie = $cookies[0];
-    check($cookie->getName() === HotelTokenService::COOKIE && $cookie->isHttpOnly() && $cookie->isSecure() && $cookie->getSameSite() === 'strict' && $cookie->getPath() === HotelTokenService::COOKIE_PATH, 'Google cookie policy differs from OTP');
-    check(! $cookie->getValue(), 'Google minted a refresh token before OTP');
-    check(! $guard->check() && $db->table('hotel_auth_tokens')->count() === $before, 'Google bypassed OTP');
-    $pending = app(App\Services\HotelGoogleSession::class)->pending($request)->getData(true);
-    check($pending['pending'] && $pending['email'] === $customer->email, 'Verified mailbox missing from pending session');
-    check(! str_contains($response->headers->get('Location'), $customer->email), 'Email leaked in return URL');
-    preg_match('/verification code is (\d{6})/', $mail->body, $match);
-    check(isset($match[1]), 'Google did not request an OTP');
-    $controller = new App\Http\Controllers\HotelCustomerAuthController(app(HotelTokenService::class));
-    $result = $controller->verifyCode(authRequest(['email' => $customer->email, 'code' => $match[1]]));
-    check($result->getStatusCode() === 200 && $guard->check(), 'Correct Google OTP did not sign in');
-    check(! $session->has(App\Services\HotelGoogleSession::PENDING_KEY), 'OTP intent survived verification');
+    check($response->headers->get('Location') === '/ar/takhteet-eqama/moragaa/', 'Booking return lost');
+    check(! $session->has(App\Services\HotelGoogleSession::RETURN_KEY) && ! $session->has(App\Services\HotelGoogleSession::PENDING_KEY), 'Old callback intent survived');
+    check(str_contains($response->headers->get('Cache-Control'), 'no-store'), 'Private callback cacheable');
+    $cookie = $response->headers->getCookies()[0];
+    check($cookie->getName() === HotelTokenService::COOKIE && $cookie->isHttpOnly() && $cookie->isSecure() && $cookie->getSameSite() === 'strict' && $cookie->getPath() === HotelTokenService::COOKIE_PATH, 'Google cookie policy differs');
+    check((bool) $cookie->getValue() && $guard->check() && $db->table('hotel_auth_tokens')->count() === $before + 1, 'Google session not established');
+    $pair = app(HotelTokenService::class)->refresh($cookie->getValue(), $request);
+    check($pair['ok'] && app(HotelTokenService::class)->authenticate($pair['access_token'])->getKey() === $customer->getKey(), 'Google refresh belongs to wrong customer');
+    check(! str_contains($response->headers->get('Location'), $customer->email), 'Identity leaked in redirect');
 });
 
-test('Google: email delivery failure never creates a customer session', function () use ($session, $db, $guard): void {
+test('Google: ordinary sign-in returns directly to the account and retains safe account destinations', function () use ($session): void {
     $customer = Customer::query()->findOrFail(43);
-    $db->table('hotel_login_codes')->where('email', $customer->email)->delete();
-    Illuminate\Support\Facades\Mail::swap(new class { public function raw(...$args): void { throw new RuntimeException('Synthetic delivery failure'); } });
-    $before = $db->table('hotel_auth_tokens')->count();
-    $request = authRequest();$request->setLaravelSession($session);
-    app(App\Services\HotelGoogleSession::class)->complete($customer, $request);
-    check(! $guard->check() && $db->table('hotel_auth_tokens')->count() === $before, 'Delivery failure authenticated Google customer');
-    check(! $session->get(App\Services\HotelGoogleSession::PENDING_KEY)['pending'], 'Failed mail was reported as sent');
-    check(! $db->table('hotel_login_codes')->where('email', $customer->email)->exists(), 'Failed delivery retained OTP');
-    $session->forget(App\Services\HotelGoogleSession::PENDING_KEY);
+    foreach (['/login/' => '/customer/overview?lang=en', '/ar/dokhool/' => '/customer/overview?lang=ar', '/zh/denglu/' => '/customer/overview?lang=zh', '/login/?next=%2Fcustomer%2Fbookings%3Flang%3Den' => '/customer/bookings?lang=en'] as $from => $to) {
+        $session->put(App\Services\HotelGoogleSession::RETURN_KEY, $from);
+        $response = app(App\Services\HotelGoogleSession::class)->complete($customer, authRequest());
+        check($response->headers->get('Location') === $to, 'Wrong Google destination: ' . $from);
+    }
 });
 
 test('Google: pending OTP cooldown survives reload and expires without leaking internal deadlines', function () use ($session): void {
@@ -329,6 +315,98 @@ test('Google: return destinations reject external and unrelated application path
     foreach (['https://evil.example/', '//evil.example/', '/admin/', '/auth/google', '/login/?token=secret', null, [], "/login/\n"] as $path) {
         check(App\Services\HotelGoogleSession::returnPath($path) === '/login/', 'Unsafe return accepted');
     }
+    // A sign-in page keeps one account page to continue to; any other target is dropped.
+    foreach (['/login/?next=%2Fcustomer%2Foverview' => '/login/?next=%2Fcustomer%2Foverview',
+        '/ar/dokhool/?next=/customer/bookings' => '/ar/dokhool/?next=%2Fcustomer%2Fbookings',
+        '/login/?next=https://evil.example/' => '/login/', '/login/?next=//evil.example/' => '/login/',
+        '/login/?next=/customer/overview&token=secret' => '/login/', '/login/?next=/admin/' => '/login/',
+        '/booking/review/?next=/customer/overview' => '/booking/review/'] as $path => $expected) {
+        check(App\Services\HotelGoogleSession::returnPath($path) === $expected, 'Account return mishandled: ' . $path);
+    }
+});
+
+/** POST /api/hotel/auth/refresh with only the HttpOnly cookie; extra request data must never pick the identity. */
+function refreshWith(?string $token, array $data = []): Illuminate\Http\JsonResponse
+{
+    $request = authRequest($data);
+    if ($token !== null) {
+        $request->cookies->set(HotelTokenService::COOKIE, $token);
+    }
+
+    return (new App\Http\Controllers\HotelCustomerAuthController(app(HotelTokenService::class)))->refresh($request);
+}
+
+test('Session: valid refresh restores the account-page session after the Laravel session expired', function () use ($guard, $session): void {
+    $service = app(HotelTokenService::class);
+    $pair = $service->issue(Customer::query()->findOrFail(43), authRequest());
+    $guard->logout();
+    $before = $session->getId();
+    $response = refreshWith($pair['refresh_token']);
+    check($response->getStatusCode() === 200 && $response->getData(true)['email'] === 'synthetic@example.invalid', 'Valid refresh rejected');
+    check($guard->id() === 43, 'Refresh left the account pages signed out (My account -> /login/ loop)');
+    check($session->getId() !== $before, 'Session id not regenerated when the page session was restored');
+    check($service->authenticate($response->getData(true)['access_token'])?->getKey() === 43, 'Rotated access token invalid');
+    $guard->logout();
+});
+
+test('Session: refresh replaces a different customer page session and ignores client identity', function () use ($guard): void {
+    $service = app(HotelTokenService::class);
+    $pair = $service->issue(Customer::query()->findOrFail(43), authRequest());
+    $guard->setUser(Customer::query()->findOrFail(42));
+    $response = refreshWith($pair['refresh_token'], ['email' => 'private@example.invalid', 'customer_id' => 42]);
+    check($response->getStatusCode() === 200 && $guard->id() === 43, 'Account pages kept another customer after refresh');
+    check($response->getData(true)['email'] === 'synthetic@example.invalid', 'Client-supplied identity leaked into the response');
+    $guard->logout();
+});
+
+test('Session: unchanged page session is kept without a new session id', function () use ($guard, $session): void {
+    $service = app(HotelTokenService::class);
+    $pair = $service->issue(Customer::query()->findOrFail(43), authRequest());
+    $guard->setUser(Customer::query()->findOrFail(43));
+    $before = $session->getId();
+    check(refreshWith($pair['refresh_token'])->getStatusCode() === 200 && $guard->id() === 43, 'Signed-in refresh failed');
+    check($session->getId() === $before, 'Every refresh regenerated the session (breaks other tabs)');
+    $guard->logout();
+});
+
+test('Session: missing, invalid, expired and revoked refresh tokens never sign in', function () use ($guard): void {
+    $service = app(HotelTokenService::class);
+    $guard->logout();
+    $missing = refreshWith(null);
+    check($missing->getStatusCode() === 200 && $missing->getData(true)['authenticated'] === false && ! isset($missing->getData(true)['access_token']) && ! $guard->check(), 'Missing cookie signed in');
+    check(refreshWith('not-a-real-token')->getStatusCode() === 401 && ! $guard->check(), 'Invalid token signed in');
+    // A rejected token also ends a page session left on this device.
+    $guard->setUser(Customer::query()->findOrFail(43));
+    check(refreshWith(str_repeat('x', 64))->getStatusCode() === 401 && ! $guard->check(), 'Rejected token left the account pages open');
+
+    $revoked = $service->issue(Customer::query()->findOrFail(43), authRequest());
+    $service->logout($revoked['refresh_token'], null);
+    $guard->setUser(Customer::query()->findOrFail(43));
+    check(refreshWith($revoked['refresh_token'])->getStatusCode() === 401 && ! $guard->check(), 'Revoked token kept or restored the page session');
+
+    $clock = Carbon::getTestNow();
+    try {
+        $expired = $service->issue(Customer::query()->findOrFail(43), authRequest());
+        Carbon::setTestNow(now()->addDays(HotelTokenService::ABSOLUTE_DAYS)->addMinute());
+        check(refreshWith($expired['refresh_token'])->getStatusCode() === 401 && ! $guard->check(), 'Expired token signed in');
+    } finally { Carbon::setTestNow($clock); }
+    // A missing cookie (for example the CMS password form) does not end a page session.
+    $guard->setUser(Customer::query()->findOrFail(43));
+    check(refreshWith(null)->getData(true)['authenticated'] === false && $guard->id() === 43, 'Cookie-less refresh signed out a CMS session');
+    $guard->logout();
+});
+
+test('Session: logout closes both the token family and the restored page session', function () use ($guard): void {
+    $service = app(HotelTokenService::class);
+    $pair = $service->issue(Customer::query()->findOrFail(43), authRequest());
+    $guard->logout();
+    $next = refreshWith($pair['refresh_token'])->getData(true);
+    check($guard->id() === 43, 'Refresh did not restore the page session');
+    $request = authRequest();
+    $request->cookies->set(HotelTokenService::COOKIE, $service->refresh($pair['refresh_token'], authRequest())['refresh_token']);
+    (new App\Http\Controllers\HotelCustomerAuthController($service))->logout($request);
+    check(! $guard->check() && ! $service->authenticate($next['access_token']), 'Logout left a session open');
+    check(refreshWith($pair['refresh_token'])->getStatusCode() === 401 && ! $guard->check(), 'Logged-out family restored a session');
 });
 
 test('Booking: native form requires an authenticated customer session', function (): void {

@@ -27,7 +27,8 @@ createServer(async(req,res)=>{
   }
   if(backend && await serveAdminAsset(req,res,process.env.HOTEL_BACKEND_PUBLIC||resolve(root,'../../BW-Sahara-Sky-Hotel/public_html/public')))return;
   if(backend&&incoming.pathname==='/login/admin'){res.writeHead(302,{Location:'/admin/login','Cache-Control':'no-store'});res.end();return;}
-  if(backend&&/^\/(?:admin(?:\/|$)|customer(?:\/|$)|booking\/[a-f0-9]{32}$|checkout(?:\/|$)|api\/hotel(?:\/|$)|auth\/callback\/|vendor\/|storage\/)/.test(incoming.pathname)){
+  // Also the booking form's own Laravel endpoints (price recalculation, coupons, currency), as on the host.
+  if(backend&&/^\/(?:admin(?:\/|$)|customer(?:\/|$)|booking\/[a-f0-9]{32}$|checkout(?:\/|$)|api\/hotel(?:\/|$)|auth\/callback\/|vendor\/|storage\/|ajax\/calculate-amount$|coupon\/(?:apply|remove|refresh)$|currency\/switch\/)/.test(incoming.pathname)){
    const headers={...req.headers,host:'127.0.0.1:'+port};delete headers['connection'];
    const target=new URL(backend);target.pathname=incoming.pathname;target.search=incoming.search;
    const upstream=backendRequest(target,{method:req.method,headers},response=>{

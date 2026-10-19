@@ -11,7 +11,7 @@
                         href="{{ $item['url'] }}"
                     >{!! $item['label'] !!}</a>
                 @else
-                    <h1 class="mb-0 d-inline-block fs-6 lh-1">{{ Str::limit($item['label'], 60) }}</h1>
+                    <h1 class="mb-0 d-inline-block fs-6 lh-1">{{ Str::limit(html_entity_decode($item['label'], ENT_QUOTES | ENT_HTML5, 'UTF-8'), 60) }}</h1>
                 @endif
             </li>
         @endforeach

@@ -707,7 +707,37 @@ class PublicController extends Controller
             cms_currency()->setApplicationCurrency($currency);
         }
 
-        return $response;
+        // Return to the page the switcher was on. The referrer alone is not trusted: a service worker
+        // fetch can report its own script (/sw.js), so only same-site page paths are accepted.
+        $previous = parse_url(url()->previous());
+        $previousPath = ($previous['host'] ?? null) === $request->getHost()
+            ? ($previous['path'] ?? '/') . (isset($previous['query']) ? '?' . $previous['query'] : '')
+            : null;
+        $target = $this->safeReturnPath($request->query('return'))
+            ?? $this->safeReturnPath($previousPath)
+            ?? '/';
+
+        return $response->setNextUrl(url($target));
+    }
+
+    protected function safeReturnPath(mixed $path): ?string
+    {
+        if (! is_string($path) || $path === '' || strlen($path) > 2000) {
+            return null;
+        }
+
+        // Local absolute path only: no scheme-relative or backslash tricks, no control characters.
+        if ($path[0] !== '/' || str_starts_with($path, '//') || str_contains($path, '\\') || preg_match('/[\x00-\x1F\x7F]/', $path)) {
+            return null;
+        }
+
+        // Pages only; files such as /sw.js, /build-manifest.json or images are never a return target.
+        $pathOnly = (string) parse_url($path, PHP_URL_PATH);
+        if ($pathOnly === '' || preg_match('/\.[a-z0-9]{1,8}$/i', $pathOnly) || str_starts_with($pathOnly, '/currency/switch')) {
+            return null;
+        }
+
+        return $path;
     }
 
     public function getService(string $slug)

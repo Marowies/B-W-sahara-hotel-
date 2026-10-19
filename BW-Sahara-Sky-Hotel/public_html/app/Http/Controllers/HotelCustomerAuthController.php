@@ -28,18 +28,19 @@ class HotelCustomerAuthController extends Controller
 
     public function requestCode(Request $request): JsonResponse
     {
-        $data = $request->validate(['email' => ['required', 'email:rfc', 'max:255']]);
+        $data = $request->validate(['email' => ['required', 'email:rfc', 'max:255'], 'locale' => ['nullable', 'in:en,ar,zh']]);
         $email = Str::lower(trim($data['email']));
 
-        return $this->requestCodeForEmail($email);
+        return $this->requestCodeForEmail($email, $data['locale'] ?? null);
     }
 
     /** Shared delivery path for validated email input and the verified Google mailbox. */
-    public function requestCodeForEmail(string $email): JsonResponse
+    public function requestCodeForEmail(string $email, ?string $locale = null): JsonResponse
     {
         $email = Str::lower(trim($email));
+        $locale = \App\Support\HotelMailCopy::locale($locale ?? session('hotel_ui_locale'));
 
-        return app(HotelLoginLock::class)->run($email, function () use ($email): JsonResponse {
+        return app(HotelLoginLock::class)->run($email, function () use ($email, $locale): JsonResponse {
 
         // Resolving the mail manager applies the CMS email settings, which can
         // override .env. A testing sink must never be reported as real delivery.
@@ -63,11 +64,12 @@ class HotelCustomerAuthController extends Controller
             'expires_at' => now()->addMinutes(self::TTL_MINUTES), 'created_at' => now(), 'updated_at' => now(),
         ]);
 
+        // Delivery is synchronous so a failure is reported to the visitor (and the code dropped) instead of being hidden.
+        // The time the mail server takes is logged to tell a slow SMTP provider apart from a slow website.
+        $started = microtime(true);
         try {
-            Mail::raw(
-                "Your B&W Sahara Sky verification code is {$code}\nرمز التحقق الخاص بك: {$code}\n\nIt expires in " . self::TTL_MINUTES . ' minutes. If you did not request it, ignore this email.',
-                fn ($message) => $message->to($email)->subject('Your verification code · B&W Sahara Sky')
-            );
+            Mail::to($email)->send(new \App\Mail\HotelLoginCodeMail($code, self::TTL_MINUTES, $locale));
+            \Illuminate\Support\Facades\Log::info('hotel.login_code_mail', ['ms' => (int) ((microtime(true) - $started) * 1000)]);
         } catch (Throwable $e) {
             report($e);
             DB::table('hotel_login_codes')->where('email', $email)->delete();
@@ -108,11 +110,12 @@ class HotelCustomerAuthController extends Controller
         DB::table('hotel_login_codes')->where('email', $email)->delete();
 
         $customer = Customer::query()->where('email', $email)->first();
-        if (! $customer) {
-            $name = trim($data['name'] ?? '') ?: Str::before($email, '@');
+        $isNew = ! $customer;
+        if ($isNew) {
+            // Until the guest tells us their name, the first part of the email address stands in for it.
             $customer = new Customer();
             $customer->forceFill([
-                'first_name' => Str::limit($name, 60, ''), 'last_name' => '-', 'email' => $email,
+                'first_name' => $this->defaultName($email), 'last_name' => '', 'email' => $email,
                 'password' => Str::random(40), 'confirmed_at' => now(),
             ])->save();
         } elseif (! $customer->confirmed_at) {
@@ -126,7 +129,7 @@ class HotelCustomerAuthController extends Controller
         $request->session()->regenerate();
         $request->session()->forget(\App\Services\HotelGoogleSession::PENDING_KEY);
 
-        return $this->session($pair, $request, ['authenticated' => true, 'email' => $customer->email]);
+        return $this->session($pair, $request, ['authenticated' => true, 'email' => $customer->email] + ($isNew ? ['is_new' => true, 'default_name' => $customer->first_name] : []));
         });
     }
 
@@ -135,16 +138,40 @@ class HotelCustomerAuthController extends Controller
     {
         $token = (string) $request->cookie(HotelTokenService::COOKIE);
         if ($token === '') {
-            return $this->reply(['message' => 'Sign in with your email code to continue.', 'code' => 'login_required'], 401);
+            // A visitor who never signed in on this device: an ordinary answer, not an error on every page load.
+            return $this->reply(['authenticated' => false, 'code' => 'signed_out']);
         }
         $result = $this->tokens->refresh($token, $request);
-        if (! $result['ok']) {
+        // The identity comes only from the rotated, server-validated token, never from request data.
+        $customer = $result['ok'] ? $this->tokens->authenticate($result['access_token']) : null;
+        if (! $customer) {
+            // A rejected token (expired, revoked, replayed) also ends the account-page session on this device.
+            \Illuminate\Support\Facades\Auth::guard('customer')->logout();
+
             return $this->reply(['message' => 'Your session ended. Sign in again.', 'code' => 'login_required'], 401)
                 ->withCookie($this->tokens->cookie(null, null, $request));
         }
-        $customer = Customer::query()->find($this->customerId($result['access_token']));
+        $this->restorePageSession($customer, $request);
 
-        return $this->session($result, $request, ['authenticated' => true, 'email' => $customer?->email]);
+        return $this->session($result, $request, ['authenticated' => true, 'email' => $customer->email]);
+    }
+
+    /**
+     * The Laravel session (account and booking pages) can expire long before the 30-day token family.
+     * A valid refresh re-establishes it for the token's customer, as OTP verification does.
+     */
+    private function restorePageSession(Customer $customer, Request $request): void
+    {
+        $guard = \Illuminate\Support\Facades\Auth::guard('customer');
+        if ((int) $guard->id() === (int) $customer->getKey()) {
+            return;
+        }
+        if ($guard->check()) {
+            $guard->logout();
+        }
+        $guard->login($customer);
+        // New identity on this session: rotate the id against fixation. Unchanged sessions keep theirs for other tabs.
+        $request->session()->regenerate();
     }
 
     public function logout(Request $request): JsonResponse
@@ -155,6 +182,31 @@ class HotelCustomerAuthController extends Controller
         $request->session()->forget(\App\Services\HotelGoogleSession::PENDING_KEY);
 
         return $this->reply(['authenticated' => false])->withCookie($this->tokens->cookie(null, null, $request));
+    }
+
+    /** First sign-in: the guest confirms how we should address them. Signed-in customers only (RequireHotelCustomer). */
+    public function saveName(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'first_name' => ['required', 'string', 'max:60'],
+            'last_name' => ['nullable', 'string', 'max:60'],
+        ]);
+        $first = trim(strip_tags($data['first_name']));
+        if ($first === '') {
+            return $this->reply(['message' => 'Please enter your first name.', 'code' => 'name_required'], 422);
+        }
+        $customer = auth('customer')->user();
+        $customer->forceFill(['first_name' => $first, 'last_name' => trim(strip_tags((string) ($data['last_name'] ?? '')))])->save();
+
+        return $this->reply(['saved' => true, 'name' => $customer->name]);
+    }
+
+    /** "marwan.ewis22@example.com" -> "Marwan": the first word of the address, never the whole address. */
+    private function defaultName(string $email): string
+    {
+        $words = preg_split('/[^\p{L}]+/u', Str::before($email, '@'), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+
+        return Str::limit(Str::title($words[0] ?? 'Guest'), 60, '');
     }
 
     /** Reachable only through RequireHotelCustomer; the payment step calls it before starting. */
@@ -171,13 +223,6 @@ class HotelCustomerAuthController extends Controller
         }
 
         return $response;
-    }
-
-    private function customerId(string $access): ?int
-    {
-        $claims = json_decode((string) base64_decode(strtr(explode('.', $access)[1] ?? '', '-_', '+/')), true);
-
-        return $claims['cid'] ?? null;
     }
 
     private function hash(string $email, string $code): string

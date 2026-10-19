@@ -108,6 +108,8 @@ async function pages(dir,relative=''){
 await pages(src);
 if(routes.length!==routeDefinitions.length||routes.some(file=>!resolveRoute(file)))throw Error('Every source template must have a locale registry entry.');
 await writeFile(join(out,'robots.txt'),robots(seo));
+// Laravel's StaticFrontendGate reads this to redirect old and mistyped URLs to these pages and serve the matching 404.
+await writeFile(join(out,'route-map.json'),JSON.stringify({languages:['en','ar','zh'],routes:routeDefinitions.map(([id,en,ar,zh])=>({id,en,ar,zh}))}));
 await writeFile(join(out,'sitemap.xml'),sitemap(seo,routes));
 await writeFile(join(out,'llms.txt'),llms(seo));
 for(const row of routeDefinitions)for(const path of row.slice(1,4)){
@@ -150,8 +152,9 @@ self.addEventListener('install',e=>e.waitUntil(caches.open(STATIC).then(c=>c.add
 self.addEventListener('activate',e=>e.waitUntil((async()=>{const keys=await caches.keys();for(const key of keys){if((key.startsWith('hotel-static-')&&key!==STATIC)||key.startsWith('hotel-pages-'))await caches.delete(key);}await self.clients.claim();})()));
 async function boundedPut(cache,key,response){try{await cache.put(key,response);const keys=await cache.keys();if(keys.length>100)await cache.delete(keys[0]);}catch{}}
 self.addEventListener('fetch',e=>{const url=new URL(e.request.url);if(e.request.method!=='GET'||url.origin!==self.location.origin)return;
+// Passing init options resets the referrer to this worker (/sw.js); keep the page's own same-origin referrer so server-side 'back' redirects return to it.
+if(e.request.mode==='navigate'||e.request.headers.has('X-Frontend-Navigation')){let referrer='';try{if(e.request.referrer&&new URL(e.request.referrer).origin===self.location.origin)referrer=e.request.referrer;}catch{}e.respondWith(fetch(e.request,{cache:'no-store',referrer,referrerPolicy:e.request.referrerPolicy||'strict-origin-when-cross-origin'}));return;}
 if(['admin','api','vendor','storage','customer','booking'].includes(url.pathname.split('/')[1])||url.pathname==='/login/admin')return;
-if(e.request.mode==='navigate'||e.request.headers.has('X-Frontend-Navigation')){e.respondWith(fetch(e.request,{cache:'no-store'}));return;}
 if(/\\.[a-f0-9]{12}\\.(?:js|css|webp|woff2)$/.test(url.pathname)){e.respondWith((async()=>{const cache=await caches.open(STATIC),hit=await cache.match(e.request);if(hit)return hit;const response=await fetch(e.request);if(response.ok)await boundedPut(cache,e.request,response.clone());return response;})());}});`;
 await writeFile(join(out,'sw.js'),sw);
 await writeFile(join(out,'_headers'),'/*\n  Cache-Control: no-cache\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n/fonts/*\n  Cache-Control: public, max-age=31536000, immutable\n/sw.js\n  Cache-Control: no-store\n/build-manifest.json\n  Cache-Control: no-store\n/hotel-consent.js\n  Cache-Control: no-cache\n');

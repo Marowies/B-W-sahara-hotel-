@@ -262,7 +262,7 @@ class BookingCreateForm extends FormAbstract
                     '8:00 - 9:00 ' . trans('plugins/hotel::booking.am') => '8:00 - 9:00 ' . trans('plugins/hotel::booking.am'),
                     '9:00 - 10:00 ' . trans('plugins/hotel::booking.am') => '9:00 - 10:00 ' . trans('plugins/hotel::booking.am'),
                     '10:00 - 11:00 ' . trans('plugins/hotel::booking.am') => '10:00 - 11:00 ' . trans('plugins/hotel::booking.am'),
-                    '11:00 - 12:00 ' . trans('plugins/hotel::booking.am') => '11:00 - 12:00 ' . trans('plugins/hotel::booking.am'),
+                    '11:00 - 12:00 ' . trans('plugins/hotel::booking.am') => '11:00 ' . trans('plugins/hotel::booking.am') . ' - 12:00 ' . trans('plugins/hotel::booking.pm'),
                     '12:00 - 1:00 ' . trans('plugins/hotel::booking.pm') => '12:00 - 1:00 ' . trans('plugins/hotel::booking.pm'),
                     '1:00 - 2:00 ' . trans('plugins/hotel::booking.pm') => '1:00 - 2:00 ' . trans('plugins/hotel::booking.pm'),
                     '2:00 - 3:00 ' . trans('plugins/hotel::booking.pm') => '2:00 - 3:00 ' . trans('plugins/hotel::booking.pm'),
@@ -274,7 +274,7 @@ class BookingCreateForm extends FormAbstract
                     '8:00 - 9:00 ' . trans('plugins/hotel::booking.pm') => '8:00 - 9:00 ' . trans('plugins/hotel::booking.pm'),
                     '9:00 - 10:00 ' . trans('plugins/hotel::booking.pm') => '9:00 - 10:00 ' . trans('plugins/hotel::booking.pm'),
                     '10:00 - 11:00 ' . trans('plugins/hotel::booking.pm') => '10:00 - 11:00 ' . trans('plugins/hotel::booking.pm'),
-                    '11:00 - 12:00 ' . trans('plugins/hotel::booking.pm') => '11:00 - 12:00 ' . trans('plugins/hotel::booking.pm'),
+                    '11:00 - 12:00 ' . trans('plugins/hotel::booking.pm') => '11:00 ' . trans('plugins/hotel::booking.pm') . ' - 12:00 ' . trans('plugins/hotel::booking.am'),
                 ])
                 ->defaultValue(trans('plugins/hotel::booking.i_do_not_know'))
                 ->colspan(1)

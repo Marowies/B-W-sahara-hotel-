@@ -19,7 +19,7 @@
             :title="$licenseTitle"
             :description="$licenseDescription"
         >
-            <x-core::license.form />
+            <x-core::license.form :manage-license="$manageLicense" />
 
             <x-core::loading v-if="loading" />
         </x-core-setting::section>

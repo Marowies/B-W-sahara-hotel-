@@ -21,7 +21,8 @@
   box.append(title,note,actions);document.body.append(box);
  }
  function mount(){
-  if(!document.getElementById('hotel-consent-style')){const style=document.createElement('style');style.id='hotel-consent-style';style.textContent='.hotel-consent-panel{position:fixed;inset:auto 16px 16px auto;z-index:10050;width:500px;max-width:calc(100vw - 32px);box-sizing:border-box;padding:22px;border:1px solid #ccb79b;border-radius:16px;background:#fffaf3;color:#382b20;box-shadow:0 12px 36px #30251c33;font:16px/1.5 Arial,sans-serif}.hotel-consent-panel h2{color:#60452f;font:26px/1.2 Georgia,serif;margin:0 0 12px}.hotel-consent-panel p{color:#382b20;margin:0 0 16px}.hotel-consent-actions{display:flex;flex-wrap:wrap;gap:10px}.hotel-consent-actions button{border:1px solid #60452f;border-radius:8px;padding:10px 14px;background:#60452f;color:#fffaf3;cursor:pointer;font:inherit}.hotel-consent-actions button:focus-visible{outline:3px solid #875435;outline-offset:3px}.cookie-settings{cursor:pointer;background:transparent;border:0;color:inherit;font:inherit;text-decoration:underline;padding:10px}';document.head.append(style);}
+  if(!document.getElementById('hotel-consent-style')){const style=document.createElement('style');style.id='hotel-consent-style';style.textContent='.hotel-consent-panel{position:fixed;inset:auto 16px 16px auto;z-index:10050;width:500px;max-width:calc(100vw - 32px);box-sizing:border-box;padding:22px;border:1px solid #ccb79b;border-radius:16px;background:#fffaf3;color:#382b20;box-shadow:0 12px 36px #30251c33;font:16px/1.5 Arial,sans-serif}.hotel-consent-panel h2{color:#60452f;font:26px/1.2 Georgia,serif;margin:0 0 12px}.hotel-consent-panel p{color:#382b20;margin:0 0 16px}.hotel-consent-actions{display:flex;flex-wrap:wrap;gap:10px}.hotel-consent-actions button{border:1px solid #60452f;border-radius:8px;padding:10px 14px;background:#60452f;color:#fffaf3;cursor:pointer;font:inherit}.hotel-consent-actions button:focus-visible{outline:3px solid #875435;outline-offset:3px}.cookie-settings{cursor:pointer;background:transparent;border:0;color:inherit;font:inherit;text-decoration:underline;padding:10px}@media (max-width:600px){.hotel-consent-panel{inset:auto 0 0 0;width:100%;max-width:none;padding:14px 16px calc(14px + env(safe-area-inset-bottom));border-width:1px 0 0;border-radius:16px 16px 0 0;box-shadow:0 -8px 28px #30251c26;font-size:13px;line-height:1.45}.hotel-consent-panel h2{display:none}.hotel-consent-panel p{margin:0 0 10px}.hotel-consent-actions{flex-wrap:nowrap;gap:8px}.hotel-consent-actions button{flex:1;padding:9px 10px;white-space:nowrap}}';document.head.append(style);}
+  // A saved choice must remain editable on every guest page.
   let button=document.querySelector('.cookie-settings');
   if(!button){button=document.createElement('button');button.type='button';button.className='text-link cookie-settings';(document.querySelector('.footer-bottom,.sky-guest-footer')||document.querySelector('footer')||document.body).append(button);}
   button.textContent=text('Cookie settings','إعدادات الكوكيز','Cookie 设置');button.onclick=show;
@@ -29,7 +30,7 @@
   dismiss();
   if(!['necessary','all'].includes(preference()))show();
  }
- window.hotelConsent={mount,preference};
+ window.hotelConsent={mount,preference,show};
  window.addEventListener('pageshow',event=>{if(event.persisted)mount();});
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
 })();

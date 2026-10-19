@@ -21,6 +21,7 @@ class HotelBookingStartController extends Controller
             'adults' => ['required', 'integer', 'min:1', 'max:30'],
             'children' => ['required', 'integer', 'min:0', 'max:30'],
             'rooms' => ['sometimes', 'integer', 'min:1', 'max:10'],
+            'locale' => ['sometimes', 'string', 'in:en,ar,zh'],
         ]);
         // Compare dates only after both have passed scalar/format validation.
         $request->validate(['arrival' => ['after_or_equal:today'], 'departure' => ['after:arrival']]);
@@ -36,7 +37,12 @@ class HotelBookingStartController extends Controller
 
         $result = app(PublicController::class)->postBooking($selection, $response)->toArray();
         if (! $result['error']) {
-            $result['next_url'] = route('public.booking.form', $request->session()->get('checkout_token'));
+            $parameters = ['token' => $request->session()->get('checkout_token')];
+            if (isset($input['locale'])) {
+                $request->session()->put('hotel_ui_locale', $input['locale']);
+                $parameters['lang'] = $input['locale'];
+            }
+            $result['next_url'] = route('public.booking.form', $parameters);
         }
 
         return response()->json($result, $result['error'] ? 422 : 200)->header('Cache-Control', 'no-store');

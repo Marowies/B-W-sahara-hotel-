@@ -108,10 +108,10 @@
     "m_82b639ed7c3e": "Can an extra bed be arranged?",
     "m_dbe00a900fdf": "An extra bed is listed for some room categories on the current hotel website. Confirm room capacity, availability and charges directly with the team.",
     "m_e698b193ae57": "A room. Your own rhythm.",
-    "m_69dbbcff35a1": "Seven room categories. One unhurried way to stay. Find the space that feels like you.",
+    "m_69dbbcff35a1": "Seven room types. One unhurried way to stay. Find the space that feels like you.",
     "m_6b68f47c6c4e": "YOUR DESERT SANCTUARY",
     "m_5f5b6a55d00a": "Make yourself<br><em>at home.</em>",
-    "m_d2a5282535f6": "Room areas and bed layouts follow the current hotel catalogue. Live rates will be confirmed through the booking partner.",
+    "m_d2a5282535f6": "Room areas and bed layouts follow the current hotel catalogue. Choose your dates to see live availability and rates.",
     "m_7d9092b09461": "Room categories",
     "m_8f8bb5caae56": "NEW AT SAHARA SKY",
     "m_533127151c29": "A new chapter in copper and glass. Discover the domes and the interactive architectural view.",
@@ -129,7 +129,7 @@
     "m_1b90569ecb76": "Confirm maximum occupancy, breakfast inclusion and extra-bed fees with the hotel for your selected rate.",
     "m_02bfb00f8711": "YOUR NEXT CHAPTER",
     "m_a9ce965c687c": "Stay somewhere different.",
-    "m_f281b7b82554": "Choose your dates to preview the next steps. Live pricing and availability are not connected yet.",
+    "m_f281b7b82554": "Choose your dates to check live room availability.",
     "m_9e7a449c032e": "Talk to the team",
     "m_a738f7df0b17": "Photo from the current hotel website",
     "m_b21309002ceb": "A LITTLE MORE CHOICE",
@@ -221,13 +221,13 @@
     "m_8cabc3a48e2f": "BEFORE YOU ARRIVE",
     "m_1bd059bb6f27": "Let’s make it simple.",
     "m_12d94e6e4a7b": "Have a question we have not answered? The team is a conversation away.",
-    "m_36f06ef6f8ca": "This design preview",
+    "m_36f06ef6f8ca": "How this website works",
     "m_9e5ff90655ce": "Before the live website launches",
     "m_179d27f9db15": "The hotel must approve a final privacy notice identifying the responsible organisation, information collected, purposes, booking providers, retention, cookies and how guests can contact the hotel about their data.",
     "m_4d03b0881456": "External links",
     "m_ce343440c203": "Phone, email, social and WhatsApp links open the hotel’s published contact channels. Those services apply their own privacy policies.",
     "m_6c50ccc22681": "Reservations & rates",
-    "m_dd00670f18c4": "This preview does not show live availability or binding prices. A real booking requires a confirmed room, dates, occupancy, rate and inclusions from the approved booking provider.",
+    "m_dd00670f18c4": "The website shows availability for selected dates and the booking form displays the final amount before submission. Choosing dates or a room does not confirm a reservation. The hotel must approve the applicable booking terms before launch.",
     "m_fd757489d426": "Payment, changes & cancellation",
     "m_9f0bf1f9bcf9": "Final payment, cancellation, refund and no-show conditions must be approved by the hotel and displayed for the selected rate before a live reservation is completed.",
     "m_af7e30c22229": "Arrival & room occupancy",
@@ -239,17 +239,17 @@
     "m_a9bc5c6eeb16": "Use a demo value only",
     "m_90400b9dc364": "Preview this step",
     "m_676f4f5d4369": "Your stay begins here.",
-    "m_d10c92851689": "Choose your dates. Find your room. Preview your next escape.",
+    "m_d10c92851689": "Choose your dates. Find your room. Plan your escape.",
     "m_d5993552b940": "Dates & room",
     "m_597d17c0c79d": "Review",
-    "m_693783099081": "Preview",
+    "m_693783099081": "Booking form",
     "m_9e176b5aba20": "Preview room choices",
     "m_5f7b8071d77d": "A clearer way to book.",
-    "m_cc4dfb6758a5": "Your chosen dates and guests stay with you between the preview screens.",
+    "m_cc4dfb6758a5": "Your dates and guest count stay with you through the booking steps.",
     "m_49a496854823": "DEMONSTRATION ROOMS",
     "m_6b9269de0f73": "Find your kind of stay.",
     "m_453caad443d6": "These are catalogue examples, not live availability results. Prices are not shown until the booking provider is connected.",
-    "m_79aa8a1c53d2": "A final look before your stay preview.",
+    "m_79aa8a1c53d2": "Check your room and dates before you open the booking form.",
     "m_f6ad064188f2": "A preview of the final booking screen.",
     "m_15263c472314": "Your next chapter.<br>Beautifully imagined.",
     "m_35a9893d30a3": "You have reached the end of the design preview. No reservation has been created and no payment has been taken.",
@@ -273,7 +273,7 @@
     "m_2ff504b58aae": "Change dates or room",
     "m_29e0cfe7a1f8": "Almost there.",
     "m_05aea58faae6": "No card details or personal information are needed for this preview.",
-    "m_da2c4f6e84da": "View final preview",
+    "m_da2c4f6e84da": "Open booking form",
     "m_91dca2aecd0a": "Choose your stay first.",
     "m_00d7fb1e8626": "Preview complete. Nothing was sent or saved.",
     "m_81f9cfa86339": "Enable motion",
@@ -286,7 +286,7 @@
     "m_1f0f8f166b2e": "BEFORE YOUR NEXT CHAPTER",
     "m_7a9f988506bc": "A little inspiration.",
     "m_58799a0f9b97": "beds",
-    "m_9cb4df045594": "Base room rate: ",
+    "m_9cb4df045594": "Rate per night from: ",
     "m_6436a2b10eba": "No rooms match these dates and guests.",
     "m_d6f2ad9b46c6": "HOTEL AVAILABILITY",
     "m_613b4731c1c5": "Checking hotel availability…",
@@ -294,7 +294,8 @@
     "m_71ffefe08618": "Send enquiry",
     "m_549e4c6fa72f": "Your enquiry is saved to the hotel’s administration inbox.",
     "m_aa47a94c0e44": "Your enquiry was saved. The hotel team can review it in their inbox.",
-    "m_6166ec0ee0a3": "Sahara Sky"
+    "m_6166ec0ee0a3": "Sahara Sky",
+    "m_58799a0f9b97_one": "bed"
   },
   "app": {
     "updated": "Content reviewed",
@@ -308,7 +309,7 @@
     "m_5a56f27d5730": "Create an account",
     "m_9fd3d96bd508": "Reset password",
     "m_979f58a0761a": "Demo password",
-    "m_565630ad0ef5": "The preview forms do not send messages, create accounts, accept payments or create reservations. Your selected stay dates may be held temporarily in this browser session so you can review the booking screens.",
+    "m_565630ad0ef5": "This website supports email-code sign-in, account profiles, enquiries and booking forms. Necessary cookies keep sign-in and the current booking working. The hotel must approve the final privacy notice before launch.",
     "m_7dd1161da37a": "Interface demo only. No account is created and no credentials are transmitted or saved. Use demo values."
   },
   "emails": {
@@ -547,28 +548,28 @@
       "description": "Discovering the desert — draft. A preview or draft page, not a confirmed hotel offer."
     },
     "booking": {
-      "title": "Check local room availability | B&W Sahara Sky Hotel",
-      "description": "Check local room availability. A preview or draft page, not a confirmed hotel offer."
+      "title": "Check room availability | B&W Sahara Sky Hotel",
+      "description": "Check room availability for your dates at B&W Sahara Sky Hotel."
     },
     "review": {
-      "title": "Review your stay preview | B&W Sahara Sky Hotel",
-      "description": "Review your stay preview. A preview or draft page, not a confirmed hotel offer."
+      "title": "Review your stay | B&W Sahara Sky Hotel",
+      "description": "Review your room, dates and guests before you continue."
     },
     "confirmation": {
       "title": "Stay preview, not a reservation | B&W Sahara Sky Hotel",
       "description": "Stay preview, not a reservation. A preview or draft page, not a confirmed hotel offer."
     },
     "login": {
-      "title": "Customer sign-in preview | B&W Sahara Sky Hotel",
-      "description": "Customer sign-in preview. A preview or draft page, not a confirmed hotel offer."
+      "title": "Sign in | B&W Sahara Sky Hotel",
+      "description": "Sign in with a one-time email code or Google to book and manage your stay."
     },
     "register": {
-      "title": "Customer account preview | B&W Sahara Sky Hotel",
-      "description": "Customer account preview. A preview or draft page, not a confirmed hotel offer."
+      "title": "Create your account | B&W Sahara Sky Hotel",
+      "description": "Create your account with a one-time email code to book and manage your stay."
     },
     "forgot": {
-      "title": "Password recovery preview | B&W Sahara Sky Hotel",
-      "description": "Password recovery preview. A preview or draft page, not a confirmed hotel offer."
+      "title": "Sign-in help | B&W Sahara Sky Hotel",
+      "description": "Get a new one-time sign-in code by email."
     },
     "approval": {
       "title": "Design review | B&W Sahara Sky Hotel",
@@ -819,8 +820,8 @@
     }
   },
   "otp": {
-    "continue": "Continue to payment",
-    "intro": "To continue to payment, sign in with a one-time code. We will email it to you.",
+    "continue": "Open booking form",
+    "intro": "To open the hotel booking form, sign in with a one-time code. We will email it to you. You can review the total there before any payment.",
     "send": "Send code",
     "sending": "Sending the code…",
     "codeLabel": "6-digit code",

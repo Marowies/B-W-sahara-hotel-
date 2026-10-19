@@ -1,52 +1,34 @@
 @extends(HotelHelper::viewPath('customers.master'))
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h1 class="text-center mb-20">{{ SeoHelper::getTitle() }}</h1>
-        </div>
+    @php
+        SeoHelper::setTitle(__('My Reviews'));
+    @endphp
 
-        <div class="panel-body">
-            <div class="section-content">
-                <div class="table-responsive mb-20">
-                    <table class="table table-striped custom-review-table">
-                        <thead class="text-center">
-                            <tr>
-                                <th style="width: 15%">{{ __('Room') }}</th>
-                                <th style="width: 15%">{{ __('Image') }}</th>
-                                <th>{{ __('Content') }}</th>
-                            </tr>
-                        </thead>
+    <header class="sky-page-head">
+        <p class="sky-eyebrow">{{ __('My account') }}</p>
+        <h1>{{ __('My Reviews') }}</h1>
+    </header>
 
-                        <tbody class="text-center">
-                        @if (count($reviews) > 0)
-                            @foreach ($reviews as $review)
-                                @php($room = $review->room)
-                                <tr class="align-middle">
-                                        <td>
-                                            <a class="review-information-link" href="{{ $room->url }}" target="_blank">
-                                                {{ $room->name }}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ $room->url }}" target="_blank">
-                                                <img src="{{ RvMedia::getImageUrl($room->image, 'thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $review->room->name }}" width="120">
-                                            </a>
-                                        </td>
-                                    <td>{{ $review->content }}</td>
-                                </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td colspan="5" class="text-center">{{ __('No reviews!') }}</td>
-                            </tr>
-                        @endif
-                        </tbody>
-                    </table>
-                </div>
+    @if (count($reviews) > 0)
+        <ul class="sky-booking-list">
+            @foreach ($reviews as $review)
+                @php($room = $review->room)
+                <li class="sky-card sky-booking-item">
+                    <img src="{{ RvMedia::getImageUrl($room->image, 'thumb', false, RvMedia::getDefaultImage()) }}" alt="" width="120" height="90" loading="lazy">
+                    <div class="sky-booking-body">
+                        <h2 class="sky-booking-room"><a href="{{ $room->url }}">{{ $room->name }}</a></h2>
+                        <p class="sky-review-text">{{ $review->content }}</p>
+                    </div>
+                </li>
+            @endforeach
+        </ul>
 
-                {!! $reviews->links(HotelHelper::viewPath('partials.pagination')) !!}
-            </div>
-        </div>
-    </div>
+        {!! $reviews->links(HotelHelper::viewPath('partials.pagination')) !!}
+    @else
+        <section class="sky-card sky-empty">
+            <h2>{{ __('No reviews yet') }}</h2>
+            <p>{{ __('Reviews you write about your stays will appear here.') }}</p>
+        </section>
+    @endif
 @stop

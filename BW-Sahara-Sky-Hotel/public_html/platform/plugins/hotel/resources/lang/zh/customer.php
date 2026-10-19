@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'customers' => '客户',
     'continue_with_google' => '使用 Google 继续',
     'or' => '或',
         'name' => '客户',

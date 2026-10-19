@@ -21,12 +21,12 @@ class CustomerController extends BaseController
         $this
             ->breadcrumb()
             ->add(trans('plugins/hotel::hotel.name'))
-            ->add(trans('plugins/hotel::customer.name'), route('customer.index'));
+            ->add(trans('plugins/hotel::customer.customers'), route('customer.index'));
     }
 
     public function index(CustomerTable $table)
     {
-        $this->pageTitle(trans('plugins/hotel::customer.name'));
+        $this->pageTitle(trans('plugins/hotel::customer.customers'));
 
         return $table->renderTable();
     }

@@ -4,7 +4,6 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class HotelSessionReuse extends Notification implements ShouldQueue
@@ -25,12 +24,9 @@ class HotelSessionReuse extends Notification implements ShouldQueue
         return ['mail'];
     }
 
-    public function toMail(object $notifiable): MailMessage
+    public function toMail(object $notifiable): \App\Mail\HotelSecurityAlertMail
     {
-        return (new MailMessage())->subject('Security alert — B&W Sahara Sky')
-            ->line('An old sign-in token was reused. We ended the affected session. Other sign-in sessions were not changed.')
-            ->line('Time UTC: ' . $this->occurredAt)
-            ->line('IP: ' . $this->ip)->line('Device: ' . $this->device)
-            ->line('Sign in again with an email code. If this was not you, contact the hotel.');
+        // The hotel's branded template, in the language the customer last used on the site.
+        return (new \App\Mail\HotelSecurityAlertMail($this->ip, $this->device, $notifiable->ui_locale ?? null))->to($notifiable->email);
     }
 }

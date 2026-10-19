@@ -69,7 +69,8 @@ class PublicController extends BaseController
 
         $customer->fill($request->except('email'));
 
-        $customer->dob = Carbon::parse($request->input('dob'))->toDateString();
+        // The date of birth is optional; Carbon::parse(null) would otherwise store today's date.
+        $customer->dob = $request->filled('dob') ? Carbon::parse($request->input('dob'))->toDateString() : null;
 
         $customer->save();
 

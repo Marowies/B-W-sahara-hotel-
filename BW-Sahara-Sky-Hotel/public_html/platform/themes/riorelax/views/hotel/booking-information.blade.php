@@ -1,18 +1,18 @@
 @php
+    // The default layout wraps booking routes in the same guest shell as the customer account.
     Theme::set('pageTitle', __('Booking information'));
-    Theme::layout('full-width');
+    SeoHelper::setTitle(__('Booking information'));
 @endphp
 
 <section class="booking-information-page">
-    <div class="pt-60 pb-60">
-        <div class="container">
-            <div class="justify-content-center">
-                <div class="booking-form-body room-details booking-information">
-                    <h3 class="mb-20">{{ __('Your booking information') }}</h3>
-                    <br>
-                    @include('plugins/hotel::booking-info', ['booking' => $booking, 'route' => 'customer.generate-invoice'])
-                </div>
-            </div>
-        </div>
+    <header class="sky-page-head">
+        <p class="sky-eyebrow">{{ __('Booking form') }}</p>
+        <h1>{{ __('Your booking information') }}</h1>
+        @if (auth('customer')->check())
+            <p class="sky-lead"><a class="sky-text-link" href="{{ route('customer.bookings') }}">{{ __('My Bookings') }}</a></p>
+        @endif
+    </header>
+    <div class="sky-card sky-booking-info booking-information">
+        @include('plugins/hotel::booking-info', ['booking' => $booking, 'route' => 'customer.generate-invoice'])
     </div>
 </section>

@@ -37,7 +37,8 @@ for(const row of routeDefinitions)for(const [i,lang] of languages.entries()){
  if(faq){check(faq.mainEntity.length>=3&&faq.mainEntity.length<=7,'FAQ size');
   for(const f of faq.mainEntity){check(raw.includes(f.name.replaceAll('&','&amp;')),'Visible question');check(raw.includes(f.acceptedAnswer.text.replaceAll('&','&amp;')),'Visible answer');}
  }
- if(content)check(raw.includes(`datetime="${config.entity.reviewed}"`),'Honest visible date');
+ // The review date is kept in structured data only; the page no longer shows it.
+ if(content)check(!raw.includes('class="answer-reviewed"'),'Review date shown on the page');
 }
 const redirect=(path,headers={},trusted=true)=>localeRedirect(new URL('https://hotel.test'+path),new Headers(headers),{trustedCountryHeader:trusted});
 for(const ua of ['Googlebot','Bingbot','GPTBot','OAI-SearchBot','ChatGPT-User','ClaudeBot','PerplexityBot','Applebot','facebookexternalhit'])check(redirect('/',{'user-agent':ua,'x-vercel-ip-country':'EG'})===null,'Crawler stays on requested URL');

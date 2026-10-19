@@ -24,8 +24,28 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
+    # Static frontend: /page/index.html is the same page as /page/.
+    RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[?\s] [NC]
+    RewriteRule ^(.*/)?index\.html$ /$1 [R=301,L]
+
+    # Static frontend: ?lang=, the internal design review and mistyped case are answered by Laravel's StaticFrontendGate.
+    RewriteCond %{REQUEST_METHOD} ^(GET|HEAD)$
+    RewriteCond %{QUERY_STRING} (^|&)lang=(en|ar|zh)(&|$) [NC]
+    RewriteCond %{REQUEST_URI} !^/(admin|api|auth|customer|customers|storage|vendor)(/|$) [NC]
+    RewriteRule ^ index.php [L]
+    RewriteRule ^(design-review|ar/moragaat-tasmeem|zh/sheji-shenhe)(/.*)?$ index.php [L,NC]
+
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
+    Header always unset X-Powered-By
+    Header unset X-Powered-By
 </IfModule>
