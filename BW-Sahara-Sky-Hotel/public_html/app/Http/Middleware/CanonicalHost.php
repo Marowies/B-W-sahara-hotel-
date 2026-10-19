@@ -38,7 +38,8 @@ class CanonicalHost
         }
 
         foreach (explode('/', strtolower(trim(rawurldecode($request->getPathInfo()), '/'))) as $segment) {
-            if (in_array($segment, $settings['excluded_paths'] ?? [], true)) {
+            if ($segment === strtolower((string) config('core.base.general.admin_dir', 'admin'))
+                || in_array($segment, $settings['excluded_paths'] ?? [], true)) {
                 return $next($request);
             }
         }
