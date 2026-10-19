@@ -15,6 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // Appended after trusted proxy handling; disabled unless explicitly configured.
         $middleware->append(\App\Http\Middleware\CanonicalHost::class);
         $middleware->append(\App\Http\Middleware\StaffEntry::class);
+        // Closes password/URL sign-in routes and keeps signed-in pages out of shared caches.
+        $middleware->append(\App\Http\Middleware\HardenCustomerAuth::class);
         $middleware->append(\App\Http\Middleware\LimitHotelTraffic::class);
         // Old CMS pages and unknown public addresses go to the static frontend's pages and 404.
         $middleware->append(\App\Http\Middleware\StaticFrontendGate::class);

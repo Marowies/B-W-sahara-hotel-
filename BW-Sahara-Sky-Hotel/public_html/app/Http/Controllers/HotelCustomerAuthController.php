@@ -28,18 +28,19 @@ class HotelCustomerAuthController extends Controller
 
     public function requestCode(Request $request): JsonResponse
     {
-        $data = $request->validate(['email' => ['required', 'email:rfc', 'max:255']]);
+        $data = $request->validate(['email' => ['required', 'email:rfc', 'max:255'], 'locale' => ['nullable', 'in:en,ar,zh']]);
         $email = Str::lower(trim($data['email']));
 
-        return $this->requestCodeForEmail($email);
+        return $this->requestCodeForEmail($email, $data['locale'] ?? null);
     }
 
     /** Shared delivery path for validated email input and the verified Google mailbox. */
-    public function requestCodeForEmail(string $email): JsonResponse
+    public function requestCodeForEmail(string $email, ?string $locale = null): JsonResponse
     {
         $email = Str::lower(trim($email));
+        $locale = \App\Support\HotelMailCopy::locale($locale ?? session('hotel_ui_locale'));
 
-        return app(HotelLoginLock::class)->run($email, function () use ($email): JsonResponse {
+        return app(HotelLoginLock::class)->run($email, function () use ($email, $locale): JsonResponse {
 
         // Resolving the mail manager applies the CMS email settings, which can
         // override .env. A testing sink must never be reported as real delivery.
@@ -63,11 +64,12 @@ class HotelCustomerAuthController extends Controller
             'expires_at' => now()->addMinutes(self::TTL_MINUTES), 'created_at' => now(), 'updated_at' => now(),
         ]);
 
+        // Delivery is synchronous so a failure is reported to the visitor (and the code dropped) instead of being hidden.
+        // The time the mail server takes is logged to tell a slow SMTP provider apart from a slow website.
+        $started = microtime(true);
         try {
-            Mail::raw(
-                "Your B&W Sahara Sky verification code is {$code}\nرمز التحقق الخاص بك: {$code}\n\nIt expires in " . self::TTL_MINUTES . ' minutes. If you did not request it, ignore this email.',
-                fn ($message) => $message->to($email)->subject('Your verification code · B&W Sahara Sky')
-            );
+            Mail::to($email)->send(new \App\Mail\HotelLoginCodeMail($code, self::TTL_MINUTES, $locale));
+            \Illuminate\Support\Facades\Log::info('hotel.login_code_mail', ['ms' => (int) ((microtime(true) - $started) * 1000)]);
         } catch (Throwable $e) {
             report($e);
             DB::table('hotel_login_codes')->where('email', $email)->delete();

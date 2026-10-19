@@ -80,6 +80,9 @@ test('Auth: resend cooldown and mail failure rollback', function () use ($db): v
     $mail = new class {
         public bool $fail = false;
         public function raw(...$args): void { if ($this->fail) throw new RuntimeException('Synthetic delivery failure'); }
+        // The sign-in code is now a branded Mailable sent with Mail::to($email)->send(...).
+        public function to(...$args): static { return $this; }
+        public function send(...$args): void { if ($this->fail) throw new RuntimeException('Synthetic delivery failure'); }
     };
     Illuminate\Support\Facades\Mail::swap($mail);
     $controller = new App\Http\Controllers\HotelCustomerAuthController(app(HotelTokenService::class));

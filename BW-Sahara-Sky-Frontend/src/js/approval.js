@@ -245,7 +245,7 @@ const roomName=name=>String(name||'').replace(/^\s*B\s*&\s*W\s+SAHARA\s+SKY\s+Ho
   };
   const keep=r=>{if(r.ok&&r.data.access_token){auth.token=r.data.access_token;auth.exp=Date.now()+r.data.expires_in*1000;auth.email=r.data.email||auth.email;updateAccountHeader();}return r;};
   const ensureToken=()=>{if(auth.token&&auth.exp-Date.now()>30000)return Promise.resolve(true);return auth.pending||(auth.pending=send('auth/refresh',{}).then(r=>{auth.pending=null;keep(r);if(!r.ok||!r.data.access_token){auth.token=null;auth.exp=0;auth.email=null;updateAccountHeader();return false;}return true;}));};
-  const gateCall=async(path,body)=>{if(path==='auth/otp/verify'||path==='auth/otp/request')return keep(await send(path,body));if(path==='auth/logout'){const r=await send(path,{},auth.token);if(r.ok){auth.token=null;auth.exp=0;auth.email=null;updateAccountHeader();}return r;}if(!await ensureToken())return {ok:false,status:401,data:{code:'login_required'}};return send(path,body,auth.token);};
+  const gateCall=async(path,body)=>{if(path==='auth/otp/request')body={...body,locale:lang};if(path==='auth/otp/verify'||path==='auth/otp/request')return keep(await send(path,body));if(path==='auth/logout'){const r=await send(path,{},auth.token);if(r.ok){auth.token=null;auth.exp=0;auth.email=null;updateAccountHeader();}return r;}if(!await ensureToken())return {ok:false,status:401,data:{code:'login_required'}};return send(path,body,auth.token);};
   // Every connected page restores the real customer session before changing its account link.
   ensureToken().then(updateAccountHeader);
   // Room browsing stays public; selecting a room requires a real signed-in session.
@@ -303,7 +303,8 @@ const roomName=name=>String(name||'').replace(/^\s*B\s*&\s*W\s+SAHARA\s+SKY\s+Ho
    i.addEventListener('input',()=>{i.value=i.value.replace(/\D/g,'').slice(0,6);if(i.value.length===6&&!verify.disabled)form.requestSubmit();});
   }
   if(welcome)heading(t('Check your inbox','شوف إيميلك','请查收邮件'),t('Enter the 6-digit code we just sent you.','اكتب الكود المكوّن من 6 أرقام اللي لسه باعتينهولك.','请输入我们刚刚发送的 6 位验证码。'));
-  form.append(help,l,verify,row);gate.replaceChildren(form);i.focus();
+  const late=intro(t('It can take up to a minute to arrive. Please check your spam or junk folder too.','ممكن يوصل في خلال دقيقة. شوف فولدر الرسائل المزعجة (Spam) كمان.','邮件最多可能需要一分钟送达，也请查看垃圾邮件文件夹。'));late.className='otp-hint';
+  form.append(help,l,verify,row,late);gate.replaceChildren(form);i.focus();
   let left=wait;const tick=()=>{resend.disabled=left>0;resend.textContent=left>0?t('otp.resendIn').replace('{s}',left):t('otp.resend');};tick();
   const timer=setInterval(()=>{if(!form.isConnected){clearInterval(timer);return;}if(left>0){left--;tick();}},1000);
   change.onclick=()=>{clearInterval(timer);showEmail(email);};

@@ -123,11 +123,7 @@
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
             <span><strong>{{ __('Edit profile') }}</strong><small>{{ __('Update your name, phone and country') }}</small></span>
         </a>
-        <a class="sky-quick-item" href="{{ route('customer.change-password') }}">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg>
-            <span><strong>{{ __('Change password') }}</strong><small>{{ __('Keep your account secure') }}</small></span>
-        </a>
-        <a class="sky-quick-item" href="{{ riorelax_guest_site_url('contact') }}">
+                <a class="sky-quick-item" href="{{ riorelax_guest_site_url('contact') }}">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 3.5V17A2.5 2.5 0 0 1 4 14.5z"/></svg>
             <span><strong>{{ __('Contact the hotel') }}</strong><small>{{ __('Talk to our team about your stay') }}</small></span>
         </a>

@@ -9,7 +9,7 @@
     if (HotelHelper::isReviewEnabled()) {
         $accountLinks[] = ['customer.reviews', __('My Reviews'), ['customer.reviews']];
     }
-    $accountLinks[] = ['customer.change-password', __('Change password'), ['customer.change-password']];
+    // No "Change password": guests sign in with an emailed code, so there is no password to change.
 @endphp
 
 <div @class(['customer-page sky-account', 'sky-account-overview' => $accountRoute === 'customer.overview'])>
