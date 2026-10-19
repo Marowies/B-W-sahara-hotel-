@@ -21,8 +21,44 @@ window.hotelRenderPage = ({page, path, t, labels, rooms, roomCard, roomIntro, he
  ['desert.jpg',t('marketing.m_73cd65408659'),t('marketing.m_6f8b9ef25a2a'),t('marketing.m_2938ffbfbe3e')]
  ].map(([img,over,h,p])=>`<article class="experience-wide"><img src="assets/${img}" alt="${h}" loading="lazy"><div><span class="eyebrow">${over}</span><h2>${h}</h2><p>${p}</p>${requestLink}<p class="preview-note">${t('marketing.m_b608afa6a837')}</p></div></article>`).join('')}</section>`;
  if(page==='gallery'){
- const pictures=[['hero.jpg','domes',labels.domes],['room-2-0.jpg','deluxe',rooms[0].name],['room-6-0.jpg','superior',rooms[3].name],['desert.jpg','hotel',t('marketing.m_196394a7e9ce')],['room-5-0.jpg','standard',rooms[4].name],['04-1.jpg','domes',t('marketing.m_2b73df1782ad')],['03-1.jpg','domes',labels.domes],['room-1-1.jpg','deluxe',rooms[1].name],['exterior.jpg','hotel',t('marketing.m_c89c0fc4d737')],['05-1.jpg','domes',t('marketing.m_9f0c803031a4')],['desert-arrival.png','concept',labels.visualisation],['desert-farewell.png','concept',labels.visualisation]];
- return hero(t('marketing.m_ee5b5ab1eaf7'),t('marketing.m_16e881ca4489'),'03-1.jpg')+`<section class="page-body"><div class="filter-row">${['all','hotel','deluxe','superior','standard','domes','concept'].map(k=>`<button data-filter="${k}" aria-pressed="${k==='all'}">${labels[k]||(k==='hotel'?t('marketing.m_a4f99c1f513d'):labels.visualisation)}</button>`).join('')}</div><div class="gallery-grid">${pictures.map(([img,cat,caption])=>`<button class="gallery-item" data-category="${cat}" data-lightbox="${img}" data-caption="${caption}" aria-label="${labels.photo}: ${caption}"><figure><img src="assets/${img}" alt="${caption}" loading="lazy"><figcaption>${caption}</figcaption></figure></button>`).join('')}</div></section>`;
+ const pictures=[
+  ['gallery-aerial-camp.jpg','hotel',t('The camp seen from above','المعسكر من الأعلى','俯瞰营地')],
+  ['gallery-dome-twin-mural.jpg','deluxe',t('Glass dome, twin beds','قبة زجاجية بسريرين','玻璃穹顶双床房')],
+  ['gallery-dome-king.jpg','deluxe',t('Glass dome, king bed','قبة زجاجية بسرير كينج','玻璃穹顶大床房')],
+  ['gallery-superior-king-window.jpg','superior',t('Superior room with a mountain view','غرفة سوبيريور بإطلالة على الجبل','可观山景的高级客房')],
+  ['gallery-domes-mountain.jpg','domes',t('The domes beneath the mountain','القباب أسفل الجبل','山脚下的穹顶')],
+  ['gallery-standard-twin.jpg','standard',t('Standard room under a brick vault','غرفة ستاندرد بسقف من الطوب','砖砌拱顶标准客房')],
+  ['gallery-standard-king.jpg','standard',t('Standard room, king bed','غرفة ستاندرد بسرير كينج','标准大床房')],
+  ['gallery-bath-mirror.jpg','hotel',t('Marble bathroom','حمام رخامي','大理石浴室')],
+  ['gallery-domes-sunset.jpg','domes',t('Sunset over the domes','غروب الشمس فوق القباب','穹顶上的日落')],
+  ['gallery-dome-twin-front.jpg','deluxe',t('Dome room with a desert mural','غرفة القبة بلوحة صحراوية','带沙漠壁画的穹顶客房')],
+  ['gallery-standard-twin-rug.jpg','standard',t('Twin room with a handwoven rug','غرفة بسريرين وسجادة منسوجة','配手工地毯的双床房')],
+  ['gallery-restaurant.jpg','hotel',t('The restaurant','المطعم','餐厅')],
+  ['gallery-night-sky-mountain.jpg','stars',t('Night sky above the camp','سماء الليل فوق المعسكر','营地上空的夜空')],
+  ['gallery-bath-basin.jpg','hotel',t('Brass basin and marble','حوض نحاسي ورخام','黄铜洗手盆与大理石')],
+  ['gallery-superior-window.jpg','superior',t('A window onto the desert','نافذة على الصحراء','面向沙漠的窗')],
+  ['gallery-garden-steps.jpg','hotel',t('The garden steps','سلالم الحديقة','花园台阶')],
+  ['gallery-domes-hills.jpg','domes',t('Domes in the foothills','القباب عند سفح التلال','山麓中的穹顶')],
+  ['gallery-dome-four-poster.jpg','deluxe',t('Four-poster bed in the dome','سرير بأعمدة داخل القبة','穹顶内的四柱床')],
+  ['gallery-twin-tv-window.jpg','standard',t('Twin room with an arched window','غرفة بسريرين ونافذة مقوسة','带拱窗的双床房')],
+  ['gallery-brick-ceiling.jpg','hotel',t('Hand-laid brick ceiling','سقف من الطوب بصنعة يدوية','手工砌筑的砖顶')],
+  ['gallery-canyon-sand.jpg','experiences',t('Colourful canyon walls','جدران الوادي الملونة','色彩斑斓的峡谷')],
+  ['gallery-dome-glass-view.jpg','deluxe',t('The view from the dome','الإطلالة من القبة','穹顶中的景观')],
+  ['gallery-tomb-paintings.jpg','experiences',t('Ancient tomb paintings','نقوش المقابر القديمة','古墓壁画')],
+  ['gallery-reed-hut.jpg','experiences',t('A reed hut in bloom','كوخ من القصب وسط الزهور','繁花环绕的芦苇小屋')],
+  ['gallery-aerial-domes.jpg','domes',t('The domes from the air','القباب من الجو','空中俯瞰穹顶')],
+  ['gallery-star-trails.jpg','stars',t('Star trails over the desert','مسارات النجوم فوق الصحراء','沙漠上空的星轨')],
+  ['gallery-stones-tent.jpg','experiences',t('Stacked stones and a desert camp','أحجار مرصوصة ومخيم صحراوي','叠石与沙漠营地')],
+  ['gallery-tomb-hall.jpg','experiences',t('A painted tomb hall','قاعة مقبرة مزخرفة','彩绘墓室')],
+  ['gallery-red-architecture.jpg','hotel',t('Red clay architecture and the black mountain','عمارة الطين الأحمر والجبل الأسود','红色土坯建筑与黑山')],
+  ['gallery-star-trails-stones.jpg','stars',t('Circling stars above the stones','نجوم تدور فوق الأحجار','叠石上空的旋转星空')],
+  ['gallery-red-domes.jpg','hotel',t('The red domes','القباب الحمراء','红色穹顶')],
+  ['gallery-sunset-sky-dome.jpg','hotel',t('A burning sky at dusk','سماء مشتعلة وقت الغروب','黄昏的火烧云')],
+  ['gallery-milky-way-camp.jpg','stars',t('The Milky Way over camp','درب التبانة فوق المعسكر','营地上空的银河')],
+  ['desert-arrival.png','concept',labels.visualisation],
+  ['desert-farewell.png','concept',labels.visualisation]
+ ];
+ return hero(t('marketing.m_ee5b5ab1eaf7'),t('marketing.m_16e881ca4489'),'03-1.jpg')+`<section class="page-body"><div class="filter-row">${['all','hotel','deluxe','superior','standard','domes','stars','experiences','concept'].map(k=>`<button data-filter="${k}" aria-pressed="${k==='all'}">${labels[k]||(k==='hotel'?t('marketing.m_a4f99c1f513d'):k==='stars'?t('Night sky','سماء الليل','星空'):k==='experiences'?t('Desert & heritage','الصحراء والتراث','沙漠与遗产'):labels.visualisation)}</button>`).join('')}</div><div class="gallery-grid">${pictures.map(([img,cat,caption])=>`<button class="gallery-item" data-category="${cat}" data-lightbox="${img}" data-caption="${caption}" aria-label="${labels.photo}: ${caption}"><figure><img src="assets/${img}" alt="${caption}" loading="lazy"><figcaption>${caption}</figcaption></figure></button>`).join('')}</div></section>`;
  }
  if(page==='blog')return hero(t('marketing.m_27097ca1c99f'),t('marketing.m_ca46181e84cd'),'exterior.jpg')+`<section class="page-body"><span class="eyebrow">${t('marketing.m_a879720a6603')}</span><div class="article-grid" style="margin-top:30px">${stories.map(storyCard).join('')}</div><p class="preview-note">${t('marketing.m_de980fa257e5')}</p></section>`;
  if(page==='article'){
