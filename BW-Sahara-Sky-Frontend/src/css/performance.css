@@ -259,11 +259,7 @@ footer{background:var(--brand-brown-dark,#2b1e17)!important}
 .model-options button,.model-controls button{color:#dbc5a2}
 .model-options button[aria-pressed=true],.layout-toggle button[aria-pressed=true]{background:#dbc5a2;color:#30251c}
 .cinema-copy h2,.cinema-copy p,.cinema-copy .eyebrow{color:#f4eadb}
-html{scrollbar-color:#a98c6c #f2eadf}
-::-webkit-scrollbar-track{background:#f2eadf}
-::-webkit-scrollbar-thumb{background:#a98c6c;border-color:#f2eadf}
 footer{background:#30251c!important;color:#f4eadb}
-/* The page keeps its brand-coloured scroll rail; only inner scrolling strips (carousels, filters) hide theirs. */
 body *{scrollbar-width:none!important}
 body *::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
 .account-control{position:relative}

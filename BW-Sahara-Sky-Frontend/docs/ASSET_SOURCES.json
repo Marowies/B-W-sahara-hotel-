@@ -1,65 +1,5 @@
 [
   {
-    "room": "1",
-    "file": "room-1-0.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/1/507563099-850x460.jpg"
-  },
-  {
-    "room": "1",
-    "file": "room-1-1.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/1/507562058-850x460.jpg"
-  },
-  {
-    "room": "1",
-    "file": "room-1-2.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/1/507562070-850x460.jpg"
-  },
-  {
-    "room": "2",
-    "file": "room-2-0.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/2/507563735-850x460.jpg"
-  },
-  {
-    "room": "2",
-    "file": "room-2-1.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/2/507563518-850x460.jpg"
-  },
-  {
-    "room": "2",
-    "file": "room-2-2.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/2/507563302-850x460.jpg"
-  },
-  {
-    "room": "3",
-    "file": "room-3-0.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/3/532283914-850x460.jpg"
-  },
-  {
-    "room": "3",
-    "file": "room-3-1.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/3/532283939-850x460.jpg"
-  },
-  {
-    "room": "3",
-    "file": "room-3-2.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/3/532284046-850x460.jpg"
-  },
-  {
-    "room": "4",
-    "file": "room-4-0.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/4/532580793-850x460.jpg"
-  },
-  {
-    "room": "4",
-    "file": "room-4-1.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/4/532580890-850x460.jpg"
-  },
-  {
-    "room": "4",
-    "file": "room-4-2.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/4/532580898-850x460.jpg"
-  },
-  {
     "room": "5",
     "file": "room-5-0.jpg",
     "source": "https://bwsaharaskyhotel.com/storage/rooms/5/588703878-850x460.jpg"
@@ -75,33 +15,111 @@
     "source": "https://bwsaharaskyhotel.com/storage/rooms/5/588703908-850x460.jpg"
   },
   {
-    "room": "6",
+    "file": "room-1-0.jpg",
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.16.21 PM.jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1600x864",
+    "room": "1"
+  },
+  {
+    "file": "room-1-1.jpg",
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.11.59 PM (4).jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1707x922",
+    "room": "1"
+  },
+  {
+    "file": "room-1-2.jpg",
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.11.59 PM (1).jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1707x922",
+    "room": "1"
+  },
+  {
+    "file": "room-2-0.jpg",
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.16.21 PM (2).jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1600x864",
+    "room": "2"
+  },
+  {
+    "file": "room-2-1.jpg",
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.16.21 PM (3).jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1600x864",
+    "room": "2"
+  },
+  {
+    "file": "room-2-2.jpg",
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.11.59 PM (2).jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1707x922",
+    "room": "2"
+  },
+  {
+    "file": "room-3-0.jpg",
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.11.34 PM.jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1024x553",
+    "room": "3"
+  },
+  {
+    "file": "room-3-1.jpg",
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.16.20 PM.jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1600x864",
+    "room": "3"
+  },
+  {
+    "file": "room-3-2.jpg",
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.16.19 PM (4).jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1600x864",
+    "room": "3"
+  },
+  {
+    "file": "room-4-0.jpg",
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.16.20 PM (2).jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1600x864",
+    "room": "4"
+  },
+  {
+    "file": "room-4-1.jpg",
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.16.20 PM (1).jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1600x864",
+    "room": "4"
+  },
+  {
+    "file": "room-4-2.jpg",
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.16.19 PM (3).jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1600x864",
+    "room": "4"
+  },
+  {
     "file": "room-6-0.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/6/892569674-850x460.jpg"
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.11.07 PM.jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1600x864",
+    "room": "6"
   },
   {
-    "room": "6",
     "file": "room-6-1.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/6/892569685-850x460.jpg"
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.11.07 PM (1).jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1600x864",
+    "room": "6"
   },
   {
-    "room": "6",
     "file": "room-6-2.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/6/892569677-850x460.jpg"
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.11.07 PM (3).jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1600x864",
+    "room": "6"
   },
   {
-    "room": "7",
     "file": "room-7-0.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/7/892614173-850x460.jpg"
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.16.20 PM (3).jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1600x864",
+    "room": "7"
   },
   {
-    "room": "7",
     "file": "room-7-1.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/7/892614172-850x460.jpg"
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.11.07 PM (2).jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1600x864",
+    "room": "7"
   },
   {
-    "room": "7",
     "file": "room-7-2.jpg",
-    "source": "https://bwsaharaskyhotel.com/storage/rooms/7/892614845-850x460.jpg"
+    "source": "Hotel photo shoot supplied by the owner (\"D:\\صور الفندق\": WhatsApp Image 2026-10-06 at 4.16.20 PM.jpeg)",
+    "processing": "cropped/graded for the website (see tools note), 1600x864",
+    "room": "7"
   }
 ]
