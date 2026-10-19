@@ -7,7 +7,9 @@
         $upcoming = $dashboard['upcoming'];
         $featured = $upcoming ?: $dashboard['latest'];
         $hasPayments = is_plugin_active('payment');
-        $displayName = trim((string) $customer->first_name) ?: $customer->name;
+        // A brand-new account (just created, nothing booked yet) is welcomed, not welcomed back.
+$isFirstVisit = $customer->created_at && $customer->created_at->gt(now()->subMinutes(15)) && (int) $dashboard['total'] === 0;
+$displayName = trim((string) $customer->first_name) ?: $customer->name;
         $initial = mb_strtoupper(mb_substr(trim((string) $customer->name) ?: (string) $customer->email, 0, 1));
         $profileFields = array_filter([
             __('Email') => $customer->email,
@@ -24,7 +26,7 @@
             <span class="sky-hero-avatar" aria-hidden="true">{{ $initial }}</span>
             <div>
                 <p class="sky-eyebrow">{{ __('My account') }}</p>
-                <h1>{{ __('Welcome back, :name', ['name' => $displayName]) }}</h1>
+                <h1>{{ $isFirstVisit ? __('Welcome, :name', ['name' => $displayName]) : __('Welcome back, :name', ['name' => $displayName]) }}</h1>
                 @if ($customer->created_at)
                     <p class="sky-hero-meta">{{ __('Member since') }} {{ $customer->created_at->translatedFormat('F Y') }}</p>
                 @endif

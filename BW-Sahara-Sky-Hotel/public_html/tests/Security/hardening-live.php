@@ -130,7 +130,7 @@ $sessionCookie = $A->cookies['botble_session'] ?? '';
 // 2b. First sign-in: the first word of the email is the placeholder name until the guest answers.
 check('new account is flagged is_new with the first word of the email as default name', ($login['json']['is_new'] ?? false) === true && ($login['json']['default_name'] ?? '') === 'Hardening', json_encode([$login['json']['is_new'] ?? null, $login['json']['default_name'] ?? null]));
 $welcome = $A->req('GET', '/customer/overview');
-check('welcome page greets by that word, not the whole address or a dash', str_contains($welcome['body'], 'Welcome back, Hardening') && ! str_contains($welcome['body'], 'Welcome back, Hardening -') && ! str_contains($welcome['body'], 'Welcome back, ' . $email), 'status ' . $welcome['status']);
+check('a brand-new account is welcomed ("Welcome, Hardening"), not welcomed back, with no dash or whole address', str_contains($welcome['body'], 'Welcome, Hardening') && ! str_contains($welcome['body'], 'Welcome back') && ! str_contains($welcome['body'], 'Hardening -') && ! str_contains($welcome['body'], 'Welcome, ' . $email), 'status ' . $welcome['status']);
 check('saving the name needs a signed-in customer', $C->post('/api/hotel/auth/profile', ['first_name' => 'Nope'])['status'] === 401);
 check('first name is required', $A->post('/api/hotel/auth/profile', ['first_name' => '   '], ['Authorization' => 'Bearer ' . $token])['status'] === 422);
 $named = $A->post('/api/hotel/auth/profile', ['first_name' => '<b>Sara</b>', 'last_name' => 'Ali'], ['Authorization' => 'Bearer ' . $token]);
