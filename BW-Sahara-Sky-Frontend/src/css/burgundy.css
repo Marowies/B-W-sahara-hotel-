@@ -1034,3 +1034,4 @@ html body footer .footer-contact h3{margin-bottom:6px!important}
 }
 
 .otp-hint{margin-top:12px;font-size:13px;line-height:1.65;opacity:.78;text-align:center}
+.auth-panel:has(.welcome-name) .auth-steps{display:none}

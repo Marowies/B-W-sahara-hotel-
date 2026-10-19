@@ -110,11 +110,12 @@ class HotelCustomerAuthController extends Controller
         DB::table('hotel_login_codes')->where('email', $email)->delete();
 
         $customer = Customer::query()->where('email', $email)->first();
-        if (! $customer) {
-            $name = trim($data['name'] ?? '') ?: Str::before($email, '@');
+        $isNew = ! $customer;
+        if ($isNew) {
+            // Until the guest tells us their name, the first part of the email address stands in for it.
             $customer = new Customer();
             $customer->forceFill([
-                'first_name' => Str::limit($name, 60, ''), 'last_name' => '-', 'email' => $email,
+                'first_name' => $this->defaultName($email), 'last_name' => '', 'email' => $email,
                 'password' => Str::random(40), 'confirmed_at' => now(),
             ])->save();
         } elseif (! $customer->confirmed_at) {
@@ -128,7 +129,7 @@ class HotelCustomerAuthController extends Controller
         $request->session()->regenerate();
         $request->session()->forget(\App\Services\HotelGoogleSession::PENDING_KEY);
 
-        return $this->session($pair, $request, ['authenticated' => true, 'email' => $customer->email]);
+        return $this->session($pair, $request, ['authenticated' => true, 'email' => $customer->email] + ($isNew ? ['is_new' => true, 'default_name' => $customer->first_name] : []));
         });
     }
 
@@ -181,6 +182,31 @@ class HotelCustomerAuthController extends Controller
         $request->session()->forget(\App\Services\HotelGoogleSession::PENDING_KEY);
 
         return $this->reply(['authenticated' => false])->withCookie($this->tokens->cookie(null, null, $request));
+    }
+
+    /** First sign-in: the guest confirms how we should address them. Signed-in customers only (RequireHotelCustomer). */
+    public function saveName(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'first_name' => ['required', 'string', 'max:60'],
+            'last_name' => ['nullable', 'string', 'max:60'],
+        ]);
+        $first = trim(strip_tags($data['first_name']));
+        if ($first === '') {
+            return $this->reply(['message' => 'Please enter your first name.', 'code' => 'name_required'], 422);
+        }
+        $customer = auth('customer')->user();
+        $customer->forceFill(['first_name' => $first, 'last_name' => trim(strip_tags((string) ($data['last_name'] ?? '')))])->save();
+
+        return $this->reply(['saved' => true, 'name' => $customer->name]);
+    }
+
+    /** "marwan.ewis22@example.com" -> "Marwan": the first word of the address, never the whole address. */
+    private function defaultName(string $email): string
+    {
+        $words = preg_split('/[^\p{L}]+/u', Str::before($email, '@'), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+
+        return Str::limit(Str::title($words[0] ?? 'Guest'), 60, '');
     }
 
     /** Reachable only through RequireHotelCustomer; the payment step calls it before starting. */

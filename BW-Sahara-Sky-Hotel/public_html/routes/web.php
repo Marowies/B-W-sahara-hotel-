@@ -25,6 +25,7 @@ Route::prefix('api/hotel')->middleware('throttle:60,1')->group(function (): void
     Route::post('auth/otp/verify', [HotelCustomerAuthController::class, 'verifyCode'])->middleware('throttle:10,1,otp-verify');
     Route::post('auth/refresh', [HotelCustomerAuthController::class, 'refresh'])->middleware('throttle:30,1,otp-refresh');
     Route::post('auth/logout', [HotelCustomerAuthController::class, 'logout']);
+    Route::post('auth/profile', [HotelCustomerAuthController::class, 'saveName'])->middleware([RequireHotelCustomer::class, 'throttle:20,1,hotel-profile']);
     Route::get('checkout/eligibility', [HotelCustomerAuthController::class, 'checkoutEligibility'])->middleware(RequireHotelCustomer::class);
     Route::post('booking/start', [\App\Http\Controllers\HotelBookingStartController::class, 'start'])->middleware(RequireHotelCustomer::class);
 });

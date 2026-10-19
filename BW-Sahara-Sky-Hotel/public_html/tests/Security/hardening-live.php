@@ -127,6 +127,17 @@ $refreshCookie = $A->cookies['hotel_refresh'] ?? '';
 check('refresh cookie is set', $refreshCookie !== '');
 $sessionCookie = $A->cookies['botble_session'] ?? '';
 
+// 2b. First sign-in: the first word of the email is the placeholder name until the guest answers.
+check('new account is flagged is_new with the first word of the email as default name', ($login['json']['is_new'] ?? false) === true && ($login['json']['default_name'] ?? '') === 'Hardening', json_encode([$login['json']['is_new'] ?? null, $login['json']['default_name'] ?? null]));
+$welcome = $A->req('GET', '/customer/overview');
+check('welcome page greets by that word, not the whole address or a dash', str_contains($welcome['body'], 'Welcome back, Hardening') && ! str_contains($welcome['body'], 'Welcome back, Hardening -') && ! str_contains($welcome['body'], 'Welcome back, ' . $email), 'status ' . $welcome['status']);
+check('saving the name needs a signed-in customer', $C->post('/api/hotel/auth/profile', ['first_name' => 'Nope'])['status'] === 401);
+check('first name is required', $A->post('/api/hotel/auth/profile', ['first_name' => '   '], ['Authorization' => 'Bearer ' . $token])['status'] === 422);
+$named = $A->post('/api/hotel/auth/profile', ['first_name' => '<b>Sara</b>', 'last_name' => 'Ali'], ['Authorization' => 'Bearer ' . $token]);
+check('name saved without markup', $named['status'] === 200 && ($named['json']['name'] ?? '') === 'Sara Ali', json_encode($named['json']));
+$only = $A->post('/api/hotel/auth/profile', ['first_name' => 'Sara'], ['Authorization' => 'Bearer ' . $token]);
+check('last name is optional and not stored as a dash', ($only['json']['name'] ?? '') === 'Sara', json_encode($only['json']));
+
 // 3. Nothing that A can copy from the address bar or a redirect signs anyone in.
 $own = $A->req('GET', '/customer/overview');
 check('A reaches the account page', in_array($own['status'], [200], true), 'status ' . $own['status']);

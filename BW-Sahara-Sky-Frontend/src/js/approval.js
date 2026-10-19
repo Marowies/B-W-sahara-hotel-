@@ -290,6 +290,20 @@ const roomName=name=>String(name||'').replace(/^\s*B\s*&\s*W\s+SAHARA\s+SKY\s+Ho
   else googleProviders.then(r=>{if(form.isConnected&&r.ok&&r.data.google)addGoogle();});
   form.onsubmit=async e=>{e.preventDefault();send.disabled=true;status.textContent=t('otp.sending');const r=await gateCall('auth/otp/request',{email:i.value.trim()});send.disabled=false;if(r.ok){status.textContent='';showCode(i.value.trim().toLowerCase(),r.data.resend_in||60);}else status.textContent=fail(r);};
   }
+  // First sign-in only: confirm the name. Until the guest answers (or skips) the first word of their email stands in.
+  function showName(fallback,finish){
+  status.textContent='';
+  const form=document.createElement('form');form.className='approval-form welcome-name';
+  const [fl,fi]=field(t('First name','الاسم الأول','名字'),{type:'text',name:'first_name',required:'',maxlength:'60',autocomplete:'given-name'});fi.value=fallback;
+  const [ll,li]=field(t('Last name (optional)','اسم العائلة (اختياري)','姓（选填）'),{type:'text',name:'last_name',maxlength:'60',autocomplete:'family-name'});
+  const save=mk('button',t('Continue','متابعة','继续'),'submit'),skip=mk('text-link',t('Skip for now','تخطي دلوقتي','暂时跳过'));
+  const row=document.createElement('p');row.append(skip);
+  if(welcome){form.classList.add('welcome-form');row.className='welcome-links';heading(t('Welcome','أهلاً بيك','欢迎'),t('What should we call you?','نناديك بإيه؟','我们该如何称呼您？'));}
+  form.append(intro(t('Tell us your name so your booking and emails are addressed to you.','اكتب اسمك علشان الحجز والإيميلات تتوجه ليك.','请告诉我们您的姓名，以便预订和邮件使用您的称呼。')),fl,ll,save,row);
+  gate.replaceChildren(form);fi.focus();fi.select();
+  form.onsubmit=async e=>{e.preventDefault();save.disabled=true;const r=await gateCall('auth/profile',{first_name:fi.value.trim(),last_name:li.value.trim()});if(r.ok)finish();else{save.disabled=false;status.textContent=r.status===422?t('Please enter your first name.','اكتب اسمك الأول.','请输入名字。'):fail(r);}};
+  skip.onclick=finish;
+  }
   function showCode(email,wait){
   const form=document.createElement('form');form.className='approval-form';
   const [l,i]=field(t('otp.codeLabel'),{type:'text',name:'code',required:'',inputmode:'numeric',pattern:'[0-9]{6}',maxlength:'6',autocomplete:'one-time-code',dir:'ltr'});
@@ -309,7 +323,7 @@ const roomName=name=>String(name||'').replace(/^\s*B\s*&\s*W\s+SAHARA\s+SKY\s+Ho
   const timer=setInterval(()=>{if(!form.isConnected){clearInterval(timer);return;}if(left>0){left--;tick();}},1000);
   change.onclick=()=>{clearInterval(timer);showEmail(email);};
   resend.onclick=async()=>{if(left>0)return;resend.disabled=true;const r=await gateCall('auth/otp/request',{email});if(r.ok){left=r.data.resend_in||60;status.textContent=t('otp.resent');}else{status.textContent=fail(r);left=r.data?.retry_after||0;}tick();};
-  form.onsubmit=async e=>{e.preventDefault();verify.disabled=true;status.textContent=t('otp.verifying');const r=await gateCall('auth/otp/verify',{email,code:i.value.trim()});if(r.ok){clearInterval(timer);if(welcome)heading();onDone(email);}else{verify.disabled=false;status.textContent=fail(r);i.select();}};
+  form.onsubmit=async e=>{e.preventDefault();verify.disabled=true;status.textContent=t('otp.verifying');const r=await gateCall('auth/otp/verify',{email,code:i.value.trim()});if(r.ok){clearInterval(timer);const finish=()=>{if(welcome)heading();onDone(email);};if(r.data.is_new)showName(r.data.default_name||'',finish);else finish();}else{verify.disabled=false;status.textContent=fail(r);i.select();}};
   }
   const resumeGoogle=async()=>{const r=await send('auth/google/pending');if(!gate.isConnected||!r.ok||!r.data.email)return;if(r.data.pending){gate.hidden=false;onShow();showCode(r.data.email,r.data.resend_in??60);}else{showEmail(r.data.email);status.textContent=fail({status:r.data.status,data:{retry_after:r.data.retry_after}});}};
   return {showEmail,fail,resumeGoogle};
