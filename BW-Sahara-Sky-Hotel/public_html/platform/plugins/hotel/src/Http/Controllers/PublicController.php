@@ -518,6 +518,16 @@ class PublicController extends Controller
                 $booking->customer_id = Auth::guard('customer')->id();
             }
 
+            // Claim one use of the coupon atomically so a quantity-limited code cannot be redeemed past its limit.
+            if ($booking->coupon_code) {
+                $claimed = \Botble\Hotel\Models\Coupon::query()->where('code', $booking->coupon_code)
+                    ->where(fn ($q) => $q->whereNull('quantity')->orWhereColumn('quantity', '>', 'total_used'))
+                    ->increment('total_used');
+                if (! $claimed) {
+                    throw ValidationException::withMessages(['coupon_code' => __('This coupon is no longer available.')]);
+                }
+            }
+
             $booking->save();
 
             if ($serviceIds) {
