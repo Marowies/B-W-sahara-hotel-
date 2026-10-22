@@ -33,10 +33,17 @@ class HardenCustomerAuth
     public function handle(Request $request, Closure $next): Response
     {
         $path = $this->path($request);
+        $post = $request->isMethod('POST');
 
-        if ($this->matches($path, self::CLOSED) || ($request->isMethod('POST') && $this->matches($path, self::CLOSED_POST))) {
-            return $this->hidden();
+        // Laravel may route on a different path than REQUEST_URI shows (/public/register, /xx/login), so every plausible
+        // reading of the URL is checked, not only the first.
+        foreach ($this->candidates($request, $path) as $candidate) {
+            if ($this->matches($candidate, self::CLOSED) || ($post && $this->matches($candidate, self::CLOSED_POST)) || $this->isForeignSocial($candidate)) {
+                return $this->hidden();
+            }
         }
+
+        $customerId = $path === 'customer/logout' ? auth('customer')->id() : null;
 
         $response = $next($request);
 
@@ -44,6 +51,10 @@ class HardenCustomerAuth
         // session would let the refresh cookie sign the visitor straight back in, so the token family goes too.
         if ($path === 'customer/logout') {
             $this->tokens->logout((string) $request->cookie(HotelTokenService::COOKIE) ?: null, $request->bearerToken());
+            // The refresh cookie is scoped to /api/hotel/auth and is not sent here, so end all of this customer's sessions.
+            if ($customerId) {
+                $this->tokens->revokeAllFor($customerId, 'logout');
+            }
             $response->headers->setCookie($this->tokens->cookie(null, null, $request));
         }
 
@@ -63,6 +74,30 @@ class HardenCustomerAuth
         $path = strtolower(trim(preg_replace('~/+~', '/', $path), '/'));
         // Localised guest URLs such as /ar/login are the same pages.
         return preg_replace('~^(?:ar|zh|en)/~', '', $path) ?: $path;
+    }
+
+    /** @return list<string> The path with a "public/" prefix or any language-code segment removed, plus Laravel's own path. */
+    private function candidates(Request $request, string $path): array
+    {
+        $out = [$path, strtolower(trim(preg_replace('~/+~', '/', rawurldecode($request->getPathInfo())), '/'))];
+        foreach ($out as $p) {
+            $q = $p;
+            for ($i = 0; $i < 3; $i++) {
+                $q = preg_replace('~^(?:public|[a-z]{2}(?:[-_][a-z]{2,4})?)/~', '', $q, 1, $n);
+                if (! $n) {
+                    break;
+                }
+                $out[] = $q;
+            }
+        }
+
+        return array_values(array_unique($out));
+    }
+
+    /** Only Google sign-in is allowed; Botble's other providers link accounts by an unverified email. */
+    private function isForeignSocial(string $path): bool
+    {
+        return (bool) preg_match('~^auth/(?!(?:google|callback)(?:/|$))[^/]+~', $path) || (bool) preg_match('~^auth/callback/(?!google(?:/|$))~', $path);
     }
 
     /** @param list<string> $prefixes */

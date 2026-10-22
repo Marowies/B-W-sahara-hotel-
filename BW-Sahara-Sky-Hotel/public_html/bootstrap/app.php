@@ -12,6 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Real client IPs (rate limits, OTP throttles) behind a CDN/load balancer: set TRUSTED_PROXIES to a comma list of
+        // proxy IPs/CIDRs, or '*' only when the origin is reachable exclusively through the proxy. Unset = trust none.
+        if (($proxies = env('TRUSTED_PROXIES')) !== null && $proxies !== '') {
+            $middleware->trustProxies(at: $proxies === '*' ? '*' : array_map('trim', explode(',', $proxies)));
+        }
         // Appended after trusted proxy handling; disabled unless explicitly configured.
         $middleware->append(\App\Http\Middleware\CanonicalHost::class);
         $middleware->append(\App\Http\Middleware\StaffEntry::class);

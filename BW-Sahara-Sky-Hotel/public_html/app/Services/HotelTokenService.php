@@ -129,6 +129,15 @@ class HotelTokenService
         }
     }
 
+    /** Ends every live session of a customer (used where the refresh cookie is not sent, e.g. the page logout URL). */
+    public function revokeAllFor(int|string $customerId, string $reason): void
+    {
+        $families = DB::table(self::TABLE)->where('customer_id', $customerId)->where('status', 'active')->distinct()->pluck('family_id');
+        foreach ($families as $family) {
+            $this->revokeFamily((string) $family, $reason);
+        }
+    }
+
     public function revokeFamily(string $familyId, string $reason): void
     {
         DB::transaction(function () use ($familyId, $reason): void {
