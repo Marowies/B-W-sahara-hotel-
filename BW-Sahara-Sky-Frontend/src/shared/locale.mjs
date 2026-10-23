@@ -28,10 +28,6 @@ export const routeDefinitions = [
  ['story-desert','/blog/a-desert-made-for-discovery/','/ar/yawmeyat/sahraa-lel-ektshaf/','/zh/shamo-rizhi/tansuo-shamo/',false],
  ['booking','/booking/','/ar/takhteet-eqama/','/zh/zhusu-jihua/',false],
  ['review','/booking/review/','/ar/takhteet-eqama/moragaa/','/zh/zhusu-jihua/queren/',false],
- ['confirmation','/booking/confirmation/','/ar/takhteet-eqama/moayena/','/zh/zhusu-jihua/yulan/',false],
- ['login','/login/','/ar/dokhool/','/zh/denglu/',false],
- ['register','/register/','/ar/hesab-gadeed/','/zh/zhuce/',false],
- ['forgot','/forgot-password/','/ar/esteeadet-kalemet-moroor/','/zh/zhaohui-mima/',false],
  ['approval','/design-review/','/ar/moragaat-tasmeem/','/zh/sheji-shenhe/',false],
  ['404','/404.html','/ar/404.html','/zh/404.html',false],
 ];

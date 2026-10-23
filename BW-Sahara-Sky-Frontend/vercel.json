@@ -14,6 +14,20 @@
       "dest": "/404.html"
     },
     {
+      "src": "^/(?:(?:ar|zh)/)?(?:login|register|forgot-password|customer|dokhool|hesab-gadeed|esteeadet-kalemet-moroor|denglu|zhuce|zhaohui-mima)(?:/.*)?$",
+      "status": 308,
+      "headers": {
+        "Location": "/"
+      }
+    },
+    {
+      "src": "^/(?:booking/confirmation|ar/takhteet-eqama/moayena|zh/zhusu-jihua/yulan)/?$",
+      "status": 308,
+      "headers": {
+        "Location": "/booking/"
+      }
+    },
+    {
       "src": "^/(.*/)?index\\.html$",
       "status": 301,
       "headers": {

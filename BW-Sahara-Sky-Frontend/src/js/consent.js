@@ -14,7 +14,7 @@
  function show(){
   dismiss();const box=document.createElement('section');box.id='hotel-cookie-banner';box.className='hotel-consent-panel';box.setAttribute('aria-label',text('Cookie preferences','اختيارات الكوكيز','Cookie 偏好'));
   const title=document.createElement('h2');title.textContent=text('Your privacy, your choice','خصوصيتك، اختيارك','您的隐私，由您选择');
-  const note=document.createElement('p');note.textContent=text('Necessary cookies keep sign-in and your current booking working. Accept all to remember your stay preferences and allow optional analytics.','الكوكيز الضرورية بتشغّل تسجيل الدخول والحجز الحالي. قبول الكل يسمح بحفظ اختيارات الإقامة وإحصائيات الاستخدام الاختيارية.','必要 Cookie 用于登录和当前预订。接受全部可保存住宿偏好并允许可选统计。');
+  const note=document.createElement('p');note.textContent=text('Necessary cookies keep your current booking selection working. Accept all to remember your stay preferences and allow optional analytics.','الكوكيز الضرورية بتحفظ اختيار الحجز الحالي. قبول الكل يسمح بحفظ اختيارات الإقامة وإحصائيات الاستخدام الاختيارية.','必要 Cookie 用于保存当前预订选择。接受全部可保存住宿偏好并允许可选统计。');
   const actions=document.createElement('div');actions.className='hotel-consent-actions';
   for(const [value,label] of [['necessary',text('Necessary only','الضرورية فقط','仅必要')],['all',text('Accept all','قبول الكل','接受全部')]]){const button=document.createElement('button');button.type='button';button.textContent=label;button.onclick=()=>choose(value);actions.append(button);}
   if(['necessary','all'].includes(preference())){const close=document.createElement('button');close.type='button';close.textContent=text('Close','إغلاق','关闭');close.onclick=dismiss;actions.append(close);}
