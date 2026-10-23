@@ -1031,3 +1031,24 @@ html body footer .footer-contact h3{margin-bottom:6px!important}
 /* No page scroll rail: scrolling works as usual and nothing is drawn beside the page. */
 html{scrollbar-width:none!important;-ms-overflow-style:none}
 html::-webkit-scrollbar,body::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+
+/* Hotel booking panel on the review page */
+html.engine-open{overflow:hidden}
+.review-alt{display:flex;flex-wrap:wrap;gap:8px 26px;margin:18px 0 0}
+.engine-panel{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;background:var(--night,#241a14)}
+.engine-panel[hidden]{display:none}
+.engine-bar{display:flex;align-items:center;gap:14px 22px;flex-wrap:wrap;padding:12px 5%;background:#2b1e17;color:#f1e4d1;border-bottom:1px solid #e0c4a433}
+.engine-back{font:inherit;font-weight:600;font-size:15px;color:#f1e4d1;background:#684832;border:1px solid #e0c4a455;border-radius:999px;padding:10px 20px;min-height:44px;cursor:pointer}
+.engine-back:hover,.engine-back:focus-visible{background:#8a5f3f}
+.engine-summary{flex:1;min-width:0;font-size:14px;letter-spacing:.01em;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.engine-links{display:flex;gap:6px 22px;flex-wrap:wrap}
+.engine-links a{color:#f1e4d1;font-size:14px;text-decoration:none;border-bottom:1px solid #d5b38a88;padding:6px 0}
+.engine-links a:hover,.engine-links a:focus-visible{border-bottom-color:#f1e4d1}
+.engine-stage{position:relative;flex:1;min-height:0;background:#fff}
+.engine-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.engine-loading,.engine-slow{position:absolute;z-index:1;left:0;right:0;margin:0;text-align:center;color:#4e3426;font-size:15px;pointer-events:none}
+.engine-loading{top:42%}
+.engine-slow{top:calc(42% + 34px);pointer-events:auto}
+.engine-slow a{color:#684832;font-weight:600}
+@media (max-width:700px){.engine-summary{display:none}.engine-bar{padding:10px 16px;gap:8px 16px}.engine-back{padding:9px 16px}.engine-links{width:100%;justify-content:space-between}}
+@media (prefers-reduced-motion:no-preference){.engine-panel:not([hidden]){animation:engine-in .25s ease-out}@keyframes engine-in{from{opacity:0;transform:translateY(14px)}}}
