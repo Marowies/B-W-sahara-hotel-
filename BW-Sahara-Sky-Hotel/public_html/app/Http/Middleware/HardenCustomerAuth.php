@@ -43,9 +43,20 @@ class HardenCustomerAuth
             }
         }
 
-        // There is no guest sign-in any more, so the account pages are not reachable: page requests go to the home page.
-        if (in_array($request->getMethod(), ['GET', 'HEAD'], true) && preg_match('~^(?:customers?)(?:/|$)~', $path) && ! str_starts_with($path, 'customer/ajax')) {
-            return new \Symfony\Component\HttpFoundation\RedirectResponse('/', 302, ['Cache-Control' => 'private, no-store']);
+        // There is no guest sign-in any more: the sign-in, sign-up and account pages (and the post-payment pages of the old
+        // internal checkout) are not reachable, so page requests go to the home page in the visitor's language.
+        if (in_array($request->getMethod(), ['GET', 'HEAD'], true)) {
+            $raw = strtolower(trim((string) preg_replace('~/+~', '/', rawurldecode((string) parse_url($request->getRequestUri(), PHP_URL_PATH))), '/'));
+            $raw = preg_replace('~^index\.php(?=/|$)/?~', '', $raw);
+            if (preg_match('~^(ar|zh)/(?:dokhool|hesab-gadeed|esteeadet-kalemet-moroor|denglu|zhuce|zhaohui-mima)$~', $raw, $m)) {
+                return $this->home('/' . $m[1] . '/');
+            }
+            if (preg_match('~^(ar/takhteet-eqama|zh/zhusu-jihua)/(?:moayena|yulan)$~', $raw, $m)) {
+                return $this->home('/' . $m[1] . '/');
+            }
+            if ((preg_match('~^(?:customers?|login|register|password|forgot-password|booking/confirmation)(?:/|$)~', $path) && ! str_starts_with($path, 'customer/ajax'))) {
+                return $this->home('/');
+            }
         }
 
         $customerId = $path === 'customer/logout' ? auth('customer')->id() : null;
@@ -115,6 +126,11 @@ class HardenCustomerAuth
         }
 
         return false;
+    }
+
+    private function home(string $to): Response
+    {
+        return new \Symfony\Component\HttpFoundation\RedirectResponse($to, 302, ['Cache-Control' => 'private, no-store']);
     }
 
     private function hidden(): Response
