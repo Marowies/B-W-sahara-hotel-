@@ -43,6 +43,11 @@ class HardenCustomerAuth
             }
         }
 
+        // There is no guest sign-in any more, so the account pages are not reachable: page requests go to the home page.
+        if (in_array($request->getMethod(), ['GET', 'HEAD'], true) && preg_match('~^(?:customers?)(?:/|$)~', $path) && ! str_starts_with($path, 'customer/ajax')) {
+            return new \Symfony\Component\HttpFoundation\RedirectResponse('/', 302, ['Cache-Control' => 'private, no-store']);
+        }
+
         $customerId = $path === 'customer/logout' ? auth('customer')->id() : null;
 
         $response = $next($request);

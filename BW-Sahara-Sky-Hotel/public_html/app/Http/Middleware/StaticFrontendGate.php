@@ -47,9 +47,10 @@ class StaticFrontendGate
         'booking' => 'booking', 'book' => 'booking', 'reservation' => 'booking', 'reservations' => 'booking',
         'privacy' => 'privacy', 'privacy-policy' => 'privacy', 'cookie-policy' => 'privacy',
         'terms' => 'terms', 'term-and-conditions' => 'terms', 'terms-and-conditions' => 'terms', 'terms-of-service' => 'terms',
-        'login' => 'login', 'signin' => 'login', 'sign-in' => 'login',
-        'register' => 'register', 'signup' => 'register', 'sign-up' => 'register',
-        'forgot-password' => 'forgot', 'password-reset' => 'forgot',
+        // Guests no longer sign in: the old sign-in addresses lead to the home page.
+        'login' => 'home', 'signin' => 'home', 'sign-in' => 'home',
+        'register' => 'home', 'signup' => 'home', 'sign-up' => 'home',
+        'forgot-password' => 'home', 'password-reset' => 'home',
     ];
 
     private ?array $map = null;
