@@ -22,7 +22,9 @@ export function sitemap(config){
 }
 export function robots(config){
  if(!config.indexable)return 'User-agent: *\nDisallow: /\n';
- const excluded=['/admin/','/api/','/webhooks/','/localized/',...routeDefinitions.filter(r=>r[4]===false).flatMap(r=>r.slice(1,4))];
+ // Pages that stay crawlable carry a noindex tag, which search engines can only see if they are allowed to fetch the page.
+ const crawlable=['privacy','terms','blog','domes','story-slow','story-stars','story-desert'];
+ const excluded=['/admin/','/api/','/webhooks/','/localized/',...routeDefinitions.filter(r=>r[4]===false&&!crawlable.includes(r[0])).flatMap(r=>r.slice(1,4))];
  return 'User-agent: *\nAllow: /\n'+excluded.map(p=>'Disallow: '+p+'\n').join('')+`Sitemap: ${config.origin}/sitemap.xml\n`;
 }
 export function markdownPage(config,route){
