@@ -54,8 +54,10 @@ class HardenCustomerAuth
             if (preg_match('~^(ar/takhteet-eqama|zh/zhusu-jihua)/(?:moayena|yulan)$~', $raw, $m)) {
                 return $this->home('/' . $m[1] . '/');
             }
-            if ((preg_match('~^(?:customers?|login|register|password|forgot-password|booking/confirmation)(?:/|$)~', $path) && ! str_starts_with($path, 'customer/ajax'))) {
-                return $this->home('/');
+            foreach ($this->candidates($request, $path) as $candidate) {
+                if (preg_match('~^(?:customers?|login|register|password|forgot-password|booking/confirmation)(?:/|$)~', $candidate) && ! str_starts_with($candidate, 'customer/ajax')) {
+                    return $this->home('/');
+                }
             }
         }
 

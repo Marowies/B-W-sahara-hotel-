@@ -1,5 +1,5 @@
 export const entity = {
- name:'B&W Sahara Sky Hotel',alternateName:['B&W Sahara Sky Camp','Sahara Sky Camp'],origin:'https://bwsaharaskyhotel.com',
+ name:'B&W Sahara Sky Hotel',origin:'https://bwsaharaskyhotel.com',
  oneLiner:'B&W Sahara Sky Hotel is a desert hotel between Bahariya Oasis and Farafra in Egypt, for travellers planning rooms and desert experiences.',
  email:'bwsaharaskycamp@gmail.com',telephone:'+201098255777',
  address:{streetAddress:'Al Wahat Al Bahriya–Al Farafra Road',addressRegion:'Giza Governorate',addressCountry:'EG'},

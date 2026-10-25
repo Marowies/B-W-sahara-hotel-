@@ -73,6 +73,17 @@ class StaticFrontendGate
             return $next($request);
         }
 
+        // Old CMS detail pages (services, foods, places, room categories) have no counterpart in the new design:
+        // send them to the closest new page in the same language instead of serving the old theme.
+        $rest = in_array($first, ['ar', 'zh', 'en'], true) ? array_slice($segments, 1) : $segments;
+        $retired = ['services' => 'experiences', 'foods' => 'services', 'places' => 'experiences', 'room-categories' => 'rooms'];
+        if (isset($rest[1], $retired[$rest[0]])) {
+            $to = $this->target('', [$retired[$rest[0]]], in_array($first, ['ar', 'zh'], true) ? $first : 'en', $routes);
+            if ($to !== null) {
+                return new RedirectResponse($to, 301, ['Cache-Control' => 'public, max-age=3600']);
+            }
+        }
+
         $locale = in_array($first, ['ar', 'zh'], true) ? $first : 'en';
         $lang = strtolower((string) $request->query('lang', ''));
         $hasLang = in_array($lang, ['en', 'ar', 'zh'], true);
