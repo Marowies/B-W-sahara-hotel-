@@ -37,6 +37,6 @@ export function markdownPage(config,route){
  return sections.join('\n\n')+'\n';
 }
 export function llms(config){
- const wanted=['home','about','rooms','experiences','services','contact','faq','guide'];
+ const wanted=['home','about','rooms','experiences','services','contact','faq','guide','guide-safari','guide-bahariya','guide-season'];
  return `# ${entity.name}\n\n> ${entity.oneLiner}\n\nLocation: Bahariya–Farafra Road, Egypt. Contact: ${entity.telephone}; ${entity.email}.\nRoom categories and experiences must be confirmed with the hotel. The dome model is illustrative. Booking confirmation does not prove payment.\n\n`+languages.map((lang,i)=>`## ${{en:'Official planning information',ar:'المعلومات الرسمية للتخطيط للإقامة',zh:'住宿规划信息'}[lang]}\n\n`+routeDefinitions.filter(r=>wanted.includes(r[0])).map(row=>`- [${config.messages[lang].seo[row[0]].title.split(' | ')[0]}](${config.origin}${row[i+1]}index.md): [HTML](${config.origin}${row[i+1]})`).join('\n')).join('\n\n')+'\n';
 }

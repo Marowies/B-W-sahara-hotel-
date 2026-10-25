@@ -1052,3 +1052,8 @@ html.engine-open{overflow:hidden}
 .engine-slow a{color:#684832;font-weight:600}
 @media (max-width:700px){.engine-summary{display:none}.engine-bar{padding:10px 16px;gap:8px 16px}.engine-back{padding:9px 16px}.engine-links{width:100%;justify-content:space-between}}
 @media (prefers-reduced-motion:no-preference){.engine-panel:not([hidden]){animation:engine-in .25s ease-out}@keyframes engine-in{from{opacity:0;transform:translateY(14px)}}}
+
+/* Related desert guides */
+.guide-related{padding-block:10px 40px}
+.guide-related h2{font-size:clamp(22px,2.4vw,30px);margin-bottom:14px}
+.guide-related ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}

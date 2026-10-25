@@ -574,6 +574,18 @@
     "approval": {
       "title": "Design review | B&W Sahara Sky Hotel",
       "description": "Design review. A preview or draft page, not a confirmed hotel offer."
+    },
+    "guide-safari": {
+      "title": "White & Black Desert Safari Guide | B&W Sahara Sky",
+      "description": "What to know before a White Desert and Black Desert safari from Bahariya Oasis: what you will see, how to plan the day and what to confirm with the hotel."
+    },
+    "guide-bahariya": {
+      "title": "Bahariya Oasis & Crystal Mountain Guide | B&W Sahara Sky",
+      "description": "A visitor's guide to Bahariya Oasis and Crystal Mountain: palm groves, springs, the Black Desert road and what to ask the hotel before you go."
+    },
+    "guide-season": {
+      "title": "Best Time to Visit Egypt's Western Desert | B&W Sahara Sky",
+      "description": "When to visit Egypt's Western Desert and Bahariya Oasis: how the seasons feel, what to pack and how to plan a comfortable desert stay."
     }
   },
   "geo": {
@@ -815,6 +827,156 @@
       "suitability": {
         "heading": "Who is this guide for?",
         "text": "Use this guide when comparing hotel room categories and preparing questions for the hotel. It is not a route itinerary, a binding price quote or a substitute for the conditions attached to your reservation."
+      },
+      "byline": "Prepared by the B&W Sahara Sky Hotel website team; hotel operating details require confirmation."
+    },
+    "guide-safari": {
+      "heading": "What should I know before a White Desert and Black Desert safari?",
+      "answer": "The Black Desert and the White Desert are two of the best-known landscapes of Egypt's Western Desert. Both lie along or near the Bahariya–Farafra road, where B&W Sahara Sky Hotel is located. A safari is usually arranged in advance with a local driver and a 4x4, so tell the hotel your dates and the experience you want, then confirm the route, duration, transport, inclusions and cost.",
+      "facts": "The Black Desert is known for dark volcanic hills and black stone scattered over pale sand. The White Desert National Park, north of Farafra, is known for chalk rock formations carved by wind. Protected areas can have entrance fees and rules, so ask the hotel what applies on your date.",
+      "faqs": [
+        {
+          "question": "Are the Black Desert and the White Desert on the same trip?",
+          "answer": "They can be combined on one long day or an overnight route, because both lie along the road between Bahariya Oasis and Farafra. Ask the hotel which route it can arrange and how long it takes."
+        },
+        {
+          "question": "Do I need a permit or ticket?",
+          "answer": "Protected areas such as the White Desert National Park can charge entrance fees and have rules. Ask the hotel whether fees are included and what documents to carry, such as your passport."
+        },
+        {
+          "question": "Is overnight camping part of a hotel stay?",
+          "answer": "Overnight desert camping is a different arrangement from a hotel room. Ask whether it is offered, what equipment and meals are provided, and the cost."
+        },
+        {
+          "question": "What is the best season for a safari?",
+          "answer": "Cooler months are generally more comfortable for long drives and nights outdoors. Read our guide to the best time to visit the Western Desert."
+        }
+      ],
+      "steps": [
+        {
+          "heading": "What is the Black Desert?",
+          "text": "The Black Desert (Sahara el Soda) is a stretch of hills capped with dark volcanic rock, with black fragments spread across lighter sand. It sits between Bahariya Oasis and Farafra, so it is often a stop on the road rather than a separate trip. Light is best early and late in the day, when the contrast between dark rock and pale sand is strongest."
+        },
+        {
+          "heading": "What is the White Desert?",
+          "text": "The White Desert (Sahara el Beida) lies north of Farafra Oasis and is famous for white chalk formations shaped by wind over a very long time, some resembling mushrooms or animals. Many visitors plan to be there for sunset and the stars afterwards. It is a protected national park, so follow your guide's instructions and do not break or take rock formations or fossils."
+        },
+        {
+          "heading": "How long is the safari and how should I plan it?",
+          "text": "Day trips, overnight camping trips and longer routes all exist, and the right choice depends on how much driving you want. Ask the hotel for the proposed route, the start and finish times, the vehicle, whether meals and water are included, and the final cost. A realistic plan leaves time to rest after the drive."
+        },
+        {
+          "heading": "What should I bring?",
+          "text": "Bring sun protection, a hat, sunglasses, closed shoes that cope with sand and a warm layer, because desert evenings and nights can be cold even when the day is hot. Carry enough drinking water, keep a charged phone and ask your guide about phone signal and the vehicle's safety equipment."
+        },
+        {
+          "heading": "Can I add stargazing?",
+          "text": "Stargazing can be added to a safari or arranged on its own. Visibility depends on weather, moonlight and season, so a clear sky is not guaranteed. A night with little or no moon gives the darkest sky."
+        }
+      ],
+      "suitability": {
+        "heading": "Who is this guide for?",
+        "text": "Use this guide to prepare questions before you request a safari. It is general information about the area, not a route itinerary, a price quote or a safety assurance. The hotel confirms the arrangements that apply to your stay."
+      },
+      "byline": "Prepared by the B&W Sahara Sky Hotel website team; hotel operating details require confirmation."
+    },
+    "guide-bahariya": {
+      "heading": "What is there to see around Bahariya Oasis and Crystal Mountain?",
+      "answer": "Bahariya Oasis is a green valley in Egypt's Western Desert with palm groves, springs and a small town, Bawiti. Beyond it lie dramatic landscapes reached along the road to Farafra or by 4x4, including Crystal Mountain, the Black Desert and the White Desert. The hotel is on the Bahariya–Farafra road, so ask which of these can be combined with your stay.",
+      "facts": "Crystal Mountain is a ridge where quartz crystals show in the rock, on the road between Bahariya and Farafra. It is a protected site, so crystals should be left where they are. Distances and driving times depend on your route, so request them from the hotel.",
+      "faqs": [
+        {
+          "question": "How do I get to Bahariya Oasis?",
+          "answer": "Bahariya Oasis is reached by road from Cairo through the Western Desert. Ask the hotel for the current route, the best time of day to travel and the arrival directions before you set out."
+        },
+        {
+          "question": "How many days should I plan?",
+          "answer": "Many visitors plan at least two nights to combine a desert outing with time to rest. The right length depends on how many places you want to see; ask the hotel for a suggested plan."
+        },
+        {
+          "question": "Can I visit Crystal Mountain on the way to Farafra?",
+          "answer": "Crystal Mountain lies on the road between Bahariya and Farafra, so it can be a stop on the way. Confirm the plan and timing with the hotel."
+        },
+        {
+          "question": "Is it a good area for photography and stargazing?",
+          "answer": "Landscape light is best early and late in the day, and the night sky is darkest away from towns on nights with little moon. Weather and moonlight affect results."
+        }
+      ],
+      "steps": [
+        {
+          "heading": "Bahariya Oasis and Bawiti",
+          "text": "Bawiti is the main town of Bahariya Oasis. Visitors walk among the palm groves, see the springs and the everyday life of an oasis that has been settled for thousands of years. Bahariya is also known for the Valley of the Golden Mummies, discovered in 1996, with finds from the area shown locally. Opening times and tickets change, so ask the hotel to confirm."
+        },
+        {
+          "heading": "Springs in the oasis",
+          "text": "Natural springs are one of the pleasures of Bahariya, and some are used for bathing. Ask which springs are open to visitors, what they cost and whether they suit your plans."
+        },
+        {
+          "heading": "Crystal Mountain",
+          "text": "Crystal Mountain (Gebel el-Beloor) is a low ridge where quartz crystals are visible in the rock. It is a short stop on the way between Bahariya and Farafra. Visit with respect for the site: do not remove crystals or damage the formation."
+        },
+        {
+          "heading": "The Black Desert and the road to Farafra",
+          "text": "Driving south towards Farafra, the road passes the Black Desert hills and other viewpoints. Many guests combine them with the White Desert or with stargazing. Ask the hotel to propose a route that fits your time."
+        },
+        {
+          "heading": "Planning your days",
+          "text": "A balanced stay mixes one outing with quiet time at the hotel and the pool. Share your dates and interests, then ask the hotel to suggest a route and confirm the cost and duration."
+        }
+      ],
+      "suitability": {
+        "heading": "Who is this guide for?",
+        "text": "Use this guide to decide what to ask the hotel before you travel. It is general information about the area, not a fixed itinerary or a guarantee that a site is open on your dates."
+      },
+      "byline": "Prepared by the B&W Sahara Sky Hotel website team; hotel operating details require confirmation."
+    },
+    "guide-season": {
+      "heading": "When is the best time to visit the Western Desert?",
+      "answer": "The cooler months, roughly from autumn to spring, are generally the most comfortable time for a stay in Egypt's Western Desert, because days are warm rather than extreme and the night sky is often clear. Summer days can be very hot and winter nights can be cold, so choose the season that matches the activities you want and pack for both heat and cold.",
+      "facts": "Weather varies from year to year. Check the forecast before you travel and ask the hotel about current conditions on the road and at the desert sites.",
+      "faqs": [
+        {
+          "question": "Is it too hot to visit in summer?",
+          "answer": "Daytime temperatures can be very high in summer. Many travellers still visit and plan activities early or late in the day. Ask the hotel which outings suit the season."
+        },
+        {
+          "question": "Are the nights really cold?",
+          "answer": "Yes. The desert cools quickly after sunset and winter nights can be cold. Pack a warm layer even if the day was hot."
+        },
+        {
+          "question": "When is the sky best for stars?",
+          "answer": "Choose nights with a new or small moon and clear weather. Ask the hotel about the best nights during your stay."
+        },
+        {
+          "question": "How far ahead should I book?",
+          "answer": "Cooler months are busy, so check availability early. Use the booking page to see the dates that are open."
+        }
+      ],
+      "steps": [
+        {
+          "heading": "Autumn and spring",
+          "text": "These months usually bring warm days and cooler evenings, which suits safaris, walks and time outdoors. They are popular, so ask early about availability."
+        },
+        {
+          "heading": "Winter",
+          "text": "Winter days are often pleasant for sightseeing, but nights, especially in the open desert, can be cold. Bring warm layers, a hat and gloves for stargazing or camping."
+        },
+        {
+          "heading": "Summer",
+          "text": "Summer afternoons can be very hot. If you travel then, plan outings for early morning or after sunset, drink plenty of water, rest in the hottest hours and use sun protection. The hotel pool is a welcome break."
+        },
+        {
+          "heading": "Stargazing and the moon",
+          "text": "The darkest skies come on nights with little or no moon, and cloud or haze can reduce visibility. If stargazing matters most, check the moon phase for your dates and tell the hotel."
+        },
+        {
+          "heading": "What to pack",
+          "text": "Sun protection, sunglasses, a hat, comfortable closed shoes, a warm layer for evenings, any medication you need, a power bank and a refillable water bottle."
+        }
+      ],
+      "suitability": {
+        "heading": "Who is this guide for?",
+        "text": "Use this guide to choose travel dates and prepare questions. It gives general seasonal information, not a weather forecast or a guarantee of conditions."
       },
       "byline": "Prepared by the B&W Sahara Sky Hotel website team; hotel operating details require confirmation."
     }
