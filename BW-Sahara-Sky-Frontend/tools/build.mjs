@@ -25,8 +25,8 @@ for(const name of await readdir(join(src,'assets'))){
  measure.originalImageBytes+=input.length;
  const stem=name.replace(/\.[^.]+$/,'');
  const width=meta.width, height=meta.height;
- const base=await image.clone().resize({width:1920,withoutEnlargement:true}).webp({quality:name.includes('logo')?88:82,effort:6}).toBuffer();
- const baseWidth=Math.min(width,1920),baseHeight=Math.round(height*baseWidth/width);
+ const base=await image.clone().resize({width:name.includes('logo')?640:1920,withoutEnlargement:true}).webp({quality:name.includes('logo')?88:82,effort:6}).toBuffer();
+ const baseWidth=Math.min(width,name.includes('logo')?640:1920),baseHeight=Math.round(height*baseWidth/width);
  const file=`${stem}.${hash(base)}.webp`;await writeFile(join(out,'assets',file),base);
  measure.optimizedBaseImageBytes+=base.length;
  const variants=[];
@@ -72,7 +72,7 @@ await emit('batch-model.js',(await readFile(join(js3d,'batch-model.js'),'utf8'))
 let dome=await readFile(join(js3d,'dome-model.js'),'utf8');dome=dome.replace('../vendor/three.module.js','./'+emitted['three.module.js']).replace('./batch-model.js','./'+emitted['batch-model.js']);await emit('dome-model.js',dome);
 let scene=images(await readFile(join(js3d,'scene.js'),'utf8'));scene=scene.replace('../vendor/three.module.js','./'+emitted['three.module.js']).replace('./dome-model.js?v=7','./'+emitted['dome-model.js']);await emit('scene.js',scene);
 let runtime=await readFile(join(js,'runtime.js'),'utf8');runtime=runtime.replace('./3d/scene.js','./'+emitted['scene.js']);await emit('runtime.js',runtime);
-await emit('asset-map.js',`window.__HOTEL_SEO__=${JSON.stringify(seo)};window.__HOTEL_ASSETS__=${JSON.stringify(info)};window.__HOTEL_ASSET_ALIASES__=${JSON.stringify(aliases)};window.hotelAssetUrl=name=>window.__HOTEL_ASSET_ALIASES__[name]?.src||('assets/'+name);`);
+await emit('asset-map.js',`window.__HOTEL_SEO__=${JSON.stringify(seo)};window.__HOTEL_ASSETS__=${JSON.stringify(info)};window.__HOTEL_GA_ID=${JSON.stringify(/^G-[A-Z0-9]{6,}$/.test(process.env.HOTEL_GA_MEASUREMENT_ID||'')?process.env.HOTEL_GA_MEASUREMENT_ID:'')};window.__HOTEL_ASSET_ALIASES__=${JSON.stringify(aliases)};window.hotelAssetUrl=name=>window.__HOTEL_ASSET_ALIASES__[name]?.src||('assets/'+name);`);
 await emit('seo.js',await readFile(join(js,'seo.js'),'utf8'));
 for(const name of ['app.js','edition.js','route-render.js','consent.js','approval.js','geo.js','analytics.js'])await emit(name,images(await readFile(join(js,name),'utf8')));
 const routes=[];

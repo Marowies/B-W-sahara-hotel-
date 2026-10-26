@@ -1006,6 +1006,10 @@
           "answer": "Yes. It has an outdoor swimming pool, a sun terrace and a garden."
         },
         {
+          "question": "Does the hotel have telescopes for stargazing?",
+          "answer": "Yes. The hotel has telescopes for stargazing. Visibility depends on weather and moonlight."
+        },
+        {
           "question": "Is B&W Sahara Sky Camp the same as B&W Sahara Sky Hotel?",
           "answer": "Yes. Some websites list the property as B&W Sahara Sky Camp; it is the same hotel on the Bahariya–Farafra road."
         }
@@ -1021,7 +1025,7 @@
         },
         {
           "heading": "What facilities does the hotel have?",
-          "text": "Guests can use an outdoor swimming pool, a sun terrace, a garden, a lounge, a restaurant, an outdoor fireplace and a picnic area. Free Wi-Fi, air conditioning, private bathrooms and a 24-hour front desk are available, and many rooms have a balcony with a garden or mountain view. Services include room service, laundry and walking tours, and the hotel hosts live music and themed dinner nights."
+          "text": "Guests can use an outdoor swimming pool, a sun terrace, a garden, a lounge, a restaurant, an outdoor fireplace, a picnic area and telescopes for stargazing. Free Wi-Fi, air conditioning, private bathrooms and a 24-hour front desk are available, and many rooms have a balcony with a garden or mountain view. Services include room service, laundry and walking tours, and the hotel hosts live music and themed dinner nights."
         },
         {
           "heading": "What are the check-in and check-out times?",
@@ -1030,6 +1034,10 @@
         {
           "heading": "What food is served, and is breakfast included?",
           "text": "Breakfast is served with continental, American, buffet, vegetarian and halal options, and the restaurant serves lunch and dinner with Mediterranean, Middle Eastern, Chinese, local and international dishes. Whether breakfast or dinner is included depends on the rate you choose, so confirm what your rate includes before you book."
+        },
+        {
+          "heading": "Can I go stargazing at the hotel?",
+          "text": "Yes. The hotel has telescopes for stargazing, and stargazing evenings can be arranged on request. Visibility depends on weather, moonlight and season, so a clear sky is never guaranteed; the darkest skies come on nights with little or no moon."
         },
         {
           "heading": "Can the hotel arrange transport and safaris?",
