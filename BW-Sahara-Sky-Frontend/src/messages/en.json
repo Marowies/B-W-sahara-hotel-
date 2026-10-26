@@ -586,6 +586,10 @@
     "guide-season": {
       "title": "Best Time to Visit Egypt's Western Desert | B&W Sahara Sky",
       "description": "When to visit Egypt's Western Desert and Bahariya Oasis: how the seasons feel, what to pack and how to plan a comfortable desert stay."
+    },
+    "guide-facts": {
+      "title": "Hotel Facts: Location, Rooms & Check-in | B&W Sahara Sky",
+      "description": "Key facts about B&W Sahara Sky Hotel near Bawiti, Bahariya Oasis: location, rooms, facilities, check-in times, meals, parking, transport and the hotel's name."
     }
   },
   "geo": {
@@ -979,6 +983,76 @@
         "text": "Use this guide to choose travel dates and prepare questions. It gives general seasonal information, not a weather forecast or a guarantee of conditions."
       },
       "byline": "Prepared by the B&W Sahara Sky Hotel website team; hotel operating details require confirmation."
+    },
+    "guide-facts": {
+      "heading": "What are the key facts about B&W Sahara Sky Hotel?",
+      "answer": "B&W Sahara Sky Hotel is a desert hotel on the Bahariya–Farafra road in Egypt's Western Desert, about 20 km from the centre of Bawiti, the main town of Bahariya Oasis. It has more than 50 rooms in Standard, Superior, Deluxe and Premium categories, camping tents, an outdoor pool, a garden and a restaurant. Check-in is from 14:00 and check-out is at 12:00. The hotel is also listed online as B&W Sahara Sky Camp.",
+      "facts": "Address: Al Wahat Al Bahriya – Al Farafra Road, 12935, Egypt. Coordinates: 28.1784973, 28.7982073. Phone and WhatsApp: +20 109 825 5777. Drive from Cairo: under five hours by car. These details come from the hotel and can change; check the booking page for current availability and prices.",
+      "faqs": [
+        {
+          "question": "How far is B&W Sahara Sky Hotel from Bawiti?",
+          "answer": "About 20 km from the centre of Bawiti, on the Bahariya–Farafra road."
+        },
+        {
+          "question": "How long is the drive from Cairo to the hotel?",
+          "answer": "Less than five hours by car."
+        },
+        {
+          "question": "What time are check-in and check-out?",
+          "answer": "Check-in is from 14:00 and check-out is at 12:00."
+        },
+        {
+          "question": "Does the hotel have a swimming pool?",
+          "answer": "Yes. It has an outdoor swimming pool, a sun terrace and a garden."
+        },
+        {
+          "question": "Is B&W Sahara Sky Camp the same as B&W Sahara Sky Hotel?",
+          "answer": "Yes. Some websites list the property as B&W Sahara Sky Camp; it is the same hotel on the Bahariya–Farafra road."
+        }
+      ],
+      "steps": [
+        {
+          "heading": "Where exactly is the hotel?",
+          "text": "The hotel is on Al Wahat Al Bahriya – Al Farafra Road, about 20 km from the centre of Bawiti, in Egypt's Western Desert. The drive from Cairo takes less than five hours by car. The Black Desert and the road to Farafra lie further along the same road; ask the hotel for current distances and driving times to the White Desert, the Black Desert and Crystal Mountain."
+        },
+        {
+          "heading": "What types of rooms are there?",
+          "text": "The hotel offers Standard, Superior, Deluxe and Premium rooms, with king-bed and twin-bed layouts, a triple room in the Standard category and an extra-bed option. In total there are more than 50 rooms. There are also single and double camping tents. Room categories on the booking page can change by season, so check availability for your dates."
+        },
+        {
+          "heading": "What facilities does the hotel have?",
+          "text": "Guests can use an outdoor swimming pool, a sun terrace, a garden, a lounge, a restaurant, an outdoor fireplace and a picnic area. Free Wi-Fi, air conditioning, private bathrooms and a 24-hour front desk are available, and many rooms have a balcony with a garden or mountain view. Services include room service, laundry and walking tours, and the hotel hosts live music and themed dinner nights."
+        },
+        {
+          "heading": "What are the check-in and check-out times?",
+          "text": "Check-in is from 14:00 and check-out is at 12:00. The hotel offers private check-in and check-out. If you arrive earlier or leave later, ask the hotel in advance."
+        },
+        {
+          "heading": "What food is served, and is breakfast included?",
+          "text": "Breakfast is served with continental, American, buffet, vegetarian and halal options, and the restaurant serves lunch and dinner with Mediterranean, Middle Eastern, Chinese, local and international dishes. Whether breakfast or dinner is included depends on the rate you choose, so confirm what your rate includes before you book."
+        },
+        {
+          "heading": "Can the hotel arrange transport and safaris?",
+          "text": "The hotel's price list includes car transfers from Cairo, two-day and three-day Cairo round-trip packages with a safari, and 4x4 trips to the White Desert and the Black Desert. Ask the hotel to confirm availability, the vehicle and the cost for your dates."
+        },
+        {
+          "heading": "Is parking available, and are pets allowed?",
+          "text": "Private on-site parking is available; ask the hotel whether it is free or paid for your stay. Pets are not allowed."
+        },
+        {
+          "heading": "How much does a night cost?",
+          "text": "Prices depend on the room type, the dates and the rate plan, and they change by season. The booking page shows the current price for your dates, and camping tents cost less than rooms. Check the booking page rather than relying on an old figure."
+        },
+        {
+          "heading": "Is it a hotel or a camp?",
+          "text": "The property is B&W Sahara Sky Hotel. Some travel websites list it as B&W Sahara Sky Camp; both names refer to the same hotel on the Bahariya–Farafra road."
+        }
+      ],
+      "suitability": {
+        "heading": "Who are these facts for?",
+        "text": "Use these facts when comparing places to stay near Bahariya Oasis or preparing your enquiry. The facts come from the hotel and may change; confirm anything that affects your booking directly with the hotel."
+      },
+      "byline": "Prepared by the B&W Sahara Sky Hotel website team from hotel information; details can change and should be confirmed with the hotel."
     }
   },
   "otp": {

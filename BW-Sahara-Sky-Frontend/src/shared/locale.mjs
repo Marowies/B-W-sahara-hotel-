@@ -18,6 +18,7 @@ export const routeDefinitions = [
  ['guide-safari','/guides/white-and-black-desert-safari/','/ar/dalil/safari-al-sahraa-al-beida-wal-sawda/','/zh/zhinan/baishamo-heishamo-yueye-lvxing/'],
  ['guide-bahariya','/guides/bahariya-oasis-and-crystal-mountain/','/ar/dalil/al-wahat-al-bahriya-wa-gabal-al-kristal/','/zh/zhinan/bahaliya-lvzhou-shuijingshan/'],
  ['guide-season','/guides/best-time-to-visit-western-desert/','/ar/dalil/afdal-waqt-lezyarat-al-sahraa-al-gharbeya/','/zh/zhinan/xibu-shamo-zuijia-lvxing-shijian/'],
+ ['guide-facts','/hotel-facts/','/ar/haqaeq-al-fondoq/','/zh/jiudian-xinxi/'],
  ['room-deluxe-single','/rooms/bw-sahara-sky-hotel-deluxe-room-single/','/ar/ghoraf/deluxe-fardeya/','/zh/kefang/haohua-danren/'],
  ['room-deluxe-double','/rooms/bw-sahara-sky-hotel-deluxe-room-double/','/ar/ghoraf/deluxe-mozdawaga/','/zh/kefang/haohua-shuangren/'],
  ['room-standard-single','/rooms/standard-room-single/','/ar/ghoraf/qeyaseya-fardeya/','/zh/kefang/biaozhun-danren/'],
