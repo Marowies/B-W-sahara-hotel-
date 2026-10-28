@@ -590,6 +590,18 @@
     "guide-facts": {
       "title": "Hotel Facts: Location, Rooms & Check-in | B&W Sahara Sky",
       "description": "Key facts about B&W Sahara Sky Hotel near Bawiti, Bahariya Oasis: location, rooms, facilities, check-in times, meals, parking, transport and the hotel's name."
+    },
+    "guide-itinerary": {
+      "title": "2–3 Day Itinerary: Bahariya Oasis & Deserts | B&W Sahara Sky",
+      "description": "A sample 2 and 3 day plan around Bahariya Oasis: Bawiti, springs, Crystal Mountain, the Black and White Deserts and a night under the stars, with what to confirm with the hotel."
+    },
+    "guide-stargazing": {
+      "title": "Stargazing in Egypt's Western Desert | B&W Sahara Sky",
+      "description": "How to plan a stargazing night in Egypt's Western Desert: best moon phase, what to bring, camera tips and the telescopes available at B&W Sahara Sky Hotel."
+    },
+    "guide-getting-there": {
+      "title": "Cairo to Bahariya Oasis: How to Get There | B&W Sahara Sky",
+      "description": "How to travel from Cairo to Bahariya Oasis and B&W Sahara Sky Hotel by car: drive time under five hours, what to carry, when to arrive and how to arrange transfers."
     }
   },
   "geo": {
@@ -1061,6 +1073,152 @@
         "text": "Use these facts when comparing places to stay near Bahariya Oasis or preparing your enquiry. The facts come from the hotel and may change; confirm anything that affects your booking directly with the hotel."
       },
       "byline": "Prepared by the B&W Sahara Sky Hotel website team from hotel information; details can change and should be confirmed with the hotel."
+    },
+    "guide-itinerary": {
+      "heading": "How should I plan 2 or 3 days around Bahariya Oasis?",
+      "answer": "Two days are enough for one desert outing and a quiet night under the stars; three days let you add the White Desert or a slower day at the hotel. B&W Sahara Sky Hotel is on the Bahariya–Farafra road, about 20 km from Bawiti and under five hours' drive from Cairo, so the Black Desert, Crystal Mountain and the road to Farafra are on your way. Treat the plans below as samples and ask the hotel to confirm routes, times and costs for your dates.",
+      "facts": "The hotel's price list includes Cairo round-trip packages with a safari for two days and one night, and for three days and two nights, as well as 4x4 trips to the White Desert and the Black Desert. Availability and prices change by season, so confirm them with the hotel.",
+      "faqs": [
+        {
+          "question": "Is two days enough?",
+          "answer": "Yes, for one desert outing and a night under the stars. Add a third day if you also want the White Desert or more time to rest."
+        },
+        {
+          "question": "Can I do the White Desert and the Black Desert in one day?",
+          "answer": "Both lie along the road between Bahariya Oasis and Farafra, so they can be combined on a long day or an overnight route. Ask the hotel what it can arrange."
+        },
+        {
+          "question": "Does the hotel offer packages from Cairo?",
+          "answer": "The hotel's price list includes two-day and three-day Cairo round-trip packages with a safari. Ask the hotel to confirm availability and cost for your dates."
+        }
+      ],
+      "steps": [
+        {
+          "heading": "Day 1: arrive, Bahariya Oasis and sunset",
+          "text": "Drive from Cairo in the morning so you arrive in daylight. Stop in Bawiti for the palm groves, springs and the local museum, then continue to the hotel. Use the late afternoon for the pool and the garden, watch the sunset, and plan a quiet evening with stargazing, weather permitting."
+        },
+        {
+          "heading": "Day 2: Crystal Mountain, Black Desert and White Desert",
+          "text": "Head south along the Bahariya–Farafra road. Crystal Mountain and the Black Desert are on the way; the White Desert lies further towards Farafra. A full day by 4x4 is common, and some guests prefer an overnight camp so they can see the White Desert at sunset and sunrise. Ask the hotel which route it can arrange and how long it takes."
+        },
+        {
+          "heading": "Day 3 (optional): slow morning and return",
+          "text": "Keep the last day light: a late breakfast, time at the pool, a short walk, then the drive back to Cairo in daylight. If you added a night in the desert, allow extra time to return to the hotel and rest."
+        },
+        {
+          "heading": "If you only have two days",
+          "text": "Choose one outing, usually the Black Desert and Crystal Mountain, or the White Desert if you prefer the longer drive, and spend the other half-day at the hotel. Add stargazing in the evening instead of a second excursion."
+        },
+        {
+          "heading": "What to confirm before you go",
+          "text": "Ask the hotel for the route, start and finish times, the vehicle, whether meals and water are included, entrance fees for protected areas and the total cost. Also check the weather and the moon phase for your dates."
+        }
+      ],
+      "suitability": {
+        "heading": "Who is this guide for?",
+        "text": "Use this itinerary to prepare your questions. It is a sample plan, not a fixed programme, a price quote or a guarantee that a site is open on your dates."
+      },
+      "byline": "Prepared by the B&W Sahara Sky Hotel website team; hotel operating details require confirmation."
+    },
+    "guide-stargazing": {
+      "heading": "How do I plan a good stargazing night in the Western Desert?",
+      "answer": "Choose a night with little or no moon, a clear sky and a dark spot away from town lights. The Western Desert's dry air and distance from cities often give very dark skies, but weather, haze and moonlight decide what you see. B&W Sahara Sky Hotel has telescopes for stargazing and can arrange stargazing evenings on request.",
+      "facts": "Visibility is never guaranteed: cloud, dust, moonlight and season all change the view. Check the moon phase for your dates and tell the hotel what you hope to see.",
+      "faqs": [
+        {
+          "question": "Does the hotel have telescopes?",
+          "answer": "Yes. The hotel has telescopes for stargazing."
+        },
+        {
+          "question": "What is the best time of year?",
+          "answer": "Cooler months are more comfortable for staying outside at night, but the key factors are a clear sky and little moonlight."
+        },
+        {
+          "question": "Is the Milky Way always visible?",
+          "answer": "No. It depends on the season, the time of night, haze and the moon. Choose a moonless night for the best chance."
+        },
+        {
+          "question": "Is it cold at night?",
+          "answer": "Yes, desert nights cool quickly, especially in winter. Bring warm layers even if the day was hot."
+        }
+      ],
+      "steps": [
+        {
+          "heading": "When is the sky darkest?",
+          "text": "Around the new moon, when the moon is absent or a thin crescent, the sky is darkest and the Milky Way is easiest to see. A bright moon washes out faint stars, so check the moon phase when you choose your dates."
+        },
+        {
+          "heading": "What can I see?",
+          "text": "On a clear dark night you can see thousands of stars, the band of the Milky Way, planets and bright star clusters, and with a telescope details such as lunar craters. What is visible depends on the season and the time of night."
+        },
+        {
+          "heading": "What should I bring?",
+          "text": "Bring warm layers because desert nights cool quickly, a hat, a small torch with a red light so your eyes stay adapted, and patience: your eyes need about twenty minutes in the dark to see faint stars. A star-map app on your phone helps you identify what you see."
+        },
+        {
+          "heading": "Tips for photographing the night sky",
+          "text": "Use a tripod, a wide lens and a long exposure of several seconds, and shoot away from the hotel lights. Phones with a night mode can capture the stars on a still night. Turn off the flash and avoid shining lights towards other guests."
+        },
+        {
+          "heading": "Arranging stargazing at the hotel",
+          "text": "The hotel has telescopes for stargazing. Tell the hotel your dates and ask when the sky is best during your stay, what it can arrange and whether there is a cost. Stargazing can be combined with a desert outing or an evening at the hotel."
+        }
+      ],
+      "suitability": {
+        "heading": "Who is this guide for?",
+        "text": "Use this guide to prepare for a stargazing night. It gives general advice, not a forecast; ask the hotel about arrangements and conditions for your dates."
+      },
+      "byline": "Prepared by the B&W Sahara Sky Hotel website team; hotel operating details require confirmation."
+    },
+    "guide-getting-there": {
+      "heading": "How do I get from Cairo to Bahariya Oasis and the hotel?",
+      "answer": "Most visitors drive from Cairo through the Western Desert to Bahariya Oasis. The drive to B&W Sahara Sky Hotel takes less than five hours by car. The hotel is on the Bahariya–Farafra road, about 20 km from the centre of Bawiti, so continue past the town along the same road. Plan to arrive in daylight and ask the hotel for current directions and transfer options.",
+      "facts": "Hotel address: Al Wahat Al Bahriya – Al Farafra Road, 12935, Egypt. Coordinates: 28.1784973, 28.7982073. Phone and WhatsApp: +20 109 825 5777. The hotel's price list includes car transfers from Cairo; confirm availability and cost for your dates.",
+      "faqs": [
+        {
+          "question": "How long is the drive from Cairo?",
+          "answer": "Less than five hours by car to the hotel, plus any stops."
+        },
+        {
+          "question": "Does the hotel arrange transfers from Cairo?",
+          "answer": "The hotel's price list includes Cairo car transfers. Ask the hotel to confirm availability, the vehicle and the cost for your dates."
+        },
+        {
+          "question": "Is there parking at the hotel?",
+          "answer": "Private on-site parking is available. Ask the hotel whether it is free or paid for your stay."
+        },
+        {
+          "question": "What time is check-in?",
+          "answer": "Check-in is from 14:00 and check-out is at 12:00."
+        }
+      ],
+      "steps": [
+        {
+          "heading": "By car or with a transfer",
+          "text": "You can drive yourself or arrange a car with a driver. The hotel's price list includes Cairo transfers by car, SUV and larger vehicles. Ask the hotel to confirm the vehicle, the pick-up point, the cost and the departure time that gets you there in daylight."
+        },
+        {
+          "heading": "The drive",
+          "text": "The road crosses the Western Desert with long straight stretches and few services, so start with a full tank, carry water and snacks, and keep your phone charged. The drive takes less than five hours to the hotel; add time for stops."
+        },
+        {
+          "heading": "Documents and checkpoints",
+          "text": "Carry your passport or national ID, as you may be asked to show it at checkpoints on desert roads. Keep the hotel's phone number and your booking details to hand."
+        },
+        {
+          "heading": "Arriving",
+          "text": "Aim to arrive before sunset: desert roads are harder to drive in the dark and the view on arrival is part of the stay. If you will arrive late, tell the hotel in advance so check-in (from 14:00) and dinner can be arranged."
+        },
+        {
+          "heading": "Leaving",
+          "text": "Check-out is at 12:00. If you plan an outing on your last day, ask the hotel about storing luggage and the best time to start the drive back to Cairo in daylight."
+        }
+      ],
+      "suitability": {
+        "heading": "Who is this guide for?",
+        "text": "Use this guide to plan your journey and your questions. Road conditions and journey times change; confirm directions and transfers with the hotel before you travel."
+      },
+      "byline": "Prepared by the B&W Sahara Sky Hotel website team; hotel operating details require confirmation."
     }
   },
   "otp": {
